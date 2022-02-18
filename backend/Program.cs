@@ -1,3 +1,4 @@
+using inertia;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,5 +27,20 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        DbInitializer.Initialize(
+            scope.ServiceProvider.GetRequiredService<InertiaContext>()
+        );
+    }
+    catch (Exception e)
+    {
+        scope.ServiceProvider.GetRequiredService<ILogger>()
+            .LogError(e, "An error occured creating the DB.");
+    }
+}
 
 app.Run();

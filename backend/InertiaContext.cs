@@ -8,6 +8,7 @@ using Models;
 public class InertiaContext : DbContext
 {
     public DbSet<Depo> Depos { get; set; }
+    public DbSet<Scooter> Scooters { get; set; }
 
     public string DbPath { get; }
     

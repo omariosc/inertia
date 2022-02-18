@@ -1,3 +1,4 @@
+using System.Runtime.Intrinsics.Arm;
 using inertia.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace inertia.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
 public class DeposController : ControllerBase
 {
     private readonly InertiaContext db;
@@ -77,5 +79,26 @@ public class DeposController : ControllerBase
         db.SaveChanges();
         return Ok(depo);
     }
+
+    [HttpGet("{id:int}/Scooters")]
+    public ActionResult<IEnumerable<Scooter>> ListScooters(int id)
+    {
+        var depo = db.Depos.Find(id);
+
+        if (depo == null)
+            return UnprocessableEntity();
+
+        return db.Scooters.Where(e => e.DepoId == id).ToList();
+    }
     
+    [HttpGet("{id:int}/Scooters/Count")]
+    public ActionResult<CountResult> CountScooters(int id)
+    {
+        var depo = db.Depos.Find(id);
+
+        if (depo == null)
+            return UnprocessableEntity();
+
+        return Ok(new CountResult(Count: db.Scooters.Count(e => e.DepoId == id)));
+    }
 }

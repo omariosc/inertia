@@ -9,8 +9,8 @@ public class Depo
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
     [Required]
     public int DepoId { get; set; }
-    
-    [Required] public string Name { get; set; }
+
+    [Required] public string Name { get; set; } = null!;
     [Required] public float Latitude { get; set; }
     [Required] public float Longitude { get; set; }
 }

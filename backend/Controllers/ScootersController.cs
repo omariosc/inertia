@@ -19,15 +19,17 @@ public class ScootersController: Controller
     }
 
     [HttpGet]
-    public IEnumerable<Scooter> List()
+    public async Task<IEnumerable<Scooter>> List()
     {
-        return db.Scooters.Include(s => s.Depo).ToList();
+        return await db.Scooters.Include(s => s.Depo).ToListAsync();
     }
     
     [HttpGet("{id:int}")]
-    public ActionResult<Scooter> GetItem(int id)
+    public async Task<ActionResult<Scooter>> GetItem(int id)
     {
-        var scooter = db.Scooters.Include(s => s.Depo).FirstOrDefault(e => e.ScooterId == id);
+        var scooter = await db.Scooters
+            .Include(s => s.Depo)
+            .FirstOrDefaultAsync(e => e.ScooterId == id);
         
         if (scooter == null)
             return NotFound();
@@ -36,37 +38,37 @@ public class ScootersController: Controller
     }
 
     [HttpPost]
-    public Scooter AddItem(
+    public async Task<Scooter> AddItem(
         [FromBody] CreateScooterRequest scooter 
     )
     {
-        var e = db.Scooters.Add(new Scooter {
+        var e = await db.Scooters.AddAsync(new Scooter {
             DepoId = scooter.DepoId,
             Available = scooter.Available
-        }).Entity;
+        });
 
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         
-        return e;
+        return e.Entity;
     }
 
     [HttpDelete("{id:int}")]
-    public ActionResult RemoveItem(int id)
+    public async Task<ActionResult> RemoveItem(int id)
     {
-        var scooter = db.Scooters.Find(id);
+        var scooter = await db.Scooters.FindAsync(id);
 
         if (scooter == null)
             return UnprocessableEntity();
 
         db.Scooters.Remove(scooter);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return Ok();
     }
 
     [HttpPatch("{id:int}")]
-    public ActionResult<Scooter> UpdateItem(int id, [FromBody] PatchScooterRequest scooterRequest)
+    public async Task<ActionResult<Scooter>> UpdateItem(int id, [FromBody] PatchScooterRequest scooterRequest)
     {
-        var scooter = db.Scooters.Find(id);
+        var scooter = await db.Scooters.FindAsync(id);
 
         if (scooter == null)
             return UnprocessableEntity();
@@ -74,7 +76,7 @@ public class ScootersController: Controller
         scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
         scooter.Available = scooterRequest.Available ?? scooter.Available;
 
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return Ok(scooter);
     }
 

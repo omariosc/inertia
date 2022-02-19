@@ -3,6 +3,7 @@ using inertia.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 using inertia.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;
 
@@ -19,15 +20,15 @@ public class DeposController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Depo> List()
+    public async Task<IEnumerable<Depo>> List()
     {
-        return db.Depos;
+        return await db.Depos.ToListAsync();
     }
     
     [HttpGet("{id:int}")]
-    public ActionResult<Depo> GetItem(int id)
+    public async Task<ActionResult<Depo>> GetItem(int id)
     {
-        var depo = db.Depos.Find(id);
+        var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
             return NotFound();
@@ -36,38 +37,38 @@ public class DeposController : ControllerBase
     }
 
     [HttpPost]
-    public Depo AddItem(
+    public async Task<Depo> AddItem(
         [FromBody] Dtos.CreateDepoRequest depo 
     )
     {
-        var e = db.Depos.Add(new Depo {
+        var e = await db.Depos.AddAsync(new Depo {
             Latitude = depo.Latitude,
             Longitude = depo.Longitude,
             Name = depo.Name
-        }).Entity;
+        });
 
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         
-        return e;
+        return e.Entity;
     }
 
     [HttpDelete("{id:int}")]
-    public ActionResult RemoveItem(int id)
+    public async Task<ActionResult> RemoveItem(int id)
     {
-        var depo = db.Depos.Find(id);
+        var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
             return UnprocessableEntity();
 
         db.Depos.Remove(depo);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return Ok();
     }
 
     [HttpPatch("{id:int}")]
-    public ActionResult<Depo> UpdateItem(int id, [FromBody] PatchDepoRequest depoRequest)
+    public async Task<ActionResult<Depo>> UpdateItem(int id, [FromBody] PatchDepoRequest depoRequest)
     {
-        var depo = db.Depos.Find(id);
+        var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
             return UnprocessableEntity();
@@ -76,29 +77,29 @@ public class DeposController : ControllerBase
         depo.Latitude = depoRequest.Latitude ?? depo.Latitude;
         depo.Longitude = depoRequest.Longitude ?? depo.Longitude;
 
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return Ok(depo);
     }
 
     [HttpGet("{id:int}/Scooters")]
-    public ActionResult<IEnumerable<Scooter>> ListScooters(int id)
+    public async Task<ActionResult<IEnumerable<Scooter>>> ListScooters(int id)
     {
-        var depo = db.Depos.Find(id);
+        var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
             return UnprocessableEntity();
 
-        return db.Scooters.Where(e => e.DepoId == id).ToList();
+        return await db.Scooters.Where(e => e.DepoId == id).ToListAsync();
     }
     
     [HttpGet("{id:int}/Scooters/Count")]
-    public ActionResult<CountResult> CountScooters(int id)
+    public async Task<ActionResult<CountResult>> CountScooters(int id)
     {
-        var depo = db.Depos.Find(id);
+        var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
             return UnprocessableEntity();
 
-        return Ok(new CountResult(Count: db.Scooters.Count(e => e.DepoId == id)));
+        return Ok(new CountResult(Count: await db.Scooters.CountAsync(e => e.DepoId == id)));
     }
 }

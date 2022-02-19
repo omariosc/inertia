@@ -7,10 +7,8 @@ using Models;
 
 public class InertiaContext : DbContext
 {
-    public DbSet<Depo> Depos { get; set; }
-    public DbSet<Scooter> Scooters { get; set; }
-
-    public string DbPath { get; }
+    public DbSet<Depo> Depos { get; set; } = null!;
+    public DbSet<Scooter> Scooters { get; set; } = null!;
     
     public InertiaContext(DbContextOptions options) : base(options)
     {

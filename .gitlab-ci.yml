@@ -5,8 +5,30 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test
+- test-sast
+- test-integration
+
 sast:
-  stage: test
+  stage: test-sast
 include:
 - template: Security/SAST.gitlab-ci.yml
+
+test-integration:
+  stage: test-integration
+  image: fedora
+  before_script:
+    - dnf install -y python3 python3-pip dotnet dotnet-sdk-6.0 procps-ng
+    - pip3 install -r backend-testing/requirements.txt
+  
+  script:
+    - cd backend/
+    - ASPNETCORE_ENVIRONMENT=Development dotnet build backend.sln 
+    - ASPNETCORE_URLS=https://localhost:7220 ASPNETCORE_ENVIRONMENT=Development dotnet run > backend.log &
+    - cd ../backend-testing
+    - python3 main.py https://localhost:7220 | tee backend-testing.log
+    - pkill -15 dotnet
+
+  artifacts:
+    paths:
+      - backend/backend.log
+      - backend-testing/backend-testing.log

@@ -13,7 +13,7 @@ sast:
 include:
 - template: Security/SAST.gitlab-ci.yml
 
-test-integration:
+test-backend:
   stage: test-integration
   image: fedora
   before_script:
@@ -32,3 +32,18 @@ test-integration:
     paths:
       - backend/backend.log
       - backend-testing/backend-testing.log
+
+test-ui-customer:
+  stage: test-integration
+  image: node
+  script:
+    - cd ui-customer/
+    - npm install
+    - npm run build
+    - npm test -- --watchAll=false
+
+  artifacts:
+    paths:
+      - ui-customer/build/
+      
+

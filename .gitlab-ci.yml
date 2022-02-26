@@ -7,6 +7,7 @@
 stages:
 - test-sast
 - test-integration
+- test-ui-customer
 
 sast:
   stage: test-sast
@@ -32,3 +33,18 @@ test-integration:
     paths:
       - backend/backend.log
       - backend-testing/backend-testing.log
+
+test-ui-customer:
+  stage: test-ui-customer
+  image: node
+  script:
+    - cd ui-customer/
+    - npm install
+    - npm run build
+    - npm test -- --watchAll=false
+
+  artifacts:
+    paths:
+      - ui-customer/build/
+      
+

@@ -1,0 +1,141 @@
+// enumerated types
+
+ENUM jobType { // staff can be a manager or employee
+  "Manager"
+  "Employee"
+}
+
+ENUM status { // four different issues status’
+  "Unresolved"
+  "In progress"
+  "Finished"
+  "Blocked"
+}
+
+ENUM urgency { // four levels of urgency regarding issues
+  "None"
+  "Low"
+  "Medium"
+  "High"
+}
+
+ENUM cardType { // identification card type can be senior or student
+  "Student"
+  "Senior"
+}
+
+// backend storage
+
+TABLE userTbl { // stores all user details
+  id int [pk, not null, unique]
+  username text [not null, unique]
+  email text [not null, unique]
+  passwordSalt text [not null, unique]
+  passwordHash text [not null]
+  processedId boolean [not null]
+  isStudent boolean [not null]
+  isSenior boolean [not null]
+  isRegular boolean [not null]
+}
+
+TABLE depoTbl { // each depo has its coordinate position and name
+  id int [pk, not null, unique]
+  node_id int [ref: > nodeTbl.id]
+  name text [not null, unique]
+}
+
+TABLE scooterTbl { // stores all scooters details including closest depo and its coordinate position
+  id int [pk, not null, unique]
+  tag int [not null, unique]
+  node_id int [ref: > nodeTbl.id]
+  closestDepo int [not null, ref: > depoTbl.id]
+  availability boolean [not null]
+}
+
+TABLE hireTbl { // details regarding cost and length (configurable by manager)
+  length int [pk, not null, unique]
+  cost float [not null]
+}
+
+TABLE rideTbl { // multiple orders may relate to the same ride (for example if someone gets an extension to a ride)
+  id int [pk, not null, unique]
+  dateHired datetime [not null]
+  dateReturned datetime
+  route blob [not null]
+}
+
+TABLE orderTbl { // stores all order details
+  id int [pk, not null, unique]
+  scooter_id int [not null, ref: > scooterTbl.id]
+  user_id int [not null, ref: > userTbl.id]
+  dateOfOrder datetime [not null]
+  ride_id int [ref: > rideTbl.id]
+  dateOfHire datetime [not null]
+  hireLength int [not null]
+  isCancelled boolean [not null]
+  isExtension boolean [not null]
+  cost float [not null]
+}
+
+TABLE staffTbl { // stores all staff details
+  id int [pk, not null]
+  job jobType [not null]
+  name text [not null]
+  username text [not null, unique]
+  email text [not null, unique]
+  passwordSalt text [not null, unique]
+  passwordHash text [not null]
+}
+
+TABLE verificationTbl { // used for student/senior identification verification
+  id int [pk, not null, unique]
+  employee_id int [ref: > staffTbl.id]
+  type cardType [not null]
+  timeSent datetime [not null]
+  user_id int [not null, ref: > userTbl.id]
+  photo blob [not null]
+  state status [not null]
+}
+
+TABLE issueTbl { // stores issue details
+  id int [pk, not null, unique]
+  timeReported datetime [not null]
+  ride_id int [not null, ref: > rideTbl.id]
+  userDescription text [not null]
+  state status [not null]
+  priority urgency [not null]
+  solutionComments text
+}
+
+TABLE issueTaskTbl { // used for when an employee works on an issue (multiple employees can work on same issue)
+  id int [pk, not null, unique]
+  employee_id int [not null, ref: > staffTbl.id]
+  issue_id int [not null, ref: > issueTbl.id]
+}
+
+TABLE statsTbl { // stores all statistics for manager 
+  hourtime datetime [pk, not null, unique]
+  income1hour float [not null]
+  income4hour float [not null]
+  incomeday float [not null]
+  incomeweek float [not null]
+  hire1hour int [not null]
+  hire4hour int [not null]
+  hireday int [not null]
+  hireweek int [not null]
+}
+
+TABLE nodeTbl { // stores exact coordinate position
+  id int [pk, not null, unique]
+  latitude float [not null]
+  longitude float [not null]
+}
+
+TABLE cardTbl { // payment info stored locally on device
+  cardNumber number
+  cardHolderName text
+  expirationMonth number
+  expirationYear number
+  cvv number
+  postCode text
+}

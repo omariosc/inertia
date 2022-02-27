@@ -8,7 +8,7 @@ The full interim deliverable specification list is listed [here](https://gitlab.
 
 - The directory structure of the repository could be considered like a storage location containing all important files to the project as well as all the code
 - The issues are for us to organize work
-- Issue board consists of lists on each priority, in progress, testing, CI (continuous integration), peer review and completed
+- Issue board consists of lists on each priority, in progress, merge requests and completed
 - Issues are closed once merged to main
 - Backlog issues may have A/B/C/D after the ID number:
   * A | Customer Interface
@@ -21,7 +21,7 @@ The full interim deliverable specification list is listed [here](https://gitlab.
 - no commits must directly be made to the `main` branch (except for maintainer work)
 - `main` is updated by creating merge requests for feature branches
 - each feature should be worked on in a different branch
-- each commit must begin with `component: `. For example the commit message that modifies the backend will be: `backend: Initial Commit`. Keep the component names consistent (use `ui-customer`, `ui-employee`, `ui-manager`, `backend`) 
+- each commit must begin with `component: `. For example the commit message that modifies the backend will be: `backend: Initial Commit`. Keep the component names consistent (use `ui-customer`, `ui-staff`, `backend`, `docs`) 
 - the commits in a feature branch must only modify a single component at a time
 - no rebasing is allowed.
 - force pushing and reverting to previous commits should be avoided 

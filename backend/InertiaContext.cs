@@ -13,6 +13,10 @@ public class InertiaContext : DbContext
     public DbSet<Account> Accounts { get; set; } = null!;
 
     public DbSet<LoginInstance> LoginInstances { get; set; } = null!;
+
+    public DbSet<Order> Orders { get; set; } = null!;
+
+    public DbSet<HireOption> HireOptions { get; set; } = null!;
     
     public InertiaContext(DbContextOptions options) : base(options)
     {

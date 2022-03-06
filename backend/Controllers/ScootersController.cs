@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
 using inertia.Models;
+using inertia.Enums;
 using inertia.Dtos;
+using inertia.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;
@@ -11,23 +13,59 @@ namespace inertia.Controllers;
 [Produces("application/json")]
 public class ScootersController: Controller
 {
-    private readonly InertiaContext db;
+    private readonly InertiaContext _db;
+    private readonly ScootersAvailabilityService _availabilityService;
     
-    public ScootersController(InertiaContext db)
+    public ScootersController(InertiaContext db, ScootersAvailabilityService availabilityService)
     {
-        this.db = db;
+        _db = db;
+        _availabilityService = availabilityService;
     }
 
     [HttpGet]
     public async Task<IEnumerable<Scooter>> List()
     {
-        return await db.Scooters.Include(s => s.Depo).ToListAsync();
+        return await _db.Scooters.Include(s => s.Depo).ToListAsync();
+    }
+    
+    [HttpGet("available")]
+    public async Task<ActionResult> GetAvailableScooters(
+        [FromQuery(Name = "depoId")] int? depoId,
+        [FromQuery(Name = "startTime")] DateTime? startTime,
+        [FromQuery(Name = "endTime")] DateTime? endTime
+    )
+    {
+        startTime ??= DateTime.Now;
+        endTime ??= startTime;
+        
+        if (depoId.HasValue)
+        {
+            var depo = await _db.Depos
+                .Where(e => e.DepoId == depoId)
+                .FirstOrDefaultAsync();
+
+            if (depo == null)
+                return UnprocessableEntity();
+            
+            return Ok(await _availabilityService.GetAvailableScooters(
+                depo,
+                startTime.Value,
+                endTime
+            ));
+        }
+        else
+        {
+            return Ok(await _availabilityService.GetAvailableScooters(
+                startTime.Value,
+                endTime.Value
+            )); 
+        }
     }
     
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Scooter>> GetItem(int id)
     {
-        var scooter = await db.Scooters
+        var scooter = await _db.Scooters
             .Include(s => s.Depo)
             .FirstOrDefaultAsync(e => e.ScooterId == id);
         
@@ -42,12 +80,11 @@ public class ScootersController: Controller
         [FromBody] CreateScooterRequest scooter 
     )
     {
-        var e = await db.Scooters.AddAsync(new Scooter {
+        var e = await _db.Scooters.AddAsync(new Scooter {
             DepoId = scooter.DepoId,
-            Available = scooter.Available
         });
 
-        await db.SaveChangesAsync();
+        await _db.SaveChangesAsync();
         
         return e.Entity;
     }
@@ -55,28 +92,27 @@ public class ScootersController: Controller
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> RemoveItem(int id)
     {
-        var scooter = await db.Scooters.FindAsync(id);
+        var scooter = await _db.Scooters.FindAsync(id);
 
         if (scooter == null)
             return UnprocessableEntity();
 
-        db.Scooters.Remove(scooter);
-        await db.SaveChangesAsync();
+        _db.Scooters.Remove(scooter);
+        await _db.SaveChangesAsync();
         return Ok();
     }
 
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<Scooter>> UpdateItem(int id, [FromBody] PatchScooterRequest scooterRequest)
     {
-        var scooter = await db.Scooters.FindAsync(id);
+        var scooter = await _db.Scooters.FindAsync(id);
 
         if (scooter == null)
             return UnprocessableEntity();
 
         scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
-        scooter.Available = scooterRequest.Available ?? scooter.Available;
 
-        await db.SaveChangesAsync();
+        await _db.SaveChangesAsync();
         return Ok(scooter);
     }
 

@@ -166,9 +166,9 @@ public class OrdersController : MyControllerBase
         DateTime endTime = startTime.AddHours(hireOption.DurationInHours);
         
         
-        if (!await _scootersAvailability.IsScooterAvailable(order.Scooter, startTime, endTime))
+        if (!await _scootersAvailability.IsScooterAvailableForExtension(order, order.Scooter, startTime, endTime))
         {
-            return UnprocessableEntity("scooter is not available");
+            return ApplicationError(ApplicationErrorCode.ScooterUnavailable, "The Scooter is not available");
         }
         
         Order extension = new Order {

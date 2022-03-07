@@ -6,5 +6,6 @@ public enum OrderState
     PendingApproval,
     Upcoming,
     Ongoing,
+    PendingReturn,
     Completed,
 }

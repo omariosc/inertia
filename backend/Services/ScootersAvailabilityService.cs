@@ -19,6 +19,8 @@ public class ScootersAvailabilityService
             DateTime endTime
     )
     {
+        await UpdateOrderStatus();
+        
         var unavailableScooters = _db.Orders
             .Join(
                 _db.Scooters,
@@ -34,8 +36,11 @@ public class ScootersAvailabilityService
                 })
             .Where(
                 e =>
-                    e.StartTime < endTime && e.EndTime > startTime &&
-                    e.OrderState != OrderState.Cancelled
+                    (
+                        e.StartTime < endTime && e.EndTime > startTime &&
+                        e.OrderState != OrderState.Cancelled) ||
+                    e.OrderState == OrderState.PendingReturn
+                    
             )
             .Select(
                 e => e.ScooterId
@@ -55,6 +60,8 @@ public class ScootersAvailabilityService
         DateTime? endTime = null
     )
     {
+        await UpdateOrderStatus();
+        
         endTime = endTime ?? startTime;
 
         var unavailableScooters = _db.Orders
@@ -72,8 +79,10 @@ public class ScootersAvailabilityService
                 })
             .Where(
                 e =>
-                    e.StartTime < endTime && e.EndTime > startTime &&
-                    e.OrderState != OrderState.Cancelled
+                    (
+                        e.StartTime < endTime && e.EndTime > startTime &&
+                        e.OrderState != OrderState.Cancelled) ||
+                    e.OrderState == OrderState.PendingReturn
             )
             .Select(
                 e => e.ScooterId
@@ -93,6 +102,8 @@ public class ScootersAvailabilityService
         DateTime startTime,
         DateTime? endTime = null)
     {
+        await UpdateOrderStatus();
+        
         endTime = endTime ?? startTime;
 
         var clashingOrder = await _db.Orders
@@ -110,12 +121,76 @@ public class ScootersAvailabilityService
                 })
             .Where(
                 e =>
-                    e.StartTime < endTime && e.EndTime > startTime &&
-                    e.OrderState != OrderState.Cancelled &&
+                    ((e.StartTime < endTime && e.EndTime > startTime &&
+                      e.OrderState != OrderState.Cancelled) ||
+                     e.OrderState == OrderState.PendingReturn)&&
+                     e.ScooterId == scooter.ScooterId
+            )
+            .FirstOrDefaultAsync();
+
+        return clashingOrder == null;
+    }
+    
+    public async Task<bool> IsScooterAvailableForExtension(
+        Order toExtend,
+        Scooter scooter,
+        DateTime startTime,
+        DateTime? endTime = null)
+    {
+        await UpdateOrderStatus();
+        
+        endTime = endTime ?? startTime;
+
+        var clashingOrder = await _db.Orders
+            .Join(
+                _db.Scooters,
+                order => order.ScooterId,
+                scooter => scooter.ScooterId,
+                (order, scooter) => new
+                {
+                    OrderId = order.OrderId,
+                    ScooterId = scooter.ScooterId,
+                    StartTime = order.StartTime,
+                    EndTime = order.EndTime,
+                    DepoId = scooter.DepoId,
+                    OrderState = order.OrderState
+                })
+            .Where(
+                e =>
+                    ((e.StartTime < endTime && e.EndTime > startTime &&
+                      e.OrderState != OrderState.Cancelled) ||
+                     (e.OrderState == OrderState.PendingReturn && e.OrderId != toExtend.OrderId))&&
                     e.ScooterId == scooter.ScooterId
             )
             .FirstOrDefaultAsync();
 
         return clashingOrder == null;
+    }
+
+    private async Task UpdateOrderStatus()
+    {
+        var upcomingOrders = await _db.Orders
+            .Where(o =>
+                o.StartTime <= DateTime.Now &&
+                o.EndTime >= DateTime.Now &&
+                o.OrderState == OrderState.Upcoming
+            )
+            .ToListAsync();
+
+        foreach (var o in upcomingOrders)
+        {
+            o.OrderState = OrderState.Ongoing;
+        }
+
+        var pastOrders = await _db.Orders
+            .Where(o =>
+                o.EndTime <= DateTime.Now &&
+                o.OrderState == OrderState.Ongoing)
+            .ToListAsync();
+
+        foreach (var o in pastOrders)
+        {
+            o.OrderState = OrderState.PendingReturn;
+        }
     }
 }

@@ -5,7 +5,7 @@ TODO:
     - [OK] cancel order endpoint - 
     - [OK] better way to display extensions/model extensions
     - [OK] add nanoids to orders
-    - [  ] add PendingReturn                                - change list 1
+    - [OK] add PendingReturn                                - change list 1
     - [  ] return the availability of a scooter on the list - change list 1
     - [OK] return the proper errors
     - [  ] manager endpoints to confirm/deny bookings & confirm returns of scooters

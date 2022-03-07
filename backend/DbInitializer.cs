@@ -87,19 +87,35 @@ public class DbInitializer
         context.Accounts.Add(account);
         context.SaveChanges();
 
-        foreach (var order in new[]
-                 {
-                     new Order
-                     {
-                         OrderId="order1",
-                         Scooter = scooters[2],
-                         Account = account,
-                         StartTime = DateTime.UtcNow.AddDays(-10),
-                         EndTime = DateTime.UtcNow.AddDays(10),
-                         Cost = 4.2f,
-                         OrderState = OrderState.Ongoing
-                     }
-                 })
+        var orders = new Order[]
+        {
+            new Order
+            {
+                OrderId = "order1",
+                Scooter = scooters[2],
+                Account = account,
+                StartTime = DateTime.UtcNow.AddDays(-10),
+                EndTime = DateTime.UtcNow.AddDays(10),
+                Cost = 4.2f,
+                OrderState = OrderState.Ongoing,
+                HireOptionId = 1
+            },
+            new Order
+            {
+                OrderId = "order2",
+                Scooter = scooters[2],
+                Account = account,
+                StartTime = DateTime.UtcNow.AddDays(-10),
+                EndTime = DateTime.UtcNow.AddDays(10),
+                Cost = 4.2f,
+                OrderState = OrderState.Ongoing,
+                HireOptionId = 1
+            },
+        };
+
+        orders[1].Extends = orders[0];
+        
+        foreach (var order in orders)
         {
             context.Orders.Add(order);
         }

@@ -23,6 +23,9 @@ public class Order
     [Required] public DateTime EndTime { get; set; }
     [Required] public float Cost { get; set; }
     
+    [Required] public int HireOptionId { get; set; }
+    [ForeignKey("HireOptionId")] public virtual HireOption HireOption { get; set; } = null!;
+    
     [Required] public OrderState OrderState { get; set; }
 
     [JsonIgnore]

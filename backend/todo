@@ -1,0 +1,14 @@
+TODO:
+    - [OK] check availability of scooter
+    - [OK] previous orders of a customer endpoint
+    - [OK] create order endpoint - customer
+    - [OK] cancel order endpoint - 
+    - [OK] better way to display extensions/model extensions
+    - [OK] add nanoids to orders
+    - [  ] add PendingReturn                                - change list 1
+    - [  ] return the availability of a scooter on the list - change list 1
+    - [  ] return the proper errors
+    - [  ] testing
+    - [  ] tie up the endpoints
+        
+   

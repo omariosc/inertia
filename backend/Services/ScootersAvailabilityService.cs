@@ -34,7 +34,7 @@ public class ScootersAvailabilityService
                 })
             .Where(
                 e =>
-                    e.StartTime <= endTime && e.EndTime >= startTime &&
+                    e.StartTime < endTime && e.EndTime > startTime &&
                     e.OrderState != OrderState.Cancelled
             )
             .Select(
@@ -72,7 +72,7 @@ public class ScootersAvailabilityService
                 })
             .Where(
                 e =>
-                    e.StartTime <= endTime && e.EndTime >= startTime &&
+                    e.StartTime < endTime && e.EndTime > startTime &&
                     e.OrderState != OrderState.Cancelled
             )
             .Select(
@@ -86,5 +86,36 @@ public class ScootersAvailabilityService
         ).ToListAsync();
 
         return availableScooters;
+    }
+
+    public async Task<bool> IsScooterAvailable(
+        Scooter scooter,
+        DateTime startTime,
+        DateTime? endTime = null)
+    {
+        endTime = endTime ?? startTime;
+
+        var clashingOrder = await _db.Orders
+            .Join(
+                _db.Scooters,
+                order => order.ScooterId,
+                scooter => scooter.ScooterId,
+                (order, scooter) => new
+                {
+                    ScooterId = scooter.ScooterId,
+                    StartTime = order.StartTime,
+                    EndTime = order.EndTime,
+                    DepoId = scooter.DepoId,
+                    OrderState = order.OrderState
+                })
+            .Where(
+                e =>
+                    e.StartTime < endTime && e.EndTime > startTime &&
+                    e.OrderState != OrderState.Cancelled &&
+                    e.ScooterId == scooter.ScooterId
+            )
+            .FirstOrDefaultAsync();
+
+        return clashingOrder == null;
     }
 }

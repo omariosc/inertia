@@ -106,4 +106,18 @@ public class UsersController : Controller
 
         return Ok(account);
     }
+
+    [HttpGet("{accountId}/orders")]
+    [Authorize(Policy = Policies.Authenticated)]
+    public async Task<ActionResult> GetOrders()
+    {
+        var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
+
+        var orders = await _db.Orders
+            .Include(e => e.HireOption)
+            .Where(e => e.AccountId == accountId)
+            .ToListAsync();
+
+        return Ok(orders);
+    }
 }

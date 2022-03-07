@@ -13,7 +13,7 @@ namespace inertia.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class OrdersController : Controller
+public class OrdersController : MyControllerBase
 {
     private readonly InertiaContext _db;
     private readonly ScootersAvailabilityService _scootersAvailability;
@@ -36,9 +36,22 @@ public class OrdersController : Controller
             .Where(e => e.HireOptionId == createOrder.HireOptionId)
             .FirstOrDefaultAsync();
         
-        if (scooter is null || hireOption is null)
+        if (scooter is null)
         {
-            return UnprocessableEntity();
+            return ApplicationError(
+                ApplicationErrorCode.InvalidEntity, 
+                "Scooter is invalid", 
+                "scooter"
+                );
+        }
+
+        if (hireOption is null)
+        {
+            return ApplicationError(
+                ApplicationErrorCode.InvalidEntity, 
+                "Hire option is not available", 
+                "hireOption"
+                );
         }
 
         DateTime startTime = createOrder.StartTime;
@@ -46,7 +59,7 @@ public class OrdersController : Controller
 
         if (!await _scootersAvailability.IsScooterAvailable(scooter, startTime, endTime))
         {
-            return UnprocessableEntity("scooter is not available");
+            return ApplicationError(ApplicationErrorCode.ScooterUnavailable, "The Scooter is not available");
         }
         
         Order order = new Order {
@@ -80,12 +93,19 @@ public class OrdersController : Controller
 
         if(order is null)
         {
-            return UnprocessableEntity();
+            return ApplicationError(
+                ApplicationErrorCode.InvalidEntity, 
+                "Order is invalid", 
+                "order"
+            );
         }
 
         if (order.OrderState != OrderState.PendingApproval)
         {
-            return UnprocessableEntity("cannot cancel order at this point");
+            return ApplicationError(
+                ApplicationErrorCode.OrderApprovedOrOngoing,
+                "The order cannot be canceled at this point"
+            );
         }
 
         order.OrderState = OrderState.Cancelled;
@@ -115,13 +135,31 @@ public class OrdersController : Controller
             .Where(e => e.HireOptionId == extendOrder.HireOptionId)
             .FirstOrDefaultAsync();
         
-        if (order is null || hireOption is null)
-            return UnprocessableEntity();
+        if (order is null)
+        {
+            return ApplicationError(
+                ApplicationErrorCode.InvalidEntity, 
+                "Order is invalid", 
+                "order"
+            );
+        }
+
+        if (hireOption is null)
+        {
+            return ApplicationError(
+                ApplicationErrorCode.InvalidEntity, 
+                "Hire option is not available", 
+                "hireOption"
+            );
+        }
 
         if (order.OrderState != OrderState.Upcoming && order.OrderState != OrderState.PendingApproval &&
             order.OrderState != OrderState.Ongoing)
         {
-            return UnprocessableEntity("cannot extend order at this point");
+            return ApplicationError(
+                ApplicationErrorCode.OrderApprovedOrOngoing, 
+                "Order cannot be extended at this point"
+                );
         }
 
         DateTime startTime = order.EndTime;

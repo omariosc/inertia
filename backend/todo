@@ -7,7 +7,8 @@ TODO:
     - [OK] add nanoids to orders
     - [  ] add PendingReturn                                - change list 1
     - [  ] return the availability of a scooter on the list - change list 1
-    - [  ] return the proper errors
+    - [OK] return the proper errors
+    - [  ] manager endpoints to confirm/deny bookings & confirm returns of scooters
     - [  ] testing
     - [  ] tie up the endpoints
         

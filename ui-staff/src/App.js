@@ -4,8 +4,11 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.css"
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-
+import React, {useState} from "react";
 import './App.css';
+import LoginForm from './Login.js'
+import RegisterForm from './Register.js'
+
 
 const center = [53.8, -1.55]
 const map_locations = [
@@ -18,6 +21,9 @@ const map_locations = [
 
 
 const App = () => {
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+
     return (
         <div id="wrapper">
             <MapContainer center={center} zoom={15}>
@@ -45,11 +51,28 @@ const App = () => {
                         id="dropdown-basic-button"
                         title={ <span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                         variant="secondary" menuVariant="dark">
-                        <Dropdown.Item href="#/action-1"><p>Log In</p></Dropdown.Item>
-                        <Dropdown.Item href="#/action-2"><p>Sign Up</p></Dropdown.Item>
-                        <Dropdown.Item href="#/action-3"><p>Toggle Dark mode</p></Dropdown.Item>
+                        <Dropdown.Item
+                            href="#/login"
+                            onClick={() => {
+                                setShowLogin(true);
+                                setShowRegister(false);
+                            }}>
+                            <p>Log In</p>
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                            href="#/register"
+                            onClick={() => {
+                                setShowLogin(false);
+                                setShowRegister(true);
+                            }}>
+                            <p>Register</p>
+                        </Dropdown.Item>
                     </DropdownButton>
                 </div>
+                <>
+                    <LoginForm show={showLogin} onHide={() => setShowLogin(false)}/>
+                    <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
+                </>
             </div>
         </div>
     )

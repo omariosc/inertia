@@ -1,31 +1,40 @@
 import React from "react";
 import {InputGroup, Button, Modal} from "react-bootstrap";
 
-import './Register.css';
+import './Forms.css';
 
 function RegisterForm(props) {
     return (
         <Modal
             {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
             centered
         >
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title>
                     Register
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="text" name="username" placeholder="username" required/>
+                    <input type="text" name="name" placeholder="name" required/>
+                </InputGroup>
+                <br/>
+                <InputGroup>
+                    <input type="text" name="email" placeholder="email" required/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
                     <input type="password" name="password" placeholder="password" required/>
                 </InputGroup>
+                <br/>
+                <InputGroup>
+                    <input type="password" name="confirm_password" placeholder="confirm password" required/>
+                </InputGroup>
             </Modal.Body>
             <Modal.Footer>
+                <Button variant="danger" onClick={props.onHide}>
+                    Cancel
+                </Button>
                 <Button variant="primary" onClick={props.onHide}>
                     Register
                 </Button>

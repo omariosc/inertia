@@ -1,31 +1,38 @@
 import React from "react";
 import {InputGroup, Button, Modal} from "react-bootstrap";
 
-import './Login.css';
+import './Forms.css';
 
 function LoginForm(props) {
     return (
         <Modal
             {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
             centered
         >
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title>
                     Login
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="text" name="username" placeholder="username" required/>
+                    <input type="text" name="email" placeholder="email" required/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
                     <input type="password" name="password" placeholder="password" required/>
                 </InputGroup>
+                <br/>
+                <InputGroup>
+                    <input type="checkbox" name="remember"/>Remember me
+                </InputGroup>
+                <br/>
+                <a href="#/forgot-password">Forgot Password?</a>
             </Modal.Body>
             <Modal.Footer>
+                <Button variant="danger" onClick={props.onHide}>
+                    Cancel
+                </Button>
                 <Button variant="primary" onClick={props.onHide}>
                     Login
                 </Button>

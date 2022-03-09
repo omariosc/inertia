@@ -1,13 +1,13 @@
-import React, {useState} from "react";
-import LandingPage from './LandingPage.js'
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css"
 import './App.css';
 
 
 const App = () => {
-    const [showLanding, setShowLanding] = useState(false);
     return (
-        <LandingPage show={showLanding} onHide={() => setShowLanding(false)}/>
+        <div id="wrapper">
+            <h1>Hello World!</h1>
+        </div>
     )
 };
 

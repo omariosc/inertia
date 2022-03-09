@@ -11,6 +11,7 @@
     z-index: 100000;
     position: absolute;
     top: 0;
+    width: 100%;
 }
 
 #dropdown-basic-button {
@@ -23,8 +24,4 @@
     margin-top: 0.5%;
     margin-left: 3%;
     margin-right: 0.5%;
-}
-
-#map-overlay {
-    width: 100%;
 }

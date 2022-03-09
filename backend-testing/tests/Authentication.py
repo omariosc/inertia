@@ -1,5 +1,4 @@
 import unittest
-import requests
 
 import api.client
 from api.exceptions import ForbiddenException

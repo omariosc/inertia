@@ -55,16 +55,20 @@ class Client:
         return [from_json_depo(x) for x in r.json()]
 
     def get_available_scooters(self, **params):
-        r = self._request('get', f'/depos/available', params=params)
+        r = self._request('get', f'/scooters/available', params=params)
         return [from_json_scooter(x) for x in r.json()]
 
     def count_available_scooters(self, **params):
-        r = self._request('get', f'/depos/count', params=params)
+        r = self._request('get', f'/scooters/count', params=params)
         return from_json_count_response(r.json())
 
     def get_scooter(self, scooter: int):
-        r = self._request('get', f'/depos/{scooter}/')
+        r = self._request('get', f'/scooters/{scooter}/')
         return from_json_scooter(r.json())
+
+    def get_order(self, order: str):
+        r = self._request('get', f'/orders/{order}')
+        return from_json_order(r.json())
 
     def admin_scooter_list(self):
         r = self._request('get', f'/admin/scooters')
@@ -98,6 +102,9 @@ class Client:
 
     def debug_remove_account(self, email):
         self._debug_request('get', f'/debugging/remove/account/{email}')
+
+    def debug_remove_order(self, order):
+        self._debug_request('get', f'/debugging/remove/order/{order}')
 
     def _request(self, request_type, endpoint, **kwargs):
         requests_types = {

@@ -1,3 +1,5 @@
+from datetime import datetime
+from dateutil import parser as dateparser
 from dataclasses import dataclass
 
 
@@ -20,10 +22,11 @@ class Order:
     order_id: str
     scooter_id: int
     account_id: str
-    start_time: str
-    end_time: str
+    start_time: datetime
+    end_time: datetime
     cost: float
     hire_option: HireOption
+    order_state: int
     extensions: []
 
 
@@ -59,7 +62,7 @@ class LoginResponse:
 @dataclass
 class CountResponse:
     available: int
-    max: int
+    all: int
 
 
 def from_json_hire_option(o):
@@ -81,10 +84,11 @@ def from_json_order(o):
         order_id=o['orderId'],
         scooter_id=o['scooterId'],
         account_id=o['accountId'],
-        start_time=o['startTime'],
-        end_time=o['endTime'],
+        start_time=dateparser.parse(o['startTime']),
+        end_time=dateparser.parse(o['endTime']),
         cost=o['cost'],
         hire_option=from_json_hire_option(o['hireOption']),
+        order_state=o['orderState'],
         extensions=[
             from_json_order(x)
             for x in o['extensions']] if o['extensions'] is not None else None
@@ -153,5 +157,5 @@ def from_json_count_response(o):
 
     return CountResponse(
         available=o['available'],
-        max=o['max']
+        all=o['all']
     )

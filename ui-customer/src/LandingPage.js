@@ -3,9 +3,9 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {Dropdown, DropdownButton} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import './LandingPage.css';
 import LoginForm from './Login.js'
 import RegisterForm from './Register.js'
+import './LandingPage.css';
 
 
 function LandingPage() {
@@ -37,7 +37,7 @@ function LandingPage() {
                         title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                         variant="secondary" menuVariant="dark">
                         <Dropdown.Item
-                            href="#/login"
+                            href="#login"
                             onClick={() => {
                                 setShowLogin(true);
                                 setShowRegister(false);
@@ -45,7 +45,7 @@ function LandingPage() {
                             <p>Log In</p>
                         </Dropdown.Item>
                         <Dropdown.Item
-                            href="#/register"
+                            href="#register"
                             onClick={() => {
                                 setShowLogin(false);
                                 setShowRegister(true);

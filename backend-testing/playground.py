@@ -1,16 +1,22 @@
-from api.auth import *
-from api.customer import *
+from api import client
 from datetime import datetime
+import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-login_data = login('https://localhost:7220', 'test@test.com', 'test_password')
-customer = Customer('https://localhost:7220', login_data.account.account_id, login_data.access_token)
+customer = client.Client('https://localhost:7220')
+customer.login('test@test.com', 'test_password')
 print(customer.customer_orders())
 print(customer.hire_options())
+
+
+staff = client.Client('https://localhost:7220')
+staff.login('test2@test.com', 'test_password')
+
 order = customer.create_order(1, 103, datetime.now())
 print(order)
-customer.extend_order(order.order_id, 1)
-print(order)
-customer.cancel_order(order.order_id)
+
+staff.admin_order_approve(order.order_id)
+for s in staff.admin_scooter_list():
+    print(s)

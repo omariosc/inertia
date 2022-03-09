@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using inertia.Enums;
 
 namespace inertia.Models;
 
@@ -14,6 +15,6 @@ public class Scooter
 
     [ForeignKey("DepoId")] public virtual Depo Depo { get; set; } = null!;
     
-    [Required]
-    public bool Available { get; set; }
+    [NotMapped]
+    public ScooterStatus ScooterStatus { get; set; }
 }

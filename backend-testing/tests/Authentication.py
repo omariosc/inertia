@@ -1,32 +1,32 @@
 import unittest
-import requests
 
-import api.auth
+import api.client
+from api.exceptions import ForbiddenException
 
 
 class Authentication(unittest.TestCase):
     def __init__(self, test_name, host):
         super().__init__(test_name)
-        self.host = host
+        self.client = api.client.Client(host)
 
     def test_authentication(self):
-        api.auth.debug_remove_account(self.host, 'invalid@example.com')
-        api.auth.signup(self.host, 'invalid@example.com', 'Test Account', 'thegate')
-        login_response = api.auth.login(self.host, 'invalid@example.com', 'thegate')
-        api.auth.logout(self.host, login_response.access_token)
+        self.client.debug_remove_account('invalid@example.com')
+        self.client.signup('invalid@example.com', 'Test Account', 'thegate')
+        self.client.login('invalid@example.com', 'thegate')
+        self.client.logout()
 
     def test_profile(self):
-        api.auth.debug_remove_account(self.host, 'invalid@example.com')
-        api.auth.signup(self.host, 'invalid@example.com', 'Test Account', 'thegate')
-        login_response = api.auth.login(self.host, 'invalid@example.com', 'thegate')
-        account = api.auth.profile(self.host, login_response.account.account_id, login_response.access_token)
+        self.client.debug_remove_account('invalid@example.com')
+        self.client.signup('invalid@example.com', 'Test Account', 'thegate')
+        login_response = self.client.login('invalid@example.com', 'thegate')
+        account = self.client.profile()
         self.assertEqual(account.name, 'Test Account', msg='profile endpoint returns bogous information')
-        api.auth.logout(self.host, login_response.access_token)
+        self.client.logout()
 
     def test_double_logout(self):
-        api.auth.debug_remove_account(self.host, 'invalid@example.com')
-        api.auth.signup(self.host, 'invalid@example.com', 'Test Account', 'thegate')
-        login_response = api.auth.login(self.host, 'invalid@example.com', 'thegate')
-        api.auth.logout(self.host, login_response.access_token)
-        with self.assertRaises(api.auth.AuthError) as context:
-            api.auth.logout(self.host, login_response.access_token)
+        self.client.debug_remove_account('invalid@example.com')
+        self.client.signup('invalid@example.com', 'Test Account', 'thegate')
+        self.client.login('invalid@example.com', 'thegate')
+        self.client.logout()
+        with self.assertRaises(ForbiddenException) as context:
+            self.client.logout()

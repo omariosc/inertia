@@ -35,6 +35,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthenticationTokenService, AuthenticationTokenService>();
 builder.Services.AddScoped<IAuthorizationHandler, DefaultAuthorizationHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();
+builder.Services.AddScoped<ScootersService, ScootersService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -113,18 +114,18 @@ app.UseAuthorization();
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
-{
-    try
-    {
-        DbInitializer.Initialize(
-            scope.ServiceProvider.GetRequiredService<InertiaContext>()
-        );
-    }
-    catch (Exception e)
-    {
-        scope.ServiceProvider.GetRequiredService<ILogger>()
-            .LogError(e, "An error occured creating the DB.");
-    }
+{DbInitializer.Initialize(
+        scope.ServiceProvider.GetRequiredService<InertiaContext>()
+    );
+    // try
+    // {
+    //     
+    // }
+    // catch (Exception e)
+    // {
+    //     scope.ServiceProvider.GetRequiredService<ILogger>()
+    //         .LogError(e, "An error occured creating the DB.");
+    // }
 }
 
 app.Run();

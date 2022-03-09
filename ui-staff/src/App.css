@@ -1,3 +1,17 @@
 #wrapper {
     position: relative;
+    min-height: 100%;
+}
+
+.navbar-pad-left {
+    padding-left: 10px;
+}
+
+.navbar-pad-right {
+    padding-right: 10px;
+}
+
+.vertical-navbar {
+    background-color: #212529;
+    min-height: 100%;
 }

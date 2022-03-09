@@ -5,13 +5,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Services;
 
-public class ScootersAvailabilityService
+public class ScootersService
 {
     private readonly InertiaContext _db;
 
-    public ScootersAvailabilityService(InertiaContext db)
+    public ScootersService(InertiaContext db)
     {
         _db = db;
+    }
+
+    public async Task<IEnumerable<Scooter>> GetAllScootersCurrentStatus(Depo? depo = null)
+    {
+        await UpdateOrderStatus();
+
+        var pendingReturns = await _db.Scooters
+            .Join(
+                _db.Orders.Where(o => o.OrderState == OrderState.PendingReturn),
+                scooter => scooter.ScooterId, order => order.ScooterId,
+                (s, o) => s.ScooterId)
+            .ToListAsync();
+        
+        var ongoing = await _db.Scooters
+            .Join(
+                _db.Orders.Where(o => o.OrderState == OrderState.Ongoing),
+                scooter => scooter.ScooterId, order => order.ScooterId,
+                (s, o) => s.ScooterId)
+            .ToListAsync();
+
+        
+        var scooters = depo is null ?
+            await _db.Scooters.ToListAsync():
+            await _db.Scooters.Where(s => s.DepoId == depo.DepoId).ToListAsync();
+
+        foreach (var s in scooters)
+        {
+            if (ongoing.Contains(s.ScooterId))
+                s.ScooterStatus = ScooterStatus.OngoingOrder;
+            else if (pendingReturns.Contains(s.ScooterId))
+                s.ScooterStatus = ScooterStatus.PendingReturn;
+            else s.ScooterStatus = ScooterStatus.InDepo;
+        }
+        
+        return scooters;
     }
 
     public async Task<IEnumerable<Scooter>> GetAvailableScooters(
@@ -37,8 +72,8 @@ public class ScootersAvailabilityService
             .Where(
                 e =>
                     (
-                        e.StartTime < endTime && e.EndTime > startTime &&
-                        e.OrderState != OrderState.Cancelled) ||
+                        e.StartTime <= endTime && e.EndTime >= startTime &&
+                        e.OrderState != OrderState.Cancelled && e.OrderState != OrderState.Completed) ||
                     e.OrderState == OrderState.PendingReturn
                     
             )
@@ -80,8 +115,8 @@ public class ScootersAvailabilityService
             .Where(
                 e =>
                     (
-                        e.StartTime < endTime && e.EndTime > startTime &&
-                        e.OrderState != OrderState.Cancelled) ||
+                        e.StartTime <= endTime && e.EndTime >= startTime &&
+                        e.OrderState != OrderState.Cancelled && e.OrderState != OrderState.Completed) ||
                     e.OrderState == OrderState.PendingReturn
             )
             .Select(
@@ -121,8 +156,8 @@ public class ScootersAvailabilityService
                 })
             .Where(
                 e =>
-                    ((e.StartTime < endTime && e.EndTime > startTime &&
-                      e.OrderState != OrderState.Cancelled) ||
+                    ((e.StartTime <= endTime && e.EndTime >= startTime &&
+                      e.OrderState != OrderState.Cancelled && e.OrderState != OrderState.Completed) ||
                      e.OrderState == OrderState.PendingReturn)&&
                      e.ScooterId == scooter.ScooterId
             )
@@ -158,13 +193,28 @@ public class ScootersAvailabilityService
             .Where(
                 e =>
                     ((e.StartTime < endTime && e.EndTime > startTime &&
-                      e.OrderState != OrderState.Cancelled) ||
+                      e.OrderState != OrderState.Cancelled && e.OrderState != OrderState.Completed) ||
                      (e.OrderState == OrderState.PendingReturn && e.OrderId != toExtend.OrderId))&&
                     e.ScooterId == scooter.ScooterId
             )
             .FirstOrDefaultAsync();
 
         return clashingOrder == null;
+    }
+
+    public async Task ReturnScooter(Scooter scooter)
+    {
+        await UpdateOrderStatus();
+        
+        await _db.Orders
+            .Where(o =>
+                o.ScooterId == scooter.ScooterId &&
+                (o.OrderState == OrderState.Ongoing || o.OrderState == OrderState.PendingReturn))
+            .ForEachAsync(o =>
+            {
+                o.OrderState = OrderState.Completed;
+            });
+        await _db.SaveChangesAsync();
     }
 
     private async Task UpdateOrderStatus()
@@ -192,5 +242,7 @@ public class ScootersAvailabilityService
         {
             o.OrderState = OrderState.PendingReturn;
         }
+
+        await _db.SaveChangesAsync();
     }
 }

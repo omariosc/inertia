@@ -4,13 +4,15 @@ using inertia.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Writers;
 
 namespace inertia.Controllers.Admin;
 
 [ApiController]
 [Route("admin/[controller]")]
 [Produces("application/json")]
-public class OrdersController : Controller
+[Authorize(Policy = Policies.Staff)]
+public class OrdersController : MyControllerBase
 {
     private readonly InertiaContext _db;
 
@@ -20,7 +22,6 @@ public class OrdersController : Controller
     }
 
     [HttpGet]
-    [Authorize(Policy = Policies.Staff)]
     public async Task<ActionResult> List()
     {
         var list = await _db.Orders
@@ -29,6 +30,38 @@ public class OrdersController : Controller
             .Where(e => e.ExtendsId == null)
             .ToListAsync();
         return Ok(list);
+    }
+
+    [HttpPost("{orderId}/approve")]
+    public async Task<ActionResult> ApproveOrder(string orderId)
+    {
+        var order = await _db.Orders
+            .Where(o => o.OrderId == orderId)
+            .FirstOrDefaultAsync();
+
+        if (order is null)
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "order id invalid", "order");
+
+        order.OrderState = OrderState.Upcoming;
+        await _db.SaveChangesAsync();
+        
+        return Ok();
+    }
+
+    [HttpPost("{orderId}/deny")]
+    public async Task<ActionResult> DenyOrder(string orderId)
+    {
+        var order = await _db.Orders
+            .Where(o => o.OrderId == orderId)
+            .FirstOrDefaultAsync();
+
+        if (order is null)
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "order id invalid", "order");
+        
+        order.OrderState = OrderState.Denied;
+        await _db.SaveChangesAsync();
+        
+        return Ok();
     }
     
 }

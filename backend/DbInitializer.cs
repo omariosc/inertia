@@ -84,41 +84,20 @@ public class DbInitializer
             State = AccountState.Active,
             UserType = UserType.Regular
         };
-        context.Accounts.Add(account);
-        context.SaveChanges();
-
-        var orders = new Order[]
-        {
-            new Order
-            {
-                OrderId = "order1",
-                Scooter = scooters[2],
-                Account = account,
-                StartTime = DateTime.UtcNow.AddDays(-10),
-                EndTime = DateTime.UtcNow.AddDays(10),
-                Cost = 4.2f,
-                OrderState = OrderState.Ongoing,
-                HireOptionId = 1
-            },
-            new Order
-            {
-                OrderId = "order2",
-                Scooter = scooters[2],
-                Account = account,
-                StartTime = DateTime.UtcNow.AddDays(-10),
-                EndTime = DateTime.UtcNow.AddDays(10),
-                Cost = 4.2f,
-                OrderState = OrderState.Ongoing,
-                HireOptionId = 1
-            },
-        };
-
-        orders[1].Extends = orders[0];
         
-        foreach (var order in orders)
+        var staff = new Account
         {
-            context.Orders.Add(order);
-        }
+            AccountId = "lestaff",
+            Name = "Staff Account",
+            Email = "test2@test.com",
+            Password = "test_password",
+            Role = AccountRole.Staff,
+            State = AccountState.Active,
+            UserType = UserType.Regular
+        };
+        
+        context.Accounts.Add(account);
+        context.Accounts.Add(staff);
         context.SaveChanges();
     }
 }

@@ -16,12 +16,32 @@ namespace inertia.Controllers;
 public class OrdersController : MyControllerBase
 {
     private readonly InertiaContext _db;
-    private readonly ScootersAvailabilityService _scootersAvailability;
+    private readonly ScootersService _scooters;
 
-    public OrdersController(InertiaContext db, ScootersAvailabilityService scootersAvailability)
+    public OrdersController(InertiaContext db, ScootersService scooters)
     {
         _db = db;
-        _scootersAvailability = scootersAvailability;
+        _scooters = scooters;
+    }
+
+    [HttpGet("{orderId}")]
+    [Authorize(Policy = Policies.Authenticated)]
+    public async Task<ActionResult> GetOrder(string orderId)
+    {
+        var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
+        var order = await _db.Orders
+            .Include(o => o.Extensions)
+            .Include(o => o.HireOption)
+            .Where(o => o.OrderId == orderId)
+            .FirstOrDefaultAsync();
+
+        if (order == null)
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid order id", "order");
+
+        if (order.AccountId != accountId)
+            return Forbid();
+
+        return Ok(order);
     }
     
     [HttpPost]
@@ -57,7 +77,7 @@ public class OrdersController : MyControllerBase
         DateTime startTime = createOrder.StartTime;
         DateTime endTime = createOrder.StartTime.AddHours(hireOption.DurationInHours);
 
-        if (!await _scootersAvailability.IsScooterAvailable(scooter, startTime, endTime))
+        if (!await _scooters.IsScooterAvailable(scooter, startTime, endTime))
         {
             return ApplicationError(ApplicationErrorCode.ScooterUnavailable, "The Scooter is not available");
         }
@@ -166,7 +186,7 @@ public class OrdersController : MyControllerBase
         DateTime endTime = startTime.AddHours(hireOption.DurationInHours);
         
         
-        if (!await _scootersAvailability.IsScooterAvailableForExtension(order, order.Scooter, startTime, endTime))
+        if (!await _scooters.IsScooterAvailableForExtension(order, order.Scooter, startTime, endTime))
         {
             return ApplicationError(ApplicationErrorCode.ScooterUnavailable, "The Scooter is not available");
         }

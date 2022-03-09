@@ -28,7 +28,7 @@ public class AuthenticationTokenService
             new Claim(ClaimTypes.PrimarySid, account.AccountId),
             new Claim(ClaimTypes.Name, account.Name),
             new Claim(ClaimTypes.Email, account.Email),
-            new Claim("scope", "access")
+            new Claim(ClaimTypes.Role, account.Role.ToString())
         };
 
         var issuedAt = DateTime.UtcNow;

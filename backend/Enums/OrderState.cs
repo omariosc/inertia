@@ -8,4 +8,5 @@ public enum OrderState
     Ongoing,
     PendingReturn,
     Completed,
+    Denied
 }

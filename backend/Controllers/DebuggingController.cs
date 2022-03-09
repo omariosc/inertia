@@ -23,7 +23,7 @@ public class DebuggingController : ControllerBase
     }
 
     [HttpGet("remove/account/{email}")]
-    public async Task<ActionResult> RemoveEntity(string email)
+    public async Task<ActionResult> RemoveAccount(string email)
     {
         if (!_env.IsDevelopment())
             return NotFound();
@@ -38,6 +38,25 @@ public class DebuggingController : ControllerBase
         _db.Accounts.Remove(account);
         await _db.SaveChangesAsync();
                 
+        return Ok();
+    }
+
+    [HttpGet("remove/order/{orderId}")]
+    public async Task<ActionResult> RemoveOrder(string orderId)
+    {
+        if (!_env.IsDevelopment())
+            return NotFound();
+
+        var order = await _db.Orders
+            .Where(o => o.OrderId == orderId)
+            .FirstOrDefaultAsync();
+        
+        if (order == null)
+            return UnprocessableEntity();
+
+        _db.Orders.Remove(order);
+        await _db.SaveChangesAsync();
+
         return Ok();
     }
 }

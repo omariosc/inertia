@@ -35,7 +35,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthenticationTokenService, AuthenticationTokenService>();
 builder.Services.AddScoped<IAuthorizationHandler, DefaultAuthorizationHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();
-builder.Services.AddScoped<ScootersAvailabilityService, ScootersAvailabilityService>();
+builder.Services.AddScoped<ScootersService, ScootersService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

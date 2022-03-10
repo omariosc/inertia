@@ -12,6 +12,6 @@
 }
 
 .vertical-navbar {
+    height: 100rem;
     background-color: #212529;
-    min-height: 100%;
 }

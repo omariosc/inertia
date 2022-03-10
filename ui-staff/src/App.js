@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {Container, Navbar, Nav, Dropdown, DropdownButton, NavItem, Row, Col} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from './ManagerDashboard.js'
 import ScooterManagement from './ManagerScooterManagement.js'
 import Issues from './ManagerIssues.js'

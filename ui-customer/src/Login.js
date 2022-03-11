@@ -1,6 +1,6 @@
 import React from "react";
 import {InputGroup, Button, Modal} from "react-bootstrap";
-
+import "bootstrap/dist/css/bootstrap.css"
 import './Forms.css';
 
 function LoginForm(props) {

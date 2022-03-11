@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import {Dropdown, DropdownButton} from "react-bootstrap";
+import {Card, Dropdown, DropdownButton, Modal} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import LoginForm from './Login.js'

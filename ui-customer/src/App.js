@@ -8,7 +8,8 @@ const App = () => {
     const [showLanding, setShowLanding] = useState(false);
     return (
         <div id="wrapper">
-            <LandingPage show={showLanding} onHide={() => setShowLanding(false)}/>
+            {/*<LandingPage show={showLanding} onHide={() => setShowLanding(false)}/>*/}
+            <h1>Hello World</h1>
         </div>
     )
 };

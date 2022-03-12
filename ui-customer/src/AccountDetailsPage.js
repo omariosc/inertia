@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import "bootstrap/dist/css/bootstrap.css"
 import './AccountDetailsPage.css';
-import {InputGroup, Button, Card, Modal, CardGroup, Row, Col, Container ,Nav} from "react-bootstrap";
+import {InputGroup, Button, Card, Table, CardGroup, Row, Col, Container ,Nav} from "react-bootstrap";
+import {text} from "@fortawesome/fontawesome-svg-core";
 
 function CustomerDashboard(props) {
-    const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345]]
+    const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345],  ["Email Address", "hashirsing@gmail.com"],
+        ["Phone Number", "0774891234"], ["Password", "**********"]]
     return  (
         <>
             <Row >
@@ -34,29 +36,19 @@ function CustomerDashboard(props) {
                 </Col >
                 <Col>
                     {/*SECOND COLUMN*/}
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet pulvinar tellus, a posuere ex. Donec efficitur accumsan eros. Praesent et pulvinar nunc, id lobortis massa. Curabitur commodo est justo, in aliquam odio imperdiet nec. Cras quis ligula ex. Ut semper orci quis massa vehicula tempus. Donec sit amet lacus a est rutrum egestas. Cras non leo enim.
-                        Vestibulum venenatis ex nec lectus aliquam, nec sagittis enim egestas. Nam at felis elementum, tincidunt arcu eu, imperdiet libero. Morbi convallis nisi nec ligula bibendum vulputate. Suspendisse non sapien vestibulum, vehicula orci at, tempus purus. Nunc sed feugiat odio. Vestibulum non sem hendrerit, lobortis lectus et, aliquet velit. Morbi bibendum libero id orci condimentum, et vulputate ante egestas. Ut ut posuere elit. Phasellus vehicula, nunc eu mattis euismod, risus eros dictum neque, eu fringilla neque nisl et ligula. Nullam vitae erat tincidunt, pharetra justo commodo, mattis mauris. Quisque egestas, ante sit amet iaculis fermentum, tortor urna feugiat nisl, id rutrum erat massa elementum erat. Etiam accumsan libero non orci mattis, sit amet malesuada sem malesuada.  </p>
 
-                    {/*<Row xs={1} md={3} className="g-4">*/}
-                    {/*    {userDetails.map((dashboard, idx) => (*/}
-                    {/*        <Col>*/}
-                    {/*            <Card*/}
-                    {/*                bg="dark"*/}
-                    {/*                key={idx}*/}
-                    {/*                text="white"*/}
-                    {/*                style={{width: '5rem'}}*/}
-                    {/*                className="mb-2"*/}
-                    {/*            >*/}
-                    {/*                <Card.Body>*/}
-                    {/*                    <Card.Title>{dashboard[0]}</Card.Title>*/}
-                    {/*                    <Card.Text>*/}
-                    {/*                        {dashboard[1]}*/}
-                    {/*                    </Card.Text>*/}
-                    {/*                </Card.Body>*/}
-                    {/*            </Card>*/}
-                    {/*        </Col>*/}
-                    {/*    ))}*/}
-                    {/*</Row>*/}
+                    {/*TABLE FOR USER INFORMATION LIKE USERID AND EMAIL ETC*/}
+                    <Table>
+                        <tbody>
+                        {userDetails.map((title, info) => (
+                            <tr>
+                                <td>{title[0]}</td>
+                                <td>{title[1]}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+
 
                 </Col>
             </Row>

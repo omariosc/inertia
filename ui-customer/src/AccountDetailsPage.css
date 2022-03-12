@@ -1,0 +1,18 @@
+#wrapper {
+    position: relative;
+    padding-left: 20%;
+    padding-top: 2%;
+    padding-right: 30%;
+    /*min-height: 100%;*/
+}
+
+#heading {
+    text-align: center;
+}
+
+#inertia {
+    text-align: left;
+}
+
+#container {
+}

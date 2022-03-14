@@ -1,10 +1,9 @@
 import React from "react";
-import {InputGroup, Button, Modal} from "react-bootstrap";
 import './Manager.css';
 
-function AccountManagement(props) {
+function AccountManagement() {
     return (
-        <h1>AccountManagement</h1>
+        <h1>Account Management</h1>
     );
 }
 

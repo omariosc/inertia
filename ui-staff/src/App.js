@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Container, Navbar, Nav, Dropdown, DropdownButton, NavItem, Row, Col} from "react-bootstrap";
+import {Navbar, Nav, Dropdown, DropdownButton, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +11,7 @@ import AccountManagement from './ManagerAccountManagement.js'
 import Settings from './ManagerSettings.js'
 import './App.css';
 
-const App = (props) => {
+const App = () => {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showScooter, setShowScooter] = useState(false);
     const [showIssues, setShowIssues] = useState(false);
@@ -32,7 +32,7 @@ const App = (props) => {
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text className="navbar-pad-right">
-                        Signed in as: <a href="#settings">Manager Admin</a>
+                        Signed in as: <a href="#/settings">Manager Admin</a>
                     </Navbar.Text>
                     <Nav.Item className="navbar-pad-right">
                         <DropdownButton
@@ -41,7 +41,7 @@ const App = (props) => {
                             title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                             variant="secondary" menuVariant="dark"
                         >
-                            <Dropdown.Item href="#signout"><p>Sign Out</p></Dropdown.Item>
+                            <Dropdown.Item href="#/sign-out"><p>Sign Out</p></Dropdown.Item>
                         </DropdownButton>
                     </Nav.Item>
                 </Navbar.Collapse>
@@ -61,7 +61,7 @@ const App = (props) => {
                             setShowAccounts(false);
                             setShowSettings(false)
                         }}
-                            href="#dashboard">Dashboard</Nav.Link>
+                            href="#/dashboard">Dashboard</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(true);
@@ -70,7 +70,7 @@ const App = (props) => {
                             setShowAccounts(false);
                             setShowSettings(false)
                         }}
-                            href="#scooters">Scooter Management</Nav.Link>
+                            href="#/scooters">Scooter Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -79,7 +79,7 @@ const App = (props) => {
                             setShowAccounts(false);
                             setShowSettings(false)
                         }}
-                            href="#issues">Issues</Nav.Link>
+                            href="#/issues">Issues</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -88,7 +88,7 @@ const App = (props) => {
                             setShowAccounts(false);
                             setShowSettings(false)
                         }}
-                            href="#statistics">Statistics</Nav.Link>
+                            href="#/statistics">Statistics</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -97,7 +97,7 @@ const App = (props) => {
                             setShowAccounts(true);
                             setShowSettings(false)
                         }}
-                            href="#accounts">Account Management</Nav.Link>
+                            href="#/accounts">Account Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -106,7 +106,7 @@ const App = (props) => {
                             setShowAccounts(false);
                             setShowSettings(true)
                         }}
-                            href="#settings">Settings</Nav.Link>
+                            href="#/settings">Settings</Nav.Link>
                     </Nav>
                 </Col>
                 <Col xs={9}>

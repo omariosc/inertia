@@ -3,7 +3,9 @@ import './Manager.css';
 
 function AccountManagement() {
     return (
-        <h1>Account Management</h1>
+        <>
+            <h1>Account Management</h1>
+        </>
     );
 }
 

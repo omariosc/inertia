@@ -19,7 +19,7 @@ function ScooterManagement() {
             <h1>Scooter Management</h1>
             <DropdownButton id="dropdown-basic-button" title="Select scooter">
                 {scooters.map((scooter, idx) => (
-                    <Dropdown.Item href={"#/scooter-"+scooter} key={idx}>Scooter {scooter}</Dropdown.Item>
+                    <Dropdown.Item href={"#/scooter-" + scooter} key={idx}>Scooter {scooter}</Dropdown.Item>
                 ))}
             </DropdownButton>
             <h3>Scooter is currently available</h3>

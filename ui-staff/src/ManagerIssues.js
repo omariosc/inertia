@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Col, Card} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 import './Manager.css';
 
 function Issues() {
@@ -13,21 +13,19 @@ function Issues() {
             <h1>Issues</h1>
             <div class="scroll">
                 {issues.map((issue, idx) => (
-                    <Col>
-                        <Card
-                            bg="dark"
-                            key={idx}
-                            text="white"
-                            className="mb-2"
-                        >
-                            <Card.Header>Issue {idx + 1}</Card.Header>
-                            <Card.Body>
-                                <Card.Text>{issue[0]}</Card.Text>
-                                <Card.Text>Reported by: {issue[1]}</Card.Text>
-                                <Button>Mark as Resolved</Button>
-                            </Card.Body>
-                        </Card>
-                    </Col>
+                    <Card
+                        bg="dark"
+                        key={idx}
+                        text="white"
+                        className="mb-2"
+                    >
+                        <Card.Header>Issue {idx + 1}</Card.Header>
+                        <Card.Body>
+                            <Card.Text>{issue[0]}</Card.Text>
+                            <Card.Text>Reported by: {issue[1]}</Card.Text>
+                            <Button>Mark as Resolved</Button>
+                        </Card.Body>
+                    </Card>
                 ))}
             </div>
         </>

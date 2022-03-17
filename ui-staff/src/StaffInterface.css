@@ -12,6 +12,26 @@
     overflow-y: scroll;
 }
 
+.scroll-bookings {
+    max-height: 50%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
 .canvasjs-chart-credit {
     display: none;
+}
+
+.leaflet-container {
+    width: 500px;
+    height: 500px;
+}
+
+.leaflet-control-attribution {
+    display: none
+}
+
+.map {
+    width: 500px;
+    height: 500px;
 }

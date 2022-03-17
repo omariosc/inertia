@@ -32,6 +32,7 @@ function ScooterManagement() {
         [208, "Scooter S", "Available", map_locations[0]],
         [209, "Scooter T", "Available", map_locations[0]]]
     const times = ["1 hour", "4 hours", "1 day", "1 week"]
+    const currentPrice = 10
     return (
         <>
             <h1>Scooter Management</h1>
@@ -82,6 +83,7 @@ function ScooterManagement() {
                     <Dropdown.Item key={idx}>{time}</Dropdown.Item>
                 ))}
             </DropdownButton>
+            <h5>Current price: £{currentPrice}</h5>
             <h5>Change scooter price</h5>
             <InputGroup className="mb-3">
                 <InputGroup.Text>£</InputGroup.Text>

@@ -1,6 +1,6 @@
 import React from "react";
 import {default as CanvasJSReact} from "./canvasjs.react.js";
-import './Manager.css'
+import './StaffInterface.css'
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

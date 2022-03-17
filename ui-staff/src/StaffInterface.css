@@ -2,3 +2,16 @@
     height: 100rem;
     background-color: #212529;
 }
+.scroll {
+    max-height: 50%;
+    overflow-y: scroll;
+}
+
+.scroll-scooter {
+    max-height: 25%;
+    overflow-y: scroll;
+}
+
+.canvasjs-chart-credit {
+    display: none;
+}

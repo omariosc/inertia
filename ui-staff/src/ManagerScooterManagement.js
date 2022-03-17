@@ -1,6 +1,6 @@
 import React from "react";
 import {DropdownButton, Dropdown, Button, InputGroup, Table} from "react-bootstrap";
-import './Manager.css'
+import './StaffInterface.css'
 
 function ScooterManagement() {
     const map_locations = [

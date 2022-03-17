@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, InputGroup} from "react-bootstrap";
-import './Manager.css'
+import './StaffInterface.css'
 
 function AccountManagement() {
     return (

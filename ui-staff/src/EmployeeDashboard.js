@@ -4,9 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css'
 
 function Dashboard() {
-    const dashboardStatistics = [["Employees logged in", 5], ["Users logged in", 14], ["High priority issues", 4],
-        ["Revenue today (£)", 490], ["Cancellations today", 2], ["Extensions today", 3],
-        ["Scooters in use", 13]]
+    const dashboardStatistics = [["Scooters in use", 9], ["Upcoming Bookings Today", 5], ["High priority issues", 3],
+        ["Medium priority issues", 5], ["Low priority issues", 2], ["Cancellations today", 2], ["Extensions today", 3],
+        ["Pending Discount Applications", 11]]
     return (
         <>
             <h1>Dashboard</h1>

@@ -1,5 +1,5 @@
 import React from "react";
-import {DropdownButton, Dropdown, Button, InputGroup, Table} from "react-bootstrap";
+import {DropdownButton, Dropdown, Button, InputGroup, Table, Form} from "react-bootstrap";
 import './StaffInterface.css'
 
 function ScooterManagement() {
@@ -52,11 +52,11 @@ function ScooterManagement() {
                         <tr>
                             <td key={idx}>
                                 {scooter[0]}
-                                <input name="scooter-id" placeholder="Change scooter id" required/>
+                                <input id={idx + "-id"} name="scooter-id" placeholder="Change scooter id" required/>
                             </td>
                             <td key={idx}>
                                 {scooter[1]}
-                                <input name="scooter-name" placeholder="Change scooter name" required/>
+                                <input id={idx + "-name"} name="scooter-name" placeholder="Change scooter name" required/>
                             </td>
                             <td key={idx}>
                                 {scooter[2]}
@@ -77,19 +77,29 @@ function ScooterManagement() {
             </div>
             <Button>Save Changes</Button>
             <h3>Configure scooter price</h3>
-            <h4>Price per time slot</h4>
-            <DropdownButton id="dropdown-basic-button" title="Select hire period">
-                {times.map((time, idx) => (
-                    <Dropdown.Item key={idx}>{time}</Dropdown.Item>
-                ))}
-            </DropdownButton>
-            <h5>Current price: £{currentPrice}</h5>
-            <h5>Change scooter price</h5>
-            <InputGroup className="mb-3">
-                <InputGroup.Text>£</InputGroup.Text>
-                <input type="price" name="price" required/>
-            </InputGroup>
-            <Button bg="dark">Update price</Button>
+            <Form>
+                <Form.Group>
+                    <Form.Label>Price per time slot</Form.Label>
+                    <Form.Select id="dropdown-basic-button" title="Select hire period">
+                        {times.map((time, idx) => (
+                            <option key={idx}>{time}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Current price: £{currentPrice}</Form.Label>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Change scooter price</Form.Label>
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>£</InputGroup.Text>
+                        <input type="price" name="price" required/>
+                    </InputGroup>
+                </Form.Group>
+                <Form.Group>
+                    <Button>Update price</Button>
+                </Form.Group>
+            </Form>
         </>
     );
 }

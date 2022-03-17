@@ -2,9 +2,9 @@ import React from "react";
 import {default as CanvasJSReact} from "./canvasjs.react.js";
 import './Manager.css';
 
+let CanvasJS = CanvasJSReact.CanvasJS;
+let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-var CanvasJS = CanvasJSReact.CanvasJS;
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 function Statistics() {
     const weeklyIncomeHireOptions = {
@@ -182,11 +182,9 @@ function Statistics() {
         <>
             <h1>Statistics</h1>
             <div className="scroll">
-                <CanvasJSChart options={weeklyIncomeHireOptions}/>
-                <br/>
-                <CanvasJSChart options={weeklyIncome}/>
-                <br/>
-                <CanvasJSChart options={dailyCombinedIncome}/>
+                {[weeklyIncomeHireOptions, weeklyIncome, dailyCombinedIncome].map((graph, idx) => (
+                    <CanvasJSChart key={idx} options={graph}/>
+                ))}
             </div>
         </>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import {Card, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './Manager.css';
+import './Manager.css'
 
 function Dashboard() {
     const dashboardStatistics = [["Employees logged in", 5], ["Users logged in", 14], ["High priority issues", 4],

@@ -1,6 +1,6 @@
 import React from "react";
-import {DropdownButton, Dropdown, Button, InputGroup} from "react-bootstrap";
-import './Manager.css';
+import {Button, InputGroup} from "react-bootstrap";
+import './Manager.css'
 
 function AccountManagement() {
     return (

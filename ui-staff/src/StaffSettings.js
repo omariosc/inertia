@@ -1,7 +1,6 @@
 import React from "react";
 import {Button, InputGroup} from "react-bootstrap";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import './Manager.css';
 
 function Settings() {
     return (

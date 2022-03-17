@@ -10,7 +10,7 @@ function Issues() {
         ["The price of scooter 202 has been set to half of what it should be.", "sc20mf"]]
     return (
         <>
-            <h1>Issues</h1>
+            <h1>High Priority Issues</h1>
             <div class="scroll">
                 {issues.map((issue, idx) => (
                     <Card

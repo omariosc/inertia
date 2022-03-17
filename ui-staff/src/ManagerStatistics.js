@@ -7,7 +7,9 @@ let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 function Statistics() {
     const weeklyIncomeHireOptions = {
         title: {
-            text: "Weekly Income (hire options)"
+            text: "Weekly Income (hire options)",
+            fontFamily: "arial",
+            fontWeight: "bold"
         },
         axisY: {
             title: "Income",
@@ -85,7 +87,9 @@ function Statistics() {
     };
     const weeklyIncome = {
         title: {
-            text: "Weekly Income"
+            text: "Weekly Income",
+            fontFamily: "arial",
+            fontWeight: "bold"
         },
         axisY: {
             title: "Income",
@@ -113,7 +117,9 @@ function Statistics() {
     const dailyCombinedIncome = {
         animationEnabled: true,
         title: {
-            text: "Daily Combined Income"
+            text: "Daily Combined Income",
+            fontFamily: "arial",
+            fontWeight: "bold"
         },
         axisY: {
             title: "Income",

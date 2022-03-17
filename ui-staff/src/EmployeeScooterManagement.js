@@ -31,8 +31,6 @@ function ScooterManagement() {
         [207, "Scooter R", "Available", map_locations[0]],
         [208, "Scooter S", "Available", map_locations[0]],
         [209, "Scooter T", "Available", map_locations[0]]]
-    const times = ["1 hour", "4 hours", "1 day", "1 week"]
-    const currentPrice = 10
     return (
         <>
             <h1>Scooter Management</h1>
@@ -50,14 +48,8 @@ function ScooterManagement() {
                     <tbody>
                     {scooters.map((scooter, idx) => (
                         <tr>
-                            <td key={idx}>
-                                {scooter[0]}
-                                <input name="scooter-id" placeholder="Change scooter id" required/>
-                            </td>
-                            <td key={idx}>
-                                {scooter[1]}
-                                <input name="scooter-name" placeholder="Change scooter name" required/>
-                            </td>
+                            <td key={idx}>{scooter[0]}</td>
+                            <td key={idx}>{scooter[1]}</td>
                             <td key={idx}>
                                 {scooter[2]}
                                 <Button>Make unavailable</Button>
@@ -70,7 +62,6 @@ function ScooterManagement() {
                     </tbody>
                 </Table>
             </div>
-            <Button>Save Changes</Button>
         </>
     );
 }

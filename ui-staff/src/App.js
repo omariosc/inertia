@@ -1,23 +1,16 @@
 import React, {useState} from "react";
-import {Navbar, Nav, Dropdown, DropdownButton, Row, Col} from "react-bootstrap";
+import {Navbar, Nav, Dropdown, DropdownButton, Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import Dashboard from './ManagerDashboard.js'
-import ScooterManagement from './ManagerScooterManagement.js'
-import Issues from './ManagerIssues.js'
-import Statistics from './ManagerStatistics.js'
-import AccountManagement from './ManagerAccountManagement.js'
-import Settings from './ManagerSettings.js'
-import './App.css';
+import ManagerInterface from './ManagerInterface.js';
+import EmployeeInterface from './EmployeeInterface.js';
+import './App.css'
 
 const App = () => {
-    const [showDashboard, setShowDashboard] = useState(true);
-    const [showScooter, setShowScooter] = useState(false);
-    const [showIssues, setShowIssues] = useState(false);
-    const [showStatistics, setShowStatistics] = useState(false);
-    const [showAccounts, setShowAccounts] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
+    const [showManager, setShowManager] = useState(false);
+    const [showEmployee, setShowEmployee] = useState(false);
+    const [showInterfaceToggle, setShowInterfaceToggle] = useState(true);
     return (
         <div id="wrapper">
             <Navbar expand="lg" bg="dark" variant="dark">
@@ -31,9 +24,14 @@ const App = () => {
                     INERTIA
                 </Navbar.Brand>
                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text className="navbar-pad-right">
-                        Signed in as: <a href="#/settings">Manager Admin</a>
-                    </Navbar.Text>
+                    {showManager ?
+                        <Navbar.Text className="navbar-pad-right">
+                            Signed in as: <a href="#/settings">Manager</a>
+                        </Navbar.Text> : null}
+                    {showEmployee ?
+                        <Navbar.Text className="navbar-pad-right">
+                            Signed in as: <a href="#/settings">Employee</a>
+                        </Navbar.Text> : null}
                     <Nav.Item className="navbar-pad-right">
                         <DropdownButton
                             align="end"
@@ -41,85 +39,40 @@ const App = () => {
                             title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                             variant="secondary" menuVariant="dark"
                         >
-                            <Dropdown.Item href="#/sign-out"><p>Sign Out</p></Dropdown.Item>
+                            <Dropdown.Item
+                                href="#/sign-out"
+                                onClick={() => {
+                                    setShowManager(false);
+                                    setShowEmployee(false);
+                                    setShowInterfaceToggle(true);
+                                }}
+                            >
+                                <p>Sign Out</p>
+                            </Dropdown.Item>
                         </DropdownButton>
                     </Nav.Item>
                 </Navbar.Collapse>
             </Navbar>
-            <Row>
-                <Col xs={2}>
-                    <Nav
-                        defaultActiveKey="#dashboard"
-                        variant="pills"
-                        className="flex-column vertical-navbar"
-                    >
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(true);
-                            setShowScooter(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false)
-                        }}
-                            href="#/dashboard">Dashboard</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(true);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false)
-                        }}
-                            href="#/scooters">Scooter Management</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowIssues(true);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false)
-                        }}
-                            href="#/issues">Issues</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowIssues(false);
-                            setShowStatistics(true);
-                            setShowAccounts(false);
-                            setShowSettings(false)
-                        }}
-                            href="#/statistics">Statistics</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(true);
-                            setShowSettings(false)
-                        }}
-                            href="#/accounts">Account Management</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(true)
-                        }}
-                            href="#/settings">Settings</Nav.Link>
-                    </Nav>
-                </Col>
-                <Col xs={9}>
-                    <>
-                        {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
-                        {showScooter ? <ScooterManagement onHide={() => setShowScooter(false)}/> : null}
-                        {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
-                        {showStatistics ? <Statistics onHide={() => setShowStatistics(false)}/> : null}
-                        {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}
-                        {showSettings ? <Settings onHide={() => setShowSettings(false)}/> : null}
-                    </>
-                </Col>
-            </Row>
+            {showInterfaceToggle ? <Button
+                onClick={() => {
+                    setShowManager(true);
+                    setShowEmployee(false);
+                    setShowInterfaceToggle(false);
+                }}
+            >
+                Log in as Manager
+            </Button> : null}
+            {showInterfaceToggle ? <Button
+                onClick={() => {
+                    setShowManager(false);
+                    setShowEmployee(true);
+                    setShowInterfaceToggle(false);
+                }}
+            >
+                Log in as Employee
+            </Button> : null}
+            {showManager ? <ManagerInterface onHide={() => setShowManager(false)}/> : null}
+            {showEmployee ? <EmployeeInterface onHide={() => setShowEmployee(false)}/> : null}
         </div>
     )
 };

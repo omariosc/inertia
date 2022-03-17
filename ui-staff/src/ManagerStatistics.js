@@ -1,10 +1,8 @@
 import React from "react";
 import {default as CanvasJSReact} from "./canvasjs.react.js";
-import './Manager.css';
+import './Manager.css'
 
-let CanvasJS = CanvasJSReact.CanvasJS;
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
 
 function Statistics() {
     const weeklyIncomeHireOptions = {

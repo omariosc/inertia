@@ -80,6 +80,7 @@ function CreateBooking() {
                                 </Form.Select>
                             </Form.Group>
                             <br/>
+                            <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Scooter</b></Form.Label>
                                 <Form.Select id="dropdown-basic-button" title="Select scooter">
@@ -88,6 +89,7 @@ function CreateBooking() {
                                     ))}
                                 </Form.Select>
                             </Form.Group>
+                            <br/>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Hire Period</b></Form.Label>
@@ -98,29 +100,28 @@ function CreateBooking() {
                                 </Form.Select>
                             </Form.Group>
                             <br/>
+                            <br/>
                             <Form.Group>
                                 <Form.Label><b>Total Cost: £{price[0].toFixed(2)}</b></Form.Label>
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button style={{float: "right"}}>Confirm Booking</Button>
+                                <Button variant="primary" style={{float: "right"}}>Confirm Booking</Button>
                             </Form.Group>
                         </Form>
                     </Col>
                     <Col xs={1}/>
-                    <Col xs={3}>
-                        <div className="map">
-                            <MapContainer center={center} zoom={15} zoomControl={false}>
-                                <TileLayer
-                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                                {map_locations.map((map_location, index) => (
-                                    <Marker key={index} position={map_location[1]}>
-                                        <Popup>{map_location[0]}</Popup>
-                                    </Marker>
-                                ))}
-                            </MapContainer>
-                        </div>
+                    <Col xs={4}>
+                        <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                            {map_locations.map((map_location, index) => (
+                                <Marker key={index} position={map_location[1]}>
+                                    <Popup>{map_location[0]}</Popup>
+                                </Marker>
+                            ))}
+                        </MapContainer>
                     </Col>
                 </Row>
             </Container>

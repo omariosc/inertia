@@ -16,9 +16,9 @@ function Dashboard() {
                     {dashboardStatistics.map((dashboard, idx) => (
                         <Col xs={4}>
                             <Card
-                                bg="primary"
+                                bg="light"
                                 key={idx}
-                                text="light"
+                                text="dark"
                                 className="mb-2"
                             >
                                 <Card.Body>

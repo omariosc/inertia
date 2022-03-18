@@ -29,7 +29,7 @@ function AccountManagement() {
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button style={{float: 'right'}}>Create Employee Account</Button>
+                                <Button variant="primary" style={{float: 'right'}}>Create Employee Account</Button>
                             </Form.Group>
                         </Form>
                     </Col>

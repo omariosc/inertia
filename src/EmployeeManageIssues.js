@@ -21,7 +21,7 @@ function ManageIssues() {
                             text="dark"
                             className="mb-2"
                         >
-                            <Card.Header >Issue {idx + 1}</Card.Header>
+                            <Card.Header>Issue {idx + 1}</Card.Header>
                             <Card.Body>
                                 <Card.Text>{issue[0]}</Card.Text>
                                 <Card.Text>Reported by: {issue[1]}</Card.Text>

@@ -2,7 +2,7 @@
 
 # Instructions
 
-Open the `inertia` project
+Locate the `inertia` directory in the terminal and enter the following commands: 
 
 ```bat
 npm install

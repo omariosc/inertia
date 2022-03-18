@@ -1,5 +1,14 @@
 # inertia
 
+# Instructions
+
+Open the `inertia` project
+
+```bat
+npm install
+npm start
+```
+
 ## Interim Deliverables
 
 The full interim deliverable specification list is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/interim) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.

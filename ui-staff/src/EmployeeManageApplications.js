@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Table} from "react-bootstrap";
+import {Button, Container, Table} from "react-bootstrap";
 import './StaffInterface.css'
 
 function ManageApplications() {
@@ -10,36 +10,39 @@ function ManageApplications() {
     ]
     return (
         <>
-            <h1>Manage Applications</h1>
-            <div class="scroll-bookings">
-                <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Application Type</th>
-                        <th>Username</th>
-                        <th>Time Submitted</th>
-                        <th>Photo Link</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {applications.map((application, idx) => (
+            <h1 style={{paddingLeft: '10px'}}>Manage Applications</h1>
+            <br/>
+            <Container>
+                <div className="scroll-graphs">
+                    <Table striped bordered hover>
+                        <thead>
                         <tr>
-                            <td key={idx}>{application[0]}</td>
-                            <td key={idx}>{application[1]}</td>
-                            <td key={idx}>{application[2]}</td>
-                            <td key={idx}>{application[3]}</td>
-                            <td key={idx}><u>View</u></td>
-                            <td key={idx}>
-                                <Button variant="success">Approve</Button>
-                                <Button variant="danger">Reject</Button>
-                            </td>
+                            <th>User ID</th>
+                            <th>Application Type</th>
+                            <th>Username</th>
+                            <th>Time Submitted</th>
+                            <th>Photo Link</th>
+                            <th>Action</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </Table>
-            </div>
+                        </thead>
+                        <tbody>
+                        {applications.map((application, idx) => (
+                            <tr>
+                                <td key={idx}>{application[0]}</td>
+                                <td key={idx}>{application[1]}</td>
+                                <td key={idx}>{application[2]}</td>
+                                <td key={idx}>{application[3]}</td>
+                                <td key={idx}><u>View</u></td>
+                                <td key={idx}>
+                                    <Button style={{float: 'left', width: '47.5%'}} variant="success">Approve</Button>
+                                    <Button style={{float: 'right', width: '47.5%'}} variant="danger">Reject</Button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                </div>
+            </Container>
         </>
     );
 }

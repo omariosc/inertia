@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card} from "react-bootstrap";
+import {Button, Card, Container} from "react-bootstrap";
 import './StaffInterface.css'
 
 function Issues() {
@@ -10,24 +10,27 @@ function Issues() {
         ["The price of scooter 202 has been set to half of what it should be.", "sc20mf"]]
     return (
         <>
-            <h1>High Priority Issues</h1>
-            <div class="scroll">
-                {issues.map((issue, idx) => (
-                    <Card
-                        bg="dark"
-                        key={idx}
-                        text="white"
-                        className="mb-2"
-                    >
-                        <Card.Header>Issue {idx + 1}</Card.Header>
-                        <Card.Body>
-                            <Card.Text>{issue[0]}</Card.Text>
-                            <Card.Text>Reported by: {issue[1]}</Card.Text>
-                            <Button>Mark as Resolved</Button>
-                        </Card.Body>
-                    </Card>
-                ))}
-            </div>
+            <h1 style={{paddingLeft: '10px'}}>High Priority Issues</h1>
+            <br/>
+            <Container>
+                <div className="scroll">
+                    {issues.map((issue, idx) => (
+                        <Card
+                            bg="light"
+                            key={idx}
+                            text="dark"
+                            className="mb-2"
+                        >
+                            <Card.Body>
+                                <Card.Text><b>Issue {idx + 1}:</b> {issue[0]}</Card.Text>
+                                <Card.Text><b>Reported by:</b> {issue[1]}</Card.Text>
+                                <Card.Text><b>Priority:</b> High</Card.Text>
+                                <Button variant="primary">Mark as Resolved</Button>
+                            </Card.Body>
+                        </Card>
+                    ))}
+                </div>
+            </Container>
         </>
     );
 }

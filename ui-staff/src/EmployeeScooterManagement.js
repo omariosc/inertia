@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Table} from "react-bootstrap";
+import {Button, Container, Table} from "react-bootstrap";
 import './StaffInterface.css'
 
 function ScooterManagement() {
@@ -33,35 +33,36 @@ function ScooterManagement() {
         [209, "Scooter T", "Available", map_locations[0]]]
     return (
         <>
-            <h1>Scooter Management</h1>
-            <h3>Configure scooter availability</h3>
-            <div class="scroll-scooter">
-                <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th>Scooter ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Location</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {scooters.map((scooter, idx) => (
+            <h1 style={{paddingLeft: '10px'}}>Scooter Management</h1>
+            <br/>
+            <Container>
+                <h3>Configure scooter availability</h3>
+                <br/>
+                <div className="scroll-scooters">
+                    <Table striped bordered hover style={{tableLayout: 'fixed'}}>
+                        <thead>
                         <tr>
-                            <td key={idx}>{scooter[0]}</td>
-                            <td key={idx}>{scooter[1]}</td>
-                            <td key={idx}>
-                                {scooter[2]}
-                                <Button>Make unavailable</Button>
-                            </td>
-                            <td key={idx}>
-                                {scooter[3][2]} - {scooter[3][0]}
-                            </td>
+                            <th>Scooter ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                            <th>Location</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </Table>
-            </div>
+                        </thead>
+                        <tbody>
+                        {scooters.map((scooter, idx) => (
+                            <tr>
+                                <td key={idx}>{scooter[0]}</td>
+                                <td key={idx}>{scooter[1]}</td>
+                                <td key={idx}>{scooter[2]}</td>
+                                <td key={idx}><Button>Make unavailable</Button></td>
+                                <td key={idx}>{scooter[3][2]} - {scooter[3][0]}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                </div>
+            </Container>
         </>
     );
 }

@@ -27,9 +27,10 @@ function EmployeeInterface() {
             <Row>
                 <Col xs={2}>
                     <Nav
-                        defaultActiveKey="#dashboard"
+                        defaultActiveKey="#/dashboard"
                         variant="pills"
                         className="flex-column vertical-navbar"
+                        style={{paddingLeft: "15px"}}
                     >
                         <Nav.Link onClick={() => {
                             setShowDashboard(true);
@@ -67,6 +68,18 @@ function EmployeeInterface() {
                             setShowSettings(false)
                         }}
                                   href="#/current-bookings">Current Bookings</Nav.Link>
+                        <Nav.Link onClick={() => {
+                            setShowDashboard(false);
+                            setShowCreateBooking(false);
+                            setShowBookingHistory(true);
+                            setShowCurrentBookings(false);
+                            setShowScooterManagement(false);
+                            setShowManageApplication(false);
+                            setShowSubmitIssues(false);
+                            setShowManageIssues(false);
+                            setShowSettings(false)
+                        }}
+                                  href="#/booking-history">Booking History</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);

@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, Row, Col} from "react-bootstrap";
+import {Card, Row, Col, Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css'
 
@@ -9,27 +9,29 @@ function Dashboard() {
         ["Cancellations today", 0], ["Extensions today", 0], ["Pending Discount Applications", 1]]
     return (
         <>
-            <h1>Dashboard</h1>
-            <Row xs={1} md={3} className="g-4">
-                {dashboardStatistics.map((dashboard, idx) => (
-                    <Col>
-                        <Card
-                            bg="dark"
-                            key={idx}
-                            text="white"
-                            style={{width: '18rem'}}
-                            className="mb-2"
-                        >
-                            <Card.Body>
-                                <Card.Title>{dashboard[0]}</Card.Title>
-                                <Card.Text>
-                                    {dashboard[1]}
-                                </Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
+            <h1 style={{paddingLeft: '10px'}}>Dashboard</h1>
+            <br/>
+            <Container>
+                <Row>
+                    {dashboardStatistics.map((dashboard, idx) => (
+                        <Col xs={4}>
+                            <Card
+                                bg="primary"
+                                key={idx}
+                                text="light"
+                                className="mb-2"
+                            >
+                                <Card.Body>
+                                    <Card.Title>{dashboard[0]}</Card.Title>
+                                    <Card.Text>
+                                        {dashboard[1]}
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
         </>
     );
 }

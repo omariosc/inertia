@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Table} from "react-bootstrap";
+import {Button, Container, Table} from "react-bootstrap";
 import './StaffInterface.css'
 
 function CurrentBookings() {
@@ -10,40 +10,43 @@ function CurrentBookings() {
     ]
     return (
         <>
-            <h1>Current Bookings</h1>
-            <div class="scroll-bookings">
-                <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th>Booking ID</th>
-                        <th>Scooter ID</th>
-                        <th>Username</th>
-                        <th>Hire Length</th>
-                        <th>Cancelled</th>
-                        <th>Time Extended</th>
-                        <th>Time Expiring</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {bookings.map((booking, idx) => (
+            <h1 style={{paddingLeft: '10px'}}>Current Bookings</h1>
+            <br/>
+            <Container>
+                <div className="scroll-graphs">
+                    <Table striped bordered hover>
+                        <thead>
                         <tr>
-                            <td key={idx}>{booking[0]}</td>
-                            <td key={idx}>{booking[1]}</td>
-                            <td key={idx}>{booking[2]}</td>
-                            <td key={idx}>{booking[3]}</td>
-                            <td key={idx}>{booking[4]}</td>
-                            <td key={idx}>{booking[5]}</td>
-                            <td key={idx}>{booking[6]}</td>
-                            <td key={idx}>
-                                <Button variant="success">Extend</Button>
-                                <Button variant="danger">Cancel</Button>
-                            </td>
+                            <th>Booking ID</th>
+                            <th>Scooter ID</th>
+                            <th>Username</th>
+                            <th>Hire Length</th>
+                            <th>Cancelled</th>
+                            <th>Time Extended</th>
+                            <th>Time Expiring</th>
+                            <th>Action</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </Table>
-            </div>
+                        </thead>
+                        <tbody>
+                        {bookings.map((booking, idx) => (
+                            <tr>
+                                <td key={idx}>{booking[0]}</td>
+                                <td key={idx}>{booking[1]}</td>
+                                <td key={idx}>{booking[2]}</td>
+                                <td key={idx}>{booking[3]}</td>
+                                <td key={idx}>{booking[4]}</td>
+                                <td key={idx}>{booking[5]}</td>
+                                <td key={idx}>{booking[6]}</td>
+                                <td key={idx}>
+                                    <Button style={{float: 'left', width: '47.5%'}} variant="success">Extend</Button>
+                                    <Button style={{float: 'right', width: '47.5%'}} variant="danger">Cancel</Button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                </div>
+            </Container>
         </>
     );
 }

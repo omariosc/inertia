@@ -1,37 +1,54 @@
 import React from "react";
-import {Button, Form} from "react-bootstrap";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 function Settings() {
     return (
         <>
-            <h1>Settings</h1>
-            <h3>Change Password</h3>
-            <Form>
-                <Form.Group>
-                    <Form.Label>Old Password</Form.Label>
-                    <Form.Control type="password" required as="input"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>New Password</Form.Label>
-                    <Form.Control type="password" required as="input"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control type="password" required as="input"/>
-                </Form.Group>
-                <br/>
-                <Form.Group>
-                    <Button>Change password</Button>
-                </Form.Group>
-            </Form>
-            <br/><br/>
-            <h3>Dark Mode</h3>
-            <BootstrapSwitchButton
-                checked={false}
-                onlabel='On'
-                offlabel='Off'
-            />
+            <h1 style={{paddingLeft: '10px'}}>Settings</h1>
+            <br/>
+            <Container>
+                <Row>
+                    <Col xs={2}/>
+                    <Col xs={4}>
+                        <h3>Change Password</h3>
+                        <br/>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label><b>Old Password</b></Form.Label>
+                                <Form.Control type="password" placeholder="Enter old password" required as="input"/>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Form.Label><b>New Password</b></Form.Label>
+                                <Form.Control type="password" placeholder="Enter new password"  required as="input"/>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Form.Label><b>Confirm Password</b></Form.Label>
+                                <Form.Control type="password" placeholder="Confirm new password"  required as="input"/>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Button
+                                    style={{float: 'right'}}
+                                    variant="primary"
+                                >Change password</Button>
+                            </Form.Group>
+                        </Form>
+                    </Col>
+                    <Col xs={1}/>
+                    <Col xs={2}>
+                        <h3>Dark Mode</h3>
+                        <br/>
+                        <BootstrapSwitchButton
+                            checked={false}
+                            onlabel='On'
+                            offlabel='Off'
+                        />
+                    </Col>
+                </Row>
+            </Container>
         </>
     );
 }

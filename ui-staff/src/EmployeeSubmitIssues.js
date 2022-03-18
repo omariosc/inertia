@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, FormSelect} from "react-bootstrap";
+import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
 import './StaffInterface.css'
 
 let issuePriority = "Select Priority"
@@ -9,14 +9,19 @@ function SubmitIssues() {
 
     return (
         <>
-            <h1>Submit Issues</h1>
+            <h1 style={{paddingLeft: '10px'}}>Submit Issues</h1>
+            <br/>
+            <Container>
+                <Row>
+                    <Col xs={3}/>
+                    <Col xs={6}>
             <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Description of Issue</Form.Label>
+                    <Form.Label><b>Description of Issue</b></Form.Label>
                     <Form.Control as="textarea" rows={3}/>
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Select Priority</Form.Label>
+                    <Form.Label><b>Select Priority</b></Form.Label>
                     <FormSelect>
                         {priorities.map((priority, idx) => (
                             <option key={idx} onChange={() => {
@@ -30,6 +35,9 @@ function SubmitIssues() {
                     <Button>Submit Issue</Button>
                 </Form.Group>
             </Form>
+                    </Col>
+                </Row>
+            </Container>
         </>
     );
 }

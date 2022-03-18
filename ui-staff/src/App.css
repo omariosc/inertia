@@ -10,3 +10,14 @@
 .navbar-pad-right {
     padding-right: 10px;
 }
+
+.navbar-pad-right-right {
+    padding-right: 20px;
+}
+
+.interface-choice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 550px;
+}

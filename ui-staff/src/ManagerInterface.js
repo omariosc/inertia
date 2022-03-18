@@ -21,9 +21,10 @@ function ManagerInterface() {
             <Row>
                 <Col xs={2}>
                     <Nav
-                        defaultActiveKey="#dashboard"
+                        defaultActiveKey="#/dashboard"
                         variant="pills"
                         className="flex-column vertical-navbar"
+                        style={{paddingLeft: "15px"}}
                     >
                         <Nav.Link onClick={() => {
                             setShowDashboard(true);
@@ -93,7 +94,7 @@ function ManagerInterface() {
                 </Col>
             </Row>
         </>
-    )
-};
+    );
+}
 
 export default ManagerInterface;

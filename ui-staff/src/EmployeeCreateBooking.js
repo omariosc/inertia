@@ -11,6 +11,7 @@ function CreateBooking() {
         ["Leeds General Infirmary Hospital", [53.802509, -1.552887], "D"],
         ["UoL Edge Sports Centre", [53.804167, -1.553208], "E"],
     ]
+    const center = [53.8010441, -1.5497378]
     const scooters = [
         [100, "Scooter A", "Available", map_locations[0]],
         [101, "Scooter B", "Available", map_locations[0]],
@@ -33,67 +34,83 @@ function CreateBooking() {
         [208, "Scooter S", "Available", map_locations[0]],
         [209, "Scooter T", "Available", map_locations[0]]]
     const times = ["1 hour", "4 hours", "1 day", "1 week"]
-    const price = 12.5
+    const price = [10, 30, 100, 1000]
     return (
         <>
-            <h1>Create Booking</h1>
+            <h1 style={{paddingLeft: '10px'}}>Create Booking</h1>
+            <br/>
             <Container>
                 <Row>
-                    <Col>
+                    <Col xs={3}>
+                        <h3>Enter Customer Details</h3>
+                        <br/>
                         <Form>
                             <Form.Group>
-                                <Form.Label>User Email</Form.Label>
+                                <Form.Label><b>User Email</b></Form.Label>
                                 <Form.Control type="email" required as="input"/>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Card Number</Form.Label>
-                                <Form.Control type="text" required as="input"/>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Expiry Date</Form.Label>
-                                <Form.Control type="text" required as="input"/>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>CVV</Form.Label>
-                                <Form.Control type="password" required as="input"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Form.Label>Select Location</Form.Label>
+                                <Form.Label><b>Card Number</b></Form.Label>
+                                <Form.Control type="text" required as="input"/>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Form.Label><b>Expiry Date</b></Form.Label>
+                                <Form.Control type="text" required as="input"/>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Form.Label><b>CVV</b></Form.Label>
+                                <Form.Control type="password" required as="input"/>
+                            </Form.Group>
+                        </Form>
+                    </Col>
+                    <Col xs={1}/>
+                    <Col xs={3}>
+                        <h3>Enter Booking Details</h3>
+                        <br/>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label><b>Select Location</b></Form.Label>
                                 <Form.Select id="dropdown-basic-button" title="Select location">
                                     {map_locations.map((location, idx) => (
                                         <option key={idx}>{location[2]} - {location[0]}</option>
                                     ))}
                                 </Form.Select>
                             </Form.Group>
+                            <br/>
                             <Form.Group>
-                                <Form.Label>Select Scooter</Form.Label>
+                                <Form.Label><b>Select Scooter</b></Form.Label>
                                 <Form.Select id="dropdown-basic-button" title="Select scooter">
                                     {scooters.map((scooter, idx) => (
-                                        <option key={idx}>{scooter[0]}: {scooter[1]}</option>
+                                        <option key={idx}>{scooter[0]} - {scooter[1]}</option>
                                     ))}
                                 </Form.Select>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Select Hire Period</Form.Label>
-                                <Form.Select id="dropdown-basic-button" title="Select hire period">
-                                    {times.map((time, idx) => (
-                                        <option key={idx}>{time}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Total: £{price.toFixed(2)}</Form.Label>
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button>Confirm Booking</Button>
+                                <Form.Label><b>Select Hire Period</b></Form.Label>
+                                <Form.Select id="dropdown-basic-button" title="Select hire period">
+                                    {times.map((time, idx) => (
+                                        <option key={idx}>{time} - £{price[idx]}</option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Form.Label><b>Total Cost: £{price[0].toFixed(2)}</b></Form.Label>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Button style={{float: "right"}}>Confirm Booking</Button>
                             </Form.Group>
                         </Form>
                     </Col>
-                    <Col>
-                        <div class="map">
-                            <MapContainer center={map_locations[2][1]} zoom={15} zoomControl={false}>
+                    <Col xs={1}/>
+                    <Col xs={3}>
+                        <div className="map">
+                            <MapContainer center={center} zoom={15} zoomControl={false}>
                                 <TileLayer
                                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>

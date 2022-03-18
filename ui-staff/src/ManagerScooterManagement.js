@@ -1,5 +1,5 @@
 import React from "react";
-import {DropdownButton, Dropdown, Button, InputGroup, Table, Form} from "react-bootstrap";
+import {DropdownButton, Dropdown, Button, Col, Container, Row, InputGroup, Table, Form} from "react-bootstrap";
 import './StaffInterface.css'
 
 function ScooterManagement() {
@@ -32,74 +32,90 @@ function ScooterManagement() {
         [208, "Scooter S", "Available", map_locations[0]],
         [209, "Scooter T", "Available", map_locations[0]]]
     const times = ["1 hour", "4 hours", "1 day", "1 week"]
-    const currentPrice = 10
+    const price = [10, 30, 100, 1000]
     return (
         <>
-            <h1>Scooter Management</h1>
-            <h3>Configure scooter availability</h3>
-            <div class="scroll-scooter">
-                <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th>Scooter ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Location</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {scooters.map((scooter, idx) => (
-                        <tr>
-                            <td key={idx}>
-                                {scooter[0]}
-                                <input id={idx + "-id"} name="scooter-id" placeholder="Change scooter id" required/>
-                            </td>
-                            <td key={idx}>
-                                {scooter[1]}
-                                <input id={idx + "-name"} name="scooter-name" placeholder="Change scooter name" required/>
-                            </td>
-                            <td key={idx}>
-                                {scooter[2]}
-                                <Button>Make unavailable</Button>
-                            </td>
-                            <td key={idx}>
-                                {scooter[3][2]} - {scooter[3][0]}
-                                <DropdownButton id="dropdown-basic-button" title="Change scooter location">
-                                    {map_locations.map((location, idx) => (
-                                        <Dropdown.Item key={idx}>{location[2]} - {location[0]}</Dropdown.Item>
+            <h1 style={{paddingLeft: '10px'}}>Scooter Management</h1>
+            <br/>
+            <Container>
+                <Row>
+                    <Col xs={8}>
+                        <h3>Configure scooter availability</h3>
+                        <br/>
+                        <div className="scroll-scooters">
+                            <Table striped bordered hover>
+                                <thead>
+                                <tr>
+                                    <th>Scooter ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {scooters.map((scooter, idx) => (
+                                    <tr>
+                                        <td key={idx}>
+                                            {scooter[0]}
+                                            <input id={idx + "-id"} name="scooter-id" placeholder="Change scooter id"
+                                                   required/>
+                                        </td>
+                                        <td key={idx}>
+                                            {scooter[1]}
+                                            <input id={idx + "-name"} name="scooter-name"
+                                                   placeholder="Change scooter name"
+                                                   required/>
+                                        </td>
+                                        <td key={idx}>
+                                            {scooter[2]}
+                                            <Button>Make unavailable</Button>
+                                        </td>
+                                        <td key={idx}>
+                                            {scooter[3][2]} - {scooter[3][0]}
+                                            <DropdownButton id="dropdown-basic-button" title="Change scooter location">
+                                                {map_locations.map((location, idx) => (
+                                                    <Dropdown.Item
+                                                        key={idx}>{location[2]} - {location[0]}</Dropdown.Item>
+                                                ))}
+                                            </DropdownButton>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </Table>
+                        </div>
+                        <br/>
+                        <br/>
+                        <Button style={{float: "right"}}>Save changes</Button>
+                    </Col>
+                    <Col xs={1}/>
+                    <Col xs={3} md={3}>
+                        <h3>Configure scooter price</h3>
+                        <br/>
+                        <Form>
+                            <Form.Group>
+                                <Form.Label><b>Price per time slot</b></Form.Label>
+                                <Form.Select id="dropdown-basic-button" title="Select hire period">
+                                    {times.map((time, idx) => (
+                                        <option key={idx}>{time} - £{price[idx]}</option>
                                     ))}
-                                </DropdownButton>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </Table>
-            </div>
-            <Button>Save Changes</Button>
-            <h3>Configure scooter price</h3>
-            <Form>
-                <Form.Group>
-                    <Form.Label>Price per time slot</Form.Label>
-                    <Form.Select id="dropdown-basic-button" title="Select hire period">
-                        {times.map((time, idx) => (
-                            <option key={idx}>{time}</option>
-                        ))}
-                    </Form.Select>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Current price: £{currentPrice}</Form.Label>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Change scooter price</Form.Label>
-                    <InputGroup className="mb-3">
-                        <InputGroup.Text>£</InputGroup.Text>
-                        <input type="price" name="price" required/>
-                    </InputGroup>
-                </Form.Group>
-                <Form.Group>
-                    <Button>Update price</Button>
-                </Form.Group>
-            </Form>
+                                </Form.Select>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Form.Label><b>Change scooter price</b></Form.Label>
+                                <InputGroup>
+                                    <InputGroup.Text>£</InputGroup.Text>
+                                    <input type="price" name="price" required/>
+                                </InputGroup>
+                                <br/>
+                            </Form.Group>
+                            <Form.Group>
+                                <Button>Update price</Button>
+                            </Form.Group>
+                        </Form>
+                    </Col>
+                </Row></Container>
         </>
     );
 }

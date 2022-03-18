@@ -1,20 +1,21 @@
 .vertical-navbar {
-    height: 100rem;
-    background-color: #212529;
+    /*background-color: #212529;*/
+    /*height: 100rem;*/
+    /*background-color: #F8F9FA;*/
 }
+
 .scroll {
-    max-height: 50%;
+    max-height: 40rem;
     overflow-y: scroll;
 }
 
-.scroll-scooter {
-    max-height: 25%;
+.scroll-graphs {
+    max-height: 45rem;
     overflow-y: scroll;
 }
 
-.scroll-bookings {
-    max-height: 50%;
-    overflow-x: hidden;
+.scroll-scooters {
+    max-height: 35rem;
     overflow-y: scroll;
 }
 

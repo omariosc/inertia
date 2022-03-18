@@ -68,11 +68,12 @@ function ScooterManagement() {
                                         </td>
                                         <td key={idx}>
                                             {scooter[2]}
-                                            <Button>Make unavailable</Button>
+                                            <Button variant="primary">Make unavailable</Button>
                                         </td>
                                         <td key={idx}>
                                             {scooter[3][2]} - {scooter[3][0]}
-                                            <DropdownButton id="dropdown-basic-button" title="Change scooter location">
+                                            <DropdownButton id="dropdown-basic-button" title="Change scooter location"
+                                                            variant="primary">
                                                 {map_locations.map((location, idx) => (
                                                     <Dropdown.Item
                                                         key={idx}>{location[2]} - {location[0]}</Dropdown.Item>
@@ -86,7 +87,7 @@ function ScooterManagement() {
                         </div>
                         <br/>
                         <br/>
-                        <Button style={{float: "right"}}>Save changes</Button>
+                        <Button variant="primary" style={{float: "right"}}>Save changes</Button>
                     </Col>
                     <Col xs={1}/>
                     <Col xs={3} md={3}>
@@ -102,6 +103,7 @@ function ScooterManagement() {
                                 </Form.Select>
                             </Form.Group>
                             <br/>
+                            <br/>
                             <Form.Group>
                                 <Form.Label><b>Change scooter price</b></Form.Label>
                                 <InputGroup>
@@ -111,7 +113,7 @@ function ScooterManagement() {
                                 <br/>
                             </Form.Group>
                             <Form.Group>
-                                <Button>Update price</Button>
+                                <Button variant="primary">Update price</Button>
                             </Form.Group>
                         </Form>
                     </Col>

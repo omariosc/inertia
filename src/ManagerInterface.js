@@ -24,7 +24,7 @@ function ManagerInterface() {
                         defaultActiveKey="#/dashboard"
                         variant="pills"
                         className="flex-column vertical-navbar"
-                        style={{paddingLeft: "15px"}}
+                        style={{paddingLeft: "15px", color: "black"}}
                     >
                         <Nav.Link onClick={() => {
                             setShowDashboard(true);

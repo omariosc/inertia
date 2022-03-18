@@ -146,12 +146,14 @@ function EmployeeInterface() {
                     <>
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
                         {showCreateBooking ? <CreateBooking onHide={() => setShowCreateBooking(false)}/> : null}
-                        {showBookingHistory ? <BookingHistory onHide = {() => setShowBookingHistory(false)}/> : null}
-                        {showCurrentBookings ? <CurrentBookings onHide = {() => setShowCurrentBookings(false)}/> : null}
-                        {showScooterManagement ? <ScooterManagement onHide={() => setShowScooterManagement(false)}/> : null}
+                        {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
+                        {showCurrentBookings ? <CurrentBookings onHide={() => setShowCurrentBookings(false)}/> : null}
+                        {showScooterManagement ?
+                            <ScooterManagement onHide={() => setShowScooterManagement(false)}/> : null}
                         {showSubmitIssues ? <SubmitIssues onHide={() => setShowSubmitIssues(false)}/> : null}
                         {showManageIssues ? <ManageIssues onHide={() => setShowManageIssues(false)}/> : null}
-                        {showManageApplication ? <ManageApplication onHide={() => setShowManageApplication(false)}/> : null}
+                        {showManageApplication ?
+                            <ManageApplication onHide={() => setShowManageApplication(false)}/> : null}
                         {showSettings ? <Settings onHide={() => setShowSettings(false)}/> : null}
                     </>
                 </Col>

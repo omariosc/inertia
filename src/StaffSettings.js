@@ -21,12 +21,12 @@ function Settings() {
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>New Password</b></Form.Label>
-                                <Form.Control type="password" placeholder="Enter new password"  required as="input"/>
+                                <Form.Control type="password" placeholder="Enter new password" required as="input"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Confirm Password</b></Form.Label>
-                                <Form.Control type="password" placeholder="Confirm new password"  required as="input"/>
+                                <Form.Control type="password" placeholder="Confirm new password" required as="input"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
@@ -42,9 +42,12 @@ function Settings() {
                         <h3>Dark Mode</h3>
                         <br/>
                         <BootstrapSwitchButton
+                            bg="dark"
                             checked={false}
                             onlabel='On'
                             offlabel='Off'
+                            onstyle='light'
+                            offstyle='primary'
                         />
                     </Col>
                 </Row>

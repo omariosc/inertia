@@ -1,7 +1,6 @@
 import React from "react";
 import {InputGroup, Button, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
-import './Forms.css';
 
 function LoginForm(props) {
     return (
@@ -16,11 +15,11 @@ function LoginForm(props) {
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="text" name="email" placeholder="email" required/>
+                    <input type="text" name="email" placeholder="Enter email address" required/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="password" name="password" placeholder="password" required/>
+                    <input type="password" name="password" placeholder="Enter password" required/>
                 </InputGroup>
                 <br/>
                 <InputGroup>

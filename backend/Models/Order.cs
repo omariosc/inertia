@@ -21,6 +21,27 @@ public class Order
     
     [Required] public DateTime StartTime { get; set; }
     [Required] public DateTime EndTime { get; set; }
+    [Required] public long WeekNumber {
+        get
+        {
+            if (Extends is null)
+                return new DateTimeOffset(StartTime).ToUnixTimeSeconds() / _secondsInWeek;
+            return Extends.WeekNumber;
+        }
+        set { }
+    }
+
+    [Required] public DayOfWeek WeekDay
+    {
+        get
+        {
+            if (Extends is null)
+                return StartTime.DayOfWeek;
+            return Extends.WeekDay;
+        }
+        set { }
+    }
+
     [Required] public float Cost { get; set; }
     
     [Required] public int HireOptionId { get; set; }
@@ -35,4 +56,7 @@ public class Order
     public virtual Order? Extends { get; set; } = null;
 
     public ICollection<Order>? Extensions { get; set; } = null;
+    
+    [NotMapped]
+    private const long _secondsInWeek = 604800;
 }

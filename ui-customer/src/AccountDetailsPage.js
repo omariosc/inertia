@@ -3,11 +3,14 @@ import "bootstrap/dist/css/bootstrap.css"
 import './AccountDetailsPage.css';
 import {InputGroup, Button, Card, Table, CardGroup, Row, Col, Container ,Nav} from "react-bootstrap";
 import {text} from "@fortawesome/fontawesome-svg-core";
+import Orders from "./CustomerOrders";
 
 function CustomerDashboard(props) {
     const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345],  ["Email Address", "hashirsing@gmail.com"],
         ["Phone Number", "0774891234"], ["Password", "**********"]]
 
+
+    const [showOrders, setOrders] = useState(true)
     return  (
         <>
             <Row >
@@ -50,6 +53,12 @@ function CustomerDashboard(props) {
                         ))}
                         </tbody>
                     </Table>
+                    <>
+                        {showOrders ? <Orders onHide={() => setOrders(false)}/> : null}
+
+                    </>
+
+
 
 
                 </Col>

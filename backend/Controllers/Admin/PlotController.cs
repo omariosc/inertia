@@ -139,13 +139,28 @@ public class PlotController : MyControllerBase
                 })
         );
 
+        var weekDays = new List<DayOfWeek>
+            {
+                DayOfWeek.Monday,
+                DayOfWeek.Tuesday,
+                DayOfWeek.Wednesday,
+                DayOfWeek.Thursday,
+                DayOfWeek.Friday,
+                DayOfWeek.Saturday,
+                DayOfWeek.Sunday,
+            };
+        
         PlotBarChart plot = new PlotBarChart{
-            Tags = new List<String>{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"},
+            Tags = weekDays.Select(s => s.ToString()).ToList(),
             BarNames = hireOptions.Select(s => s.Name).ToList(),
-            BarData = income.Select( e => 
-                e.Income
-                    .OrderBy(e2 => e2.WeekDay)
-                    .Select(e2 => e2.Income)
+            BarData = income.Select( hireOption =>
+                    (
+                        from d in weekDays
+                        join e in hireOption.Income
+                            on d equals e.WeekDay
+                            into table
+                        from e2 in table.DefaultIfEmpty()
+                        select e2?.Income ?? 0)
                     .ToList())
                 .ToList()
         };

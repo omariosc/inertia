@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Models;
 
-//[Index(nameof(AccessToken), IsUnique = true)]
+[Index(nameof(AccessToken), IsUnique = true)]
 [Index(nameof(AccountId), IsUnique = false)]
 public class LoginInstance
 {

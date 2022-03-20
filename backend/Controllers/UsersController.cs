@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using EntityFramework.Exceptions.Common;
 using inertia.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,19 +36,26 @@ public class UsersController : MyControllerBase
     [HttpPost("signup")]
     public async Task<ActionResult> Signup([FromBody] SignupRequest request)
     {
-        var account = new Account
+        try
         {
-            AccountId = await Nanoid.Nanoid.GenerateAsync(),
-            Name = request.Name,
-            Email = request.Email,
-            Password = request.Password,
-            Role = AccountRole.User,
-            State = AccountState.PendingApproval,
-            UserType = request.UserType
-        };
+            var account = new Account
+            {
+                AccountId = await Nanoid.Nanoid.GenerateAsync(),
+                Name = request.Name,
+                Email = request.Email,
+                Password = request.Password,
+                Role = AccountRole.User,
+                State = AccountState.PendingApproval,
+                UserType = request.UserType
+            };
 
-        await _db.Accounts.AddAsync(account);
-        await _db.SaveChangesAsync();
+            await _db.Accounts.AddAsync(account);
+            await _db.SaveChangesAsync();
+        }
+        catch (UniqueConstraintException)
+        {
+            return ApplicationError(ApplicationErrorCode.EmailAlreadyUsed, "email already in use");
+        }
         
         return Ok();
     }
@@ -66,17 +74,25 @@ public class UsersController : MyControllerBase
         if (accessToken == null)
             return ApplicationError(ApplicationErrorCode.InvalidLogin, "email or password invalid");
 
-        var now = DateTime.UtcNow;
-
-        await _db.LoginInstances.AddAsync(new LoginInstance
+        try
         {
-            AccessToken = accessToken,
-            CreatedAt = now,
-            AccountId = account.AccountId,
-            LoginState = LoginInstanceState.Valid
-        });
+            var now = DateTime.UtcNow;
 
-        await _db.SaveChangesAsync();
+            await _db.LoginInstances.AddAsync(new LoginInstance
+            {
+                AccessToken = accessToken,
+                CreatedAt = now,
+                AccountId = account.AccountId,
+                LoginState = LoginInstanceState.Valid
+            });
+
+            await _db.SaveChangesAsync();
+        }
+        catch (UniqueConstraintException)
+        {
+            return ApplicationError(ApplicationErrorCode.Other, "too many login requests");
+        }
+
         
         return Ok(new LoginResponse(account, accessToken));
     }

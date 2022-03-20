@@ -1,13 +1,21 @@
 # inertia
 
-# Instructions
+## Instructions
 
-Locate the `inertia` directory in the terminal and enter the following commands: 
+### Frontend
+
+To run the frontend, locate the `inertia/frontend` directory in the terminal and enter the following commands: 
 
 ```bat
 npm install
 npm start
 ```
+
+This will install all packages required in `inertia/frontend/node_modules` and run the server. It may take some time to run the frontend, however you should be able to find it at [localhost](https://localhost:3000).
+
+### Backend
+
+To run the backend, locate the `intertia/backend` directory in JetBrains Rider and run the project with the default configuration.
 
 ## Interim Deliverables
 
@@ -23,6 +31,7 @@ The full interim deliverable specification list is listed [here](https://gitlab.
   * A | Customer Interface
   * B | Employee Interface
   * C | Manager Interface
+  * BC | Staff Interface (Employee and Manager Interfaces)
   * D | Backend
 
 ## Committing rules

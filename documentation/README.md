@@ -2,14 +2,25 @@
 
 This directory contains all documented minutes for meetings taken place during the `inertia` project.
 
-There were 4 formal meetings in this sprint:
+There were 4 formal meetings in Sprint 1:
 
 - [31st January](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.31.1.docx)
 - [22nd February](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.22.2.docx)
 - [25th February](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.25.2.docx)
 - [27th February](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.27.2.docx)
 
-The following table shows all informal meetings. These meetings were not always exactly scheduled, however, were important in the progress of the project. All of these meetings were on Discord in our group server.
+There were 4 formal meetings in Sprint 2:
+
+- [7th March](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.7.3.docx)
+- [9th March](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.9.3.docx)
+
+There were 3 formal meetings in Sprint 3:
+
+- [14th March](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.14.3.docx)
+- [20th March](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.20.3.docx)
+- [25th March](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/Group%20Project%20Minutes%202022.25.3.docx)
+
+The following table shows all informal meetings. These meetings were not always exactly scheduled, however, were important in the progress of Sprint 1. All of these meetings were on Discord in our group server.
 
 | Date       | Start Time | End Time | Members                               | Main Points of Discussion                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |------------|------------|----------|---------------------------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

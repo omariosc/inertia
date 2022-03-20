@@ -68,7 +68,7 @@ public class ScootersController : MyControllerBase
         var scooter = await _db.Scooters.FindAsync(id);
 
         if (scooter == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
         _db.Scooters.Remove(scooter);
         await _db.SaveChangesAsync();
@@ -81,7 +81,7 @@ public class ScootersController : MyControllerBase
         var scooter = await _db.Scooters.FindAsync(id);
 
         if (scooter == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
         scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
 

@@ -1,5 +1,6 @@
 using System.Runtime.Intrinsics.Arm;
 using inertia.Dtos;
+using inertia.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 using inertia.Models;
@@ -11,7 +12,7 @@ namespace inertia.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class DeposController : ControllerBase
+public class DeposController : MyControllerBase
 {
     private readonly InertiaContext _db;
 
@@ -32,7 +33,7 @@ public class DeposController : ControllerBase
         var depo = await _db.Depos.FindAsync(id);
 
         if (depo == null)
-            return NotFound();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
         
         return depo;
     }

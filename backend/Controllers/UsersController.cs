@@ -20,53 +20,43 @@ public class UsersController : MyControllerBase
 {
     private readonly InertiaContext _db;
     private readonly ScootersService _scooters;
+    private readonly UsersService _users;
     private readonly AuthenticationTokenService _tokenService;
 
     public UsersController(
         InertiaContext db, 
         AuthenticationTokenService tokenService,
-        ScootersService scooters
+        ScootersService scooters,
+        UsersService users
     )
     {
         _db = db;
         _tokenService = tokenService;
         _scooters = scooters;
+        _users = users;
     }
 
     [HttpPost("signup")]
     public async Task<ActionResult> Signup([FromBody] SignupRequest request)
     {
-        try
-        {
-            var account = new Account
-            {
-                AccountId = await Nanoid.Nanoid.GenerateAsync(),
-                Name = request.Name,
-                Email = request.Email,
-                Password = request.Password,
-                Role = AccountRole.User,
-                State = AccountState.PendingApproval,
-                UserType = request.UserType
-            };
-
-            await _db.Accounts.AddAsync(account);
-            await _db.SaveChangesAsync();
-        }
-        catch (UniqueConstraintException)
-        {
-            return ApplicationError(ApplicationErrorCode.EmailAlreadyUsed, "email already in use");
-        }
+        var account = await _users.CreateAccount(
+            request.Email,
+            request.Password,
+            request.Name,
+            request.UserType
+        );
         
+        if (account == null)
+            return ApplicationError(ApplicationErrorCode.EmailAlreadyUsed, "email already in use");
+
         return Ok();
     }
     
     [HttpPost("authorize")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
-        var account = await _db.Accounts
-            .Where(a => a.Email == loginRequest.Email && a.Password == loginRequest.Password)
-            .FirstOrDefaultAsync();
-
+        var account = await _users.MatchAccount(loginRequest.Email, loginRequest.Password);
+        
         if (account == null)
             return ApplicationError(ApplicationErrorCode.InvalidLogin, "email or password invalid");
 

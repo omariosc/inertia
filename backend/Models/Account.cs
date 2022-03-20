@@ -18,6 +18,8 @@ public class Account
     
     [Required, JsonIgnore] public string Password { get; set; } = null!;
 
+    [Required, JsonIgnore] public string Salt { get; set; } = null!;
+    
     [Required] public AccountRole Role { get; set; } 
 
     [Required] public AccountState State { get; set; }

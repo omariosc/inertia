@@ -36,6 +36,7 @@ builder.Services.AddScoped<AuthenticationTokenService, AuthenticationTokenServic
 builder.Services.AddScoped<IAuthorizationHandler, DefaultAuthorizationHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();
 builder.Services.AddScoped<ScootersService, ScootersService>();
+builder.Services.AddScoped<UsersService, UsersService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -106,7 +107,8 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     DbInitializer.Initialize(
-        scope.ServiceProvider.GetRequiredService<InertiaContext>()
+        scope.ServiceProvider.GetRequiredService<InertiaContext>(),
+        scope.ServiceProvider.GetRequiredService<UsersService>()
     );
 }
 

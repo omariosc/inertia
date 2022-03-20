@@ -2,12 +2,13 @@ using inertia.Models;
 using System;
 using System.Linq;
 using inertia.Enums;
+using inertia.Services;
 
 namespace inertia;
 
 public class DbInitializer
 {
-    public static void Initialize(InertiaContext context)
+    public static void Initialize(InertiaContext context, UsersService users)
     {
         context.Database.EnsureCreated();
 
@@ -73,31 +74,8 @@ public class DbInitializer
         context.HireOptions.Add(new HireOption {Name = "1 week", Cost = 1600, DurationInHours = 168});
 
         context.SaveChanges();
-        
-        var account = new Account
-        {
-            AccountId = "testid",
-            Name = "Test Account",
-            Email = "test@test.com",
-            Password = "test_password",
-            Role = AccountRole.User,
-            State = AccountState.Active,
-            UserType = UserType.Regular
-        };
-        
-        var staff = new Account
-        {
-            AccountId = "lestaff",
-            Name = "Staff Account",
-            Email = "test2@test.com",
-            Password = "test_password",
-            Role = AccountRole.Employee,
-            State = AccountState.Active,
-            UserType = UserType.Regular
-        };
-        
-        context.Accounts.Add(account);
-        context.Accounts.Add(staff);
-        context.SaveChanges();
+
+        users.CreateAccount("test@test.com", "test_password", "Test Account", UserType.Regular).Wait();
+        users.CreateEmployeeAccount("test2@test.com", "test_password", "Staff Account").Wait();
     }
 }

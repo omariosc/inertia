@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="EntityFrameworkCore.Exceptions.Sqlite" Version="6.0.3" />
+        <PackageReference Include="Isopoh.Cryptography.Argon2" Version="1.1.11" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">

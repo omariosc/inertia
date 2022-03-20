@@ -13,7 +13,7 @@ namespace inertia.Controllers.Admin;
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-[Authorize(Policy = Policies.Staff)]
+[Authorize(Policy = Policies.Employee)]
 public class DeposController : MyControllerBase
 {
     private readonly InertiaContext db;

@@ -75,22 +75,12 @@ builder.Services
         
         options
             .AddPolicy(
-                Policies.Admin,
+                Policies.Employee,
                 p => 
                     p
                         .RequireAuthenticatedUser()
                         .AddRequirements(new DefaultAuthorization())
-                        .RequireRole(Roles.Admin)
-            );
-        
-        options
-            .AddPolicy(
-                Policies.Staff,
-                p => 
-                    p
-                        .RequireAuthenticatedUser()
-                        .AddRequirements(new DefaultAuthorization())
-                        .RequireRole(Roles.Staff)
+                        .RequireRole(Roles.Employee)
             );
 
         options.DefaultPolicy = options.GetPolicy(Policies.Authenticated)!;
@@ -114,18 +104,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
-{DbInitializer.Initialize(
+{
+    DbInitializer.Initialize(
         scope.ServiceProvider.GetRequiredService<InertiaContext>()
     );
-    // try
-    // {
-    //     
-    // }
-    // catch (Exception e)
-    // {
-    //     scope.ServiceProvider.GetRequiredService<ILogger>()
-    //         .LogError(e, "An error occured creating the DB.");
-    // }
 }
 
 app.Run();

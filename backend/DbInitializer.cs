@@ -91,7 +91,7 @@ public class DbInitializer
             Name = "Staff Account",
             Email = "test2@test.com",
             Password = "test_password",
-            Role = AccountRole.Staff,
+            Role = AccountRole.Employee,
             State = AccountState.Active,
             UserType = UserType.Regular
         };

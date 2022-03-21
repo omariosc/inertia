@@ -110,7 +110,8 @@ using (var scope = app.Services.CreateScope())
 {
     DbInitializer.Initialize(
         scope.ServiceProvider.GetRequiredService<InertiaContext>(),
-        scope.ServiceProvider.GetRequiredService<UsersService>()
+        scope.ServiceProvider.GetRequiredService<UsersService>(),
+        app.Environment
     );
 }
 

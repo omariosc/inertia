@@ -9,7 +9,7 @@ public class DbInitializer
 {
     private static readonly RandomNumberGenerator RandomEngine = RandomNumberGenerator.Create();
 
-    public static void Initialize(InertiaContext context, UsersService users)
+    public static void Initialize(InertiaContext context, UsersService users, IWebHostEnvironment env)
     {
         context.Database.EnsureCreated();
 
@@ -108,9 +108,7 @@ public class DbInitializer
             );
         staffTask.Wait();
         var staff = staffTask.Result;
-
-        users.CreateAccount("test@test.com", "test_password", "Test Account", UserType.Regular).Wait();
-
+        
         var janeTask = users.CreateAccount(
                 "jane@inertia",
                 passwordAccounts[1],
@@ -321,6 +319,12 @@ public class DbInitializer
         }
 
         context.SaveChanges();
+
+        if (env.IsDevelopment())
+        {
+            users.CreateAccount("test@test.com", "test_password", "Le Customer", UserType.Regular).Wait();
+            users.CreateEmployeeAccount("test2@test.com", "test_password", "Le Staff").Wait();
+        }
         
         Console.Out.WriteLine("Staff Login:");
         Console.Out.WriteLine($"email: {staff!.Email}; password: {passwordAccounts[0]}");

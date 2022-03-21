@@ -8,6 +8,7 @@ from util.testloader import KwargsTestLoader
 from tests.ServerIsUp import ServerIsUp
 from tests.Authentication import Authentication
 from tests.BookingSystem import BookingSystem
+from tests.IssueSystem import IssueSystem
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='inertia backend testing suite')
@@ -19,7 +20,8 @@ if __name__ == '__main__':
     test_cases = [
         ServerIsUp,
         Authentication,
-        BookingSystem
+        BookingSystem,
+        IssueSystem
     ]
 
     loader = KwargsTestLoader()

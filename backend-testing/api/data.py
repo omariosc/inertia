@@ -65,6 +65,17 @@ class CountResponse:
     all: int
 
 
+@dataclass
+class Issue:
+    id: int
+    priority: int
+    title: str
+    content: str
+    account_id: int
+    date_opened: datetime
+    resolution: str
+
+
 def from_json_hire_option(o):
     if o is None:
         return None
@@ -158,4 +169,19 @@ def from_json_count_response(o):
     return CountResponse(
         available=o['available'],
         all=o['all']
+    )
+
+
+def from_json_issue(o):
+    if o is None:
+        return None
+
+    return Issue(
+        id=o["issueId"],
+        priority=o["priority"],
+        title=o["title"],
+        content=o["content"],
+        account_id=o["accountId"],
+        date_opened=dateparser.parse(o["dateOpened"]),
+        resolution=o["resolution"]
     )

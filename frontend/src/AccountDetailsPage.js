@@ -1,74 +1,89 @@
 import React, {useState} from "react";
+import {Table, Row, Col, Nav} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
-import './AccountDetailsPage.css';
-import {InputGroup, Button, Card, Table, CardGroup, Row, Col, Container ,Nav} from "react-bootstrap";
-import {text} from "@fortawesome/fontawesome-svg-core";
 import Orders from "./CustomerOrders";
 import PaymentDetails from "./AccountPaymentDetails";
+import Settings from './Settings.js';
+import './StaffInterface.css';
 
-function CustomerDashboard(props) {
-    //MAIN PAGE THAT LINKS TO THE OTHER ACCOUNT DETAILS PAGES
-
-    const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345],  ["Email Address", "hashirsing@gmail.com"],
-        ["Phone Number", "0774891234"], ["Password", "**********"]]
-
-
-    const [showOrders, setOrders] = useState(true)
-    const [showPaymentDetails, setPaymentDetails] = useState(true)
-    return  (
-        <>
-            <Row >
-                {/*FIRST ROW*/}
-                <Col xs={4} className={"d-flex justify-content-end border-end border-dark"}>
-                    {/*FIRST COLUMN*/}
+function CustomerDashboard() {
+    const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345], ["Email Address", "hashirsing@gmail.com"],
+        ["Phone Number", "0774891234"], ["Password", "**********"]];
+    const [showInfo, setInfo] = useState(true);
+    const [showOrders, setOrders] = useState(false);
+    const [showPaymentDetails, setPaymentDetails] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
+    return (
+        <div id="account-page">
+            <Row>
+                <Col xs={4} className="d-flex justify-content-end border-end border-dark">
                     <h1>INERTIA</h1>
                 </Col>
                 <Col>
-                    {/*SECOND COLUMN*/}
                     <h4>Account Information</h4>
                 </Col>
-                {/*SECOND COLUMN*/}
             </Row>
-            <Row className={""}>
-                {/*SECOND ROW*/}
-                <Col xs={4} className={"border-end border-dark"}>
-                    {/*FIRST COLUMN*/}
-                    <Nav defaultActiveKey="/home" className="d-flex align-items-end flex-column">
-                        <Nav.Link href="/home">Account Info</Nav.Link>
-                        <Nav.Link eventKey="link-1">Orders</Nav.Link>
-                        <Nav.Link eventKey="link-2">Payment Details</Nav.Link>
-                        <Nav.Link eventKey="disabled" disabled>
-                            Disabled
-                        </Nav.Link>
+            <Row>
+                <Col xs={4} className="border-end border-dark">
+                    <Nav defaultActiveKey="#/account" className="align-items-end flex-column">
+                        <Nav.Link href="#/account"
+                                  onClick={() => {
+                                      setInfo(true);
+                                      setOrders(false);
+                                      setPaymentDetails(true);
+                                      setShowSettings(false);
+                                  }}>Account Information</Nav.Link>
+                        <Nav.Link href="#/current-bookings"
+                                  onClick={() => {
+                                      setInfo(false);
+                                      setOrders(false);
+                                      setPaymentDetails(false);
+                                      setShowSettings(false);
+                                  }}>Current Bookings</Nav.Link>
+                        <Nav.Link href="#/booking-history"
+                                  onClick={() => {
+                                      setInfo(false);
+                                      setOrders(true);
+                                      setPaymentDetails(false);
+                                      setShowSettings(false);
+                                  }}>Booking History</Nav.Link>
+                        <Nav.Link href="#/submit-issue"
+                                  onClick={() => {
+                                      setInfo(false);
+                                      setOrders(false);
+                                      setPaymentDetails(false);
+                                      setShowSettings(false);
+                                  }}>Submit Issue</Nav.Link>
+                        <Nav.Link href="#/settings"
+                                  onClick={() => {
+                                      setInfo(false);
+                                      setOrders(false);
+                                      setPaymentDetails(false);
+                                      setShowSettings(true);
+                                  }}>Settings</Nav.Link>
                     </Nav>
-                </Col >
+                </Col>
                 <Col>
-                    {/*SECOND COLUMN*/}
-
-                    {/*TABLE FOR USER INFORMATION LIKE USERID AND EMAIL ETC*/}
+                    {showInfo ?
                     <Table>
                         <tbody>
                         {userDetails.map((title, info) => (
-                            <tr>
+                            <tr key={info}>
                                 <td>{title[0]}</td>
                                 <td>{title[1]}</td>
                                 <td><u>edit</u></td>
                             </tr>
                         ))}
                         </tbody>
-                    </Table>
+                    </Table> : null}
                     <>
                         {showOrders ? <Orders onHide={() => setOrders(false)}/> : null}
-                        {showPaymentDetails? <PaymentDetails onHide={() => setPaymentDetails(false)}/> : null}
-
+                        {showPaymentDetails ? <PaymentDetails onHide={() => setPaymentDetails(false)}/> : null}
+                        {showSettings ? <Settings onHide={() => setShowSettings(false)}/> : null}
                     </>
-
-
-
-
                 </Col>
             </Row>
-        </>
+        </div>
     );
 }
 

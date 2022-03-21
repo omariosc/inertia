@@ -9,7 +9,7 @@ import ScooterManagement from './EmployeeScooterManagement.js';
 import SubmitIssues from './EmployeeSubmitIssues.js';
 import ManageIssues from './EmployeeManageIssues.js';
 import ManageApplication from './EmployeeManageApplications.js'
-import Settings from './StaffSettings.js';
+import Settings from './Settings.js';
 import './StaffInterface.css';
 
 function EmployeeInterface() {

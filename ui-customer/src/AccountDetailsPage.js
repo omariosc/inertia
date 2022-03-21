@@ -7,6 +7,8 @@ import Orders from "./CustomerOrders";
 import PaymentDetails from "./AccountPaymentDetails";
 
 function CustomerDashboard(props) {
+    //MAIN PAGE THAT LINKS TO THE OTHER ACCOUNT DETAILS PAGES
+
     const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345],  ["Email Address", "hashirsing@gmail.com"],
         ["Phone Number", "0774891234"], ["Password", "**********"]]
 

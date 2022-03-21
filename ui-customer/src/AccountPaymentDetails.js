@@ -1,5 +1,5 @@
-import React from "react";
-import {Card, Col, Row, Table} from "react-bootstrap";
+import React, {useRef, useState} from "react";
+import {Card, Col, Overlay, Row, Table} from "react-bootstrap";
 import "./AccountDetailsPage.css"
 
 function PaymentDetails(props) {
@@ -23,8 +23,11 @@ function PaymentDetails(props) {
         "Add a payment method" : "dark"
     }
 
-    cardClicked = () => {
+    const target = useRef(null)
+    const [show, setShow] = useState(false)
 
+    function sayHello() {
+        alert("Hello")
     }
 
     return (
@@ -34,8 +37,9 @@ function PaymentDetails(props) {
             {cardDetails.map((card, idx) => (
                 <Col>
                     <Card
-                        onClick={onClick} style={{cursor:"pointer"}}
-
+                        ref = {target}
+                        onClick={sayHello}
+                        style={{cursor:"pointer"}}
                         bg={colorMappings[card[0]]}
                         border={borderMappings[card[0]]}
                         key={idx}
@@ -57,6 +61,22 @@ function PaymentDetails(props) {
                             </Card.Text>
                         </Card.Body>
                     </Card>
+                    <Overlay target={target.current} show={show} placement="right">
+                        {({ placement, arrowProps, show: _show, popper, ...props }) => (
+                            <div
+                                {...props}
+                                style={{
+                                    backgroundColor: 'rgba(255, 100, 100, 0.85)',
+                                    padding: '2px 10px',
+                                    color: 'white',
+                                    borderRadius: 3,
+                                    ...props.style,
+                                }}
+                            >
+                                Simple tooltip
+                            </div>
+                        )}
+                    </Overlay>
                 </Col>
             ))}
         </Row>

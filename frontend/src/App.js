@@ -9,6 +9,7 @@ import LandingPage from './LandingPage'
 import ManagerInterface from './ManagerInterface';
 import EmployeeInterface from './EmployeeInterface';
 import './App.css'
+import CustomerDashboard from "./AccountDetailsPage";
 
 const App = () => {
     const center = [53.8, -1.55]
@@ -21,13 +22,14 @@ const App = () => {
     ]
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
+    const [showCustomer, setShowCustomer] = useState(false);
     const [showManager, setShowManager] = useState(false);
     const [showEmployee, setShowEmployee] = useState(false);
     const [showLanding, setShowLanding] = useState(true);
     return (
         <div id="wrapper">
             <div id="map-overlay">
-                {showLanding ?
+                {(showLanding || showCustomer) ?
                     <div id="top-bar">
                         <DropdownButton
                             align="end"
@@ -54,10 +56,24 @@ const App = () => {
                                 <p>Register</p>
                             </Dropdown.Item> : null}
                             <Dropdown.Item
+                                href="#/customer"
+                                onClick={() => {
+                                    setShowLogin(false);
+                                    setShowRegister(false);
+                                    setShowCustomer(true);
+                                    setShowManager(false);
+                                    setShowEmployee(false);
+                                    setShowLanding(false)
+                                }}
+                            >
+                                <p>Login as Customer</p>
+                            </Dropdown.Item>
+                            <Dropdown.Item
                                 href="#/manager"
                                 onClick={() => {
                                     setShowLogin(false);
                                     setShowRegister(false);
+                                    setShowCustomer(false);
                                     setShowManager(true);
                                     setShowEmployee(false);
                                     setShowLanding(false)
@@ -70,6 +86,7 @@ const App = () => {
                                 onClick={() => {
                                     setShowLogin(false);
                                     setShowRegister(false);
+                                    setShowCustomer(false);
                                     setShowManager(false);
                                     setShowEmployee(true);
                                     setShowLanding(false)
@@ -82,6 +99,7 @@ const App = () => {
                                 onClick={() => {
                                     setShowLogin(false);
                                     setShowRegister(false);
+                                    setShowCustomer(false);
                                     setShowManager(false);
                                     setShowEmployee(false);
                                     setShowLanding(true)
@@ -136,10 +154,24 @@ const App = () => {
                                         <p>Register</p>
                                     </Dropdown.Item> : null}
                                     <Dropdown.Item
+                                        href="#/customer"
+                                        onClick={() => {
+                                            setShowLogin(false);
+                                            setShowRegister(false);
+                                            setShowCustomer(true);
+                                            setShowManager(false);
+                                            setShowEmployee(false);
+                                            setShowLanding(false)
+                                        }}
+                                    >
+                                        <p>Login as Customer</p>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
                                         href="#/manager"
                                         onClick={() => {
                                             setShowLogin(false);
                                             setShowRegister(false);
+                                            setShowCustomer(false);
                                             setShowManager(true);
                                             setShowEmployee(false);
                                             setShowLanding(false)
@@ -152,6 +184,7 @@ const App = () => {
                                         onClick={() => {
                                             setShowLogin(false);
                                             setShowRegister(false);
+                                            setShowCustomer(false);
                                             setShowManager(false);
                                             setShowEmployee(true);
                                             setShowLanding(false)
@@ -164,6 +197,7 @@ const App = () => {
                                         onClick={() => {
                                             setShowLogin(false);
                                             setShowRegister(false);
+                                            setShowCustomer(false);
                                             setShowManager(false);
                                             setShowEmployee(false);
                                             setShowLanding(true)
@@ -178,6 +212,7 @@ const App = () => {
                 <LoginForm show={showLogin} onHide={() => setShowLogin(false)}/>
                 {showLanding ? null : <br/>}
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
+                {showCustomer ? <CustomerDashboard onHide={() => setShowCustomer(false)}/> : null}
                 {showManager ? <ManagerInterface onHide={() => setShowManager(false)}/> : null}
                 {showEmployee ? <EmployeeInterface onHide={() => setShowEmployee(false)}/> : null}
             </div>

@@ -74,3 +74,15 @@
     top: 10px;
     width: 100%;
 }
+
+#account-page {
+    pointer-events: all;
+    position: relative;
+    padding-left: 20%;
+    padding-top: 2%;
+    padding-right: 27%;
+}
+
+.Visa {
+    background-color: cadetblue !important;
+}

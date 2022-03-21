@@ -6,7 +6,7 @@ import ScooterManagement from './ManagerScooterManagement.js';
 import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';
 import AccountManagement from './ManagerAccountManagement.js';
-import Settings from './StaffSettings.js';
+import Settings from './Settings.js';
 import './StaffInterface.css'
 
 function ManagerInterface() {

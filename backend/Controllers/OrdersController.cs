@@ -91,7 +91,6 @@ public class OrdersController : MyControllerBase
                 EndTime = endTime,
                 Cost = hireOption.Cost,
                 OrderState = OrderState.PendingApproval
-                
         };
 
         await _db.Orders.AddAsync(order);

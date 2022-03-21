@@ -1,0 +1,76 @@
+#wrapper {
+    position: relative;
+    min-height: 100%;
+    pointer-events: none;
+}
+
+.navbar-pad-left {
+    padding-left: 10px;
+}
+
+.navbar-pad-right {
+    padding-right: 10px;
+}
+
+.navbar-pad-right-right {
+    padding-right: 20px;
+}
+
+.interface-choice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 550px;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100vh;
+    pointer-events: all;
+}
+
+#map-overlay {
+    z-index: 100000;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+#dropdown-basic-button {
+    float: right;
+}
+
+#top-bar {
+    display: flex;
+    justify-content: right;
+    margin-top: 0.5%;
+    margin-left: 3%;
+    margin-right: 0.5%;
+    pointer-events: none;
+}
+
+.clickable {
+    pointer-events: all;
+}
+
+.order {
+    background-color: #6C757D;
+}
+
+.orderBtn {
+    text-align: right;
+}
+
+.search-results {
+    overflow: auto;
+    margin-top: 10px;
+    padding: 10px;
+    max-height: 90vh;
+}
+
+#search-overlay {
+    z-index: 100000;
+    position: absolute;
+    top: 10px;
+    width: 100%;
+}

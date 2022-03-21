@@ -1,0 +1,38 @@
+.vertical-navbar {
+    /*background-color: #212529;*/
+    /*height: 100rem;*/
+    /*background-color: #F8F9FA;*/
+}
+
+.scroll {
+    max-height: 40rem;
+    overflow-y: scroll;
+}
+
+.scroll-graphs {
+    max-height: 45rem;
+    overflow-y: scroll;
+}
+
+.scroll-scooters {
+    max-height: 35rem;
+    overflow-y: scroll;
+}
+
+.canvasjs-chart-credit {
+    display: none;
+}
+
+.leaflet-container {
+    width: 1000px;
+    height: 500px;
+}
+
+.leaflet-control-attribution {
+    display: none
+}
+
+.minimap {
+    min-width: 100%;
+    max-height: 500px;
+}

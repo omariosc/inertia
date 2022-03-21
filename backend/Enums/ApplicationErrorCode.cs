@@ -7,5 +7,6 @@ public enum ApplicationErrorCode
     OrderApprovedOrOngoing,
     ScooterUnavailable,
     InvalidLogin,
-    EmailAlreadyUsed
+    EmailAlreadyUsed,
+    AttemptingToCloseAlreadyClosedIssue
 }

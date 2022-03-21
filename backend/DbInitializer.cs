@@ -99,7 +99,11 @@ public class DbInitializer
             GeneratePassword(),
             GeneratePassword(),
         };
-        
+
+        if (env.IsDevelopment())
+        {
+            passwordAccounts[0] = "admin";
+        }
         
         var staffTask = users.CreateEmployeeAccount(
             "admin@inertia", 
@@ -108,7 +112,7 @@ public class DbInitializer
             );
         staffTask.Wait();
         var staff = staffTask.Result;
-        
+
         var janeTask = users.CreateAccount(
                 "jane@inertia",
                 passwordAccounts[1],

@@ -3,7 +3,6 @@ using EntityFramework.Exceptions.Common;
 using inertia.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using inertia.Models;
 using inertia.Dtos;
 using inertia.Enums;

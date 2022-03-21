@@ -1,10 +1,6 @@
-using System.Runtime.Intrinsics.Arm;
-using inertia.Dtos;
 using inertia.Enums;
 using Microsoft.AspNetCore.Mvc;
-
 using inertia.Models;
-using inertia.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;

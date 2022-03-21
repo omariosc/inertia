@@ -1,10 +1,8 @@
 using EntityFramework.Exceptions.Sqlite;
-using Microsoft.AspNetCore.Builder.Extensions;
+using Microsoft.EntityFrameworkCore;
+using inertia.Models;
 
 namespace inertia;
-
-using Microsoft.EntityFrameworkCore;
-using Models;
 
 public class InertiaContext : DbContext
 {

@@ -1,4 +1,3 @@
-using System.Linq;
 using inertia.Enums;
 using inertia.Models;
 using Microsoft.EntityFrameworkCore;

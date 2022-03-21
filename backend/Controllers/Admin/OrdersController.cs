@@ -1,10 +1,8 @@
 using inertia.Authorization;
 using inertia.Enums;
-using inertia.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Writers;
 
 namespace inertia.Controllers.Admin;
 

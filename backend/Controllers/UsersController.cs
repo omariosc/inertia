@@ -8,6 +8,7 @@ using inertia.Dtos;
 using inertia.Enums;
 using inertia.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace inertia.Controllers;
 
@@ -116,7 +117,7 @@ public class UsersController : MyControllerBase
     }
 
     [HttpGet("{accountId}/orders")]
-    [Authorize(Policy = Policies.Authenticated)]
+    [Authorize(Policy = Policies.MatchAccountId)]
     public async Task<ActionResult> GetOrders()
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
@@ -129,5 +130,83 @@ public class UsersController : MyControllerBase
             .ToListAsync();
 
         return Ok(orders);
+    }
+
+    [HttpGet("{accountId}/issues")]
+    [Authorize(Policy = Policies.MatchAccountId)]
+    public async Task<ActionResult> GetIssues(string accountId)
+    {
+        var issues = await _db.Issues
+            .OrderByDescending(i => i.DateOpened)
+            .Where(i => i.AccountId == accountId)
+            .ToListAsync();
+
+        return Ok(issues);
+    }
+    
+    [HttpPost("{accountId}/issues")]
+    [Authorize(Policy = Policies.MatchAccountId)]
+    public async Task<ActionResult> CreateIssue(
+        string accountId, 
+        [FromBody] CreateIssueRequest request)
+    {
+        var account = await _db.Accounts
+            .Where(a => a.AccountId == accountId)
+            .FirstOrDefaultAsync();
+
+        if (account == null)
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account", "account");
+
+        if (account.Role != AccountRole.Employee && request.Priority != null)
+            return Unauthorized();
+
+        var priority = request.Priority ?? IssuePriority.None;
+
+        var issue = new Issue
+        {
+            Priority = priority,
+            Title = request.Title,
+            Content = request.Content,
+            Account = account,
+            DateOpened = DateTime.UtcNow
+        };
+        await _db.Issues.AddAsync(issue);
+        await _db.SaveChangesAsync();
+
+        return Ok(issue);
+    }
+    
+    [HttpGet("{accountId}/issues/{issueId:int}")]
+    [Authorize(Policy = Policies.MatchAccountId)]
+    public async Task<ActionResult> GetIssue(string accountId, int issueId)
+    {
+        var issue = await _db.Issues
+            .Where(i => i.IssueId == issueId && i.AccountId == accountId)
+            .FirstOrDefaultAsync();
+
+        if (issue == null)
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid issue id", "issue");
+        
+        return Ok(issue);
+    }
+    
+    [HttpDelete("{accountId}/issues/{issueId:int}")]
+    [Authorize(Policy = Policies.MatchAccountId)]
+    public async Task<ActionResult> CloseIssue(string accountId, int issueId)
+    {
+        var issue = await _db.Issues
+            .Where(i => i.AccountId == accountId && i.IssueId == issueId)
+            .FirstOrDefaultAsync();
+
+        if (issue == null)
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid issue id", "issue");
+
+        if (issue.Resolution == null)
+            return ApplicationError(ApplicationErrorCode.AttemptingToCloseAlreadyClosedIssue,
+                "cannot close issue after it had been already closed");
+
+        issue.Resolution = "Closed by user.";
+
+        return Ok();
     }
 }

@@ -1,4 +1,5 @@
 from datetime import datetime
+from time import sleep
 
 import requests
 
@@ -70,6 +71,25 @@ class Client:
         r = self._request('get', f'/orders/{order}')
         return from_json_order(r.json())
 
+    def user_get_issues(self):
+        r = self._request('get', f'/users/{self.account_id}/issues')
+        return [from_json_issue(x) for x in r.json()]
+
+    def create_issue(self, title: str, content: str, priority: int = None):
+        r = self._request('post', f'/users/{self.account_id}/issues', json={
+            'priority': priority,
+            'title': title,
+            'content': content
+        })
+        return from_json_issue(r.json())
+
+    def close_my_issue(self, issue_id: int):
+        self._request('delete', f'/users/{self.account_id}/issues/{issue_id}')
+
+    def get_issue(self, issue_id: int):
+        r = self._request('get', f'/users/{self.account_id}/issues/{issue_id}')
+        return from_json_issue(r.json())
+
     def admin_scooter_list(self):
         r = self._request('get', f'/admin/scooters')
         return [from_json_scooter(o) for o in r.json()]
@@ -82,6 +102,24 @@ class Client:
 
     def admin_order_deny(self, order: str):
         self._request('post', f'/admin/orders/{order}/deny')
+
+    def admin_list_issues(self, **params):
+        r = self._request('get', f'/admin/issues', params=params)
+        return [from_json_issue(x) for x in r.json()]
+
+    def admin_set_issue_priority(self, issue_id: int, priority: int):
+        self._request('patch', f'/admin/issues/{issue_id}', json={
+            'priority': priority
+        })
+
+    def admin_close_issue(self, issue_id: int, resolution: str):
+        self._request('patch', f'/admin/issues/{issue_id}', json={
+            'resolution': resolution
+        })
+
+    def admin_get_issue(self, issue_id):
+        r = self._request('get', f'/admin/issues/{issue_id}')
+        return from_json_issue(r.json())
 
     def logout(self):
         r = self._request('delete', '/users/authorize', json={
@@ -125,17 +163,25 @@ class Client:
             **kwargs
         )
 
-        if response.status_code == 401:
-            raise UnauthorizedException()
+        try:
+            if response.status_code == 401:
+                raise UnauthorizedException()
 
-        if response.status_code == 403:
-            raise ForbiddenException()
+            if response.status_code == 403:
+                raise ForbiddenException()
 
-        if response.status_code == 422:
-            raise ApplicationErrorException(from_json_application_error(response.json()))
+            if response.status_code == 422:
+                raise ApplicationErrorException(from_json_application_error(response.json()))
 
-        if response.status_code == 405:
-            raise MethodNotAllowedException()
+            if response.status_code == 405:
+                raise MethodNotAllowedException()
+
+        except ApplicationErrorException as e:
+            if e.application_error.message == 'too many login requests':
+                sleep(0.2)
+                return self._request(request_type, endpoint, **kwargs)
+            else:
+                raise e
 
         return response
 

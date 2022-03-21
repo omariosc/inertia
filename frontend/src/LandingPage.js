@@ -1,21 +1,9 @@
 import React, {useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import "bootstrap/dist/css/bootstrap.css"
-import {
-    Button,
-    Card,
-    Col,
-    Container,
-    FormControl,
-    InputGroup,
-    ListGroup,
-    ListGroupItem,
-    Row
-} from "react-bootstrap";
-
+import {Button, Card, Col, Container, FormControl, InputGroup, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faMagnifyingGlass, faUser} from "@fortawesome/free-solid-svg-icons";
-import Order from "./Order";
+import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 function LandingPage({center, map_locations}) {
     const [searchTerm, setSearchTerm] = useState("");
@@ -47,39 +35,44 @@ function LandingPage({center, map_locations}) {
                                 </Button>
                             </InputGroup>
                         </Col>
-                        <Col xs={5} md={9}>
-                        </Col>
+                        <Col xs={5} md={9}/>
                     </Row>
                     <Row className={"flex-grow-1"}>
                         <Col xs={7} md={3}>
                             <Card className={"clickable search-results"}
                                   bg="dark"
-                                  text={"white"}>
-                                <Card.Title> Search results </Card.Title>
-                                <ListGroup>
+                                  text="light"
+                            >
+                                <Card.Title>Search results</Card.Title>
+                                <ListGroup style={{padding: "5px"}}>
                                     {map_locations.filter((map_location) => {
                                         if (searchTerm === "") {
                                             return map_location;
                                         } else if (map_location[0].toLowerCase().includes(searchTerm.toLowerCase()))
                                             return map_location;
                                         return null;
-                                    }).map((map_location, index) => {
-                                        return <ListGroupItem className={"order"}>
-                                            <Card>
-                                                <Card.Title> {map_location[0]} </Card.Title>
-                                                <Card.Body>
-                                                    <Button onClick={() => console.log(map_location[0])}>
-                                                        Order Scooter
-                                                    </Button>
-                                                </Card.Body>
-                                            </Card>
-                                        </ListGroupItem>;
+                                    }).map((map_location) => {
+                                        return (
+                                            <ListGroupItem className={"order"}>
+                                                <Card>
+                                                    <Card.Body style={{padding: "5px"}}>
+                                                        <div style={{float: 'left'}}>
+                                                            <b>{map_location[0]}</b>
+                                                        </div>
+                                                        <div style={{float: 'right'}}>
+                                                            <Button onClick={() => console.log(map_location[0])}>
+                                                                Book Scooter
+                                                            </Button>
+                                                        </div>
+                                                    </Card.Body>
+                                                </Card>
+                                            </ListGroupItem>
+                                        );
                                     })}
                                 </ListGroup>
                             </Card>
                         </Col>
-                        <Col xs={5} md={9}>
-                        </Col>
+                        <Col xs={5} md={9}/>
                     </Row>
                 </Container>
             </div>

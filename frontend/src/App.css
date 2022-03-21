@@ -49,20 +49,19 @@
     pointer-events: none;
 }
 
-
-.clickable{
+.clickable {
     pointer-events: all;
 }
 
-.order{
-    background-color: dimgrey;
+.order {
+    background-color: #6C757D;
 }
 
-.orderBtn{
+.orderBtn {
     text-align: right;
 }
 
-.search-results{
+.search-results {
     overflow: auto;
     margin-top: 10px;
     padding: 10px;

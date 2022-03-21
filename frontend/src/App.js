@@ -123,11 +123,11 @@ const App = () => {
                         <Navbar.Collapse className="justify-content-end">
                             {showManager ?
                                 <Navbar.Text className="navbar-pad-right-right">
-                                    Signed in as: <a>Manager</a>
+                                    Signed in as: <a href="#/account-manager">Manager</a>
                                 </Navbar.Text> : null}
                             {showEmployee ?
                                 <Navbar.Text className="navbar-pad-right">
-                                    Signed in as: <a>Employee</a>
+                                    Signed in as: <a href="#/account-employee">Employee</a>
                                 </Navbar.Text> : null}
                             <Nav.Item className="navbar-pad-right">
                                 <DropdownButton
@@ -216,7 +216,8 @@ const App = () => {
                 {showManager ? <ManagerInterface onHide={() => setShowManager(false)}/> : null}
                 {showEmployee ? <EmployeeInterface onHide={() => setShowEmployee(false)}/> : null}
             </div>
-            {showLanding ? <LandingPage center={center} map_locations={map_locations} onHide={() => setShowLanding(false)}/> : null}
+            {showLanding ? <LandingPage center={center} map_locations={map_locations}
+                                        onHide={() => setShowLanding(false)}/> : null}
         </div>
     );
 }

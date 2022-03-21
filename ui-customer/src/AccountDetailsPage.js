@@ -4,6 +4,7 @@ import './AccountDetailsPage.css';
 import {InputGroup, Button, Card, Table, CardGroup, Row, Col, Container ,Nav} from "react-bootstrap";
 import {text} from "@fortawesome/fontawesome-svg-core";
 import Orders from "./CustomerOrders";
+import PaymentDetails from "./AccountPaymentDetails";
 
 function CustomerDashboard(props) {
     const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345],  ["Email Address", "hashirsing@gmail.com"],
@@ -11,6 +12,7 @@ function CustomerDashboard(props) {
 
 
     const [showOrders, setOrders] = useState(true)
+    const [showPaymentDetails, setPaymentDetails] = useState(true)
     return  (
         <>
             <Row >
@@ -55,6 +57,7 @@ function CustomerDashboard(props) {
                     </Table>
                     <>
                         {showOrders ? <Orders onHide={() => setOrders(false)}/> : null}
+                        {showPaymentDetails? <PaymentDetails onHide={() => setPaymentDetails(false)}/> : null}
 
                     </>
 

@@ -147,6 +147,7 @@ public class OrdersController : MyControllerBase
 
         var order = await _db.Orders
             .Include(e => e.Scooter)
+            .Include(e => e.Extends)
             .Where(e => e.OrderId == orderId && e.AccountId == accountId)
             .FirstOrDefaultAsync();
         
@@ -189,10 +190,18 @@ public class OrdersController : MyControllerBase
         {
             return ApplicationError(ApplicationErrorCode.ScooterUnavailable, "The Scooter is not available");
         }
-        
+
+        if (order.ExtendsId != null)
+        {
+            order = order.Extends;
+        }
+
+        if (order == null)
+            return StatusCode(StatusCodes.Status500InternalServerError);
+
         Order extension = new Order {
             OrderId = await Nanoid.Nanoid.GenerateAsync(),
-            Scooter = order.Scooter,
+            Scooter = order!.Scooter,
             AccountId = User.FindFirstValue(ClaimTypes.PrimarySid),
             HireOption = hireOption,
             StartTime = startTime,

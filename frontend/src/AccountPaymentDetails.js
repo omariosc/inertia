@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useRef} from "react";
 import {Card, Col, Overlay, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 
@@ -21,7 +21,6 @@ function PaymentDetails() {
         "Add a payment method": "dark"
     }
     const target = useRef(null)
-    const [show, setShow] = useState(false)
 
     function sayHello() {
         alert("Hello")
@@ -36,12 +35,11 @@ function PaymentDetails() {
                         <Card
                             ref={target}
                             onClick={sayHello}
-                            style={{cursor: "pointer"}}
+                            style={{cursor: "pointer", width: '18rem'}}
                             bg={colorMappings[card[0]]}
                             border={borderMappings[card[0]]}
                             key={idx}
                             text={textMappings[card[0]]}
-                            style={{width: '18rem'}}
                             className={card[0]}
                         >
                             <Card.Body>
@@ -58,7 +56,7 @@ function PaymentDetails() {
                                 </Card.Text>
                             </Card.Body>
                         </Card>
-                        <Overlay target={target.current} show={show} placement="right">
+                        <Overlay target={target.current} show={true} placement="right">
                             {({
                                   placement, arrowProps, show: _show,
                                   popper, ...props

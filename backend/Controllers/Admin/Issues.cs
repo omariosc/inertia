@@ -31,10 +31,10 @@ public class IssuesController : MyControllerBase
             .AsQueryable();
 
         if (closed is true)
-            issuesQuery = issuesQuery.Where(i => i.Resolution == null);
+            issuesQuery = issuesQuery.Where(i => i.Resolution != null);
         
         if (closed is false)
-            issuesQuery = issuesQuery.Where(i => i.Resolution != null);
+            issuesQuery = issuesQuery.Where(i => i.Resolution == null);
 
         if (priority != null)
             issuesQuery = issuesQuery.Where(i => i.Priority == priority);
@@ -55,7 +55,7 @@ public class IssuesController : MyControllerBase
 
         if (issue == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid issue id", "issue");
-        
+
         return Ok(issue);
     }
     
@@ -76,8 +76,10 @@ public class IssuesController : MyControllerBase
                 "issue was already closed");
 
         issue.Priority = request.Priority ?? issue.Priority;
-        issue.Resolution = issue.Resolution;
+        issue.Resolution = request.Resolution;
 
+        await _db.SaveChangesAsync();
+        
         return Ok(issue);
     }
 }

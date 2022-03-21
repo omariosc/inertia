@@ -206,6 +206,7 @@ public class UsersController : MyControllerBase
                 "cannot close issue after it had been already closed");
 
         issue.Resolution = "Closed by user.";
+        await _db.SaveChangesAsync();
 
         return Ok();
     }

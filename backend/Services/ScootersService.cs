@@ -1,4 +1,3 @@
-using System.Linq;
 using inertia.Enums;
 using inertia.Models;
 using Microsoft.EntityFrameworkCore;
@@ -217,7 +216,7 @@ public class ScootersService
         await _db.SaveChangesAsync();
     }
 
-    private async Task UpdateOrderStatus()
+    public async Task UpdateOrderStatus()
     {
         var upcomingOrders = await _db.Orders
             .Where(o =>

@@ -5,5 +5,7 @@ public enum ApplicationErrorCode
     Other,
     InvalidEntity,
     OrderApprovedOrOngoing,
-    ScooterUnavailable
+    ScooterUnavailable,
+    InvalidLogin,
+    EmailAlreadyUsed
 }

@@ -1,9 +1,4 @@
-using System.Runtime.Intrinsics.Arm;
-using inertia;
-using inertia.Dtos;
 using Microsoft.AspNetCore.Mvc;
-
-using inertia.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;

@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Builder.Extensions;
+using EntityFramework.Exceptions.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using inertia.Models;
 
 namespace inertia;
-
-using Microsoft.EntityFrameworkCore;
-using Models;
 
 public class InertiaContext : DbContext
 {
@@ -20,5 +19,11 @@ public class InertiaContext : DbContext
     
     public InertiaContext(DbContextOptions options) : base(options)
     {
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.UseExceptionProcessor();
     }
 }

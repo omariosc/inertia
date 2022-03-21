@@ -11,7 +11,7 @@ namespace inertia.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class ScootersController: Controller
+public class ScootersController: MyControllerBase
 {
     private readonly InertiaContext _db;
     private readonly ScootersService _service;
@@ -39,7 +39,7 @@ public class ScootersController: Controller
                 .FirstOrDefaultAsync();
 
             if (depo == null)
-                return UnprocessableEntity();
+                return ApplicationError(ApplicationErrorCode.InvalidEntity, "depo id invalid", "depo");
             
             return Ok(await _service.GetAvailableScooters(
                 depo,
@@ -107,7 +107,7 @@ public class ScootersController: Controller
             .FirstOrDefaultAsync(e => e.ScooterId == id);
         
         if (scooter == null)
-            return NotFound();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
         
         return Ok(scooter);
     }

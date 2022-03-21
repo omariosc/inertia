@@ -1,9 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-
-using inertia.Models;
-using inertia.Enums;
-using inertia.Dtos;
-using inertia.Services;
 using Microsoft.EntityFrameworkCore;
 
 

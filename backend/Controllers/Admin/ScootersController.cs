@@ -13,6 +13,7 @@ namespace inertia.Controllers.Admin;
 [Route("admin/[controller]")]
 [Produces("application/json")]
 [Consumes("application/json")]
+[Authorize(Policy = Policies.Employee)]
 public class ScootersController : MyControllerBase
 {
     private readonly InertiaContext _db;
@@ -25,14 +26,12 @@ public class ScootersController : MyControllerBase
     }
 
     [HttpGet]
-    [Authorize(Policy = Policies.Staff)]
     public async Task<ActionResult> List()
     {
         return Ok(await _scooters.GetAllScootersCurrentStatus());
     }
 
     [HttpPost("{scooterId:int}/return")]
-    [Authorize(Policy = Policies.Staff)]
     public async Task<ActionResult> ReturnScooter(int scooterId)
     {
         var scooter = await _db.Scooters
@@ -68,7 +67,7 @@ public class ScootersController : MyControllerBase
         var scooter = await _db.Scooters.FindAsync(id);
 
         if (scooter == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
         _db.Scooters.Remove(scooter);
         await _db.SaveChangesAsync();
@@ -81,7 +80,7 @@ public class ScootersController : MyControllerBase
         var scooter = await _db.Scooters.FindAsync(id);
 
         if (scooter == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
         scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
 

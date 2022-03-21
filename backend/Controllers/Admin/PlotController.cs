@@ -1,19 +1,15 @@
-using System.Globalization;
 using inertia.Authorization;
-using inertia.Enums;
 using inertia.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Writers;
-using SQLitePCL;
 
 namespace inertia.Controllers.Admin;
 
 [ApiController]
 [Route("admin/[controller]")]
 [Produces("application/json")]
-//[Authorize(Policy = Policies.Staff)]
+[Authorize(Policy = Policies.Employee)]
 public class PlotController : MyControllerBase
 {
     private readonly InertiaContext _db;

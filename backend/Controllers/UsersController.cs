@@ -1,8 +1,8 @@
 using System.Security.Claims;
+using EntityFramework.Exceptions.Common;
 using inertia.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using inertia.Models;
 using inertia.Dtos;
 using inertia.Enums;
@@ -15,65 +15,73 @@ namespace inertia.Controllers;
 [Route("[controller]")]
 [Produces("application/json")]
 [Consumes("application/json")]
-public class UsersController : Controller
+public class UsersController : MyControllerBase
 {
     private readonly InertiaContext _db;
+    private readonly ScootersService _scooters;
+    private readonly UsersService _users;
     private readonly AuthenticationTokenService _tokenService;
 
     public UsersController(
         InertiaContext db, 
-        AuthenticationTokenService tokenService
+        AuthenticationTokenService tokenService,
+        ScootersService scooters,
+        UsersService users
     )
     {
         _db = db;
         _tokenService = tokenService;
+        _scooters = scooters;
+        _users = users;
     }
 
     [HttpPost("signup")]
     public async Task<ActionResult> Signup([FromBody] SignupRequest request)
     {
-        var account = new Account
-        {
-            AccountId = await Nanoid.Nanoid.GenerateAsync(),
-            Name = request.Name,
-            Email = request.Email,
-            Password = request.Password,
-            Role = AccountRole.User,
-            State = AccountState.PendingApproval,
-            UserType = request.UserType
-        };
-
-        await _db.Accounts.AddAsync(account);
-        await _db.SaveChangesAsync();
+        var account = await _users.CreateAccount(
+            request.Email,
+            request.Password,
+            request.Name,
+            request.UserType
+        );
         
+        if (account == null)
+            return ApplicationError(ApplicationErrorCode.EmailAlreadyUsed, "email already in use");
+
         return Ok();
     }
     
     [HttpPost("authorize")]
-    public async Task<ActionResult> Login([FromBody] LoginRequest loginRequest)
+    public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
-        var account = await _db.Accounts
-            .Where(a => a.Email == loginRequest.Email && a.Password == loginRequest.Password)
-            .FirstOrDefaultAsync();
-
+        var account = await _users.MatchAccount(loginRequest.Email, loginRequest.Password);
+        
         if (account == null)
-            return BadRequest();
+            return ApplicationError(ApplicationErrorCode.InvalidLogin, "email or password invalid");
 
         var accessToken = _tokenService.GenerateAccessToken(account);
         if (accessToken == null)
-            return BadRequest();
+            return ApplicationError(ApplicationErrorCode.InvalidLogin, "email or password invalid");
 
-        var now = DateTime.UtcNow;
-
-        await _db.LoginInstances.AddAsync(new LoginInstance
+        try
         {
-            AccessToken = accessToken,
-            CreatedAt = now,
-            AccountId = account.AccountId,
-            LoginState = LoginInstanceState.Valid
-        });
+            var now = DateTime.UtcNow;
 
-        await _db.SaveChangesAsync();
+            await _db.LoginInstances.AddAsync(new LoginInstance
+            {
+                AccessToken = accessToken,
+                CreatedAt = now,
+                AccountId = account.AccountId,
+                LoginState = LoginInstanceState.Valid
+            });
+
+            await _db.SaveChangesAsync();
+        }
+        catch (UniqueConstraintException)
+        {
+            return ApplicationError(ApplicationErrorCode.Other, "too many login requests");
+        }
+
         
         return Ok(new LoginResponse(account, accessToken));
     }
@@ -85,7 +93,7 @@ public class UsersController : Controller
         var loginInstance = await _db.LoginInstances.Where(i => i.AccessToken == request.AccessToken).FirstOrDefaultAsync();
         
         if (loginInstance == null)
-            return UnprocessableEntity();
+            return Unauthorized();
         
         loginInstance.LoginState = LoginInstanceState.LoggedOut;
         await _db.SaveChangesAsync();
@@ -102,7 +110,7 @@ public class UsersController : Controller
             .FirstOrDefaultAsync();
 
         if (account == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
 
         return Ok(account);
     }
@@ -113,6 +121,8 @@ public class UsersController : Controller
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
 
+        await _scooters.UpdateOrderStatus();
+        
         var orders = await _db.Orders
             .Include(e => e.HireOption)
             .Where(e => e.AccountId == accountId)

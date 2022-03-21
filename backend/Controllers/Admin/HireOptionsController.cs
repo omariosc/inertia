@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace inertia.Controllers.Admin;
 
 [ApiController]
-[Authorize(Policy = Policies.Staff)]
+[Authorize(Policy = Policies.Employee)]
 [Route("admin/[controller]")]
 [Produces("application/json")]
 public class HireOptionsController: MyControllerBase

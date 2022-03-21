@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text;
 using inertia;
 using inertia.Authorization;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +36,7 @@ builder.Services.AddScoped<AuthenticationTokenService, AuthenticationTokenServic
 builder.Services.AddScoped<IAuthorizationHandler, DefaultAuthorizationHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();
 builder.Services.AddScoped<ScootersService, ScootersService>();
+builder.Services.AddScoped<UsersService, UsersService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -75,28 +76,20 @@ builder.Services
         
         options
             .AddPolicy(
-                Policies.Admin,
+                Policies.Employee,
                 p => 
                     p
                         .RequireAuthenticatedUser()
                         .AddRequirements(new DefaultAuthorization())
-                        .RequireRole(Roles.Admin)
-            );
-        
-        options
-            .AddPolicy(
-                Policies.Staff,
-                p => 
-                    p
-                        .RequireAuthenticatedUser()
-                        .AddRequirements(new DefaultAuthorization())
-                        .RequireRole(Roles.Staff)
+                        .RequireRole(Roles.Employee)
             );
 
         options.DefaultPolicy = options.GetPolicy(Policies.Authenticated)!;
     });
 
 var app = builder.Build();
+
+StripeConfiguration.ApiKey = "sk_test_51KflboBY5x162kEq9heKyhTeTRUFIEub4IVTEr4X95rSvQZJn1tY7Wos2iR9zDazetLIzCUVwB2DAaFrOwTG058l00mkqn1k5F";
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -114,18 +107,11 @@ app.UseAuthorization();
 app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
-{DbInitializer.Initialize(
-        scope.ServiceProvider.GetRequiredService<InertiaContext>()
+{
+    DbInitializer.Initialize(
+        scope.ServiceProvider.GetRequiredService<InertiaContext>(),
+        scope.ServiceProvider.GetRequiredService<UsersService>()
     );
-    // try
-    // {
-    //     
-    // }
-    // catch (Exception e)
-    // {
-    //     scope.ServiceProvider.GetRequiredService<ILogger>()
-    //         .LogError(e, "An error occured creating the DB.");
-    // }
 }
 
 app.Run();

@@ -1,6 +1,6 @@
-using System.Runtime.Intrinsics.Arm;
 using inertia.Authorization;
 using inertia.Dtos;
+using inertia.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 using inertia.Models;
@@ -12,8 +12,8 @@ namespace inertia.Controllers.Admin;
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-[Authorize(Policy = Policies.Staff)]
-public class DeposController : ControllerBase
+[Authorize(Policy = Policies.Employee)]
+public class DeposController : MyControllerBase
 {
     private readonly InertiaContext db;
 
@@ -44,7 +44,7 @@ public class DeposController : ControllerBase
         var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "depo id invalid", "depo");
 
         db.Depos.Remove(depo);
         await db.SaveChangesAsync();
@@ -57,7 +57,7 @@ public class DeposController : ControllerBase
         var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "depo id invalid", "depo");
 
         depo.Name = depoRequest.Name ?? depo.Name;
         depo.Latitude = depoRequest.Latitude ?? depo.Latitude;
@@ -73,7 +73,7 @@ public class DeposController : ControllerBase
         var depo = await db.Depos.FindAsync(id);
 
         if (depo == null)
-            return UnprocessableEntity();
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "depo id invalid", "depo");
 
         return await db.Scooters.Where(e => e.DepoId == id).ToListAsync();
     }

@@ -11,6 +11,14 @@ import EmployeeInterface from './EmployeeInterface';
 import './App.css'
 
 const App = () => {
+    const center = [53.8, -1.55]
+    const map_locations = [
+        ["Trinity Centre", [53.798351, -1.545100]],
+        ["Train Station", [53.796770, -1.540510]],
+        ["Merrion Centre", [53.801270, -1.543190]],
+        ["Leeds General Infirmary Hospital", [53.802509, -1.552887]],
+        ["UoL Edge Sports Centre", [53.804167, -1.553208]]
+    ]
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [showManager, setShowManager] = useState(false);
@@ -26,6 +34,7 @@ const App = () => {
                             id="dropdown-basic-button"
                             title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                             variant="primary" menuVariant="primary"
+                            className="clickable"
                         >
                             {showLanding ?
                                 <Dropdown.Item
@@ -82,7 +91,7 @@ const App = () => {
                             </Dropdown.Item>
                         </DropdownButton>
                     </div> :
-                    <Navbar expand="lg" bg="primary" variant="dark">
+                    <Navbar expand="lg" bg="primary" variant="dark" className="clickable">
                         <Navbar.Brand className="navbar-pad-left">
                             <img
                                 src="favicon.ico"
@@ -172,7 +181,7 @@ const App = () => {
                 {showManager ? <ManagerInterface onHide={() => setShowManager(false)}/> : null}
                 {showEmployee ? <EmployeeInterface onHide={() => setShowEmployee(false)}/> : null}
             </div>
-            {showLanding ? <LandingPage onHide={() => setShowLanding(false)}/> : null}
+            {showLanding ? <LandingPage center={center} map_locations={map_locations} onHide={() => setShowLanding(false)}/> : null}
         </div>
     );
 }

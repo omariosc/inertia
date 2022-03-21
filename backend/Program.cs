@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +88,8 @@ builder.Services
     });
 
 var app = builder.Build();
+
+StripeConfiguration.ApiKey = "sk_test_51KflboBY5x162kEq9heKyhTeTRUFIEub4IVTEr4X95rSvQZJn1tY7Wos2iR9zDazetLIzCUVwB2DAaFrOwTG058l00mkqn1k5F";
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

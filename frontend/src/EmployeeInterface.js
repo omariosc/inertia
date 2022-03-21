@@ -23,7 +23,7 @@ function EmployeeInterface() {
     const [showManageIssues, setShowManageIssues] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     return (
-        <div id="wrapper">
+        <div className="clickable">
             <Row>
                 <Col xs={2}>
                     <Nav

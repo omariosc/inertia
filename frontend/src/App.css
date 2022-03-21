@@ -1,6 +1,7 @@
 #wrapper {
     position: relative;
     min-height: 100%;
+    pointer-events: none;
 }
 
 .navbar-pad-left {
@@ -25,6 +26,7 @@
 .leaflet-container {
     width: 100%;
     height: 100vh;
+    pointer-events: all;
 }
 
 #map-overlay {
@@ -44,4 +46,32 @@
     margin-top: 0.5%;
     margin-left: 3%;
     margin-right: 0.5%;
+    pointer-events: none;
+}
+
+
+.clickable{
+    pointer-events: all;
+}
+
+.order{
+    background-color: dimgrey;
+}
+
+.orderBtn{
+    text-align: right;
+}
+
+.search-results{
+    overflow: auto;
+    margin-top: 10px;
+    padding: 10px;
+    max-height: 90vh;
+}
+
+#search-overlay {
+    z-index: 100000;
+    position: absolute;
+    top: 10px;
+    width: 100%;
 }

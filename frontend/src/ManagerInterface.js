@@ -19,7 +19,7 @@ function ManagerInterface() {
     return (
         <div className="clickable">
             <Row>
-                <Col xs={2}>
+                <Col xs={2} className="border-end border-dark">
                     <Nav
                         defaultActiveKey="#/dashboard"
                         variant="pills"

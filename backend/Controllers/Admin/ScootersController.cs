@@ -1,3 +1,4 @@
+using EntityFramework.Exceptions.Common;
 using inertia.Authorization;
 using inertia.Dtos;
 using inertia.Enums;
@@ -82,9 +83,20 @@ public class ScootersController : MyControllerBase
         if (scooter == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
-        scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
-
-        await _db.SaveChangesAsync();
+        try
+        {
+            scooter.Available = scooterRequest.Available ?? scooter.Available;
+            scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
+            scooter.ScooterId = scooterRequest.ScooterId ?? scooter.ScooterId;
+            scooter.Name = scooterRequest.Name ?? scooter.Name;
+            
+            await _db.SaveChangesAsync();
+        }
+        catch (UniqueConstraintException)
+        {
+            return ApplicationError(ApplicationErrorCode.ScooterIdTaken, "scooter id taken");
+        }
+        
         return Ok(scooter);
     }
 }

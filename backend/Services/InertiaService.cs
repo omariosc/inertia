@@ -45,6 +45,8 @@ public class InertiaService
                 s.ScooterStatus = ScooterStatus.OngoingOrder;
             else if (pendingReturns.Contains(s.ScooterId))
                 s.ScooterStatus = ScooterStatus.PendingReturn;
+            else if (s.Available == false)
+                s.ScooterStatus = ScooterStatus.UnavailableByStaff;
             else s.ScooterStatus = ScooterStatus.InDepo;
         }
         
@@ -85,7 +87,8 @@ public class InertiaService
 
         var availableScooters = await _db.Scooters.Where(
             scooter =>
-                !unavailableScooters.Contains(scooter.ScooterId)
+                !unavailableScooters.Contains(scooter.ScooterId) &&
+                scooter.Available
         ).ToListAsync();
 
         return availableScooters;
@@ -128,7 +131,8 @@ public class InertiaService
         var availableScooters = await _db.Scooters.Where(
             scooter =>
                 !unavailableScooters.Contains(scooter.ScooterId) &&
-                scooter.DepoId == depo.DepoId
+                scooter.DepoId == depo.DepoId &&
+                scooter.Available
         ).ToListAsync();
 
         return availableScooters;
@@ -160,12 +164,12 @@ public class InertiaService
                 e =>
                     ((e.StartTime <= endTime && e.EndTime >= startTime &&
                       e.OrderState != OrderState.Cancelled && e.OrderState != OrderState.Completed) ||
-                     e.OrderState == OrderState.PendingReturn)&&
+                     e.OrderState == OrderState.PendingReturn) &&
                      e.ScooterId == scooter.ScooterId
             )
             .FirstOrDefaultAsync();
 
-        return clashingOrder == null;
+        return clashingOrder == null && scooter.Available;
     }
     
     public async Task<bool> IsScooterAvailableForExtension(
@@ -201,7 +205,7 @@ public class InertiaService
             )
             .FirstOrDefaultAsync();
 
-        return clashingOrder == null;
+        return clashingOrder == null && scooter.Available;
     }
 
     public async Task ReturnScooter(Scooter scooter)

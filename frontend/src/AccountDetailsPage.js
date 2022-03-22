@@ -7,7 +7,7 @@ import Settings from './Settings.js';
 import './StaffInterface.css';
 
 function CustomerDashboard() {
-    const userDetails = [["Full Name", "Hashir Choudry"], ["UserID", 12345], ["Email Address", "hashirsing@gmail.com"],
+    const userDetails = [["Full Name", "Hashir Choudry"], ["Email Address", "hashirsing@gmail.com"],
         ["Phone Number", "0774891234"], ["Password", "**********"]];
     const [showInfo, setInfo] = useState(true);
     const [showOrders, setOrders] = useState(false);
@@ -65,21 +65,21 @@ function CustomerDashboard() {
                 </Col>
                 <Col>
                     {showInfo ?
-                    <Table>
-                        <tbody>
-                        {userDetails.map((title, info) => (
-                            <tr key={info}>
-                                <td>{title[0]}</td>
-                                <td>{title[1]}</td>
-                                <td><u>edit</u></td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </Table> : null}
+                        <Table>
+                            <tbody>
+                            {userDetails.map((title, info) => (
+                                <tr key={info}>
+                                    <td>{title[0]}</td>
+                                    <td>{title[1]}</td>
+                                    <td><u>edit</u></td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </Table> : null}
                     <>
                         {showOrders ? <Orders onHide={() => setOrders(false)}/> : null}
                         {showPaymentDetails ? <PaymentDetails onHide={() => setPaymentDetails(false)}/> : null}
-                        {showSettings ? <Settings onHide={() => setShowSettings(false)}/> : null}
+                        {showSettings ? <Settings interface="customer" onHide={() => setShowSettings(false)}/> : null}
                     </>
                 </Col>
             </Row>

@@ -4,9 +4,9 @@ import './StaffInterface.css'
 
 function CurrentBookings() {
     const bookings = [
-        [3, 101, "sc20osc", "4 hours", "No", "1 hour", "17/03/22 12:54"],
-        [4, 103, "sc20jdr", "1 day", "No", "n/a", "18/03/22 18:53"],
-        [5, 105, "sc20mf", "1 week", "No", "n/a", "24/03/22 15:33"]
+        [3, 101, "sc20osc@leeds.ac.uk", "4 hours", "No", "1 hour", "17/03/22 12:54"],
+        [4, 103, "sc20jdr@leeds.ac.uk", "1 day", "No", "n/a", "18/03/22 18:53"],
+        [5, 105, "sc20mf@leeds.ac.uk", "1 week", "No", "n/a", "24/03/22 15:33"]
     ]
     return (
         <>
@@ -19,7 +19,7 @@ function CurrentBookings() {
                         <tr>
                             <th>Booking ID</th>
                             <th>Scooter ID</th>
-                            <th>Username</th>
+                            <th>Email Address</th>
                             <th>Hire Length</th>
                             <th>Cancelled</th>
                             <th>Time Extended</th>

@@ -110,7 +110,7 @@ public class DbInitializer
             passwordAccounts[0], 
             "Root Account",
             UserType.Regular, 
-            AccountRole.User
+            AccountRole.Manager
             );
         staffTask.Wait();
         var staff = staffTask.Result;
@@ -345,7 +345,7 @@ public class DbInitializer
         if (env.IsDevelopment())
         {
             users.CreateAccount("test@test.com", "test_password", "Le Customer", UserType.Regular, AccountRole.User).Wait();
-            users.CreateAccount("test2@test.com", "test_password", "Le Staff", UserType.Regular, AccountRole.User).Wait();
+            users.CreateAccount("test2@test.com", "test_password", "Le Staff", UserType.Regular, AccountRole.Manager).Wait();
         }
         
         Console.Out.WriteLine("Staff Login:");

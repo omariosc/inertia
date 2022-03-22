@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace inertia.Controllers.Admin;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/admin/[controller]")]
 [Produces("application/json")]
 [Authorize(Policy = Policies.Employee)]
 public class DeposController : MyControllerBase

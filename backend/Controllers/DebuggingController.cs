@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace inertia.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Produces("application/json")]
 public class DebuggingController : ControllerBase
 {

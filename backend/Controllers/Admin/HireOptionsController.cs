@@ -10,7 +10,7 @@ namespace inertia.Controllers.Admin;
 
 [ApiController]
 [Authorize(Policy = Policies.Employee)]
-[Route("admin/[controller]")]
+[Route("api/admin/[controller]")]
 [Produces("application/json")]
 public class HireOptionsController: MyControllerBase
 {

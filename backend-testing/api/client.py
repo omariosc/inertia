@@ -158,7 +158,7 @@ class Client:
             }
 
         response = requests_types[request_type](
-            self.host + endpoint,
+            self.host + '/api' + endpoint,
             verify=False,
             **kwargs
         )
@@ -194,7 +194,7 @@ class Client:
         }
 
         response = requests_types[request_type](
-            self.host + endpoint,
+            self.host + '/api' + endpoint,
             verify=False,
             **kwargs
         )

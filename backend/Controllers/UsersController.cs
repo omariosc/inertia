@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Components.Web;
 namespace inertia.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [Produces("application/json")]
 [Consumes("application/json")]
 public class UsersController : MyControllerBase

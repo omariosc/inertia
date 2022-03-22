@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using EntityFramework.Exceptions.Common;
 using inertia.Enums;
+using inertia.Exceptions;
 using inertia.Models;
 using Isopoh.Cryptography.Argon2;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,12 @@ public class UsersService
         _db = db;
     }
 
-    public async Task<Account?> CreateAccount(
+    public async Task<Account> CreateAccount(
         string email,
         string password,
         string name,
-        UserType userType
+        UserType userType,
+        AccountRole role
         )
     {
         try
@@ -35,7 +37,7 @@ public class UsersService
                 Email = email,
                 Password = Argon2.Hash(salt + password),
                 Salt = salt,
-                Role = AccountRole.User,
+                Role = role,
                 State = AccountState.PendingApproval,
                 UserType = userType
             };
@@ -47,43 +49,36 @@ public class UsersService
         }
         catch (UniqueConstraintException)
         {
-            return null;
+            throw new EmailAlreadyExistsException();
         }
     }
 
-    public async Task<Account?> CreateEmployeeAccount(
-        string email,
-        string password,
-        string name
+    public async Task<Account> ModifyAccount(
+        Account account,
+        string? name,
+        string? email,
+        string? password,
+        AccountRole? accountRole
     )
     {
         try
         {
-            string salt = GenerateSalt();
-
-            var account = new Account
-            {
-                AccountId = await Nanoid.Nanoid.GenerateAsync(),
-                Name = name,
-                Email = email,
-                Password = Argon2.Hash(salt + password),
-                Salt = salt,
-                Role = AccountRole.Employee,
-                State = AccountState.PendingApproval,
-                UserType = UserType.Regular,
-            };
-
-            await _db.Accounts.AddAsync(account);
+            account.Email = email ?? account.Email;
+            account.Name = name ?? account.Name;
+            account.Role = accountRole ?? account.Role;
+            
+            if(password != null)
+                account.Password = Argon2.Hash(account.Salt + password);
+            
             await _db.SaveChangesAsync();
-
             return account;
         }
         catch (UniqueConstraintException)
         {
-            return null;
+            throw new EmailAlreadyExistsException();
         }
     }
-    
+
     public async Task<Account?> MatchAccount(string email, string password)
     {
         var account = await _db.Accounts.Where(a => a.Email == email).FirstOrDefaultAsync();
@@ -104,5 +99,14 @@ public class UsersService
         RandomEngine.GetBytes(salt);
 
         return Convert.ToBase64String(salt);
+    }
+    
+    public static string GeneratePassword()
+    {
+        int passwordLength = 40;
+        var password = new byte[passwordLength];
+        RandomEngine.GetBytes(password);
+
+        return Convert.ToBase64String(password);
     }
 }

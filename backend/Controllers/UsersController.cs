@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using inertia.Models;
 using inertia.Dtos;
 using inertia.Enums;
+using inertia.Exceptions;
 using inertia.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -39,16 +40,21 @@ public class UsersController : MyControllerBase
     [HttpPost("signup")]
     public async Task<ActionResult> Signup([FromBody] SignupRequest request)
     {
-        var account = await _users.CreateAccount(
-            request.Email,
-            request.Password,
-            request.Name,
-            request.UserType
-        );
-        
-        if (account == null)
+        try
+        {
+            var account = await _users.CreateAccount(
+                request.Email,
+                request.Password,
+                request.Name,
+                request.UserType,
+                AccountRole.User
+            );
+        }
+        catch (EmailAlreadyExistsException)
+        {
             return ApplicationError(ApplicationErrorCode.EmailAlreadyUsed, "email already in use");
-
+        }
+        
         return Ok();
     }
     

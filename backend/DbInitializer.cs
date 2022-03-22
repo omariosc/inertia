@@ -86,18 +86,18 @@ public class DbInitializer
 
         var passwordAccounts = new string[]
         {
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
-            GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
+            UsersService.GeneratePassword(),
         };
 
         if (env.IsDevelopment())
@@ -105,10 +105,12 @@ public class DbInitializer
             passwordAccounts[0] = "admin";
         }
         
-        var staffTask = users.CreateEmployeeAccount(
+        var staffTask = users.CreateAccount(
             "admin@inertia", 
             passwordAccounts[0], 
-            "Root Account"
+            "Root Account",
+            UserType.Regular, 
+            AccountRole.User
             );
         staffTask.Wait();
         var staff = staffTask.Result;
@@ -117,7 +119,8 @@ public class DbInitializer
                 "jane@inertia",
                 passwordAccounts[1],
                 "Jane Le Fayette",
-                UserType.Regular
+                UserType.Regular,
+                AccountRole.User
             );
         janeTask.Wait();
         var jane = janeTask.Result;
@@ -126,7 +129,8 @@ public class DbInitializer
             "jack@inertia",
             passwordAccounts[2],
             "Jack Johanes",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         jackTask.Wait();
         var jack = jackTask.Result;
@@ -135,7 +139,8 @@ public class DbInitializer
             "andreea@inertia",
             passwordAccounts[3],
             "Andreea Maraiescu",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         andreeaTask.Wait();
         var andreea = andreeaTask.Result;
@@ -144,7 +149,8 @@ public class DbInitializer
             "theodor@inertia",
             passwordAccounts[4],
             "Theodor Brown",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         theodorTask.Wait();
         var theodor = theodorTask.Result;
@@ -153,7 +159,8 @@ public class DbInitializer
             "mike@inertia",
             passwordAccounts[5],
             "Mike Lorette",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         mikeTask.Wait();
         var mike = mikeTask.Result;
@@ -162,7 +169,8 @@ public class DbInitializer
             "alexa@inertia",
             passwordAccounts[6],
             "Alexa",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         alexaTask.Wait();
         var alexa = alexaTask.Result;
@@ -171,7 +179,8 @@ public class DbInitializer
             "andrew@inertia",
             passwordAccounts[7],
             "Andrew Lauren",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         andrewTask.Wait();
         var andrew = andrewTask.Result;
@@ -180,7 +189,8 @@ public class DbInitializer
             "ana@inertia",
             passwordAccounts[8],
             "Ana Drew",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         anaTask.Wait();
         var ana = anaTask.Result;
@@ -189,7 +199,8 @@ public class DbInitializer
             "luna@inertia",
             passwordAccounts[9],
             "Luna",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         lunaTask.Wait();        
         var luna = lunaTask.Result;
@@ -198,7 +209,8 @@ public class DbInitializer
             "skyler@inertia",
             passwordAccounts[10],
             "Skyler",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         skylerTask.Wait();
         var skyler = skylerTask.Result;
@@ -207,7 +219,8 @@ public class DbInitializer
             "jessie@inertia",
             passwordAccounts[11],
             "Jessie",
-            UserType.Regular
+            UserType.Regular,
+            AccountRole.User
         );
         jessieTask.Wait();
         var jessie = jessieTask.Result;
@@ -326,8 +339,8 @@ public class DbInitializer
 
         if (env.IsDevelopment())
         {
-            users.CreateAccount("test@test.com", "test_password", "Le Customer", UserType.Regular).Wait();
-            users.CreateEmployeeAccount("test2@test.com", "test_password", "Le Staff").Wait();
+            users.CreateAccount("test@test.com", "test_password", "Le Customer", UserType.Regular, AccountRole.User).Wait();
+            users.CreateAccount("test2@test.com", "test_password", "Le Staff", UserType.Regular, AccountRole.User).Wait();
         }
         
         Console.Out.WriteLine("Staff Login:");
@@ -338,14 +351,5 @@ public class DbInitializer
             Console.Out.WriteLine($"email: {customerAccounts[i]!.Email}; password: {passwordAccounts[i + 1]}");
         }
 
-    }
-    
-    private static string GeneratePassword()
-    {
-        int passwordLength = 40;
-        var password = new byte[passwordLength];
-        RandomEngine.GetBytes(password);
-
-        return Convert.ToBase64String(password);
     }
 }

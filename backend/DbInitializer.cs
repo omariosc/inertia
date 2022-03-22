@@ -227,7 +227,7 @@ public class DbInitializer
             jessie
         };
 
-        List<Order> orders = new List<Order>();
+        List<AbstractOrder> orders = new List<AbstractOrder>();
         DateTime startTime = DateTime.Today - TimeSpan.FromDays(61);
 
         int currentScooter = 0;

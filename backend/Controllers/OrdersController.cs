@@ -31,6 +31,7 @@ public class OrdersController : MyControllerBase
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
         var order = await _db.Orders
+            .OfType<Order>()
             .Include(o => o.Extensions)
             .Include(o => o.HireOption)
             .Where(o => o.OrderId == orderId)
@@ -102,6 +103,7 @@ public class OrdersController : MyControllerBase
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
 
         var order = await _db.Orders
+            .OfType<Order>()
             .Include(e => e.Extensions)   
             .Where(e => e.OrderId == orderId && e.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -131,11 +133,13 @@ public class OrdersController : MyControllerBase
     }
 
     [HttpPost("{orderId}/extend")]
+    [Authorize(Policy = Policies.Authenticated)]
     public async Task<ActionResult> ExtendOrder(string orderId, [FromBody] ExtendOrderRequest extendOrder)
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
 
         var order = await _db.Orders
+            .OfType<Order>()
             .Include(e => e.Scooter)
             .Include(e => e.Extends)
             .Where(e => e.OrderId == orderId && e.AccountId == accountId)

@@ -169,7 +169,7 @@ public class InertiaService
     }
     
     public async Task<bool> IsScooterAvailableForExtension(
-        Order toExtend,
+        AbstractOrder toExtend,
         Scooter scooter,
         DateTime startTime,
         DateTime? endTime = null)
@@ -248,7 +248,7 @@ public class InertiaService
         await _db.SaveChangesAsync();
     }
 
-    public async Task<Order> CreateOrder(
+    public async Task<AbstractOrder> CreateOrder(
         Account account,
         Scooter scooter, 
         HireOption hireOption,
@@ -261,7 +261,7 @@ public class InertiaService
             throw new UnavailableScooterException();
         }
         
-        Order order = new Order {
+        Order abstractOrder = new Order {
             OrderId = await Nanoid.Nanoid.GenerateAsync(),
             Scooter = scooter,
             Account = account,
@@ -272,77 +272,135 @@ public class InertiaService
             OrderState = OrderState.PendingApproval
         };
 
-        await _db.Orders.AddAsync(order);
+        await _db.Orders.AddAsync(abstractOrder);
         await _db.SaveChangesAsync();
 
-        return order;
+        return abstractOrder;
     }
 
-    public async Task<Order> ExtendOrder(
-        Order order,
-        HireOption hireOption
-        )
+    public async Task<AbstractOrder> CreateGuestOrder(
+        string email,
+        string phoneNumber,
+        Scooter scooter, 
+        HireOption hireOption,
+        DateTime startTime)
     {
-        if (order.OrderState != OrderState.Upcoming && order.OrderState != OrderState.PendingApproval &&
-            order.OrderState != OrderState.Ongoing)
-            throw new OrderCannotBeExtendException();
+        DateTime endTime = startTime.AddHours(hireOption.DurationInHours);
         
-        if (order.ExtendsId != null)
-        {
-            order = (await _db.Orders
-                .Where(o => o.OrderId == order.ExtendsId)
-                .FirstOrDefaultAsync())!;
-        }
-        
-        _db.Entry(order).Collection(o => o.Extensions ?? new List<Order>()).Load();
-
-        DateTime startTime;
-        DateTime endTime;
-        
-        if (order.Extensions!.Count == 0)
-        {
-            startTime = order.EndTime;
-            endTime = order.EndTime.AddHours(hireOption.DurationInHours);
-        }
-        else
-        {
-            startTime = order.Extensions.OrderByDescending(o => o.EndTime).FirstOrDefault()!.EndTime;
-            endTime = startTime.AddHours(hireOption.DurationInHours);
-
-        }
-        
-        if (!await IsScooterAvailableForExtension(order, order.Scooter, startTime, endTime))
+        if (!await IsScooterAvailable(scooter, startTime, endTime))
         {
             throw new UnavailableScooterException();
         }
-
-        Order extension = new Order {
+        
+        GuestOrder abstractOrder = new GuestOrder {
             OrderId = await Nanoid.Nanoid.GenerateAsync(),
-            Scooter = order.Scooter,
-            AccountId = order.AccountId,
+            Scooter = scooter,
+            Email = email,
+            PhoneNumber = phoneNumber,
             HireOption = hireOption,
             StartTime = startTime,
             EndTime = endTime,
             Cost = hireOption.Cost,
-            Extends = order,
-            OrderState = OrderState.PendingApproval
+            OrderState = OrderState.Upcoming
         };
-            
-        await _db.Orders.AddAsync(extension);
+
+        await _db.Orders.AddAsync(abstractOrder);
         await _db.SaveChangesAsync();
 
-        return extension;
+        return abstractOrder;
+    }
+    
+    public async Task<AbstractOrder> ExtendOrder(
+        AbstractOrder abstractOrder,
+        HireOption hireOption
+        )
+    {
+        if (abstractOrder.OrderState != OrderState.Upcoming && abstractOrder.OrderState != OrderState.PendingApproval &&
+            abstractOrder.OrderState != OrderState.Ongoing)
+            throw new OrderCannotBeExtendException();
+        
+        if (abstractOrder.ExtendsId != null)
+        {
+            abstractOrder = (await _db.Orders
+                .Where(o => o.OrderId == abstractOrder.ExtendsId)
+                .FirstOrDefaultAsync())!;
+        }
+        
+        _db.Entry(abstractOrder).Collection(o => o.Extensions ?? new List<AbstractOrder>()).Load();
+
+        DateTime startTime;
+        DateTime endTime;
+        
+        if (abstractOrder.Extensions!.Count == 0)
+        {
+            startTime = abstractOrder.EndTime;
+            endTime = abstractOrder.EndTime.AddHours(hireOption.DurationInHours);
+        }
+        else
+        {
+            startTime = abstractOrder.Extensions.OrderByDescending(o => o.EndTime).FirstOrDefault()!.EndTime;
+            endTime = startTime.AddHours(hireOption.DurationInHours);
+
+        }
+        
+        if (!await IsScooterAvailableForExtension(abstractOrder, abstractOrder.Scooter, startTime, endTime))
+        {
+            throw new UnavailableScooterException();
+        }
+        
+        if (abstractOrder is Order order)
+        {
+            Order extension = new Order {
+                OrderId = await Nanoid.Nanoid.GenerateAsync(),
+                Scooter = abstractOrder.Scooter,
+                AccountId = order.AccountId,
+                HireOption = hireOption,
+                StartTime = startTime,
+                EndTime = endTime,
+                Cost = hireOption.Cost,
+                Extends = abstractOrder,
+                OrderState = OrderState.PendingApproval
+            };
+            
+            await _db.Orders.AddAsync(extension);
+            await _db.SaveChangesAsync();
+
+            return extension;
+        }
+        
+        if(abstractOrder is GuestOrder guestOrder)
+        {
+            GuestOrder extension = new GuestOrder {
+                OrderId = await Nanoid.Nanoid.GenerateAsync(),
+                Scooter = abstractOrder.Scooter,
+                Email = guestOrder.Email,
+                PhoneNumber = guestOrder.PhoneNumber,
+                HireOption = hireOption,
+                StartTime = startTime,
+                EndTime = endTime,
+                Cost = hireOption.Cost,
+                Extends = abstractOrder,
+                OrderState = OrderState.PendingApproval
+            };
+            
+            await _db.Orders.AddAsync(extension);
+            await _db.SaveChangesAsync();
+
+            return extension;
+        }
+
+        throw new NullReferenceException();
     }
 
-    public async Task CancelOrder(Order order)
+    public async Task CancelOrder(AbstractOrder abstractOrder)
     {
-        if (order.OrderState != OrderState.PendingApproval)
+        if (abstractOrder.OrderState != OrderState.PendingApproval)
             throw new OrderApprovedOrOngoingException();
         
-        order.OrderState = OrderState.Cancelled;
+        abstractOrder.OrderState = OrderState.Cancelled;
         
         var extensions = await _db.Orders
-            .Where(o => o.ExtendsId == order.OrderId)
+            .Where(o => o.ExtendsId == abstractOrder.OrderId)
             .ToListAsync();
         foreach (var o in extensions)
         {

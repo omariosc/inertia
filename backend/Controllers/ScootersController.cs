@@ -14,9 +14,9 @@ namespace inertia.Controllers;
 public class ScootersController: MyControllerBase
 {
     private readonly InertiaContext _db;
-    private readonly ScootersService _service;
+    private readonly InertiaService _service;
     
-    public ScootersController(InertiaContext db, ScootersService service)
+    public ScootersController(InertiaContext db, InertiaService service)
     {
         _db = db;
         _service = service;

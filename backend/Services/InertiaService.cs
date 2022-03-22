@@ -1,14 +1,17 @@
+using inertia.Dtos;
 using inertia.Enums;
+using inertia.Exceptions;
 using inertia.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace inertia.Services;
 
-public class ScootersService
+public class InertiaService
 {
     private readonly InertiaContext _db;
 
-    public ScootersService(InertiaContext db)
+    public InertiaService(InertiaContext db)
     {
         _db = db;
     }
@@ -240,6 +243,110 @@ public class ScootersService
         foreach (var o in pastOrders)
         {
             o.OrderState = OrderState.PendingReturn;
+        }
+
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task<Order> CreateOrder(
+        Account account,
+        Scooter scooter, 
+        HireOption hireOption,
+        DateTime startTime)
+    {
+        DateTime endTime = startTime.AddHours(hireOption.DurationInHours);
+        
+        if (!await IsScooterAvailable(scooter, startTime, endTime))
+        {
+            throw new UnavailableScooterException();
+        }
+        
+        Order order = new Order {
+            OrderId = await Nanoid.Nanoid.GenerateAsync(),
+            Scooter = scooter,
+            Account = account,
+            HireOption = hireOption,
+            StartTime = startTime,
+            EndTime = endTime,
+            Cost = hireOption.Cost,
+            OrderState = OrderState.PendingApproval
+        };
+
+        await _db.Orders.AddAsync(order);
+        await _db.SaveChangesAsync();
+
+        return order;
+    }
+
+    public async Task<Order> ExtendOrder(
+        Order order,
+        HireOption hireOption
+        )
+    {
+        if (order.OrderState != OrderState.Upcoming && order.OrderState != OrderState.PendingApproval &&
+            order.OrderState != OrderState.Ongoing)
+            throw new OrderCannotBeExtendException();
+        
+        if (order.ExtendsId != null)
+        {
+            order = (await _db.Orders
+                .Where(o => o.OrderId == order.ExtendsId)
+                .FirstOrDefaultAsync())!;
+        }
+        
+        _db.Entry(order).Collection(o => o.Extensions ?? new List<Order>()).Load();
+
+        DateTime startTime;
+        DateTime endTime;
+        
+        if (order.Extensions!.Count == 0)
+        {
+            startTime = order.EndTime;
+            endTime = order.EndTime.AddHours(hireOption.DurationInHours);
+        }
+        else
+        {
+            startTime = order.Extensions.OrderByDescending(o => o.EndTime).FirstOrDefault()!.EndTime;
+            endTime = startTime.AddHours(hireOption.DurationInHours);
+
+        }
+        
+        if (!await IsScooterAvailableForExtension(order, order.Scooter, startTime, endTime))
+        {
+            throw new UnavailableScooterException();
+        }
+
+        Order extension = new Order {
+            OrderId = await Nanoid.Nanoid.GenerateAsync(),
+            Scooter = order.Scooter,
+            AccountId = order.AccountId,
+            HireOption = hireOption,
+            StartTime = startTime,
+            EndTime = endTime,
+            Cost = hireOption.Cost,
+            Extends = order,
+            OrderState = OrderState.PendingApproval
+        };
+            
+        await _db.Orders.AddAsync(extension);
+        await _db.SaveChangesAsync();
+
+        return extension;
+    }
+
+    public async Task CancelOrder(Order order)
+    {
+        if (order.OrderState != OrderState.PendingApproval)
+            throw new OrderApprovedOrOngoingException();
+        
+        order.OrderState = OrderState.Cancelled;
+        
+        var extensions = await _db.Orders
+            .Where(o => o.ExtendsId == order.OrderId)
+            .ToListAsync();
+        foreach (var o in extensions)
+        {
+            o.OrderState = OrderState.Cancelled;
         }
 
         await _db.SaveChangesAsync();

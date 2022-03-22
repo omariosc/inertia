@@ -2,6 +2,7 @@ using System.Security.Claims;
 using inertia.Authorization;
 using inertia.Dtos;
 using inertia.Enums;
+using inertia.Exceptions;
 using inertia.Models;
 using inertia.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +17,12 @@ namespace inertia.Controllers;
 public class OrdersController : MyControllerBase
 {
     private readonly InertiaContext _db;
-    private readonly ScootersService _scooters;
+    private readonly InertiaService _inertia;
 
-    public OrdersController(InertiaContext db, ScootersService scooters)
+    public OrdersController(InertiaContext db, InertiaService inertia)
     {
         _db = db;
-        _scooters = scooters;
+        _inertia = inertia;
     }
 
     [HttpGet("{orderId}")]
@@ -55,6 +56,10 @@ public class OrdersController : MyControllerBase
         var hireOption = await _db.HireOptions
             .Where(e => e.HireOptionId == createOrder.HireOptionId)
             .FirstOrDefaultAsync();
+
+        var account = (await _db.Accounts
+            .Where(e => e.AccountId == User.FindFirstValue(ClaimTypes.PrimarySid))
+            .FirstOrDefaultAsync())!;
         
         if (scooter is null)
         {
@@ -74,29 +79,20 @@ public class OrdersController : MyControllerBase
                 );
         }
 
-        DateTime startTime = createOrder.StartTime;
-        DateTime endTime = createOrder.StartTime.AddHours(hireOption.DurationInHours);
-
-        if (!await _scooters.IsScooterAvailable(scooter, startTime, endTime))
+        try
+        {
+            var order = await _inertia.CreateOrder(
+                account,
+                scooter,
+                hireOption,
+                createOrder.StartTime
+            );
+            return Ok(order);
+        }
+        catch (UnavailableScooterException)
         {
             return ApplicationError(ApplicationErrorCode.ScooterUnavailable, "The Scooter is not available");
         }
-        
-        Order order = new Order {
-                OrderId = await Nanoid.Nanoid.GenerateAsync(),
-                Scooter = scooter,
-                AccountId = User.FindFirstValue(ClaimTypes.PrimarySid),
-                HireOption = hireOption,
-                StartTime = startTime,
-                EndTime = endTime,
-                Cost = hireOption.Cost,
-                OrderState = OrderState.PendingApproval
-        };
-
-        await _db.Orders.AddAsync(order);
-        await _db.SaveChangesAsync();
-
-        return Ok(order);
     }
     
     [HttpPost("{orderId}/cancel")]
@@ -119,23 +115,17 @@ public class OrdersController : MyControllerBase
             );
         }
 
-        if (order.OrderState != OrderState.PendingApproval)
+        try
+        {
+            await _inertia.CancelOrder(order);
+        }
+        catch (OrderApprovedOrOngoingException)
         {
             return ApplicationError(
                 ApplicationErrorCode.OrderApprovedOrOngoing,
                 "The order cannot be canceled at this point"
             );
         }
-
-        order.OrderState = OrderState.Cancelled;
-        if (order.Extensions is not null)
-        {
-            foreach (var e in order.Extensions)
-            {
-                e.OrderState = OrderState.Cancelled;
-            }
-        }
-        await _db.SaveChangesAsync();
 
         return Ok();
     }
@@ -173,47 +163,25 @@ public class OrdersController : MyControllerBase
             );
         }
 
-        if (order.OrderState != OrderState.Upcoming && order.OrderState != OrderState.PendingApproval &&
-            order.OrderState != OrderState.Ongoing)
+        try
+        {
+            var extension = await _inertia.ExtendOrder(
+                order,
+                hireOption
+            );
+            return Ok(extension);
+        }
+        catch (OrderCannotBeExtendException)
         {
             return ApplicationError(
                 ApplicationErrorCode.OrderApprovedOrOngoing, 
                 "Order cannot be extended at this point"
-                );
-        }
+            );
 
-        DateTime startTime = order.EndTime;
-        DateTime endTime = startTime.AddHours(hireOption.DurationInHours);
-        
-        
-        if (!await _scooters.IsScooterAvailableForExtension(order, order.Scooter, startTime, endTime))
+        }
+        catch (UnavailableScooterException)
         {
             return ApplicationError(ApplicationErrorCode.ScooterUnavailable, "The Scooter is not available");
         }
-
-        if (order.ExtendsId != null)
-        {
-            order = order.Extends;
-        }
-
-        if (order == null)
-            return StatusCode(StatusCodes.Status500InternalServerError);
-
-        Order extension = new Order {
-            OrderId = await Nanoid.Nanoid.GenerateAsync(),
-            Scooter = order!.Scooter,
-            AccountId = User.FindFirstValue(ClaimTypes.PrimarySid),
-            HireOption = hireOption,
-            StartTime = startTime,
-            EndTime = endTime,
-            Cost = hireOption.Cost,
-            Extends = order,
-            OrderState = OrderState.PendingApproval
-        };
-
-        await _db.Orders.AddAsync(extension);
-        await _db.SaveChangesAsync();
-
-        return Ok(extension);
     }
 }

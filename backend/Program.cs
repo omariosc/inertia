@@ -35,7 +35,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthenticationTokenService, AuthenticationTokenService>();
 builder.Services.AddScoped<IAuthorizationHandler, DefaultAuthorizationHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();
-builder.Services.AddScoped<ScootersService, ScootersService>();
+builder.Services.AddScoped<InertiaService, InertiaService>();
 builder.Services.AddScoped<UsersService, UsersService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

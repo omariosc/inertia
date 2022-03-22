@@ -19,20 +19,20 @@ namespace inertia.Controllers;
 public class UsersController : MyControllerBase
 {
     private readonly InertiaContext _db;
-    private readonly ScootersService _scooters;
+    private readonly InertiaService _inertia;
     private readonly UsersService _users;
     private readonly AuthenticationTokenService _tokenService;
 
     public UsersController(
         InertiaContext db, 
         AuthenticationTokenService tokenService,
-        ScootersService scooters,
+        InertiaService inertia,
         UsersService users
     )
     {
         _db = db;
         _tokenService = tokenService;
-        _scooters = scooters;
+        _inertia = inertia;
         _users = users;
     }
 
@@ -122,7 +122,7 @@ public class UsersController : MyControllerBase
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
 
-        await _scooters.UpdateOrderStatus();
+        await _inertia.UpdateOrderStatus();
         
         var orders = await _db.Orders
             .Include(e => e.HireOption)

@@ -1,3 +1,4 @@
+using EntityFramework.Exceptions.Common;
 using inertia.Authorization;
 using inertia.Dtos;
 using inertia.Enums;
@@ -17,18 +18,18 @@ namespace inertia.Controllers.Admin;
 public class ScootersController : MyControllerBase
 {
     private readonly InertiaContext _db;
-    private readonly ScootersService _scooters;
+    private readonly InertiaService _inertia;
 
-    public ScootersController(InertiaContext db, ScootersService scooters)
+    public ScootersController(InertiaContext db, InertiaService inertia)
     {
         _db = db;
-        _scooters = scooters;
+        _inertia = inertia;
     }
 
     [HttpGet]
     public async Task<ActionResult> List()
     {
-        return Ok(await _scooters.GetAllScootersCurrentStatus());
+        return Ok(await _inertia.GetAllScootersCurrentStatus());
     }
 
     [HttpPost("{scooterId:int}/return")]
@@ -41,7 +42,7 @@ public class ScootersController : MyControllerBase
         if (scooter is null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid scooter id", "scooter");
 
-        await _scooters.ReturnScooter(scooter);
+        await _inertia.ReturnScooter(scooter);
 
         return Ok();
     }
@@ -82,9 +83,20 @@ public class ScootersController : MyControllerBase
         if (scooter == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
-        scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
-
-        await _db.SaveChangesAsync();
+        try
+        {
+            scooter.Available = scooterRequest.Available ?? scooter.Available;
+            scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
+            scooter.ScooterId = scooterRequest.ScooterId ?? scooter.ScooterId;
+            scooter.Name = scooterRequest.Name ?? scooter.Name;
+            
+            await _db.SaveChangesAsync();
+        }
+        catch (UniqueConstraintException)
+        {
+            return ApplicationError(ApplicationErrorCode.ScooterIdTaken, "scooter id taken");
+        }
+        
         return Ok(scooter);
     }
 }

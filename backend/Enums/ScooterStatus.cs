@@ -4,5 +4,6 @@ public enum ScooterStatus
 {
     InDepo,
     OngoingOrder,
-    PendingReturn
+    PendingReturn,
+    UnavailableByStaff
 }

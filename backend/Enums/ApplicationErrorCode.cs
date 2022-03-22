@@ -8,5 +8,6 @@ public enum ApplicationErrorCode
     ScooterUnavailable,
     InvalidLogin,
     EmailAlreadyUsed,
-    AttemptingToCloseAlreadyClosedIssue
+    AttemptingToCloseAlreadyClosedIssue,
+    ScooterIdTaken
 }

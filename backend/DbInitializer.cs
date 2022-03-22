@@ -40,26 +40,26 @@ public class DbInitializer
 
         var scooters = new Scooter[]
         {
-            new Scooter {ScooterId = 100, Depo = locationA},
-            new Scooter {ScooterId = 101, Depo = locationA},
-            new Scooter {ScooterId = 102, Depo = locationA},
-            new Scooter {ScooterId = 103, Depo = locationA},
-            new Scooter {ScooterId = 104, Depo = locationB},
-            new Scooter {ScooterId = 105, Depo = locationB},
-            new Scooter {ScooterId = 106, Depo = locationB},
-            new Scooter {ScooterId = 107, Depo = locationB},
-            new Scooter {ScooterId = 108, Depo = locationC},
-            new Scooter {ScooterId = 109, Depo = locationC},
-            new Scooter {ScooterId = 200, Depo = locationC},
-            new Scooter {ScooterId = 201, Depo = locationC},
-            new Scooter {ScooterId = 202, Depo = locationD},
-            new Scooter {ScooterId = 203, Depo = locationD},
-            new Scooter {ScooterId = 204, Depo = locationD},
-            new Scooter {ScooterId = 205, Depo = locationD},
-            new Scooter {ScooterId = 206, Depo = locationE},
-            new Scooter {ScooterId = 207, Depo = locationE},
-            new Scooter {ScooterId = 208, Depo = locationE},
-            new Scooter {ScooterId = 209, Depo = locationE},
+            new Scooter {ScooterId = 100, Name = "100", Depo = locationA, Available = true},
+            new Scooter {ScooterId = 101, Name = "101", Depo = locationA, Available = true},
+            new Scooter {ScooterId = 102, Name = "102", Depo = locationA, Available = true},
+            new Scooter {ScooterId = 103, Name = "103", Depo = locationA, Available = true},
+            new Scooter {ScooterId = 104, Name = "104", Depo = locationB, Available = true},
+            new Scooter {ScooterId = 105, Name = "105", Depo = locationB, Available = true},
+            new Scooter {ScooterId = 106, Name = "106", Depo = locationB, Available = true},
+            new Scooter {ScooterId = 107, Name = "107", Depo = locationB, Available = true},
+            new Scooter {ScooterId = 108, Name = "108", Depo = locationC, Available = true},
+            new Scooter {ScooterId = 109, Name = "109", Depo = locationC, Available = true},
+            new Scooter {ScooterId = 200, Name = "200", Depo = locationC, Available = true},
+            new Scooter {ScooterId = 201, Name = "201", Depo = locationC, Available = true},
+            new Scooter {ScooterId = 202, Name = "202", Depo = locationD, Available = true},
+            new Scooter {ScooterId = 203, Name = "203", Depo = locationD, Available = true},
+            new Scooter {ScooterId = 204, Name = "204", Depo = locationD, Available = true},
+            new Scooter {ScooterId = 205, Name = "205", Depo = locationD, Available = true},
+            new Scooter {ScooterId = 206, Name = "206", Depo = locationE, Available = true},
+            new Scooter {ScooterId = 207, Name = "207", Depo = locationE, Available = true},
+            new Scooter {ScooterId = 208, Name = "208", Depo = locationE, Available = true},
+            new Scooter {ScooterId = 209, Name = "209", Depo = locationE, Available = true},
         };
         
         foreach (var scooter in scooters)
@@ -99,7 +99,11 @@ public class DbInitializer
             GeneratePassword(),
             GeneratePassword(),
         };
-        
+
+        if (env.IsDevelopment())
+        {
+            passwordAccounts[0] = "admin";
+        }
         
         var staffTask = users.CreateEmployeeAccount(
             "admin@inertia", 
@@ -108,7 +112,7 @@ public class DbInitializer
             );
         staffTask.Wait();
         var staff = staffTask.Result;
-        
+
         var janeTask = users.CreateAccount(
                 "jane@inertia",
                 passwordAccounts[1],
@@ -223,7 +227,7 @@ public class DbInitializer
             jessie
         };
 
-        List<Order> orders = new List<Order>();
+        List<AbstractOrder> orders = new List<AbstractOrder>();
         DateTime startTime = DateTime.Today - TimeSpan.FromDays(61);
 
         int currentScooter = 0;

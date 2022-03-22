@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace inertia.Controllers.Admin;
 
 [ApiController]
-[Route("admin/[controller]")]
+[Route("api/admin/[controller]")]
 [Produces("application/json")]
 [Authorize(Policy = Policies.Employee)]
 public class PlotController : MyControllerBase

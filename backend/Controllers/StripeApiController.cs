@@ -5,7 +5,7 @@ using Stripe;
 
 namespace inertia.Controllers;
 
-[Route("create-payment-intent")]
+[Route("api/create-payment-intent")]
 [ApiController]
 public class StripeApiController : Controller
 {

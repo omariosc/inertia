@@ -11,3 +11,7 @@ public class OrderApprovedOrOngoingException : Exception
 public class OrderCannotBeExtendException : Exception
 {
 }
+
+public class EmailAlreadyExistsException : Exception
+{
+}

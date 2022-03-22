@@ -35,6 +35,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthenticationTokenService, AuthenticationTokenService>();
 builder.Services.AddScoped<IAuthorizationHandler, DefaultAuthorizationHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, EmployeeAuthorizationHandler>();
 builder.Services.AddScoped<InertiaService, InertiaService>();
 builder.Services.AddScoped<UsersService, UsersService>();
 
@@ -81,7 +82,7 @@ builder.Services
                     p
                         .RequireAuthenticatedUser()
                         .AddRequirements(new DefaultAuthorization())
-                        .RequireRole(Roles.Employee)
+                        .AddRequirements(new EmployeeAuthorization())
             );
 
         options.DefaultPolicy = options.GetPolicy(Policies.Authenticated)!;

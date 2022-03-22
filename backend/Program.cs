@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using inertia;
 using inertia.Authorization;
@@ -6,6 +8,7 @@ using inertia.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.IdentityModel.Tokens;
 using Stripe;
 
@@ -20,6 +23,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRazorPages();
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -38,6 +42,8 @@ builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, EmployeeAuthorizationHandler>();
 builder.Services.AddScoped<InertiaService, InertiaService>();
 builder.Services.AddScoped<UsersService, UsersService>();
+builder.Services.AddScoped<EmailService, EmailService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

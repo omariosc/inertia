@@ -344,8 +344,8 @@ public class DbInitializer
 
         if (env.IsDevelopment())
         {
-            users.CreateAccount("test@test.com", "test_password", "Le Customer", UserType.Regular, AccountRole.User).Wait();
-            users.CreateAccount("test2@test.com", "test_password", "Le Staff", UserType.Regular, AccountRole.Manager).Wait();
+            users.CreateAccount("inertiateam420+test@gmail.com", "test_password", "Le Customer", UserType.Regular, AccountRole.User).Wait();
+            users.CreateAccount("inertiateam420+test2@gmail.com", "test_password", "Le Staff", UserType.Regular, AccountRole.Manager).Wait();
         }
         
         Console.Out.WriteLine("Staff Login:");

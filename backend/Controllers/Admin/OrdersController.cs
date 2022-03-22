@@ -18,11 +18,13 @@ public class OrdersController : MyControllerBase
 {
     private readonly InertiaContext _db;
     private readonly InertiaService _inertia;
+    private readonly EmailService _email;
 
-    public OrdersController(InertiaContext db, InertiaService inertia)
+    public OrdersController(InertiaContext db, InertiaService inertia, EmailService email)
     {
         _db = db;
         _inertia = inertia;
+        _email = email;
     }
 
     [HttpGet("AccountOrders")]
@@ -87,6 +89,9 @@ public class OrdersController : MyControllerBase
                 hireOption,
                 createOrder.StartTime
             );
+            
+            await _email.SendBookingOrderConfirmation(createOrder.Email, order);
+
             return Ok(order);
         }
         catch (UnavailableScooterException)

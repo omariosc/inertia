@@ -12,9 +12,9 @@ class IssueSystem(unittest.TestCase):
 
     def test_issue_system(self):
         self.customer = api.client.Client(self.host)
-        self.customer.login('test@test.com', 'test_password')
+        self.customer.login('inertiateam420+test@gmail.com', 'test_password')
         self.staff = api.client.Client(self.host)
-        self.staff.login('test2@test.com', 'test_password')
+        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
 
         issue = self.customer.create_issue("i am sad :(", "hey human how r u")
         self.staff.admin_close_issue(issue.id, "heya :)")

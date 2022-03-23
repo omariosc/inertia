@@ -217,4 +217,68 @@ public class UsersController : MyControllerBase
 
         return Ok();
     }
+
+    [HttpGet("{accountId}/ApplyDiscount")]
+    [Authorize(Policy = Policies.MatchAccountId)]
+    public async Task<ActionResult> ApplyDiscount(
+        string accountId,
+        [FromBody]ApplyDiscountRequest request)
+    {
+        var account = await _db.Accounts
+            .Where(a => a.AccountId == accountId)
+            .FirstOrDefaultAsync();
+
+        if (account == null)
+            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account", "account");
+
+        if (account.UserType != UserType.Regular)
+            return ApplicationError(ApplicationErrorCode.AlreadyAppliedForDiscount, "already applied for discount");
+        
+        try
+        {
+            var application = new DiscountApplication
+            {
+                Account = account,
+                DisccountType = request.DiscountType,
+                State = DiscountApplicationState.Pending
+            };
+
+            await _db.DiscountApplications.AddAsync(application);
+            await _db.SaveChangesAsync();
+            
+            return Ok(application);
+        }
+        catch (UniqueConstraintException)
+        {
+            return ApplicationError(ApplicationErrorCode.AlreadyAppliedForDiscount, "already applied for discount");
+        }
+    }
+
+    [HttpGet("{accountId}/ApplyDiscountUploadImage")]
+    [Authorize(Policy = Policies.MatchAccountId)]
+    [Consumes("application/octet-stream")]
+    public async Task<ActionResult> ApplyDiscountUploadImage(
+        string accountId,
+        [FromBody] byte[] image)
+    {
+        var application = await _db.DiscountApplications
+            .Where(a => a.AccountId == accountId)
+            .FirstOrDefaultAsync();
+
+        if (application is null)
+            return ApplicationError(ApplicationErrorCode.DiscountApplicationNotAwaitingImageForUser,
+                "discount application not awaiting image from user");
+        
+        if (application.State != DiscountApplicationState.AwaitingImage)
+            return ApplicationError(ApplicationErrorCode.DiscountApplicationNotAwaitingImageForUser,
+                "discount application not awaiting image from user");
+
+        application.Image = image;
+        application.State = DiscountApplicationState.Pending;
+        await _db.SaveChangesAsync();
+
+        return Ok();
+    }
+
+
 }

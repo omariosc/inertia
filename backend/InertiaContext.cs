@@ -19,6 +19,8 @@ public class InertiaContext : DbContext
 
     public DbSet<Issue> Issues { get; set; } = null!;
     
+    public DbSet<DiscountApplication> DiscountApplications { get; set; } = null!;
+    
     public InertiaContext(DbContextOptions options) : base(options)
     {
     }

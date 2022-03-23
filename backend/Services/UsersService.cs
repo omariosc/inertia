@@ -38,7 +38,7 @@ public class UsersService
                 Password = Argon2.Hash(salt + password),
                 Salt = salt,
                 Role = role,
-                State = AccountState.PendingApproval,
+                State = AccountState.Active,
                 UserType = userType
             };
 

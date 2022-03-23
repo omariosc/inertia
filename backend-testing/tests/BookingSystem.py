@@ -12,9 +12,9 @@ class BookingSystem(unittest.TestCase):
 
     def test_order_creation(self):
         self.customer = api.client.Client(self.host)
-        self.customer.login('test@test.com', 'test_password')
+        self.customer.login('inertiateam420+test@gmail.com', 'test_password')
         self.staff = api.client.Client(self.host)
-        self.staff.login('test2@test.com', 'test_password')
+        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
 
         t = datetime.now() + timedelta(days=1)
 
@@ -55,9 +55,9 @@ class BookingSystem(unittest.TestCase):
 
     def test_scooter_availability_service(self):
         self.customer = api.client.Client(self.host)
-        self.customer.login('test@test.com', 'test_password')
+        self.customer.login('inertiateam420+test@gmail.com', 'test_password')
         self.staff = api.client.Client(self.host)
-        self.staff.login('test2@test.com', 'test_password')
+        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
 
         t = datetime.now()
 
@@ -90,9 +90,9 @@ class BookingSystem(unittest.TestCase):
 
     def test_staff_scooter_return(self):
         self.customer = api.client.Client(self.host)
-        self.customer.login('test@test.com', 'test_password')
+        self.customer.login('inertiateam420+test@gmail.com', 'test_password')
         self.staff = api.client.Client(self.host)
-        self.staff.login('test2@test.com', 'test_password')
+        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
 
         t = datetime.now()
 

@@ -9,7 +9,7 @@ import ScooterManagement from './EmployeeScooterManagement.js';
 import SubmitIssues from './EmployeeSubmitIssues.js';
 import ManageIssues from './EmployeeManageIssues.js';
 import ManageApplication from './EmployeeManageApplications.js'
-import Settings from './Settings.js';
+import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
 function EmployeeInterface() {
@@ -154,7 +154,7 @@ function EmployeeInterface() {
                         {showManageIssues ? <ManageIssues onHide={() => setShowManageIssues(false)}/> : null}
                         {showManageApplication ?
                             <ManageApplication onHide={() => setShowManageApplication(false)}/> : null}
-                        {showSettings ? <Settings onHide={() => setShowSettings(false)}/> : null}
+                        {showSettings ? <StaffSettings onHide={() => setShowSettings(false)}/> : null}
                     </>
                 </Col>
             </Row>

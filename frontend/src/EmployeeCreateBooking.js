@@ -46,6 +46,11 @@ function CreateBooking() {
                         <br/>
                         <Form>
                             <Form.Group>
+                                <Form.Label><b>Name</b></Form.Label>
+                                <Form.Control type="name" required as="input"/>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
                                 <Form.Label><b>User Email</b></Form.Label>
                                 <Form.Control type="email" required as="input"/>
                             </Form.Group>

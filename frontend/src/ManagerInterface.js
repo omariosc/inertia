@@ -6,7 +6,7 @@ import ScooterManagement from './ManagerScooterManagement.js';
 import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';
 import AccountManagement from './ManagerAccountManagement.js';
-import Settings from './Settings.js';
+import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css'
 
 function ManagerInterface() {
@@ -89,7 +89,7 @@ function ManagerInterface() {
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
                         {showStatistics ? <Statistics onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}
-                        {showSettings ? <Settings onHide={() => setShowSettings(false)}/> : null}
+                        {showSettings ? <StaffSettings onHide={() => setShowSettings(false)}/> : null}
                     </>
                 </Col>
             </Row>

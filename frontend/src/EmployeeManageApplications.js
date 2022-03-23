@@ -4,9 +4,9 @@ import './StaffInterface.css'
 
 function ManageApplications() {
     const applications = [
-        [3, "Student", "sc20osc", "17/03/22 12:54"],
-        [4, "Student", "sc20jdr", "18/03/22 18:53"],
-        [6, "Senior", "oldman123", "24/03/22 15:33"]
+        [3, "Student", "sc20osc@leeds.ac.uk", "17/03/22 12:54"],
+        [4, "Student", "sc20jdr@leeds.ac.uk", "18/03/22 18:53"],
+        [6, "Senior", "oldman123@gmail.com", "24/03/22 15:33"]
     ]
     return (
         <>
@@ -19,7 +19,7 @@ function ManageApplications() {
                         <tr>
                             <th>User ID</th>
                             <th>Application Type</th>
-                            <th>Username</th>
+                            <th>Email Address</th>
                             <th>Time Submitted</th>
                             <th>Photo Link</th>
                             <th>Action</th>

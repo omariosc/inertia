@@ -1,18 +1,28 @@
-import {Button, Card, Container, Form, FormSelect} from "react-bootstrap";
+import {Button, Card, Container, Dropdown, DropdownButton, Form, FormSelect} from "react-bootstrap";
 import React from "react";
 
 function ManageIssues() {
     const issues = [
-        ["It appears the scooter 103 has faulty brakes and will need to be made unavailable until is able to be serviced.", "sc20jdr", "High"],
-        ["Scooter 108 is not available to be rented despite being in working order.", "sc20wt", "None"],
-        ["The payment system does not accept my credit card details.", "sc20osc", "Medium"],
-        ["The price of scooter 202 has been set to half of what it should be.", "sc20mf", "Low"]]
+        ["It appears the scooter 103 has faulty brakes and will need to be made unavailable until is able to be serviced.", "sc20jdr@leeds.ac.uk", "High"],
+        ["Scooter 108 is not available to be rented despite being in working order.", "sc20wt@leeds.ac.uk", "None"],
+        ["The payment system does not accept my credit card details.", "sc20osc@leeds.ac.uk", "Medium"],
+        ["The price of scooter 202 has been set to half of what it should be.", "sc20mf@leeds.ac.uk", "Low"]]
     const priorities = ["None", "Low", "Medium", "High"]
+    const sort_filters = ["Priority: Ascending", "Priority: Descending", "Time: First", "Time: Last"]
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Manage Issues</h1>
             <br/>
             <Container>
+                <div style={{float: "right"}}>
+                    <DropdownButton id="dropdown-basic-button" title="Sort by: ">
+                        {sort_filters.map((filter, idx) => (
+                            <Dropdown.Item key={idx}>{filter}</Dropdown.Item>
+                        ))}
+                    </DropdownButton>
+                </div>
+                <br/>
+                <br/>
                 <div className="scroll">
                     {issues.map((issue, idx) => (
                         <Card

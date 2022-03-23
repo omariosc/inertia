@@ -6,10 +6,10 @@ import {faUser} from "@fortawesome/free-solid-svg-icons";
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
 import LandingPage from './LandingPage'
+import CustomerInterface from "./CustomerInterface";
 import ManagerInterface from './ManagerInterface';
 import EmployeeInterface from './EmployeeInterface';
 import './App.css'
-import CustomerDashboard from "./AccountDetailsPage";
 
 const App = () => {
     const center = [53.8, -1.55]
@@ -212,7 +212,7 @@ const App = () => {
                 <LoginForm show={showLogin} onHide={() => setShowLogin(false)}/>
                 {showLanding ? null : <br/>}
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
-                {showCustomer ? <CustomerDashboard onHide={() => setShowCustomer(false)}/> : null}
+                {showCustomer ? <CustomerInterface onHide={() => setShowCustomer(false)}/> : null}
                 {showManager ? <ManagerInterface onHide={() => setShowManager(false)}/> : null}
                 {showEmployee ? <EmployeeInterface onHide={() => setShowEmployee(false)}/> : null}
             </div>

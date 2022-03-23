@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
-function Settings() {
+function StaffSettings() {
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Settings</h1>
@@ -56,4 +56,4 @@ function Settings() {
     );
 }
 
-export default Settings;
+export default StaffSettings;

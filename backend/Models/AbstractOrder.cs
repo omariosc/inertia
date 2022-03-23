@@ -39,6 +39,10 @@ public abstract class AbstractOrder
 
     [Required] public float Cost { get; set; }
     
+    [Required] public float PreDiscountCost { get; set; }
+    
+    [Required] public float Discount { get; set; }
+    
     [Required] public int HireOptionId { get; set; }
     [ForeignKey("HireOptionId")] public virtual HireOption HireOption { get; set; } = null!;
     

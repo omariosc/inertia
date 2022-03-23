@@ -264,6 +264,9 @@ public class InertiaService
         {
             throw new UnavailableScooterException();
         }
+
+        var discount = account.UserType != UserType.Regular ? 10 / 100 : 0;
+        var cost = hireOption.Cost * (1 - discount);
         
         Order abstractOrder = new Order {
             OrderId = await Nanoid.Nanoid.GenerateAsync(),
@@ -273,7 +276,9 @@ public class InertiaService
             CreatedAt = DateTime.Now,
             StartTime = startTime,
             EndTime = endTime,
-            Cost = hireOption.Cost,
+            PreDiscountCost = hireOption.Cost,
+            Discount = discount,
+            Cost = cost,
             OrderState = OrderState.PendingApproval
         };
 
@@ -307,6 +312,8 @@ public class InertiaService
             StartTime = startTime,
             EndTime = endTime,
             Cost = hireOption.Cost,
+            PreDiscountCost = hireOption.Cost,
+            Discount = 0.0F,
             OrderState = OrderState.Upcoming
         };
 
@@ -356,6 +363,9 @@ public class InertiaService
         
         if (abstractOrder is Order order)
         {
+            var discount = order.Discount;
+            var cost = hireOption.Cost * (1.0F - discount);
+            
             Order extension = new Order {
                 OrderId = await Nanoid.Nanoid.GenerateAsync(),
                 Scooter = abstractOrder.Scooter,
@@ -364,7 +374,9 @@ public class InertiaService
                 CreatedAt = DateTime.Now,
                 StartTime = startTime,
                 EndTime = endTime,
-                Cost = hireOption.Cost,
+                PreDiscountCost = hireOption.Cost,
+                Discount = discount,
+                Cost = cost,
                 Extends = abstractOrder,
                 OrderState = OrderState.PendingApproval
             };
@@ -386,6 +398,8 @@ public class InertiaService
                 StartTime = startTime,
                 EndTime = endTime,
                 Cost = hireOption.Cost,
+                Discount = 0.0F,
+                PreDiscountCost = hireOption.Cost,
                 Extends = abstractOrder,
                 OrderState = OrderState.PendingApproval
             };

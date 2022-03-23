@@ -97,5 +97,4 @@ public class UsersController : MyControllerBase
             return ApplicationError(ApplicationErrorCode.EmailAlreadyUsed, "email already used");
         }
     }
-    
 }

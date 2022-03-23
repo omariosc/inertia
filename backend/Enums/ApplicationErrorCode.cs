@@ -9,5 +9,7 @@ public enum ApplicationErrorCode
     InvalidLogin,
     EmailAlreadyUsed,
     AttemptingToCloseAlreadyClosedIssue,
-    ScooterIdTaken
+    ScooterIdTaken,
+    AlreadyAppliedForDiscount,
+    DiscountApplicationNotAwaitingImageForUser
 }

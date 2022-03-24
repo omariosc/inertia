@@ -6,8 +6,8 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function LoginForm(props) {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const userDetails = [];
 
     async function onSubmit() {
@@ -26,37 +26,27 @@ function LoginForm(props) {
             });
             const response = await request.json();
             try {
-                userDetails.push(response.accountId);
-                userDetails.push(response.name);
-                userDetails.push(response.email);
-                userDetails.push(response.role);
-                userDetails.push(response.state);
-                userDetails.push(response.userType);
-                userDetails.push(response.accessToken);
                 if (email === "admin@inertia" && password === "admin") {
-                    cookies.set("accessToken", userDetails[6], {path: '/'});
+                    cookies.set("accountID", response.account.accountID, {path: '/'});
+                    cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onManager();
-                } else if (userDetails[3] == 2){
-                    cookies.set("accessToken", userDetails[6], {path: '/'});
+                } else if (response.account.role === 2) {
+                    cookies.set("accountID", response.account.accountID, {path: '/'});
+                    cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onEmployee();
-                } else {
-                    cookies.set("accessToken", userDetails[6], {path: '/'});
+                } else if (response.account.role === 0) {
+                    cookies.set("accountID", response.account.accountID, {path: '/'});
+                    cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onCustomer();
+                } else {
+                    console.log(response);
                 }
-                console.log(response);
             } catch (error) {
                 console.log("Error: Invalid user credentials")
             }
         } catch (error) {
-            // console.error(error);
+            console.error(error);
         }
-        // if (email == "admin@inertia" && password == "admin") {
-        //     props.onManager();
-        // } else if (email.startsWith("em")) {
-        //     props.onEmployee();
-        // } else {
-        //     props.onCustomer();
-        // }
     }
 
     return (

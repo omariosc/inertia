@@ -5,8 +5,7 @@ import './StaffInterface.css'
 
 function Dashboard() {
     const dashboardStatistics = [["Employees logged in", 1], ["Users logged in", 3], ["High priority issues", 1],
-        ["Revenue today (£)", 490], ["Cancellations today", 0], ["Extensions today", 0],
-        ["Scooters in use", 3]]
+        ["Revenue today (£)", 490], ["Scooters in use", 3]]
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Dashboard</h1>

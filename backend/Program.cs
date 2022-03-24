@@ -42,10 +42,9 @@ builder.Services.AddCors(options =>
         corsBuilder =>
         {
             corsBuilder
-                .AllowAnyOrigin() 
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
+                .AllowAnyHeader();
         });
 });
 
@@ -125,6 +124,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {

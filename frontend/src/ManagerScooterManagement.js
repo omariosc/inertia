@@ -55,28 +55,28 @@ function ScooterManagement() {
                                 <tbody>
                                 {scooters.map((scooter, idx) => (
                                     <tr>
-                                        <td key={idx}>
+                                        <td>
                                             {scooter[0]}
                                             <input id={idx + "-id"} name="scooter-id" placeholder="Change scooter id"
                                                    required/>
                                         </td>
-                                        <td key={idx}>
+                                        <td>
                                             {scooter[1]}
                                             <input id={idx + "-name"} name="scooter-name"
                                                    placeholder="Change scooter name"
                                                    required/>
                                         </td>
-                                        <td key={idx}>
+                                        <td>
                                             {scooter[2]}
                                             <Button variant="primary">Make unavailable</Button>
                                         </td>
-                                        <td key={idx}>
+                                        <td>
                                             {scooter[3][2]} - {scooter[3][0]}
-                                            <DropdownButton id="dropdown-basic-button" title="Change scooter location"
+                                            <DropdownButton className="dropdown-basic-button" title="Change scooter location"
                                                             variant="primary">
-                                                {map_locations.map((location, idx) => (
+                                                {map_locations.map((location, idy) => (
                                                     <Dropdown.Item
-                                                        key={idx}>{location[2]} - {location[0]}</Dropdown.Item>
+                                                        key={idy}>{location[2]} - {location[0]}</Dropdown.Item>
                                                 ))}
                                             </DropdownButton>
                                         </td>
@@ -96,7 +96,7 @@ function ScooterManagement() {
                         <Form>
                             <Form.Group>
                                 <Form.Label><b>Price per time slot</b></Form.Label>
-                                <Form.Select id="dropdown-basic-button" title="Select hire period">
+                                <Form.Select className="dropdown-basic-button" title="Select hire period">
                                     {times.map((time, idx) => (
                                         <option key={idx}>{time} - £{price[idx]}</option>
                                     ))}

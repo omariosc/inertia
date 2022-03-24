@@ -48,20 +48,8 @@ function CreateBooking() {
         cookies.set('cvv', cvv, {path: '/'});
     }
 
-    function setCookieCardNo(value) {
-        setCardNo(value)
-    }
-
-    function setCookieExpiry(value) {
-        setExpiry(value)
-    }
-
-    function setCookieCVV(value) {
-        setCVV(value)
-    }
-
     function checkCardExists() {
-        if (cookies.get('cardNumber') != null && cookies.get('cardNumber') != null && cookies.get('cardNumber') != null) {
+        if (cookies.get('cardNumber') && cookies.get('expiryDate') && cookies.get('cvv')) {
             return false;
         } else {
             return true;
@@ -75,9 +63,9 @@ function CreateBooking() {
             <Form>
                 <Form.Group>
                     <Form.Label><h6>Select Location</h6></Form.Label>
-                    <Form.Select id="dropdown-basic-button" title="Select location">
+                    <Form.Select className="dropdown-basic-button" title="Select location" defaultValue={cookies.get('selectedLocation')}>
                         {map_locations.map((location, idx) => (
-                            <option key={idx}>{location[2]} - {location[0]}</option>
+                            <option key={idx} value={location[0].toString()}>{location[2]} - {location[0]}</option>
                         ))}
                     </Form.Select>
                 </Form.Group>
@@ -97,9 +85,9 @@ function CreateBooking() {
                 <br/>
                 <Form.Group>
                     <Form.Label><h6>Select Scooter</h6></Form.Label>
-                    <Form.Select id="dropdown-basic-button" title="Select scooter">
+                    <Form.Select className="dropdown-basic-button" title="Select scooter">
                         {scooters.map((scooter, idx) => (
-                            <option key={idx}>{scooter[0]} - {scooter[1]}</option>
+                            <option key={idx} value={scooter[0].toString()}>{scooter[0]} - {scooter[1]}</option>
                         ))}
                     </Form.Select>
                 </Form.Group>
@@ -107,9 +95,9 @@ function CreateBooking() {
                 <br/>
                 <Form.Group>
                     <Form.Label><h6>Select Hire Period</h6></Form.Label>
-                    <Form.Select id="dropdown-basic-button" title="Select hire period">
+                    <Form.Select className="dropdown-basic-button" title="Select hire period">
                         {times.map((time, idx) => (
-                            <option key={idx}>{time} - £{price[idx]}</option>
+                            <option key={idx} value={time}>{time} - £{price[idx]}</option>
                         ))}
                     </Form.Select>
                 </Form.Group>
@@ -136,7 +124,7 @@ function CreateBooking() {
                                 type="text"
                                 required as="input"
                                 value={cardNo}
-                                onInput={e => setCookieCardNo(e.target.value)}
+                                onInput={e => setCardNo(e.target.value)}
                             />
                         </Form.Group>
                         <br/>
@@ -146,7 +134,7 @@ function CreateBooking() {
                                 type="text"
                                 required as="input"
                                 value={expiry}
-                                onInput={e => setCookieExpiry(e.target.value)}
+                                onInput={e => setExpiry(e.target.value)}
                             />
                         </Form.Group>
                         <br/>
@@ -156,7 +144,7 @@ function CreateBooking() {
                                 type="text"
                                 required as="input"
                                 value={cvv}
-                                onInput={e => setCookieCVV(e.target.value)}
+                                onInput={e => setCVV(e.target.value)}
                             />
                         </Form.Group>
                     </>

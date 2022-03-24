@@ -78,7 +78,7 @@ function CreateBooking() {
                         <Form>
                             <Form.Group>
                                 <Form.Label><b>Select Location</b></Form.Label>
-                                <Form.Select id="dropdown-basic-button" title="Select location">
+                                <Form.Select className="dropdown-basic-button" title="Select location">
                                     {map_locations.map((location, idx) => (
                                         <option key={idx}>{location[2]} - {location[0]}</option>
                                     ))}
@@ -88,7 +88,7 @@ function CreateBooking() {
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Scooter</b></Form.Label>
-                                <Form.Select id="dropdown-basic-button" title="Select scooter">
+                                <Form.Select className="dropdown-basic-button" title="Select scooter">
                                     {scooters.map((scooter, idx) => (
                                         <option key={idx}>{scooter[0]} - {scooter[1]}</option>
                                     ))}
@@ -98,7 +98,7 @@ function CreateBooking() {
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Hire Period</b></Form.Label>
-                                <Form.Select id="dropdown-basic-button" title="Select hire period">
+                                <Form.Select className="dropdown-basic-button" title="Select hire period">
                                     {times.map((time, idx) => (
                                         <option key={idx}>{time} - £{price[idx]}</option>
                                     ))}

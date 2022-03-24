@@ -12,7 +12,7 @@ import ManageApplication from './EmployeeManageApplications.js'
 import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
-function EmployeeInterface() {
+function EmployeeInterface({isDark, toggle}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showCreateBooking, setShowCreateBooking] = useState(false);
     const [showBookingHistory, setShowBookingHistory] = useState(false);
@@ -29,7 +29,7 @@ function EmployeeInterface() {
                     <Nav
                         defaultActiveKey="#/dashboard"
                         variant="pills"
-                        className="flex-column vertical-navbar"
+                        className="flex-column"
                         style={{paddingLeft: "15px"}}
                     >
                         <Nav.Link onClick={() => {
@@ -154,7 +154,8 @@ function EmployeeInterface() {
                         {showManageIssues ? <ManageIssues onHide={() => setShowManageIssues(false)}/> : null}
                         {showManageApplication ?
                             <ManageApplication onHide={() => setShowManageApplication(false)}/> : null}
-                        {showSettings ? <StaffSettings onHide={() => setShowSettings(false)}/> : null}
+                        {showSettings ? <StaffSettings isDark={isDark} toggle={toggle}
+                                                       onHide={() => setShowSettings(false)}/> : null}
                     </>
                 </Col>
             </Row>

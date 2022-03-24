@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
-function StaffSettings() {
+function StaffSettings({isDark, toggle}) {
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Settings</h1>
@@ -43,11 +43,12 @@ function StaffSettings() {
                         <br/>
                         <BootstrapSwitchButton
                             bg="dark"
-                            checked={false}
+                            checked={isDark}
                             onlabel='On'
                             offlabel='Off'
                             onstyle='light'
                             offstyle='primary'
+                            onChange={toggle}
                         />
                     </Col>
                 </Row>

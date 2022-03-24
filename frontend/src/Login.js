@@ -21,7 +21,8 @@ function LoginForm(props) {
                 body: JSON.stringify({
                     'email': email,
                     'password': password
-                })
+                }),
+                mode: "cors"
             });
             const response = await request.json();
             try {
@@ -32,7 +33,7 @@ function LoginForm(props) {
                 userDetails.push(response.state);
                 userDetails.push(response.userType);
                 userDetails.push(response.accessToken);
-                if (email == "admin@inertia" && password == "admin") {
+                if (email === "admin@inertia" && password === "admin") {
                     cookies.set("accessToken", userDetails[6], {path: '/'});
                     props.onManager();
                 } else if (userDetails[3] == 2){
@@ -47,7 +48,7 @@ function LoginForm(props) {
                 console.log("Error: Invalid user credentials")
             }
         } catch (error) {
-            console.error(error);
+            // console.error(error);
         }
         // if (email == "admin@inertia" && password == "admin") {
         //     props.onManager();

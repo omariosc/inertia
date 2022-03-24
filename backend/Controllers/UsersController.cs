@@ -46,7 +46,7 @@ public class UsersController : MyControllerBase
                 request.Email,
                 request.Password,
                 request.Name,
-                request.UserType,
+                UserType.Regular,
                 AccountRole.User
             );
         }

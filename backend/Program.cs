@@ -36,6 +36,19 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        corsBuilder =>
+        {
+            corsBuilder
+                .AllowAnyOrigin() 
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        });
+});
+
 builder.Services.AddScoped<AuthenticationTokenService, AuthenticationTokenService>();
 builder.Services.AddScoped<IAuthorizationHandler, DefaultAuthorizationHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, AccountIdentityHandler>();

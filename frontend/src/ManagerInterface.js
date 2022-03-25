@@ -9,7 +9,7 @@ import AccountManagement from './ManagerAccountManagement.js';
 import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
-function ManagerInterface({isDark, toggle}) {
+function ManagerInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showScooter, setShowScooter] = useState(false);
     const [showIssues, setShowIssues] = useState(false);
@@ -86,7 +86,7 @@ function ManagerInterface({isDark, toggle}) {
                 <Col xs={9}>
                     <>
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
-                        {showScooter ? <ScooterManagement onHide={() => setShowScooter(false)}/> : null}
+                        {showScooter ? <ScooterManagement map_locations={map_locations} onHide={() => setShowScooter(false)}/> : null}
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
                         {showStatistics ? <Statistics onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}

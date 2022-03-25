@@ -23,7 +23,7 @@ function ManageIssues() {
                 </div>
                 <br/>
                 <br/>
-                <div className="scroll">
+                <div className="scroll" style={{}}>
                     {issues.map((issue, idx) => (
                         <Card
                             bg="light"

@@ -10,27 +10,31 @@ function Dashboard() {
     const [data, setData] = useState('');
 
     useEffect(() => {
-            fetchDashboard()
-        }, []);
+        fetchDashboard()
+    }, []);
 
     async function fetchDashboard() {
-        const request = await fetch(host + "api/admin/Dashboard", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            mode: "cors"
-        });
-        let responseJson = await request.json();
-        setData({
-            "Employees logged in": responseJson.employeesLoggedIn,
-            "Users logged in": responseJson.usersLoggedIn,
-            "High priority issues": responseJson.revenueToday,
-            "Revenue today": "£"+responseJson.revenueToday.toString(),
-            "Scooters in use": responseJson.scootersInUse
-        })
+        try {
+            let request = await fetch(host + "api/admin/Dashboard", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let responseJson = await request.json();
+            setData({
+                "Employees logged in": responseJson.employeesLoggedIn,
+                "Users logged in": responseJson.usersLoggedIn,
+                "High priority issues": responseJson.highPriorityIssues,
+                "Revenue today": "£" + responseJson.revenueToday.toString(),
+                "Scooters in use": responseJson.scootersInUse
+            })
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

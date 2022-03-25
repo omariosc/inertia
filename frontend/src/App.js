@@ -24,15 +24,19 @@ const App = () => {
     }, []);
 
     async function fetchLocations() {
-        const request = await fetch(host + "api/Depos", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            mode: "cors"
-        });
-        setMapLocations(await request.json());
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const [showLogin, setShowLogin] = useState(false);
@@ -42,12 +46,6 @@ const App = () => {
     const [showEmployee, setShowEmployee] = useState(false);
     const [showLanding, setShowLanding] = useState(true);
     const [isDark, {toggle}] = useDarkreader(true);
-    let selectedLocation = null;
-
-    if (cookies.get('accountToken')) {
-        setShowLanding(false);
-        setShowManager(true);
-    }
 
     function CustomerLogin() {
         setShowLogin(false);
@@ -55,8 +53,7 @@ const App = () => {
         setShowCustomer(true);
         setShowManager(false);
         setShowEmployee(false);
-        setShowLanding(false);
-        cookies.remove('selectedLocation');
+        setShowLanding(false)
     }
 
     function EmployeeLogin() {
@@ -65,8 +62,7 @@ const App = () => {
         setShowCustomer(false);
         setShowManager(false);
         setShowEmployee(true);
-        setShowLanding(false);
-        cookies.remove('selectedLocation');
+        setShowLanding(false)
     }
 
     function ManagerLogin() {
@@ -75,8 +71,7 @@ const App = () => {
         setShowCustomer(false);
         setShowManager(true);
         setShowEmployee(false);
-        setShowLanding(false);
-        cookies.remove('selectedLocation');
+        setShowLanding(false)
     }
 
     async function signOut() {
@@ -134,20 +129,6 @@ const App = () => {
                                 }}>
                                 <p>Register</p>
                             </Dropdown.Item> : null}
-                            <Dropdown.Item
-                                href="#/sign-out"
-                                onClick={() => {
-                                    signOut();
-                                    setShowLogin(false);
-                                    setShowRegister(false);
-                                    setShowCustomer(false);
-                                    setShowManager(false);
-                                    setShowEmployee(false);
-                                    setShowLanding(true)
-                                }}
-                            >
-                                <p>Sign Out</p>
-                            </Dropdown.Item>
                         </DropdownButton>
                     </div> :
                     <Navbar expand="lg" bg="primary" variant="dark" className="clickable">
@@ -208,8 +189,7 @@ const App = () => {
                                             setShowEmployee(false);
                                             setShowLanding(true)
                                         }}
-                                    >
-                                        <p>Sign Out</p>
+                                    ><p>Sign Out</p>
                                     </Dropdown.Item>
                                 </DropdownButton>
                             </Nav.Item>
@@ -220,12 +200,14 @@ const App = () => {
                 {showLanding ? null : <br/>}
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
                 {showEmployee ?
-                    <EmployeeInterface isDark={isDark} toggle={toggle} onHide={() => setShowEmployee(false)}/> : null}
+                    <EmployeeInterface map_locations={map_locations} isDark={isDark} toggle={toggle}
+                                       onHide={() => setShowEmployee(false)}/> : null}
                 {showCustomer ?
                     <CustomerInterface map_locations={map_locations} isDark={isDark} toggle={toggle}
                                        onHide={() => setShowCustomer(false)}/> : null}
                 {showManager ?
-                    <ManagerInterface isDark={isDark} toggle={toggle} onHide={() => setShowManager(false)}/> : null}
+                    <ManagerInterface map_locations={map_locations} isDark={isDark} toggle={toggle}
+                                      onHide={() => setShowManager(false)}/> : null}
             </div>
             {(map_locations === "") ?
                 <h5>Loading...</h5>

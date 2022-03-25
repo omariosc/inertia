@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Button, Form, Container, Col, Row} from "react-bootstrap";
 import './StaffInterface.css';
 import host from './host';
+import validate from './Validators';
 
 function AccountManagement() {
     const [name, setName] = useState('');
@@ -10,27 +11,26 @@ function AccountManagement() {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     async function onSubmit() {
-        if (password === confirmPassword) {
-            try {
-                await fetch(host + 'api/Users/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'name': name,
-                        'email': email,
-                        'password': password
-                        // 'role': "employee"
-                    }),
-                    mode: "cors"
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-            console.error("Error: Passwords do not match");
+        if (!validate(name, email, password, confirmPassword)) {
+            return;
+        }
+        try {
+            await fetch(host + 'api/Users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    'name': name,
+                    'email': email,
+                    'password': password,
+                    'userType': 1
+                }),
+                mode: "cors"
+            });
+        } catch (error) {
+            console.error(error);
         }
     }
 

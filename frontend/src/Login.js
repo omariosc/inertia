@@ -11,7 +11,7 @@ function LoginForm(props) {
 
     async function onSubmit() {
         try {
-            const request = await fetch(host + 'api/Users/authorize', {
+            let request = await fetch(host + 'api/Users/authorize', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ function LoginForm(props) {
                 }),
                 mode: "cors"
             });
-            const response = await request.json();
+            let response = await request.json();
             try {
                 if (email === "admin@inertia" && password === "admin") {
                     cookies.set("accountID", response.account.accountId, {path: '/'});

@@ -38,7 +38,7 @@ function ScooterManagement() {
             <Container>
                 <h3>Configure scooter availability</h3>
                 <br/>
-                <div className="scroll-scooters">
+                <div className="scroll">
                     <Table striped bordered hover style={{tableLayout: 'fixed'}}>
                         <thead>
                         <tr>

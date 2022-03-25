@@ -186,7 +186,7 @@ function Statistics() {
         <>
             <h1 style={{paddingLeft: '10px'}}>Statistics</h1>
             <br/>
-            <div className="scroll-graphs">
+            <div className="scroll">
                 {[weeklyIncomeHireOptions, weeklyIncome, dailyCombinedIncome].map((graph, idx) => (
                     <>
                         <CanvasJSChart key={idx} options={graph}/>

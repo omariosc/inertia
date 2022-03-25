@@ -30,7 +30,6 @@ function Order({show, onHide, location, loggedIn}) {
             const confirmedCardPayment = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: paymentMethodRequest.paymentMethod.id,
             })
-
         } catch (e){
             console.log(e)
         }

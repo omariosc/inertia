@@ -12,7 +12,7 @@ function BookingHistory() {
             <h1 style={{paddingLeft: '10px'}}>Booking History</h1>
             <br/>
             <Container>
-                <div className="scroll-graphs">
+                <div className="scroll">
                     <Table striped bordered hover>
                         <thead>
                         <tr>

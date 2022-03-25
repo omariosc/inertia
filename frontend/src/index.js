@@ -8,7 +8,6 @@ import {Elements} from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe('pk_test_51KflboBY5x162kEqzQbrGMfhJhM9E27Nl8JMNj83EwyzSRyK95KwigopchuGoDDh4uLaee8lgikwoDRfqeDxdYmJ00R5OJZVaw');
 
-
 ReactDOM.render(
     <React.StrictMode>
         <Elements stripe={stripePromise}>

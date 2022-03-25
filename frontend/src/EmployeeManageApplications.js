@@ -13,7 +13,7 @@ function ManageApplications() {
             <h1 style={{paddingLeft: '10px'}}>Manage Applications</h1>
             <br/>
             <Container>
-                <div className="scroll-graphs">
+                <div className="scroll">
                     <Table striped bordered hover>
                         <thead>
                         <tr>

@@ -9,7 +9,7 @@ function CurrentBookings() {
         [105, "1 week", "14/05/22 15:33"]
     ]
     return (
-        <div className="scroll-graphs">
+        <div className="scroll">
             <Table>
                 <thead>
                 <tr>

@@ -12,6 +12,9 @@ function CreateBooking({map_locations}) {
     const [hireOptions, setHireOptions] = useState('');
     const [scooterChoice, setScooterChoice] = useState('');
     const [hireChoice, setHireChoice] = useState('');
+    const [cardNo, setCardNo] = useState('')
+    const [expiry, setExpiry] = useState('')
+    const [cvv, setCVV] = useState('')
     const discount = false;
 
     useEffect(() => {
@@ -20,57 +23,63 @@ function CreateBooking({map_locations}) {
     }, []);
 
     async function fetchHirePeriods() {
-        const request = await fetch(host + "api/HireOptions", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            mode: "cors"
-        });
-        setHireOptions(await request.json());
+        try {
+            let request = await fetch(host + "api/HireOptions", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setHireOptions(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     async function fetchScooters() {
-        const request = await fetch(host + "api/Scooters/available", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            mode: "cors"
-        });
-        setScooters(await request.json());
+        try {
+            let request = await fetch(host + "api/Scooters/available", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setScooters(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     async function makeBooking() {
-        console.log(scooterChoice);
-        console.log(hireChoice);
-        await fetch(host + "api/Orders", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            body: JSON.stringify({
-                'hireOptionId': scooterChoice,
-                'scooterId': hireChoice,
-                'startTime': '2022-03-26T15:28:19.875082'
-            }),
-            mode: "cors"
-        });
-    }
-
-    const [cardNo, setCardNo] = useState('')
-    const [expiry, setExpiry] = useState('')
-    const [cvv, setCVV] = useState('')
-
-    function onSubmit() {
         cookies.set('cardNumber', cardNo, {path: '/'});
         cookies.set('expiryDate', expiry, {path: '/'});
         cookies.set('cvv', cvv, {path: '/'});
-        makeBooking()
+        console.log(scooterChoice);
+        console.log(hireChoice);
+        try {
+            await fetch(host + "api/Orders", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    'hireOptionId': scooterChoice,
+                    'scooterId': hireChoice,
+                    'startTime': '2022-03-26T15:28:19.875082'
+                }),
+                mode: "cors"
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     function checkCardExists() {
@@ -88,11 +97,18 @@ function CreateBooking({map_locations}) {
             <Form>
                 <Form.Group>
                     <Form.Label><h6>Select Location</h6></Form.Label>
-                    <Form.Select className="dropdown-basic-button" title="Select location"
-                                 defaultValue={cookies.get('selectedLocation')}>
+                    <Form.Select
+                        className="dropdown-basic-button"
+                        title="Select location"
+                        defaultValue={map_locations[0].depoId}
+                    >
                         {map_locations.map((location, idx) => (
-                            <option key={idx}
-                                    value={location.name}>{location.depoId} - {location.name}</option>
+                            <option
+                                key={idx}
+                                value={location.depoId}
+                            >
+                                {location.depoId} - {location.name}
+                            </option>
                         ))}
                     </Form.Select>
                 </Form.Group>
@@ -231,7 +247,7 @@ function CreateBooking({map_locations}) {
                 }
                 <br/>
                 <Form.Group>
-                    <Button variant="primary" style={{float: "right"}} onClick={onSubmit}>Confirm Booking</Button>
+                    <Button variant="primary" style={{float: "right"}} onClick={makeBooking}>Confirm Booking</Button>
                 </Form.Group>
             </Form>
         </div>

@@ -12,7 +12,7 @@ function BookingHistory() {
         [204, "1 day", "20/2/22 10:45", 200]
     ]
     return (
-        <div className="scroll-graphs">
+        <div className="scroll">
             <Table>
                 <thead>
                 <tr>

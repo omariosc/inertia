@@ -13,7 +13,7 @@ function CurrentBookings() {
             <h1 style={{paddingLeft: '10px'}}>Current Bookings</h1>
             <br/>
             <Container>
-                <div className="scroll-graphs">
+                <div className="scroll">
                     <Table striped bordered hover>
                         <thead>
                         <tr>

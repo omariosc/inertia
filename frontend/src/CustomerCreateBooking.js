@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import './StaffInterface.css'
 import Cookies from 'universal-cookie';
+import host from "./host";
 
 function CreateBooking({map_locations}) {
     const cookies = new Cookies();
@@ -87,7 +88,8 @@ function CreateBooking({map_locations}) {
             <Form>
                 <Form.Group>
                     <Form.Label><h6>Select Location</h6></Form.Label>
-                    <Form.Select className="dropdown-basic-button" title="Select location" defaultValue={cookies.get('selectedLocation')}>
+                    <Form.Select className="dropdown-basic-button" title="Select location"
+                                 defaultValue={cookies.get('selectedLocation')}>
                         {map_locations.map((location, idx) => (
                             <option key={idx}
                                     value={location.name}>{location.depoId} - {location.name}</option>

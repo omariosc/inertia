@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {useState, useEffect} from "react";
 import {Card, Row, Col, Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css';
@@ -63,6 +63,5 @@ function Dashboard() {
         </>
     )
 }
-
 
 export default Dashboard;

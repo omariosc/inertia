@@ -15,7 +15,7 @@ function ManageIssues() {
             <br/>
             <Container>
                 <div style={{float: "right"}}>
-                    <DropdownButton id="dropdown-basic-button" title="Sort by: ">
+                    <DropdownButton className="dropdown-basic-button" title="Sort by: ">
                         {sort_filters.map((filter, idx) => (
                             <Dropdown.Item key={idx}>{filter}</Dropdown.Item>
                         ))}

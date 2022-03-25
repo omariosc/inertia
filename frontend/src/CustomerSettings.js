@@ -1,8 +1,13 @@
 import React from "react";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Col, Form, Row, Table} from "react-bootstrap";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
-function CustomerSettings() {
+function CustomerSettings({isDark, toggle}) {
+    const userDetails = [
+        ["Full Name", "Hashir Choudry"],
+        ["Email Address", "hashirsing@gmail.com"]
+    ];
+
     return (
         <>
             <Row>
@@ -15,17 +20,28 @@ function CustomerSettings() {
                     <h5>Dark Mode</h5>
                     <BootstrapSwitchButton
                         bg="dark"
-                        checked={false}
+                        checked={isDark}
                         onlabel='On'
                         offlabel='Off'
                         onstyle='light'
                         offstyle='primary'
+                        onChange={toggle}
                     />
                 </Col>
             </Row>
             <br/>
-            <br/>
-            <h5>Change Password</h5>
+            <h5>Account Information</h5>
+            <Table>
+                <tbody>
+                {userDetails.map((title, info) => (
+                    <tr key={info}>
+                        <td>{title[0]}</td>
+                        <td>{title[1]}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </Table>
+            <h5 style={{paddingTop: "5px"}}>Change Password</h5>
             <br/>
             <Form>
                 <Form.Group>

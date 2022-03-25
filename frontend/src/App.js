@@ -10,6 +10,11 @@ import CustomerInterface from "./CustomerInterface";
 import ManagerInterface from './ManagerInterface';
 import EmployeeInterface from './EmployeeInterface';
 import './App.css'
+import {useDarkreader} from 'react-darkreader';
+import host from './host';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const App = () => {
     const center = [53.8, -1.55]
@@ -26,6 +31,82 @@ const App = () => {
     const [showManager, setShowManager] = useState(false);
     const [showEmployee, setShowEmployee] = useState(false);
     const [showLanding, setShowLanding] = useState(true);
+    const [isDark, {toggle}] = useDarkreader(true);
+    let selectedLocation = null;
+
+    if (cookies.get('accountToken')) {
+        setShowLanding(false);
+        setShowManager(true);
+    }
+
+    function Book(location) {
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowCustomer(true);
+        setShowManager(false);
+        setShowEmployee(false);
+        setShowLanding(false);
+        selectedLocation = location[0];
+        cookies.set('selectedLocation', selectedLocation, {path: '/'});
+    }
+
+    function CustomerLogin() {
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowCustomer(true);
+        setShowManager(false);
+        setShowEmployee(false);
+        setShowLanding(false);
+        cookies.remove('selectedLocation');
+    }
+
+    function EmployeeLogin() {
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowCustomer(false);
+        setShowManager(false);
+        setShowEmployee(true);
+        setShowLanding(false);
+        cookies.remove('selectedLocation');
+    }
+
+    function ManagerLogin() {
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowCustomer(false);
+        setShowManager(true);
+        setShowEmployee(false);
+        setShowLanding(false);
+        cookies.remove('selectedLocation');
+    }
+
+    async function signOut() {
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowCustomer(false);
+        setShowManager(false);
+        setShowEmployee(false);
+        setShowLanding(true);
+        try {
+            const request = await fetch(host + 'api/Users/authorize', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    'accessToken': cookies.get('accessToken')
+                }),
+                mode: "cors"
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        cookies.remove('accessToken');
+        cookies.remove('accountID');
+    }
+
     return (
         <div id="wrapper">
             <div id="map-overlay">
@@ -33,10 +114,9 @@ const App = () => {
                     <div id="top-bar">
                         <DropdownButton
                             align="end"
-                            id="dropdown-basic-button"
                             title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                            variant="primary" menuVariant="primary"
-                            className="clickable"
+                            variant="primary"
+                            className="dropdown-basic-button clickable"
                         >
                             {showLanding ?
                                 <Dropdown.Item
@@ -56,47 +136,9 @@ const App = () => {
                                 <p>Register</p>
                             </Dropdown.Item> : null}
                             <Dropdown.Item
-                                href="#/customer"
-                                onClick={() => {
-                                    setShowLogin(false);
-                                    setShowRegister(false);
-                                    setShowCustomer(true);
-                                    setShowManager(false);
-                                    setShowEmployee(false);
-                                    setShowLanding(false)
-                                }}
-                            >
-                                <p>Login as Customer</p>
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                                href="#/manager"
-                                onClick={() => {
-                                    setShowLogin(false);
-                                    setShowRegister(false);
-                                    setShowCustomer(false);
-                                    setShowManager(true);
-                                    setShowEmployee(false);
-                                    setShowLanding(false)
-                                }}
-                            >
-                                <p>Login as Manager</p>
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                                href="#/employee"
-                                onClick={() => {
-                                    setShowLogin(false);
-                                    setShowRegister(false);
-                                    setShowCustomer(false);
-                                    setShowManager(false);
-                                    setShowEmployee(true);
-                                    setShowLanding(false)
-                                }}
-                            >
-                                <p>Login as Employee</p>
-                            </Dropdown.Item>
-                            <Dropdown.Item
                                 href="#/sign-out"
                                 onClick={() => {
+                                    signOut();
                                     setShowLogin(false);
                                     setShowRegister(false);
                                     setShowCustomer(false);
@@ -123,78 +165,43 @@ const App = () => {
                         <Navbar.Collapse className="justify-content-end">
                             {showManager ?
                                 <Navbar.Text className="navbar-pad-right-right">
-                                    Signed in as: <a href="#/account-manager">Manager</a>
+                                    Signed in as: <u>Manager</u>
                                 </Navbar.Text> : null}
                             {showEmployee ?
                                 <Navbar.Text className="navbar-pad-right">
-                                    Signed in as: <a href="#/account-employee">Employee</a>
+                                    Signed in as: <u>Employee</u>
                                 </Navbar.Text> : null}
                             <Nav.Item className="navbar-pad-right">
                                 <DropdownButton
                                     align="end"
-                                    id="dropdown-basic-button"
+                                    className="dropdown-basic-button"
                                     title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                                    variant="light" menuVariant="primary"
+                                    variant="light"
                                 >
                                     {showLanding ?
-                                        <Dropdown.Item
-                                            href="#/login"
-                                            onClick={() => {
-                                                setShowLogin(true);
-                                                setShowRegister(false);
-                                            }}>
-                                            <p>Log In</p>
-                                        </Dropdown.Item> : null}
-                                    {showLanding ? <Dropdown.Item
-                                        href="#/register"
-                                        onClick={() => {
-                                            setShowLogin(false);
-                                            setShowRegister(true);
-                                        }}>
-                                        <p>Register</p>
-                                    </Dropdown.Item> : null}
-                                    <Dropdown.Item
-                                        href="#/customer"
-                                        onClick={() => {
-                                            setShowLogin(false);
-                                            setShowRegister(false);
-                                            setShowCustomer(true);
-                                            setShowManager(false);
-                                            setShowEmployee(false);
-                                            setShowLanding(false)
-                                        }}
-                                    >
-                                        <p>Login as Customer</p>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                        href="#/manager"
-                                        onClick={() => {
-                                            setShowLogin(false);
-                                            setShowRegister(false);
-                                            setShowCustomer(false);
-                                            setShowManager(true);
-                                            setShowEmployee(false);
-                                            setShowLanding(false)
-                                        }}
-                                    >
-                                        <p>Login as Manager</p>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                        href="#/employee"
-                                        onClick={() => {
-                                            setShowLogin(false);
-                                            setShowRegister(false);
-                                            setShowCustomer(false);
-                                            setShowManager(false);
-                                            setShowEmployee(true);
-                                            setShowLanding(false)
-                                        }}
-                                    >
-                                        <p>Login as Employee</p>
-                                    </Dropdown.Item>
+                                        <>
+                                            <Dropdown.Item
+                                                href="#/login"
+                                                onClick={() => {
+                                                    setShowLogin(true);
+                                                    setShowRegister(false);
+                                                }}>
+                                                <p>Log In</p>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                href="#/register"
+                                                onClick={() => {
+                                                    setShowLogin(false);
+                                                    setShowRegister(false);
+                                                    setShowManager(true);
+                                                }}>
+                                                <p>Register</p>
+                                            </Dropdown.Item>
+                                        </> : null}
                                     <Dropdown.Item
                                         href="#/sign-out"
                                         onClick={() => {
+                                            signOut();
                                             setShowLogin(false);
                                             setShowRegister(false);
                                             setShowCustomer(false);
@@ -209,14 +216,18 @@ const App = () => {
                             </Nav.Item>
                         </Navbar.Collapse>
                     </Navbar>}
-                <LoginForm show={showLogin} onHide={() => setShowLogin(false)}/>
+                <LoginForm show={showLogin} onCustomer={CustomerLogin} onEmployee={EmployeeLogin}
+                           onManager={ManagerLogin} onHide={() => setShowLogin(false)}/>
                 {showLanding ? null : <br/>}
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
-                {showCustomer ? <CustomerInterface onHide={() => setShowCustomer(false)}/> : null}
-                {showManager ? <ManagerInterface onHide={() => setShowManager(false)}/> : null}
-                {showEmployee ? <EmployeeInterface onHide={() => setShowEmployee(false)}/> : null}
+                {showEmployee ?
+                    <EmployeeInterface isDark={isDark} toggle={toggle} onHide={() => setShowEmployee(false)}/> : null}
+                {showCustomer ?
+                    <CustomerInterface isDark={isDark} toggle={toggle} onHide={() => setShowCustomer(false)}/> : null}
+                {showManager ?
+                    <ManagerInterface isDark={isDark} toggle={toggle} onHide={() => setShowManager(false)}/> : null}
             </div>
-            {showLanding ? <LandingPage center={center} map_locations={map_locations}
+            {showLanding ? <LandingPage center={center} map_locations={map_locations} Book={Book}
                                         onHide={() => setShowLanding(false)}/> : null}
         </div>
     );

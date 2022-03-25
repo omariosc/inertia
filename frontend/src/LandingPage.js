@@ -5,7 +5,7 @@ import {Button, Card, Col, Container, FormControl, InputGroup, ListGroup, ListGr
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
-function LandingPage({center, map_locations}) {
+function LandingPage({center, map_locations, Book}) {
     const [searchTerm, setSearchTerm] = useState("");
     return (
         <>
@@ -51,16 +51,16 @@ function LandingPage({center, map_locations}) {
                                         } else if (map_location[0].toLowerCase().includes(searchTerm.toLowerCase()))
                                             return map_location;
                                         return null;
-                                    }).map((map_location) => {
+                                    }).map((map_location, idx) => {
                                         return (
-                                            <ListGroupItem className={"order"}>
+                                            <ListGroupItem className={"order"} key={idx}>
                                                 <Card>
                                                     <Card.Body style={{padding: "5px"}}>
                                                         <div style={{float: 'left'}}>
                                                             <b>{map_location[0]}</b>
                                                         </div>
                                                         <div style={{float: 'right'}}>
-                                                            <Button onClick={() => console.log(map_location[0])}>
+                                                            <Button onClick={() => {Book(map_location)}}>
                                                                 Book Scooter
                                                             </Button>
                                                         </div>

@@ -7,15 +7,16 @@ import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';
 import AccountManagement from './ManagerAccountManagement.js';
 import StaffSettings from './StaffSettings.js';
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function ManagerInterface() {
+function ManagerInterface({isDark, toggle}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showScooter, setShowScooter] = useState(false);
     const [showIssues, setShowIssues] = useState(false);
     const [showStatistics, setShowStatistics] = useState(false);
     const [showAccounts, setShowAccounts] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+
     return (
         <div className="clickable">
             <Row>
@@ -23,7 +24,7 @@ function ManagerInterface() {
                     <Nav
                         defaultActiveKey="#/dashboard"
                         variant="pills"
-                        className="flex-column vertical-navbar"
+                        className="flex-column"
                         style={{paddingLeft: "15px", color: "black"}}
                     >
                         <Nav.Link onClick={() => {
@@ -89,7 +90,8 @@ function ManagerInterface() {
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
                         {showStatistics ? <Statistics onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}
-                        {showSettings ? <StaffSettings onHide={() => setShowSettings(false)}/> : null}
+                        {showSettings ? <StaffSettings isDark={isDark} toggle={toggle}
+                                                       onHide={() => setShowSettings(false)}/> : null}
                     </>
                 </Col>
             </Row>

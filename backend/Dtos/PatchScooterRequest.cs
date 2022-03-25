@@ -1,7 +1,7 @@
 namespace inertia.Dtos;
 
 public record PatchScooterRequest(
-    int? ScooterId = null,
+    int? SoftScooterId = null,
     string? Name = null, 
     int? DepoId = null,
     bool? Available = null

@@ -49,23 +49,36 @@ public class ScootersController : MyControllerBase
     
     
     [HttpPost]
-    public async Task<Scooter> AddItem(
-        [FromBody] CreateScooterRequest scooter 
+    public async Task<ActionResult> AddItem(
+        [FromBody] CreateScooterRequest request 
     )
     {
-        var e = await _db.Scooters.AddAsync(new Scooter {
-            DepoId = scooter.DepoId,
-        });
+        try
+        {
+            var scooter = new Scooter
+            {
+                DepoId = request.DepoId,
+                SoftScooterId = request.SoftScooterId,
+                Available = request.Available,
+                Name = request.Name
+            };
+            await _db.Scooters.AddAsync(scooter);
+            await _db.SaveChangesAsync();
 
-        await _db.SaveChangesAsync();
-        
-        return e.Entity;
+            return Ok(scooter);
+        }
+        catch (UniqueConstraintException)
+        {
+            return ApplicationError(ApplicationErrorCode.ScooterIdTaken, "scooter id taken");
+        }
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task<ActionResult> RemoveItem(int id)
+    [HttpDelete("{scooterId:int}")]
+    public async Task<ActionResult> RemoveItem(int scooterId)
     {
-        var scooter = await _db.Scooters.FindAsync(id);
+        var scooter = await _db.Scooters
+            .Where(s => s.ScooterId == scooterId)
+            .FirstOrDefaultAsync();
 
         if (scooter == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
@@ -75,10 +88,12 @@ public class ScootersController : MyControllerBase
         return Ok();
     }
 
-    [HttpPatch("{id:int}")]
-    public async Task<ActionResult<Scooter>> UpdateItem(int id, [FromBody] PatchScooterRequest scooterRequest)
+    [HttpPatch("{scooterId:int}")]
+    public async Task<ActionResult<Scooter>> UpdateItem(int scooterId, [FromBody] PatchScooterRequest scooterRequest)
     {
-        var scooter = await _db.Scooters.FindAsync(id);
+        var scooter = await _db.Scooters
+            .Where(s => s.ScooterId == scooterId)
+            .FirstOrDefaultAsync();
 
         if (scooter == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
@@ -88,24 +103,8 @@ public class ScootersController : MyControllerBase
             scooter.Available = scooterRequest.Available ?? scooter.Available;
             scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
             scooter.Name = scooterRequest.Name ?? scooter.Name;
+            scooter.SoftScooterId = scooterRequest.SoftScooterId ?? scooter.SoftScooterId;
 
-            if (scooterRequest.ScooterId is not null)
-            {
-                var newScooter = new Scooter
-                {
-                    ScooterId = scooterRequest.ScooterId.Value,
-                    Available = scooter.Available,
-                    DepoId = scooter.DepoId,
-                    Name = scooter.Name
-                };
-
-                await _db.Scooters.AddAsync(newScooter);
-                await _db.SaveChangesAsync();
-                _db.Scooters.Remove(scooter);
-                await _db.SaveChangesAsync();
-                scooter = newScooter;
-            }
-            
             await _db.SaveChangesAsync();
         }
         catch (UniqueConstraintException)

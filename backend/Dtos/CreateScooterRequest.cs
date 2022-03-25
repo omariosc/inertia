@@ -1,5 +1,8 @@
 namespace inertia.Dtos;
 
 public record CreateScooterRequest (
-    int DepoId
+    int SoftScooterId,
+    string Name, 
+    int DepoId,
+    bool Available
 );

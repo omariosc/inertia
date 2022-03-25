@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Button, Form, Container, Col, Row} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
+import host from './host';
 
 function AccountManagement() {
     const [name, setName] = useState('');
@@ -11,7 +12,7 @@ function AccountManagement() {
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const request = await fetch('https://localhost:7220/api/Users/signup', {
+                const request = await fetch(host + 'api/Users/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

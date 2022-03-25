@@ -1,11 +1,38 @@
 import React, {useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+import host from "./host";
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 function StaffSettings({isDark, toggle}) {
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    async function onSubmit() {
+        if (password === confirmPassword) {
+            try {
+                const request = await fetch(host + `api/${cookies.get('accountID').toString()}/ChangePassword`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'oldPassword': oldPassword,
+                        'newPassword': password
+                    }),
+                    mode: "cors"
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            console.error("Error: Passwords do not match");
+        }
+    }
 
     return (
         <>
@@ -37,6 +64,7 @@ function StaffSettings({isDark, toggle}) {
                                 <Button
                                     style={{float: 'right'}}
                                     variant="primary"
+                                    onClick={onSubmit}
                                 >Change password</Button>
                             </Form.Group>
                         </Form>

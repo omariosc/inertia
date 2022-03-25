@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {InputGroup, Button, Modal} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap/dist/css/bootstrap.css";
+import host from './host';
 
 function RegisterForm(props) {
     const [name, setName] = useState('');
@@ -11,7 +12,7 @@ function RegisterForm(props) {
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const request = await fetch('https://localhost:7220/api/Users/signup', {
+                const request = await fetch(host + 'api/Users/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -11,6 +11,7 @@ import ManagerInterface from './ManagerInterface';
 import EmployeeInterface from './EmployeeInterface';
 import './App.css'
 import {useDarkreader} from 'react-darkreader';
+import host from './host';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -32,6 +33,11 @@ const App = () => {
     const [showLanding, setShowLanding] = useState(true);
     const [isDark, {toggle}] = useDarkreader(true);
     let selectedLocation = null;
+
+    if (cookies.get('accountToken')) {
+        setShowLanding(false);
+        setShowManager(true);
+    }
 
     function Book(location) {
         setShowLogin(false);
@@ -82,7 +88,7 @@ const App = () => {
         setShowEmployee(false);
         setShowLanding(true);
         try {
-            const request = await fetch('https://localhost:7220/api/Users/authorize', {
+            const request = await fetch(host + 'api/Users/authorize', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

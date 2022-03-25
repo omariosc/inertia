@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {InputGroup, Button, Modal} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap/dist/css/bootstrap.css";
+import host from './host';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -11,7 +12,7 @@ function LoginForm(props) {
 
     async function onSubmit() {
         try {
-            const request = await fetch('https://localhost:7220/api/Users/authorize', {
+            const request = await fetch(host + 'api/Users/authorize', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,14 +28,17 @@ function LoginForm(props) {
             try {
                 if (email === "admin@inertia" && password === "admin") {
                     cookies.set("accountID", response.account.accountId, {path: '/'});
+                    cookies.set("accountRole", "manager", {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onManager();
                 } else if (response.account.role === 2) {
                     cookies.set("accountID", response.account.accountId, {path: '/'});
+                    cookies.set("accountRole", "employee", {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onEmployee();
                 } else if (response.account.role === 0) {
                     cookies.set("accountID", response.account.accountId, {path: '/'});
+                    cookies.set("accountRole", "customer", {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onCustomer();
                 } else {

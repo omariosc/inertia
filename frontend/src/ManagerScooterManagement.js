@@ -1,6 +1,7 @@
 import React, {useState} from "react";
-import {DropdownButton, Dropdown, Button, Col, Container, Row, InputGroup, Table, Form} from "react-bootstrap";
-import './StaffInterface.css'
+import {Button, Col, Container, Row, InputGroup, Table, Form} from "react-bootstrap";
+import './StaffInterface.css';
+import host from './host';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
@@ -8,8 +9,8 @@ const cookies = new Cookies();
 function ScooterManagement() {
     const [slot, setSlot] = useState('');
     const [price, setPrice] = useState('');
-    const [scooterCurrentId, setScooterCurrentId] = useState('');
-    const [scooterNewId, setScooterNewId] = useState('');
+    const [scooterCurrentId, setScooterCurrentId] = useState(100);
+    const [scooterNewId, setScooterNewId] = useState();
     const [scooterName, setScooterName] = useState('');
     const [availability, setScooterAvailability] = useState('');
     const [scooterLocation, setScooterLocation] = useState('');
@@ -52,7 +53,7 @@ function ScooterManagement() {
 
     async function changePrice() {
         try {
-            await fetch('https://localhost:7220/api/admin/HireOptions', {
+            await fetch(host + 'api/admin/HireOptions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +74,7 @@ function ScooterManagement() {
 
     async function editScooter() {
         try {
-            await fetch('https://localhost:7220/api/admin/Scooters/' + scooterCurrentId.toString(), {
+            await fetch(host + 'api/admin/Scooters/' + scooterCurrentId.toString(), {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,10 +82,10 @@ function ScooterManagement() {
                     'Authorization': `Bearer ${cookies.get('accessToken')}`
                 },
                 body: JSON.stringify({
-                    "scooterId": scooterNewId,
+                    "softScooterId": parseInt(scooterNewId),
                     "name": scooterName,
-                    "depoId": scooterLocation.charCodeAt(0) - 67,
-                    "available": (availability ? true : false)
+                    "depoId": scooterLocation.charCodeAt(0) - 64,
+                    "available": ((availability === "Available") ? true : false)
                 }),
                 mode: "cors"
             })

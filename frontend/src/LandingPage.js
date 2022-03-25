@@ -4,17 +4,20 @@ import "bootstrap/dist/css/bootstrap.css"
 import {Button, Card, Col, Container, FormControl, InputGroup, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
+import Order from "./Order";
 
-function LandingPage({center, map_locations, Book}) {
+function LandingPage({center, map_locations}) {
     const [searchTerm, setSearchTerm] = useState("");
+    const [bookingDepot, setBookingDepot] = useState(map_locations[0].name);
+    const [showPayment, setShowPayment] = useState(false);
     return (
         <>
             <MapContainer center={center} zoom={15} zoomControl={false}>
                 <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                 {map_locations.map((map_location, index) => (
-                    <Marker key={index} position={map_location[1]}>
-                        <Popup>{map_location[0]}</Popup>
+                    <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
+                        <Popup>{map_location.name}</Popup>
                     </Marker>
                 ))}
             </MapContainer>
@@ -48,7 +51,7 @@ function LandingPage({center, map_locations, Book}) {
                                     {map_locations.filter((map_location) => {
                                         if (searchTerm === "") {
                                             return map_location;
-                                        } else if (map_location[0].toLowerCase().includes(searchTerm.toLowerCase()))
+                                        } else if (map_location.name.toLowerCase().includes(searchTerm.toLowerCase()))
                                             return map_location;
                                         return null;
                                     }).map((map_location, idx) => {
@@ -57,12 +60,13 @@ function LandingPage({center, map_locations, Book}) {
                                                 <Card>
                                                     <Card.Body style={{padding: "5px"}}>
                                                         <div style={{float: 'left'}}>
-                                                            <b>{map_location[0]}</b>
+                                                            <b>{map_location.name}</b>
                                                         </div>
                                                         <div style={{float: 'right'}}>
-                                                            <Button onClick={() => {Book(map_location)}}>
-                                                                Book Scooter
-                                                            </Button>
+                                                            <Button onClick={() => {
+                                                                setShowPayment(true);
+                                                                setBookingDepot(map_location.name)}}>
+                                                                Book Scooter</Button>
                                                         </div>
                                                     </Card.Body>
                                                 </Card>
@@ -75,6 +79,7 @@ function LandingPage({center, map_locations, Book}) {
                         <Col xs={5} md={9}/>
                     </Row>
                 </Container>
+                {showPayment ? <Order show={showPayment} onHide={() => setShowPayment(false)} location={bookingDepot}/> : null}
             </div>
         </>
     );

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Navbar, Nav, Dropdown, DropdownButton} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -14,17 +14,27 @@ import {useDarkreader} from 'react-darkreader';
 import host from './host';
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
-
 const App = () => {
+    const cookies = new Cookies();
     const center = [53.8, -1.55]
-    const map_locations = [
-        ["Trinity Centre", [53.798351, -1.545100]],
-        ["Train Station", [53.796770, -1.540510]],
-        ["Merrion Centre", [53.801270, -1.543190]],
-        ["Leeds General Infirmary Hospital", [53.802509, -1.552887]],
-        ["UoL Edge Sports Centre", [53.804167, -1.553208]]
-    ]
+    const [map_locations, setMapLocations] = useState('');
+
+    useEffect(() => {
+        fetchLocations()
+    }, []);
+
+    async function fetchLocations() {
+        const request = await fetch(host + "api/Depos", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            mode: "cors"
+        });
+        setMapLocations(await request.json());
+    }
+
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [showCustomer, setShowCustomer] = useState(false);
@@ -37,17 +47,6 @@ const App = () => {
     if (cookies.get('accountToken')) {
         setShowLanding(false);
         setShowManager(true);
-    }
-
-    function Book(location) {
-        setShowLogin(false);
-        setShowRegister(false);
-        setShowCustomer(true);
-        setShowManager(false);
-        setShowEmployee(false);
-        setShowLanding(false);
-        selectedLocation = location[0];
-        cookies.set('selectedLocation', selectedLocation, {path: '/'});
     }
 
     function CustomerLogin() {
@@ -88,7 +87,7 @@ const App = () => {
         setShowEmployee(false);
         setShowLanding(true);
         try {
-            const request = await fetch(host + 'api/Users/authorize', {
+            await fetch(host + 'api/Users/authorize', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -223,12 +222,18 @@ const App = () => {
                 {showEmployee ?
                     <EmployeeInterface isDark={isDark} toggle={toggle} onHide={() => setShowEmployee(false)}/> : null}
                 {showCustomer ?
-                    <CustomerInterface isDark={isDark} toggle={toggle} onHide={() => setShowCustomer(false)}/> : null}
+                    <CustomerInterface map_locations={map_locations} isDark={isDark} toggle={toggle}
+                                       onHide={() => setShowCustomer(false)}/> : null}
                 {showManager ?
                     <ManagerInterface isDark={isDark} toggle={toggle} onHide={() => setShowManager(false)}/> : null}
             </div>
-            {showLanding ? <LandingPage center={center} map_locations={map_locations} Book={Book}
-                                        onHide={() => setShowLanding(false)}/> : null}
+            {(map_locations === "") ?
+                <h5>Loading...</h5>
+                : <>
+                    {showLanding ? <LandingPage center={center} map_locations={map_locations}
+                                                onHide={() => setShowLanding(false)}/> : null}
+                </>
+            }
         </div>
     );
 }

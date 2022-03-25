@@ -4,9 +4,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
-
 function LoginForm(props) {
+    const cookies = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -28,17 +27,14 @@ function LoginForm(props) {
             try {
                 if (email === "admin@inertia" && password === "admin") {
                     cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accountRole", "manager", {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onManager();
                 } else if (response.account.role === 2) {
                     cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accountRole", "employee", {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onEmployee();
                 } else if (response.account.role === 0) {
                     cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accountRole", "customer", {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onCustomer();
                 } else {

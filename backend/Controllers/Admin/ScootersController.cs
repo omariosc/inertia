@@ -87,8 +87,24 @@ public class ScootersController : MyControllerBase
         {
             scooter.Available = scooterRequest.Available ?? scooter.Available;
             scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
-            scooter.ScooterId = scooterRequest.ScooterId ?? scooter.ScooterId;
             scooter.Name = scooterRequest.Name ?? scooter.Name;
+
+            if (scooterRequest.ScooterId is not null)
+            {
+                var newScooter = new Scooter
+                {
+                    ScooterId = scooterRequest.ScooterId.Value,
+                    Available = scooter.Available,
+                    DepoId = scooter.DepoId,
+                    Name = scooter.Name
+                };
+
+                await _db.Scooters.AddAsync(newScooter);
+                await _db.SaveChangesAsync();
+                _db.Scooters.Remove(scooter);
+                await _db.SaveChangesAsync();
+                scooter = newScooter;
+            }
             
             await _db.SaveChangesAsync();
         }

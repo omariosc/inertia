@@ -12,7 +12,7 @@ function RegisterForm(props) {
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const request = await fetch(host + 'api/Users/signup', {
+                await fetch(host + 'api/Users/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

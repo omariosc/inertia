@@ -14,11 +14,12 @@ function StaffSettings({isDark, toggle}) {
     async function onSubmit() {
         if (password === confirmPassword) {
             try {
-                const request = await fetch(host + `api/${cookies.get('accountID').toString()}/ChangePassword`, {
+                let request = await fetch(host + `api/Users/${cookies.get('accountID')}/ChangePassword`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${cookies.get('accessToken')}`
                     },
                     body: JSON.stringify({
                         'oldPassword': oldPassword,
@@ -26,6 +27,8 @@ function StaffSettings({isDark, toggle}) {
                     }),
                     mode: "cors"
                 });
+                let response = await request.json();
+                console.log(response)
             } catch (error) {
                 console.error(error);
             }

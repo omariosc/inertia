@@ -74,6 +74,33 @@ const App = () => {
         cookies.remove('selectedLocation');
     }
 
+    async function signOut() {
+        setShowLogin(false);
+        setShowRegister(false);
+        setShowCustomer(false);
+        setShowManager(false);
+        setShowEmployee(false);
+        setShowLanding(true);
+        try {
+            const request = await fetch('https://localhost:7220/api/Users/authorize', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    'accessToken': cookies.get('accessToken')
+                }),
+                mode: "cors"
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        cookies.remove('accessToken');
+        cookies.remove('accountID');
+    }
+
     return (
         <div id="wrapper">
             <div id="map-overlay">
@@ -105,6 +132,7 @@ const App = () => {
                             <Dropdown.Item
                                 href="#/sign-out"
                                 onClick={() => {
+                                    signOut();
                                     setShowLogin(false);
                                     setShowRegister(false);
                                     setShowCustomer(false);
@@ -167,6 +195,7 @@ const App = () => {
                                     <Dropdown.Item
                                         href="#/sign-out"
                                         onClick={() => {
+                                            signOut();
                                             setShowLogin(false);
                                             setShowRegister(false);
                                             setShowCustomer(false);

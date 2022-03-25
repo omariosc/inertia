@@ -7,7 +7,7 @@ import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';
 import AccountManagement from './ManagerAccountManagement.js';
 import StaffSettings from './StaffSettings.js';
-import './StaffInterface.css'
+import './StaffInterface.css';
 
 function ManagerInterface({isDark, toggle}) {
     const [showDashboard, setShowDashboard] = useState(true);
@@ -16,6 +16,7 @@ function ManagerInterface({isDark, toggle}) {
     const [showStatistics, setShowStatistics] = useState(false);
     const [showAccounts, setShowAccounts] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+
     return (
         <div className="clickable">
             <Row>

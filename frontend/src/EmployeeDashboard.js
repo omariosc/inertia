@@ -4,16 +4,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css'
 
 function Dashboard() {
-    const dashboardStatistics = [["Scooters in use", 3], ["Upcoming Bookings Today", 5], ["High priority issues", 1],
-        ["Medium priority issues", 1], ["Low priority issues", 1], ["Unassigned issues", 1],
-        ["Cancellations today", 0], ["Extensions today", 0], ["Pending Discount Applications", 1]]
+    let dashboardStatistics = {
+        "Scooters in use": 1,
+        "Scooters unavailable by Staff": 3,
+        "Scooters pending return": 3,
+        "High priority issues": 4,
+        "Medium priority issues": 6,
+        "Low priority issues": 1,
+        "Unassigned issues": 3
+    };
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Dashboard</h1>
             <br/>
             <Container>
                 <Row>
-                    {dashboardStatistics.map((dashboard, idx) => (
+                    {Object.keys(dashboardStatistics).map((key, idx) => (
                         <Col xs={4}>
                             <Card
                                 bg="light"
@@ -22,9 +28,9 @@ function Dashboard() {
                                 className="mb-2"
                             >
                                 <Card.Body>
-                                    <Card.Title>{dashboard[0]}</Card.Title>
+                                    <Card.Title>{key}</Card.Title>
                                     <Card.Text>
-                                        {dashboard[1]}
+                                        {dashboardStatistics[key]}
                                     </Card.Text>
                                 </Card.Body>
                             </Card>

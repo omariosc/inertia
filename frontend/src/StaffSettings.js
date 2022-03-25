@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 function StaffSettings({isDark, toggle}) {
+    const [oldPassword, setOldPassword] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Settings</h1>
@@ -16,17 +20,17 @@ function StaffSettings({isDark, toggle}) {
                         <Form>
                             <Form.Group>
                                 <Form.Label><b>Old Password</b></Form.Label>
-                                <Form.Control type="password" placeholder="Enter old password" required as="input"/>
+                                <Form.Control type="password" onInput={e => setOldPassword(e.target.value)} placeholder="Enter old password" required as="input"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>New Password</b></Form.Label>
-                                <Form.Control type="password" placeholder="Enter new password" required as="input"/>
+                                <Form.Control type="password" onInput={e => setPassword(e.target.value)} placeholder="Enter new password" required as="input"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Confirm Password</b></Form.Label>
-                                <Form.Control type="password" placeholder="Confirm new password" required as="input"/>
+                                <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)} placeholder="Confirm new password" required as="input"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>

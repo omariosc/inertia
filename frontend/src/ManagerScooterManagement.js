@@ -1,6 +1,9 @@
 import React from "react";
 import {DropdownButton, Dropdown, Button, Col, Container, Row, InputGroup, Table, Form} from "react-bootstrap";
 import './StaffInterface.css'
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 function ScooterManagement() {
     const map_locations = [
@@ -31,15 +34,64 @@ function ScooterManagement() {
         [207, "Scooter R", "Available", map_locations[0]],
         [208, "Scooter S", "Available", map_locations[0]],
         [209, "Scooter T", "Available", map_locations[0]]]
-    const times = ["1 hour", "4 hours", "1 day", "1 week"]
-    const price = [10, 30, 100, 1000]
+    const times = {
+        "1 hour": 1,
+        "4 hours": 4,
+        "1 day": 24,
+        "1 week": 168
+    }
+    const prices = [10, 35, 200, 1600]
+
+    async function changePrice() {
+        try {
+            await fetch('https://localhost:7220/api/admin/HireOptions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    "durationInHours": times[slot],
+                    "name": slot,
+                    "cost": parseFloat(price),
+                }),
+                mode: "cors"
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function editScooter() {
+        try {
+            await fetch('https://localhost:7220/api/admin/Scooters/' + scooterCurrentId.toString(), {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    "scooterId": scooterNewId,
+                    "name": scooterName,
+                    "depoId": scooterLocation.charCodeAt(0) - 67,
+                    "available": (availability ? true : false)
+                }),
+                mode: "cors"
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Scooter Management</h1>
             <br/>
             <Container>
                 <Row>
-                    <Col xs={8}>
+                    <Col xs={7}>
                         <h3>Configure scooter availability</h3>
                         <br/>
                         <div className="scroll-scooters">
@@ -55,71 +107,134 @@ function ScooterManagement() {
                                 <tbody>
                                 {scooters.map((scooter, idx) => (
                                     <tr>
-                                        <td>
-                                            {scooter[0]}
-                                            <input id={idx + "-id"} name="scooter-id" placeholder="Change scooter id"
-                                                   required/>
-                                        </td>
-                                        <td>
-                                            {scooter[1]}
-                                            <input id={idx + "-name"} name="scooter-name"
-                                                   placeholder="Change scooter name"
-                                                   required/>
-                                        </td>
-                                        <td>
-                                            {scooter[2]}
-                                            <Button variant="primary">Make unavailable</Button>
-                                        </td>
-                                        <td>
-                                            {scooter[3][2]} - {scooter[3][0]}
-                                            <DropdownButton className="dropdown-basic-button" title="Change scooter location"
-                                                            variant="primary">
-                                                {map_locations.map((location, idy) => (
-                                                    <Dropdown.Item
-                                                        key={idy}>{location[2]} - {location[0]}</Dropdown.Item>
-                                                ))}
-                                            </DropdownButton>
-                                        </td>
+                                        <td>{scooter[0]}</td>
+                                        <td>{scooter[1]}</td>
+                                        <td>{scooter[2]}</td>
+                                        <td>{scooter[3][2]} - {scooter[3][0]}</td>
                                     </tr>
                                 ))}
                                 </tbody>
                             </Table>
                         </div>
-                        <br/>
-                        <br/>
-                        <Button variant="primary" style={{float: "right"}}>Save changes</Button>
                     </Col>
                     <Col xs={1}/>
-                    <Col xs={3} md={3}>
-                        <h3>Configure scooter price</h3>
-                        <br/>
-                        <Form>
-                            <Form.Group>
-                                <Form.Label><b>Price per time slot</b></Form.Label>
-                                <Form.Select className="dropdown-basic-button" title="Select hire period">
-                                    {times.map((time, idx) => (
-                                        <option key={idx}>{time} - £{price[idx]}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
+                    <Col xs={4}>
+                        <Row>
+                            <h3>Configure scooter price</h3>
                             <br/>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Change scooter price</b></Form.Label>
-                                <InputGroup>
-                                    <InputGroup.Text>£</InputGroup.Text>
-                                    <input type="price" name="price" required/>
-                                </InputGroup>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Label><b>Price per time slot</b></Form.Label>
+                                    <Form.Select
+                                        className="dropdown-basic-button"
+                                        title="Select hire period"
+                                        defaultValue={"1 hour"}
+                                        onChange={(e) => setSlot(e.target.value)}
+                                    >
+                                        {Object.keys(times).map((key, idx) => (
+                                            <option key={idx} value={key}>{key} - £{prices[idx]}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
                                 <br/>
-                            </Form.Group>
-                            <Form.Group>
-                                <Button variant="primary">Update price</Button>
-                            </Form.Group>
-                        </Form>
+                                <br/>
+                                <div>
+                                    <Form.Group style={{float: "left"}}>
+                                        <Form.Label><b>Change scooter price</b></Form.Label>
+                                        <InputGroup>
+                                            <input type="price" name="price" placeholder="Enter new price"
+                                                   onInput={e => setPrice(e.target.value)} required/>
+                                        </InputGroup>
+                                    </Form.Group>
+                                    <br/>
+                                    <Form.Group style={{float: "right"}}>
+                                        <Button variant="primary" onClick={changePrice}>Update price</Button>
+                                    </Form.Group>
+                                </div>
+                            </Form>
+                        </Row>
+                        <br/>
+                        <br/>
+                        <Row>
+                            <h3>Configure scooter details</h3>
+                            <br/>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Label><b>Select scooter</b></Form.Label>
+                                    <Form.Select className="dropdown-basic-button"
+                                                 title="Choose scooter"
+                                                 variant="primary"
+                                                 defaultValue={100}
+                                                 onChange={(e) => setScooterCurrentId(e.target.value)}
+                                    >
+                                        {scooters.map((scooter, idy) => (
+                                            <option
+                                                key={idy} value={scooter[0]}>{scooter[0]} - {scooter[1]}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                                <br/>
+                                <br/>
+                                <div>
+                                    <Form.Group style={{float: "left", width: "47.5%"}}>
+                                        <Form.Label><b>Change scooter ID</b></Form.Label>
+                                        <InputGroup>
+                                            <input name="scooter-name" placeholder="Enter new scooter ID" onInput={e => setScooterNewId(e.target.value)} required/>
+                                        </InputGroup>
+                                    </Form.Group>
+                                    <Form.Group style={{float: "right", width: "47.5%"}}>
+                                        <Form.Label><b>Change scooter name</b></Form.Label>
+                                        <InputGroup>
+                                            <input name="scooter-id" placeholder="Enter new scooter name" onInput={e => setScooterName(e.target.value)} required/>
+                                        </InputGroup>
+                                    </Form.Group>
+                                </div>
+                                <br/>
+                                <br/>
+                                <Form.Group style={{paddingTop: "25px"}}>
+                                    <Form.Label><b>Change scooter availability</b></Form.Label>
+                                    <Form.Select className="dropdown-basic-button"
+                                                 title="Choose scooter"
+                                                 variant="primary"
+                                                 defaultValue="Unavailable"
+                                                 onChange={(e) => setScooterAvailability(e.target.value)}
+                                    >
+                                        {["Available", "Unavailable"].map((status, idy) => (
+                                            <option key={idy} value={status}>{status}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                                <br/>
+                                <br/>
+                                <Form.Group>
+                                    <Form.Label><b>Change scooter location</b></Form.Label>
+                                    <Form.Select className="dropdown-basic-button"
+                                                 title="Change scooter location"
+                                                 variant="primary"
+                                                 defaultValue="A"
+                                                 onChange={(e) => setScooterLocation(e.target.value)}
+                                    >
+                                        {map_locations.map((location, idy) => (
+                                            <option key={idy} value={location[2]}>{location[2]} - {location[0]}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <Form.Group>
+                                    <Button variant="primary" style={{float: "right"}} onClick={editScooter}>Save
+                                        changes</Button>
+                                </Form.Group>
+                            </Form>
+                        </Row>
                     </Col>
-                </Row></Container>
+                </Row>
+            </Container>
         </>
-    );
+    )
+        ;
 }
 
 export default ScooterManagement;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {DropdownButton, Dropdown, Button, Col, Container, Row, InputGroup, Table, Form} from "react-bootstrap";
 import './StaffInterface.css'
 import Cookies from 'universal-cookie';
@@ -6,6 +6,14 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 function ScooterManagement() {
+    const [slot, setSlot] = useState('');
+    const [price, setPrice] = useState('');
+    const [scooterCurrentId, setScooterCurrentId] = useState('');
+    const [scooterNewId, setScooterNewId] = useState('');
+    const [scooterName, setScooterName] = useState('');
+    const [availability, setScooterAvailability] = useState('');
+    const [scooterLocation, setScooterLocation] = useState('');
+
     const map_locations = [
         ["Trinity Centre", [53.798351, -1.545100], "A"],
         ["Train Station", [53.796770, -1.540510], "B"],

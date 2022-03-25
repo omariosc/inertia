@@ -8,7 +8,7 @@ import CustomerSettings from './CustomerSettings';
 import Discounts from "./CustomerDiscounts";
 import SubmitIssue from "./CustomerSubmitIssues";
 
-function CustomerInterface({isDark, toggle}) {
+function CustomerInterface({isDark, toggle, map_locations}) {
     const [showCreateBooking, setShowCreateBooking] = useState(true);
     const [showCurrentBookings, setShowCurrentBookings] = useState(false);
     const [showBookingHistory, setShowBookingHistory] = useState(false);
@@ -93,7 +93,8 @@ function CustomerInterface({isDark, toggle}) {
                 </Col>
                 <Col>
                     <>
-                        {showCreateBooking ? <CreateBooking onHide={() => setShowCreateBooking(false)}/> : null}
+                        {showCreateBooking ? <CreateBooking map_locations={map_locations}
+                                                            onHide={() => setShowCreateBooking(false)}/> : null}
                         {showCurrentBookings ? <CurrentBookings onHide={() => setShowCurrentBookings(false)}/> : null}
                         {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
                         {showSubmitIssue ? <SubmitIssue onHide={() => setShowBookingHistory(false)}/> : null}

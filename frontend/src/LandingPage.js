@@ -5,7 +5,7 @@ import {Button, Card, Col, Container, FormControl, InputGroup, ListGroup, ListGr
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
-function LandingPage({center, map_locations, Book}) {
+function LandingPage({center, map_locations}) {
     const [searchTerm, setSearchTerm] = useState("");
     return (
         <>
@@ -13,8 +13,8 @@ function LandingPage({center, map_locations, Book}) {
                 <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                 {map_locations.map((map_location, index) => (
-                    <Marker key={index} position={map_location[1]}>
-                        <Popup>{map_location[0]}</Popup>
+                    <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
+                        <Popup>{map_location.name}</Popup>
                     </Marker>
                 ))}
             </MapContainer>
@@ -60,9 +60,10 @@ function LandingPage({center, map_locations, Book}) {
                                                             <b>{map_location[0]}</b>
                                                         </div>
                                                         <div style={{float: 'right'}}>
-                                                            <Button onClick={() => {Book(map_location)}}>
-                                                                Book Scooter
-                                                            </Button>
+                                                            <Button onClick={() => {
+                                                                setShowPayment(true);
+                                                                setBookingDepot(map_location.name)}}>
+                                                                Book Scooter</Button>
                                                         </div>
                                                     </Card.Body>
                                                 </Card>

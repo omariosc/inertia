@@ -4,9 +4,8 @@ import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import host from "./host";
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
-
 function StaffSettings({isDark, toggle}) {
+    const cookies = new Cookies();
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');

@@ -1,64 +1,20 @@
-import React, {Component} from "react";
+import React, {useState, useEffect} from "react";
 import {Card, Row, Col, Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css';
 import host from './host';
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
+function Dashboard() {
+    const cookies = new Cookies();
+    const [data, setData] = useState('');
 
-export class Dashboard extends Component {
-    constructor(props) {
-        super(props);
-        this.state =
-            {
-                data: {},
-                loading: true
-            };
-    }
+    useEffect(() => {
+        fetchDashboard()
+    }, []);
 
-    componentDidMount() {
-        this.fetchDashboard();
-    }
-
-    render() {
-        if (this.state.loading) {
-            return (
-                <>
-                </>
-            );
-        }
-
-        return (
-            <>
-                <h1 style={{paddingLeft: '10px'}}>Dashboard</h1>
-                <br/>
-                <Container>
-                    <Row>
-                        {Object.keys(this.state.data).map((key, idx) => (
-                            <Col xs={4}>
-                                <Card
-                                    bg="light"
-                                    key={idx}
-                                    text="dark"
-                                    className="mb-2">
-                                    <Card.Body>
-                                        <Card.Title>{key}</Card.Title>
-                                        <Card.Text>
-                                            {this.state.data[key]}
-                                        </Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                </Container>
-            </>
-        );
-    }
-
-    async fetchDashboard() {
-        const response = await fetch(host + "api/admin/Dashboard", {
+    async function fetchDashboard() {
+        const request = await fetch(host + "api/admin/Dashboard", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -67,21 +23,47 @@ export class Dashboard extends Component {
             },
             mode: "cors"
         });
-
-        const data = await response.json();
-        this.setState({
-            data: {
-                "Scooters in use": data.scootersInUse,
-                "Scooters unavailable by Staff": data.scootersUnavailableByStaff,
-                "Scooters pending return": data.scootersPendingReturn,
-                "High priority issues": data.highPriorityIssues,
-                "Medium priority issues": data.mediumPriorityIssues,
-                "Low priority issues": data.lowPriorityIssues,
-                "Unassigned issues": data.unassignedPriorityIssues
-            }, loading: false
-        });
+        let responseJson = await request.json();
+        setData({
+            "Scooters in use": responseJson.scootersInUse,
+            "Scooters unavailable by Staff": responseJson.scootersUnavailableByStaff,
+            "Scooters pending return": responseJson.scootersPendingReturn,
+            "High priority issues": responseJson.highPriorityIssues,
+            "Medium priority issues": responseJson.mediumPriorityIssues,
+            "Low priority issues": responseJson.lowPriorityIssues,
+            "Unassigned issues": responseJson.unassignedPriorityIssues
+        })
     }
-}
 
+    return (
+        <>
+            <h1 style={{paddingLeft: '10px'}}>Dashboard</h1>
+            <br/>
+            <Container>
+                {(data === "") ?
+                    <h5>Loading...</h5>
+                    : <div>
+                        <Row>
+                            {Object.keys(data).map((key, idx) => (
+                                <Col xs={4}>
+                                    <Card
+                                        bg="light"
+                                        key={idx}
+                                        text="dark"
+                                        className="mb-2">
+                                        <Card.Body>
+                                            <Card.Title>{key}</Card.Title>
+                                            <Card.Text>{data[key]}</Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))}
+                        </Row>
+                    </div>
+                }
+            </Container>
+        </>
+    )
+}
 
 export default Dashboard;

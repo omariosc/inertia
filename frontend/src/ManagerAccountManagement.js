@@ -22,6 +22,7 @@ function AccountManagement() {
                         'name': name,
                         'email': email,
                         'password': password
+                        // 'role': "employee"
                     }),
                     mode: "cors"
                 });

@@ -4,9 +4,8 @@ import './StaffInterface.css';
 import host from './host';
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
-
 function ScooterManagement() {
+    const cookies = new Cookies();
     const [slot, setSlot] = useState('');
     const [price, setPrice] = useState('');
     const [scooterCurrentId, setScooterCurrentId] = useState(100);
@@ -85,7 +84,7 @@ function ScooterManagement() {
                     "softScooterId": parseInt(scooterNewId),
                     "name": scooterName,
                     "depoId": scooterLocation.charCodeAt(0) - 64,
-                    "available": ((availability === "Available") ? true : false)
+                    "available": (availability === "Available")
                 }),
                 mode: "cors"
             })
@@ -115,7 +114,7 @@ function ScooterManagement() {
                                 </thead>
                                 <tbody>
                                 {scooters.map((scooter, idx) => (
-                                    <tr>
+                                    <tr key={idx}>
                                         <td>{scooter[0]}</td>
                                         <td>{scooter[1]}</td>
                                         <td>{scooter[2]}</td>

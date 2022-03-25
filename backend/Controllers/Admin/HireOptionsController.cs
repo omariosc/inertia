@@ -16,7 +16,7 @@ public class HireOptionsController: MyControllerBase
 {
     private readonly InertiaContext _db;
 
-    HireOptionsController(InertiaContext db)
+    public HireOptionsController(InertiaContext db)
     {
         _db = db;
     }

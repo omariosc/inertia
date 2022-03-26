@@ -4,7 +4,7 @@ import './StaffInterface.css';
 import host from './host';
 import Cookies from 'universal-cookie';
 
-function ScooterManagement({map_locations}) {
+export default function ScooterManagement({map_locations}) {
     const cookies = new Cookies();
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');
@@ -22,37 +22,29 @@ function ScooterManagement({map_locations}) {
     }, []);
 
     async function fetchScooters() {
-        try {
-            let request = await fetch(host + "api/admin/Scooters", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setScooters(await request.json());
-        } catch (error) {
-            console.error(error);
-        }
+        let request = await fetch(host + "api/admin/Scooters", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+            },
+            mode: "cors"
+        });
+        setScooters(await request.json());
     }
 
     async function fetchHirePeriods() {
-        try {
-            let request = await fetch(host + "api/HireOptions", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setHireOptions(await request.json());
-        } catch (error) {
-            console.error(error);
-        }
+        let request = await fetch(host + "api/HireOptions", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+            },
+            mode: "cors"
+        });
+        setHireOptions(await request.json());
     }
 
     async function changePrice() {
@@ -157,7 +149,7 @@ function ScooterManagement({map_locations}) {
                                             }}
                                             defaultValue="Select a time slot..."
                                         >
-                                            <option value="none" selected>Select a time slot...</option>
+                                            <option value="none">Select a time slot...</option>
                                             {hireOptions.map((option, idx) => (
                                                 <option key={idx} value={option.hireOptionId}>{option.name} -
                                                     £{option.cost}</option>
@@ -207,7 +199,7 @@ function ScooterManagement({map_locations}) {
                                                              setScooterCurrentSoftId(scooter[1])
                                                          }}
                                             >
-                                                <option value="none" selected>Select a scooter...</option>
+                                                <option value="none">Select a scooter...</option>
                                                 {scooters.map((scooter, idy) => (
                                                     <option
                                                         key={idy}
@@ -241,7 +233,7 @@ function ScooterManagement({map_locations}) {
                                                                              setScooterAvailability(e.target.value)
                                                                          }}
                                                             >
-                                                                <option value="none" selected>Select availability...
+                                                                <option value="none">Select availability...
                                                                 </option>
                                                                 {["Available", "Unavailable"].map((status, idy) => (
                                                                     <option key={idy} value={status}>{status}</option>
@@ -262,14 +254,14 @@ function ScooterManagement({map_locations}) {
                                                                                      setScooterLocation(e.target.value)
                                                                                  }}
                                                                     >
-                                                                        <option value="none" selected>Select location...
+                                                                        <option value="none">Select location...
                                                                         </option>
                                                                         {map_locations.map((location, idy) => (
                                                                             <option
                                                                                 key={idy}
                                                                                 value={location.depoId}
                                                                             >
-                                                                                {location.depoId} - {location.name}
+                                                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
                                                                             </option>
                                                                         ))}
                                                                     </Form.Select>
@@ -301,5 +293,3 @@ function ScooterManagement({map_locations}) {
         </>
     );
 }
-
-export default ScooterManagement;

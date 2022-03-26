@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function CurrentBookings() {
+export default function CurrentBookings() {
     const bookings = [
         [101, "4 hours", "12/04/22 12:54"],
         [103, "1 day", "25/05/22 18:53"],
@@ -41,5 +41,3 @@ function CurrentBookings() {
         </div>
     );
 }
-
-export default CurrentBookings;

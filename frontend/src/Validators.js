@@ -23,7 +23,7 @@ export default function validate(name, email, password, confirmPassword) {
         alert("Please enter a valid email address.");
         return 0;
     }
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
         alert("Passwords do not match.");
         return 0;
     }

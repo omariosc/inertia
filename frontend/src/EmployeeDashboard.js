@@ -5,7 +5,7 @@ import './StaffInterface.css';
 import host from './host';
 import Cookies from 'universal-cookie';
 
-function Dashboard() {
+export default function Dashboard() {
     const cookies = new Cookies();
     const [data, setData] = useState('');
 
@@ -14,29 +14,25 @@ function Dashboard() {
     }, []);
 
     async function fetchDashboard() {
-        try {
-            const request = await fetch(host + "api/admin/Dashboard", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            let responseJson = await request.json();
-            setData({
-                "Scooters in use": responseJson.scootersInUse,
-                "Scooters unavailable by Staff": responseJson.scootersUnavailableByStaff,
-                "Scooters pending return": responseJson.scootersPendingReturn,
-                "High priority issues": responseJson.highPriorityIssues,
-                "Medium priority issues": responseJson.mediumPriorityIssues,
-                "Low priority issues": responseJson.lowPriorityIssues,
-                "Unassigned issues": responseJson.unassignedPriorityIssues
-            })
-        } catch (error) {
-            console.error(error);
-        }
+        const request = await fetch(host + "api/admin/Dashboard", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+            },
+            mode: "cors"
+        });
+        let responseJson = await request.json();
+        setData({
+            "Scooters in use": responseJson.scootersInUse,
+            "Scooters unavailable by Staff": responseJson.scootersUnavailableByStaff,
+            "Scooters pending return": responseJson.scootersPendingReturn,
+            "High priority issues": responseJson.highPriorityIssues,
+            "Medium priority issues": responseJson.mediumPriorityIssues,
+            "Low priority issues": responseJson.lowPriorityIssues,
+            "Unassigned issues": responseJson.unassignedPriorityIssues
+        })
     }
 
     return (
@@ -69,5 +65,3 @@ function Dashboard() {
         </>
     )
 }
-
-export default Dashboard;

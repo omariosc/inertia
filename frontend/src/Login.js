@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import Cookies from 'universal-cookie';
 
-function LoginForm(props) {
+export default function LoginForm(props) {
     const cookies = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,8 +24,9 @@ function LoginForm(props) {
                 mode: "cors"
             });
             let response = await request.json();
+            alert(response.message);
             try {
-                if (email === "admin@inertia" && password === "admin") {
+                if (email === "admin@inertia") {
                     cookies.set("accountID", response.account.accountId, {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
                     props.onManager();
@@ -82,5 +83,3 @@ function LoginForm(props) {
         </Modal>
     );
 }
-
-export default LoginForm;

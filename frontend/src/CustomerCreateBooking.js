@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import './StaffInterface.css'
-import Cookies from 'universal-cookie';
 import host from "./host";
+import Cookies from 'universal-cookie';
+import './StaffInterface.css';
 
-function CreateBooking({map_locations}) {
+export default function CreateBooking({map_locations}) {
     const cookies = new Cookies();
     const center = [53.8010441, -1.5497378]
     const [scooters, setScooters] = useState('');
@@ -23,37 +23,29 @@ function CreateBooking({map_locations}) {
     }, []);
 
     async function fetchHirePeriods() {
-        try {
-            let request = await fetch(host + "api/HireOptions", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setHireOptions(await request.json());
-        } catch (error) {
-            console.error(error);
-        }
+        let request = await fetch(host + "api/HireOptions", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+            },
+            mode: "cors"
+        });
+        setHireOptions(await request.json());
     }
 
     async function fetchScooters() {
-        try {
-            let request = await fetch(host + "api/Scooters/available", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setScooters(await request.json());
-        } catch (error) {
-            console.error(error);
-        }
+        let request = await fetch(host + "api/Scooters/available", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+            },
+            mode: "cors"
+        });
+        setScooters(await request.json());
     }
 
     async function makeBooking() {
@@ -83,11 +75,7 @@ function CreateBooking({map_locations}) {
     }
 
     function checkCardExists() {
-        if (cookies.get('cardNumber') && cookies.get('expiryDate') && cookies.get('cvv')) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(cookies.get('cardNumber') && cookies.get('expiryDate') && cookies.get('cvv'));
     }
 
     return (
@@ -192,8 +180,6 @@ function CreateBooking({map_locations}) {
                     }
                 </div>
                 <br/>
-                <br/>
-                <br/>
                 <h5>Enter Card Details</h5>
                 <br/>
                 {checkCardExists() ?
@@ -253,5 +239,3 @@ function CreateBooking({map_locations}) {
         </div>
     );
 }
-
-export default CreateBooking;

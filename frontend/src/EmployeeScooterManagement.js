@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function ScooterManagement() {
+export default function ScooterManagement() {
     const map_locations = [
         ["Trinity Centre", [53.798351, -1.545100], "A"],
         ["Train Station", [53.796770, -1.540510], "B"],
@@ -66,5 +66,3 @@ function ScooterManagement() {
         </>
     );
 }
-
-export default ScooterManagement;

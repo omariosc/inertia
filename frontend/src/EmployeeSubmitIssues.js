@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function SubmitIssues() {
+export default function SubmitIssues() {
     const priorities = ["None", "Low", "Medium", "High"]
     return (
         <>
@@ -36,5 +36,3 @@ function SubmitIssues() {
         </>
     );
 }
-
-export default SubmitIssues;

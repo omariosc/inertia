@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap/dist/css/bootstrap.css";
 import {Button, Card, Col, Container, FormControl, InputGroup, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 import Order from "./Order";
 
-function LandingPage({center, map_locations}) {
+export default function LandingPage({center, map_locations}) {
     const [searchTerm, setSearchTerm] = useState("");
     const [bookingDepot, setBookingDepot] = useState(map_locations[0].name);
     const [showPayment, setShowPayment] = useState(false);
@@ -84,5 +84,3 @@ function LandingPage({center, map_locations}) {
         </>
     );
 }
-
-export default LandingPage;

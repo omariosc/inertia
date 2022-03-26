@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function CurrentBookings() {
+export default function CurrentBookings() {
     const bookings = [
         [101, "sc20osc@leeds.ac.uk", "4 hours", "17/03/22 12:54"],
         [103, "sc20jdr@leeds.ac.uk", "1 day", "18/03/22 18:53"],
@@ -46,5 +46,3 @@ function CurrentBookings() {
         </>
     );
 }
-
-export default CurrentBookings;

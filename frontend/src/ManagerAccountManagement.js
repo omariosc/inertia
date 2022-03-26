@@ -4,7 +4,7 @@ import './StaffInterface.css';
 import host from './host';
 import validate from './Validators';
 
-function AccountManagement() {
+export default function AccountManagement() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -80,5 +80,3 @@ function AccountManagement() {
         </>
     );
 }
-
-export default AccountManagement;

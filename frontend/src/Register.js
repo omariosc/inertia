@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import validate from './Validators';
 
-function RegisterForm(props) {
+export default function RegisterForm(props) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -75,5 +75,3 @@ function RegisterForm(props) {
         </Modal>
     );
 }
-
-export default RegisterForm;

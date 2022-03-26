@@ -1,8 +1,8 @@
 import React from "react";
 import {Container, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function BookingHistory() {
+export default function BookingHistory() {
     const history = [
         [102, "george02@gmail.com", "1 hour", "21/02/22 17:14"],
         [106, "lucyt@gmail.com", "1 day", "24/02/22 19:53"]
@@ -40,5 +40,3 @@ function BookingHistory() {
         </>
     );
 }
-
-export default BookingHistory;

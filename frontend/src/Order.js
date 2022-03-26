@@ -8,20 +8,20 @@ function Order({show, onHide, location, loggedIn}) {
     const stripe = useStripe();
     const elements = useElements();
 
-    async function onSubmit(){
-        try{
-            const request = await fetch(host + "/api/create-payment-intent",{
-                method:"POST",
+    async function onSubmit() {
+        try {
+            const request = await fetch(host + "api/create-payment-intent", {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Accept":"application/json"
+                    "Accept": "application/json"
                 },
                 body: JSON.stringify({
-                    "items" : {"id":"string"}
+                    "items": {"id": "string"}
                 }),
                 mode: "cors"
             });
-            const {data:clientSecret} = await request.json();
+            const {data: clientSecret} = await request.json();
             const cardElement = elements.getElement(CardElement)
             const paymentMethodRequest = await stripe.createPaymentMethod({
                 type: "card",
@@ -30,17 +30,18 @@ function Order({show, onHide, location, loggedIn}) {
             const confirmedCardPayment = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: paymentMethodRequest.paymentMethod.id,
             })
-        } catch (e){
+        } catch (e) {
             console.log(e)
         }
 
     }
+
     return (
         <Modal
             show={show}
             centered
         >
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title>
                     Scooter from {location}
                 </Modal.Title>
@@ -61,8 +62,8 @@ function Order({show, onHide, location, loggedIn}) {
                                         <Form.Control type="email" placeholder="user@example.com"/>
                                     </InputGroup>
                                 </Col>
-                            </Row>}
-
+                            </Row>
+                        }
                         <Row>
                             <Col>
                                 <InputGroup>
@@ -115,7 +116,10 @@ function Order({show, onHide, location, loggedIn}) {
                 <Button variant="danger" onClick={onHide}>
                     Cancel
                 </Button>
-                <Button variant="primary" onClick={()=>{onSubmit();onHide()}}>
+                <Button variant="primary" onClick={() => {
+                    onSubmit();
+                    onHide()
+                }}>
                     Order
                 </Button>
             </Modal.Footer>

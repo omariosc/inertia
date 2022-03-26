@@ -9,7 +9,7 @@ import AccountManagement from './ManagerAccountManagement.js';
 import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
-function ManagerInterface({isDark, toggle, map_locations}) {
+export default function ManagerInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showScooter, setShowScooter] = useState(false);
     const [showIssues, setShowIssues] = useState(false);
@@ -98,5 +98,3 @@ function ManagerInterface({isDark, toggle, map_locations}) {
         </div>
     );
 }
-
-export default ManagerInterface;

@@ -1,9 +1,9 @@
 import React from "react";
 import {Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css"
-import './StaffInterface.css'
+import "bootstrap/dist/css/bootstrap.css";
+import './StaffInterface.css';
 
-function BookingHistory() {
+export default function BookingHistory() {
     const orderDetails = [
         [101, "1 hour", "8/2/22 13:02", 10],
         [102, "1 week", "9/2/22 16:45", 0],
@@ -38,5 +38,3 @@ function BookingHistory() {
         </div>
     )
 }
-
-export default BookingHistory;

@@ -1,7 +1,7 @@
 import {Button, Card, Container, Dropdown, DropdownButton, Form, FormSelect} from "react-bootstrap";
 import React from "react";
 
-function ManageIssues() {
+export default function ManageIssues() {
     const issues = [
         ["It appears the scooter 103 has faulty brakes and will need to be made unavailable until is able to be serviced.", "sc20jdr@leeds.ac.uk", "High"],
         ["Scooter 108 is not available to be rented despite being in working order.", "sc20wt@leeds.ac.uk", "None"],
@@ -60,5 +60,3 @@ function ManageIssues() {
         </>
     );
 }
-
-export default ManageIssues;

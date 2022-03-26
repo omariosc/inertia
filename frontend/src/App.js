@@ -3,16 +3,16 @@ import {Navbar, Nav, Dropdown, DropdownButton} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
+import host from './host';
+import Cookies from 'universal-cookie';
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
 import LandingPage from './LandingPage'
 import CustomerInterface from "./CustomerInterface";
 import ManagerInterface from './ManagerInterface';
 import EmployeeInterface from './EmployeeInterface';
-import './App.css'
 import {useDarkreader} from 'react-darkreader';
-import host from './host';
-import Cookies from 'universal-cookie';
+import './App.css';
 
 const App = () => {
     const cookies = new Cookies();
@@ -24,19 +24,15 @@ const App = () => {
     }, []);
 
     async function fetchLocations() {
-        try {
-            let request = await fetch(host + "api/Depos", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                mode: "cors"
-            });
-            setMapLocations(await request.json());
-        } catch (error) {
-            console.error(error);
-        }
+        let request = await fetch(host + "api/Depos", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            mode: "cors"
+        });
+        setMapLocations(await request.json());
     }
 
     const [showLogin, setShowLogin] = useState(false);

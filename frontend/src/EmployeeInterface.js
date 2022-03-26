@@ -12,7 +12,7 @@ import ManageApplication from './EmployeeManageApplications.js'
 import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
-function EmployeeInterface({isDark, toggle}) {
+export default function EmployeeInterface({isDark, toggle}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showCreateBooking, setShowCreateBooking] = useState(false);
     const [showBookingHistory, setShowBookingHistory] = useState(false);
@@ -162,5 +162,3 @@ function EmployeeInterface({isDark, toggle}) {
         </div>
     );
 }
-
-export default EmployeeInterface;

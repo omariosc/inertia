@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import {Card, Row, Col, Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './StaffInterface.css';
 import host from './host';
 import Cookies from 'universal-cookie';
+import './StaffInterface.css';
 
-function Dashboard() {
+export default function Dashboard() {
     const cookies = new Cookies();
     const [data, setData] = useState('');
 
@@ -14,27 +14,23 @@ function Dashboard() {
     }, []);
 
     async function fetchDashboard() {
-        try {
-            let request = await fetch(host + "api/admin/Dashboard", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            let responseJson = await request.json();
-            setData({
-                "Employees logged in": responseJson.employeesLoggedIn,
-                "Users logged in": responseJson.usersLoggedIn,
-                "High priority issues": responseJson.highPriorityIssues,
-                "Revenue today": "£" + responseJson.revenueToday.toString(),
-                "Scooters in use": responseJson.scootersInUse
-            })
-        } catch (error) {
-            console.error(error);
-        }
+        let request = await fetch(host + "api/admin/Dashboard", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
+            },
+            mode: "cors"
+        });
+        let responseJson = await request.json();
+        setData({
+            "Employees logged in": responseJson.employeesLoggedIn,
+            "Users logged in": responseJson.usersLoggedIn,
+            "High priority issues": responseJson.highPriorityIssues,
+            "Revenue today": "£" + responseJson.revenueToday.toString(),
+            "Scooters in use": responseJson.scootersInUse
+        })
     }
 
     return (
@@ -67,5 +63,3 @@ function Dashboard() {
         </>
     )
 }
-
-export default Dashboard;

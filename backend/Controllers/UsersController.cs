@@ -9,7 +9,6 @@ using inertia.Enums;
 using inertia.Exceptions;
 using inertia.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace inertia.Controllers;
 
@@ -119,10 +118,7 @@ public class UsersController : MyControllerBase
     [ProducesResponseType(typeof(Account), 200)]
     public async Task<ActionResult> GetProfile(string accountId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-
-        var account = await _db.Accounts
+       var account = await _db.Accounts
             .Where(a => a.AccountId == accountId && a.State != AccountState.Suspended)
             .FirstOrDefaultAsync();
         
@@ -138,9 +134,6 @@ public class UsersController : MyControllerBase
     [ProducesResponseType(typeof(List<Order>), 200)]
     public async Task<ActionResult> GetOrders(string accountId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         await _inertia.UpdateOrderStatus();
         
         var orders = await _db.Orders
@@ -158,10 +151,7 @@ public class UsersController : MyControllerBase
     [ProducesResponseType(typeof(List<Issue>), 200)]
     public async Task<ActionResult> GetIssues(string accountId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
-        var issues = await _db.Issues
+       var issues = await _db.Issues
             .OrderByDescending(i => i.DateOpened)
             .Where(i => i.AccountId == accountId)
             .ToListAsync();
@@ -177,9 +167,6 @@ public class UsersController : MyControllerBase
         string accountId, 
         [FromBody] CreateIssueRequest request)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var account = await _db.Accounts
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -212,10 +199,7 @@ public class UsersController : MyControllerBase
     [ProducesResponseType(typeof(Issue), 200)]
     public async Task<ActionResult> GetIssue(string accountId, int issueId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
-        var issue = await _db.Issues
+       var issue = await _db.Issues
             .Where(i => i.IssueId == issueId && i.AccountId == accountId)
             .FirstOrDefaultAsync();
 
@@ -231,9 +215,6 @@ public class UsersController : MyControllerBase
     [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> CloseIssue(string accountId, int issueId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var issue = await _db.Issues
             .Where(i => i.AccountId == accountId && i.IssueId == issueId)
             .FirstOrDefaultAsync();
@@ -259,9 +240,6 @@ public class UsersController : MyControllerBase
         string accountId,
         [FromBody]ApplyDiscountRequest request)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var account = await _db.Accounts
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -301,9 +279,6 @@ public class UsersController : MyControllerBase
         string accountId,
         [FromBody] byte[] image)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var application = await _db.DiscountApplications
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -332,9 +307,6 @@ public class UsersController : MyControllerBase
         [FromBody] ChangePasswordRequest request
     )
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var account = await _db.Accounts
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();

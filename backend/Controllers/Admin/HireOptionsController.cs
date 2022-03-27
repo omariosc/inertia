@@ -28,6 +28,8 @@ public class HireOptionsController: MyControllerBase
     }
 
     [HttpGet("{hireOptionId}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(HireOption), 200)]
     public async Task<ActionResult> Get(int hireOptionId)
     {
         var hireOption = await _db.HireOptions
@@ -56,6 +58,8 @@ public class HireOptionsController: MyControllerBase
     }
 
     [HttpPatch("{hireOptionId}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Edit(int hireOptionId, [FromBody] PatchHireOptionRequest request)
     {
         var hireOption = await _db.HireOptions
@@ -75,6 +79,8 @@ public class HireOptionsController: MyControllerBase
     }
 
     [HttpDelete("{hireOptionId}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Remove(int hireOptionId)
     {
         var hireOption = await _db.HireOptions

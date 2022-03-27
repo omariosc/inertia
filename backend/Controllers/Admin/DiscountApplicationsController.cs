@@ -1,3 +1,4 @@
+using inertia.Dtos;
 using inertia.Enums;
 using inertia.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ public class DiscountApplicationsController : MyControllerBase
     }
 
     [HttpGet("{applicationId:int}/Image")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
     public async Task<ActionResult> GetImage(int applicationId)
     {
         var application = await _db.DiscountApplications
@@ -45,6 +47,8 @@ public class DiscountApplicationsController : MyControllerBase
     }
 
     [HttpPost("{applicationId:int}/Approve")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Approve(int applicationId)
     {
         var application = await _db.DiscountApplications
@@ -64,6 +68,8 @@ public class DiscountApplicationsController : MyControllerBase
     }
     
     [HttpPost("{applicationId:int}/Deny")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Deny(int applicationId)
     {
         var application = await _db.DiscountApplications

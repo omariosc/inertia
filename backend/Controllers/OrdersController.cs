@@ -29,6 +29,8 @@ public class OrdersController : MyControllerBase
 
     [HttpGet("{orderId}")]
     [Authorize(Policy = Policies.Authenticated)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Order), 200)]
     public async Task<ActionResult> GetOrder(string orderId)
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
@@ -50,6 +52,8 @@ public class OrdersController : MyControllerBase
     
     [HttpPost]
     [Authorize(Policy = Policies.Authenticated)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(AbstractOrder), 200)]
     public async Task<ActionResult> CreateOrder([FromBody] CreateOrderRequest createOrder)
     {
         var scooter = await _db.Scooters
@@ -103,6 +107,8 @@ public class OrdersController : MyControllerBase
     
     [HttpPost("{orderId}/cancel")]
     [Authorize(Policy = Policies.Authenticated)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> CancelOrder(string orderId)
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
@@ -139,6 +145,8 @@ public class OrdersController : MyControllerBase
 
     [HttpPost("{orderId}/extend")]
     [Authorize(Policy = Policies.Authenticated)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(AbstractOrder), 200)]
     public async Task<ActionResult> ExtendOrder(string orderId, [FromBody] ExtendOrderRequest extendOrder)
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);

@@ -1,3 +1,4 @@
+using inertia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public class HireOptionsController: Controller
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(List<HireOption>), 200)]
     public async Task<ActionResult> List()
     {
         return Ok(await _db.HireOptions.ToListAsync());

@@ -27,6 +27,7 @@ public class ScootersController : MyControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(List<Scooter>), 200)]
     public async Task<ActionResult> List([FromQuery] int? depoId, [FromQuery] ScooterStatus? status)
     {
         var scooters = await _inertia.GetAllScootersCurrentStatus();
@@ -41,6 +42,8 @@ public class ScootersController : MyControllerBase
     }
 
     [HttpPost("{scooterId:int}/return")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> ReturnScooter(int scooterId)
     {
         var scooter = await _db.Scooters
@@ -57,6 +60,8 @@ public class ScootersController : MyControllerBase
     
     
     [HttpPost]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Scooter), 200)]
     public async Task<ActionResult> AddItem(
         [FromBody] CreateScooterRequest request 
     )
@@ -82,6 +87,8 @@ public class ScootersController : MyControllerBase
     }
 
     [HttpDelete("{scooterId:int}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> RemoveItem(int scooterId)
     {
         var scooter = await _db.Scooters
@@ -97,6 +104,8 @@ public class ScootersController : MyControllerBase
     }
 
     [HttpPatch("{scooterId:int}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Scooter), 200)]
     public async Task<ActionResult<Scooter>> UpdateItem(int scooterId, [FromBody] PatchScooterRequest scooterRequest)
     {
         var scooter = await _db.Scooters

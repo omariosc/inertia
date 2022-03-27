@@ -39,6 +39,8 @@ public class DeposController : MyControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> RemoveItem(int id)
     {
         var depo = await db.Depos.FindAsync(id);
@@ -52,7 +54,9 @@ public class DeposController : MyControllerBase
     }
 
     [HttpPatch("{id:int}")]
-    public async Task<ActionResult<Depo>> UpdateItem(int id, [FromBody] PatchDepoRequest depoRequest)
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Depo), 200)]
+    public async Task<ActionResult> UpdateItem(int id, [FromBody] PatchDepoRequest depoRequest)
     {
         var depo = await db.Depos.FindAsync(id);
 

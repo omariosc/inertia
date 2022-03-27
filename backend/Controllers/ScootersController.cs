@@ -23,6 +23,8 @@ public class ScootersController: MyControllerBase
     }
 
     [HttpGet("available")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(List<Scooter>), 200)]
     public async Task<ActionResult> GetAvailableScooters(
         [FromQuery(Name = "depoId")] int? depoId,
         [FromQuery(Name = "startTime")] DateTime? startTime,
@@ -57,6 +59,9 @@ public class ScootersController: MyControllerBase
     }
     
     [HttpGet("count")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(CountResponse), 200)]
+
     public async Task<ActionResult> CountAvailableScooters(
         [FromQuery(Name = "depoId")] int? depoId,
         [FromQuery(Name = "startTime")] DateTime? startTime,
@@ -100,6 +105,8 @@ public class ScootersController: MyControllerBase
     }
     
     [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Scooter), 200)]
     public async Task<ActionResult<Scooter>> GetItem(int id)
     {
         var scooter = await _db.Scooters

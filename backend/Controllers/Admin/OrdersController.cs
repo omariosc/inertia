@@ -28,6 +28,7 @@ public class OrdersController : MyControllerBase
     }
 
     [HttpGet("AccountOrders")]
+    [ProducesResponseType(typeof(Order), 200)]
     public async Task<ActionResult> ListOrders()
     {
         var list = await _db.Orders
@@ -40,6 +41,7 @@ public class OrdersController : MyControllerBase
     }
     
     [HttpGet("GuestOrders")]
+    [ProducesResponseType(typeof(List<GuestOrder>), 200)]
     public async Task<ActionResult> ListGuestOrders()
     {
         var list = await _db.Orders
@@ -52,6 +54,8 @@ public class OrdersController : MyControllerBase
     }
 
     [HttpPost("CreateGuestOrder")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(AbstractOrder), 200)]
     public async Task<ActionResult> CreateGuestOrder([FromBody] CreateGuestOrderRequest createOrder)
     {
         var scooter = await _db.Scooters
@@ -101,6 +105,8 @@ public class OrdersController : MyControllerBase
     }
 
     [HttpPost("{orderId}/cancel")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> CancelOrder(string orderId)
     {
         var order = await _db.Orders
@@ -134,6 +140,8 @@ public class OrdersController : MyControllerBase
     }
 
     [HttpPost("{orderId}/extend")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(AbstractOrder), 200)]
     public async Task<ActionResult> ExtendOrder(string orderId, [FromBody] ExtendOrderRequest extendOrder)
     {
         var order = await _db.Orders
@@ -188,6 +196,8 @@ public class OrdersController : MyControllerBase
     }
     
     [HttpPost("{orderId}/approve")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> ApproveOrder(string orderId)
     {
         var order = await _db.Orders
@@ -204,6 +214,8 @@ public class OrdersController : MyControllerBase
     }
 
     [HttpPost("{orderId}/deny")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> DenyOrder(string orderId)
     {
         var order = await _db.Orders

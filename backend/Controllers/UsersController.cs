@@ -38,6 +38,8 @@ public class UsersController : MyControllerBase
     }
 
     [HttpPost("signup")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Signup([FromBody] SignupRequest request)
     {
         try
@@ -59,6 +61,8 @@ public class UsersController : MyControllerBase
     }
     
     [HttpPost("authorize")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(LoginResponse), 200)]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var account = await _users.MatchAccount(loginRequest.Email, loginRequest.Password);
@@ -95,6 +99,7 @@ public class UsersController : MyControllerBase
 
     [HttpDelete("authorize")]
     [Authorize]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Logout([FromBody] LogoutRequest request)
     {
         var loginInstance = await _db.LoginInstances.Where(i => i.AccessToken == request.AccessToken).FirstOrDefaultAsync();
@@ -110,6 +115,8 @@ public class UsersController : MyControllerBase
 
     [HttpGet("{accountId}/profile")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Account), 200)]
     public async Task<ActionResult> GetProfile(string accountId)
     {
         if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
@@ -127,6 +134,8 @@ public class UsersController : MyControllerBase
 
     [HttpGet("{accountId}/orders")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(List<Order>), 200)]
     public async Task<ActionResult> GetOrders(string accountId)
     {
         if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
@@ -145,6 +154,8 @@ public class UsersController : MyControllerBase
 
     [HttpGet("{accountId}/issues")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(List<Issue>), 200)]
     public async Task<ActionResult> GetIssues(string accountId)
     {
         if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
@@ -160,6 +171,8 @@ public class UsersController : MyControllerBase
     
     [HttpPost("{accountId}/issues")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Issue), 200)]
     public async Task<ActionResult> CreateIssue(
         string accountId, 
         [FromBody] CreateIssueRequest request)
@@ -195,6 +208,8 @@ public class UsersController : MyControllerBase
     
     [HttpGet("{accountId}/issues/{issueId:int}")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Issue), 200)]
     public async Task<ActionResult> GetIssue(string accountId, int issueId)
     {
         if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
@@ -212,6 +227,8 @@ public class UsersController : MyControllerBase
     
     [HttpDelete("{accountId}/issues/{issueId:int}")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> CloseIssue(string accountId, int issueId)
     {
         if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
@@ -236,6 +253,8 @@ public class UsersController : MyControllerBase
 
     [HttpGet("{accountId}/ApplyDiscount")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(DiscountApplication), 200)]
     public async Task<ActionResult> ApplyDiscount(
         string accountId,
         [FromBody]ApplyDiscountRequest request)
@@ -276,6 +295,8 @@ public class UsersController : MyControllerBase
     [HttpGet("{accountId}/ApplyDiscountUploadImage")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [Consumes("application/octet-stream")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> ApplyDiscountUploadImage(
         string accountId,
         [FromBody] byte[] image)
@@ -304,6 +325,8 @@ public class UsersController : MyControllerBase
 
     [HttpPost("{accountId}/ChangePassword")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> ChangePassword(
         string accountId,
         [FromBody] ChangePasswordRequest request

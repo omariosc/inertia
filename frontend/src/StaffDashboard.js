@@ -24,7 +24,7 @@ export default function Dashboard() {
             mode: "cors"
         });
         let responseJson = await request.json();
-        if (cookies.get("accountRole") === 2) {
+        if (cookies.get("accountRole") === '2') {
             setData({
                 "Employees logged in": responseJson.employeesLoggedIn,
                 "Users logged in": responseJson.usersLoggedIn,
@@ -32,7 +32,7 @@ export default function Dashboard() {
                 "Revenue today": "£" + responseJson.revenueToday.toString(),
                 "Scooters in use": responseJson.scootersInUse
             })
-        } else if (cookies.get("accountRole") === 1) {
+        } else if (cookies.get("accountRole") === '1') {
             setData({
                 "Scooters in use": responseJson.scootersInUse,
                 "Scooters unavailable by Staff": responseJson.scootersUnavailableByStaff,

@@ -217,12 +217,9 @@ export default function CreateBooking({map_locations}) {
                     :
                     <>
                         <h6>Using Stored Card Details:</h6>
-                        <h7>Card Number: {cookies.get('cardNumber')}</h7>
-                        <br/>
-                        <h7>Expiry Date: {cookies.get('expiryDate')}</h7>
-                        <br/>
-                        <h7>CVV: {cookies.get('cvv')}</h7>
-                        <br/>
+                        <p style={{margin: "0"}}>Card Number: {cookies.get('cardNumber')}</p>
+                        <p style={{margin: "0"}}>Expiry Date: {cookies.get('expiryDate')}</p>
+                        <p style={{margin: "0"}}>CVV: {cookies.get('cvv')}</p>
                         <br/>
                         <Button variant="primary" onClick={() => {
                             cookies.remove('cardNumber');

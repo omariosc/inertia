@@ -49,15 +49,15 @@ export default function ScooterManagement({map_locations}) {
 
     async function changePrice() {
         if (hireChoiceId === "none" || hireChoiceId === "") {
-            alert("Select a time slot!");
+            alert("Select a time slot.");
             return;
         }
         if (!(hireChoicePrice.match(/^\d+(\.\d{0,2})?$/))) {
-            alert("Enter a valid price!");
+            alert("Enter a valid price.");
             return;
         }
         try {
-            await fetch(host + 'api/admin/HireOptions/' + hireChoiceId, {
+            let request = await fetch(host + 'api/admin/HireOptions/' + hireChoiceId, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,6 +69,10 @@ export default function ScooterManagement({map_locations}) {
                 }),
                 mode: "cors"
             })
+            let response = await request;
+            if (response.status === 200) {
+                alert("Success! Changed price")
+            }
         } catch (error) {
             console.error(error);
         }
@@ -77,7 +81,7 @@ export default function ScooterManagement({map_locations}) {
 
     async function editScooter() {
         if (!(scooterNewId.match(/^\d+$/))) {
-            alert("Scooter ID must be an integer!");
+            alert("Scooter ID must be an integer.");
             return;
         }
         try {
@@ -214,7 +218,7 @@ export default function ScooterManagement({map_locations}) {
                                             <>
                                                 <br/>
                                                 <Form.Group style={{paddingTop: "30px"}}>
-                                                    <Form.Label><b>Change scooter ID</b></Form.Label>
+                                                    <Form.Label><b>Enter scooter ID</b></Form.Label>
                                                     <InputGroup>
                                                         <input name="scooter-name" placeholder={scooterCurrentSoftId}
                                                                onInput={e => setScooterNewId(e.target.value)} required/>

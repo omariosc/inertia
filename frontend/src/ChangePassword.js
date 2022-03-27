@@ -9,7 +9,7 @@ export default async function changePassword(oldPassword, password, confirmPassw
     }
     if (!(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/))) {
         alert("Please enter a valid password. Passwords should contain minimum eight characters, " +
-            "at least one uppercase letter, one lowercase letter, one number and one special character:");
+            "at least one uppercase letter, one lowercase letter, one number and one special character.");
         return;
     }
     if (password !== confirmPassword) {

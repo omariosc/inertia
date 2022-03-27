@@ -109,22 +109,41 @@ const App = () => {
                             className="dropdown-basic-button clickable"
                         >
                             {showLanding ?
-                                <Dropdown.Item
-                                    href="#/login"
-                                    onClick={() => {
-                                        setShowLogin(true);
-                                        setShowRegister(false);
-                                    }}>
-                                    <p>Log In</p>
-                                </Dropdown.Item> : null}
-                            {showLanding ? <Dropdown.Item
-                                href="#/register"
-                                onClick={() => {
-                                    setShowLogin(false);
-                                    setShowRegister(true);
-                                }}>
-                                <p>Register</p>
-                            </Dropdown.Item> : null}
+                                <>
+                                    <Dropdown.Item
+                                        href="#/login"
+                                        onClick={() => {
+                                            setShowLogin(true);
+                                            setShowRegister(false);
+                                        }}>
+                                        <p>Log In</p>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        href="#/register"
+                                        onClick={() => {
+                                            setShowLogin(false);
+                                            setShowRegister(true);
+                                        }}>
+                                        <p>Register</p>
+                                    </Dropdown.Item>
+                                </> : null}
+                            {showCustomer ?
+                                <>
+                                    <Dropdown.Item
+                                        href="#/sign-out"
+                                        onClick={() => {
+                                            signOut();
+                                            setShowLogin(false);
+                                            setShowRegister(false);
+                                            setShowCustomer(false);
+                                            setShowManager(false);
+                                            setShowEmployee(false);
+                                            setShowLanding(true)
+                                        }}
+                                    >
+                                        <p>Sign Out</p>
+                                    </Dropdown.Item>
+                                </> : null}
                         </DropdownButton>
                     </div> :
                     <Navbar expand="lg" bg="primary" variant="dark" className="clickable">
@@ -191,8 +210,8 @@ const App = () => {
                             </Nav.Item>
                         </Navbar.Collapse>
                     </Navbar>}
-                <LoginForm show={showLogin} onCustomer={CustomerLogin} onEmployee={EmployeeLogin}
-                           onManager={ManagerLogin} onHide={() => setShowLogin(false)}/>
+                <LoginForm show={showLogin} showcustomer={CustomerLogin} showemployee={EmployeeLogin}
+                           showmanager={ManagerLogin} onHide={() => setShowLogin(false)}/>
                 {showLanding ? null : <br/>}
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
                 {showEmployee ?

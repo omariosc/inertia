@@ -24,25 +24,22 @@ export default function LoginForm(props) {
                 mode: "cors"
             });
             let response = await request.json();
-            alert(response.message);
-            try {
-                if (email === "admin@inertia") {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onManager();
-                } else if (response.account.role === 2) {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onEmployee();
+            if (response.account) {
+                console.log(response)
+                alert(`Logged in as ${response.account.name}.`);
+                cookies.set("accountID", response.account.accountId, {path: '/'});
+                cookies.set("accessToken", response.accessToken, {path: '/'});
+                if (email === "admin@inertia" || response.account.role === 2) {
+                    props.showmanager();
+                } else if (response.account.role === 1) {
+                    props.showemployee();
                 } else if (response.account.role === 0) {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onCustomer();
+                    props.showcustomer();
                 } else {
                     console.log(response);
                 }
-            } catch (error) {
-                console.log(error)
+            } else {
+                alert(response.description);
             }
         } catch (error) {
             console.error(error);

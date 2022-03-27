@@ -3,8 +3,10 @@ import {Button, Form, Container, Col, Row} from "react-bootstrap";
 import './StaffInterface.css';
 import host from './host';
 import validate from './Validators';
+import Cookies from "universal-cookie";
 
 export default function AccountManagement() {
+    const cookies = new Cookies();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,21 +16,59 @@ export default function AccountManagement() {
         if (!validate(name, email, password, confirmPassword)) {
             return;
         }
+        let accountId;
         try {
-            await fetch(host + 'api/Users/signup', {
+            let signupRequest = await fetch(host + 'api/Users/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
                 },
                 body: JSON.stringify({
                     'name': name,
                     'email': email,
-                    'password': password,
-                    'userType': 1
+                    'password': password
                 }),
                 mode: "cors"
             });
+            let signupResponse = await signupRequest;
+            console.log(signupResponse)
+            let getRequest = await fetch(host + 'api/admin/Users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let getResponse = await getRequest.json();
+            for (let i = 0; getResponse.length; i++) {
+                let account = getResponse[i];
+                if (account.email === email) {
+                    accountId = account.accountId;
+                    break;
+                }
+            }
+            let patchRequest = await fetch(host + `api/admin/Users/${accountId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    'accountRole': 1
+                }),
+                mode: "cors"
+            });
+            let patchResponse = await patchRequest;
+            if (patchResponse.status === 200) {
+                alert(`Success! Created employee account for ${name}`)
+            } else {
+                alert(patchResponse.description)
+            }
         } catch (error) {
             console.error(error);
         }

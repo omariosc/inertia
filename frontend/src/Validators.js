@@ -27,9 +27,9 @@ export default function validate(name, email, password, confirmPassword) {
         alert("Passwords do not match.");
         return 0;
     }
-    if (!validatePassword(password)) {
+    if (validatePassword(password)) {
         alert("Please enter a valid password. Passwords should contain minimum eight characters, " +
-            "at least one uppercase letter, one lowercase letter, one number and one special character:");
+            "at least one uppercase letter, one lowercase letter, one number and one special character.");
         return 0;
     }
     return 1;

@@ -27,9 +27,17 @@ public class ScootersController : MyControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> List()
+    public async Task<ActionResult> List([FromQuery] int? depoId, [FromQuery] ScooterStatus? status)
     {
-        return Ok(await _inertia.GetAllScootersCurrentStatus());
+        var scooters = await _inertia.GetAllScootersCurrentStatus();
+
+        if (depoId is not null)
+            scooters = scooters.Where(s => s.DepoId == depoId);
+
+        if (status is not null)
+            scooters = scooters.Where(s => s.ScooterStatus == status);
+        
+        return Ok(scooters);
     }
 
     [HttpPost("{scooterId:int}/return")]

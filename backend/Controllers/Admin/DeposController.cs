@@ -66,15 +66,4 @@ public class DeposController : MyControllerBase
         await db.SaveChangesAsync();
         return Ok(depo);
     }
-
-    [HttpGet("{id:int}/Scooters")]
-    public async Task<ActionResult<IEnumerable<Scooter>>> ListScooters(int id)
-    {
-        var depo = await db.Depos.FindAsync(id);
-
-        if (depo == null)
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "depo id invalid", "depo");
-
-        return await db.Scooters.Where(e => e.DepoId == id).ToListAsync();
-    }
 }

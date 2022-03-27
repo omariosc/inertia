@@ -7,7 +7,7 @@ import host from './host';
 import Cookies from 'universal-cookie';
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
-import LandingPage from './LandingPage'
+import LandingPage from './LandingPage';
 import CustomerInterface from "./CustomerInterface";
 import ManagerInterface from './ManagerInterface';
 import EmployeeInterface from './EmployeeInterface';

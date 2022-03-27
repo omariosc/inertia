@@ -26,14 +26,14 @@ export default function ManageApplications() {
                         </tr>
                         </thead>
                         <tbody>
-                        {applications.map((application, idx) => (
+                        {applications.map((application) => (
                             <tr>
-                                <td key={idx}>{application[0]}</td>
-                                <td key={idx}>{application[1]}</td>
-                                <td key={idx}>{application[2]}</td>
-                                <td key={idx}>{application[3]}</td>
-                                <td key={idx}><u>View</u></td>
-                                <td key={idx}>
+                                <td>{application[0]}</td>
+                                <td>{application[1]}</td>
+                                <td>{application[2]}</td>
+                                <td>{application[3]}</td>
+                                <td><u>View</u></td>
+                                <td>
                                     <Button style={{float: 'left', width: '47.5%'}} variant="success">Approve</Button>
                                     <Button style={{float: 'right', width: '47.5%'}} variant="danger">Reject</Button>
                                 </td>

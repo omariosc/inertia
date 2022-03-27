@@ -50,13 +50,13 @@ export default function ScooterManagement() {
                         </tr>
                         </thead>
                         <tbody>
-                        {scooters.map((scooter, idx) => (
+                        {scooters.map((scooter) => (
                             <tr>
-                                <td key={idx}>{scooter[0]}</td>
-                                <td key={idx}>{scooter[1]}</td>
-                                <td key={idx}>{scooter[2]}</td>
-                                <td key={idx}><Button>Make unavailable</Button></td>
-                                <td key={idx}>{scooter[3][2]} - {scooter[3][0]}</td>
+                                <td>{scooter[0]}</td>
+                                <td>{scooter[1]}</td>
+                                <td>{scooter[2]}</td>
+                                <td><Button>Make unavailable</Button></td>
+                                <td>{scooter[3][2]} - {scooter[3][0]}</td>
                             </tr>
                         ))}
                         </tbody>

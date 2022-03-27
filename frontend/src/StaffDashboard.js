@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import {Card, Row, Col, Container} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Card, Col, Container, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from './host';
 import Cookies from 'universal-cookie';
@@ -24,13 +24,25 @@ export default function Dashboard() {
             mode: "cors"
         });
         let responseJson = await request.json();
-        setData({
-            "Employees logged in": responseJson.employeesLoggedIn,
-            "Users logged in": responseJson.usersLoggedIn,
-            "High priority issues": responseJson.highPriorityIssues,
-            "Revenue today": "£" + responseJson.revenueToday.toString(),
-            "Scooters in use": responseJson.scootersInUse
-        })
+        if (cookies.get("accountRole") == 2) {
+            setData({
+                "Employees logged in": responseJson.employeesLoggedIn,
+                "Users logged in": responseJson.usersLoggedIn,
+                "High priority issues": responseJson.highPriorityIssues,
+                "Revenue today": "£" + responseJson.revenueToday.toString(),
+                "Scooters in use": responseJson.scootersInUse
+            })
+        } else if (cookies.get("accountRole") == 1) {
+            setData({
+                "Scooters in use": responseJson.scootersInUse,
+                "Scooters unavailable by Staff": responseJson.scootersUnavailableByStaff,
+                "Scooters pending return": responseJson.scootersPendingReturn,
+                "High priority issues": responseJson.highPriorityIssues,
+                "Medium priority issues": responseJson.mediumPriorityIssues,
+                "Low priority issues": responseJson.lowPriorityIssues,
+                "Unassigned issues": responseJson.unassignedPriorityIssues
+            })
+        }
     }
 
     return (

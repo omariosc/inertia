@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Container, Row, InputGroup, Table, Form} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Row, Table} from "react-bootstrap";
 import './StaffInterface.css';
 import host from './host';
 import Cookies from 'universal-cookie';
@@ -200,15 +200,13 @@ export default function ScooterManagement({map_locations}) {
                                     <Form>
                                         <Form.Group>
                                             <Form.Label><b>Select scooter</b></Form.Label>
-                                            <Form.Select className="dropdown-basic-button"
-                                                         title="Choose scooter"
-                                                         variant="primary"
-                                                         defaultValue="Select a scooter..."
-                                                         onChange={(e) => {
-                                                             let scooter = e.target.value.split(',')
-                                                             setScooterCurrentId(scooter[0]);
-                                                             setScooterCurrentSoftId(scooter[1])
-                                                         }}
+                                            <Form.Select
+                                                defaultValue="Select a scooter..."
+                                                onChange={(e) => {
+                                                    let scooter = e.target.value.split(',')
+                                                    setScooterCurrentId(scooter[0]);
+                                                    setScooterCurrentSoftId(scooter[1])
+                                                }}
                                             >
                                                 <option value="none">Select a scooter...</option>
                                                 {scooters.map((scooter, idy) => (
@@ -236,13 +234,11 @@ export default function ScooterManagement({map_locations}) {
                                                         <br/>
                                                         <Form.Group>
                                                             <Form.Label><b>Change scooter availability</b></Form.Label>
-                                                            <Form.Select className="dropdown-basic-button"
-                                                                         title="Choose scooter"
-                                                                         variant="primary"
-                                                                         defaultValue="Select availability..."
-                                                                         onChange={(e) => {
-                                                                             setScooterAvailability(e.target.value)
-                                                                         }}
+                                                            <Form.Select
+                                                                defaultValue="Select availability..."
+                                                                onChange={(e) => {
+                                                                    setScooterAvailability(e.target.value)
+                                                                }}
                                                             >
                                                                 <option value="none">Select availability...
                                                                 </option>
@@ -257,13 +253,12 @@ export default function ScooterManagement({map_locations}) {
                                                                 <Form.Group style={{paddingTop: "30px"}}>
                                                                     <Form.Label><b>Change scooter
                                                                         location</b></Form.Label>
-                                                                    <Form.Select className="dropdown-basic-button"
-                                                                                 title="Change scooter location"
-                                                                                 variant="primary"
-                                                                                 defaultValue="Select location..."
-                                                                                 onChange={(e) => {
-                                                                                     setScooterLocation(e.target.value)
-                                                                                 }}
+                                                                    <Form.Select
+                                                                        variant="primary"
+                                                                        defaultValue="Select location..."
+                                                                        onChange={(e) => {
+                                                                            setScooterLocation(e.target.value)
+                                                                        }}
                                                                     >
                                                                         <option value="none">Select location...
                                                                         </option>
@@ -281,9 +276,9 @@ export default function ScooterManagement({map_locations}) {
                                                                     <>
                                                                         <br/>
                                                                         <Form.Group style={{paddingTop: "50px"}}>
-                                                                            <Button variant="primary"
-                                                                                    style={{float: "right"}}
-                                                                                    onClick={editScooter}>Save
+                                                                            <Button
+                                                                                style={{float: "right"}}
+                                                                                onClick={editScooter}>Save
                                                                                 changes</Button>
                                                                         </Form.Group>
                                                                     </>

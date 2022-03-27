@@ -34,8 +34,7 @@ export default function Issues() {
                 'Authorization': `Bearer ${cookies.get('accessToken')}`
             },
             body: JSON.stringify({
-                "resolution": "Resolved",
-                "priority": 0
+                "resolution": "Resolved"
             }),
             mode: "cors"
         });
@@ -65,7 +64,6 @@ export default function Issues() {
                                         <Card.Header><b>{issue.title}</b></Card.Header>
                                         <Card.Body>
                                             <Card.Text><b>Description:</b> {issue.content}</Card.Text>
-                                            <Card.Text><b>Date Opened:</b> {issue.dateOpened}</Card.Text>
                                             <Card.Text><b>Priority:</b> High</Card.Text>
                                             <Button variant="primary" onClick={() => resolveIssue(issue.issueId)}>Mark as
                                                 Resolved</Button>

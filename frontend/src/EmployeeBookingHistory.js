@@ -24,13 +24,13 @@ export default function BookingHistory() {
                         </tr>
                         </thead>
                         <tbody>
-                        {history.map((booking, idx) => (
+                        {history.map((booking) => (
                             <tr>
-                                <td key={idx}>{booking[0]}</td>
-                                <td key={idx}>{booking[1]}</td>
-                                <td key={idx}>{booking[2]}</td>
-                                <td key={idx}>{booking[3]}</td>
-                                <td key={idx}><u>View</u></td>
+                                <td>{booking[0]}</td>
+                                <td>{booking[1]}</td>
+                                <td>{booking[2]}</td>
+                                <td>{booking[3]}</td>
+                                <td><u>View</u></td>
                             </tr>
                         ))}
                         </tbody>

@@ -22,18 +22,18 @@ export default function CurrentBookings() {
                 </tr>
                 </thead>
                 <tbody>
-                {bookings.map((booking, idx) => (
+                {bookings.map((booking) => (
                     <tr>
-                        <td key={idx}>{booking[0]}</td>
-                        <td key={idx}>{booking[1]}</td>
-                        <td key={idx}>{booking[2]}</td>
-                        <td key={idx}>
+                        <td>{booking[0]}</td>
+                        <td>{booking[1]}</td>
+                        <td>{booking[2]}</td>
+                        <td>
                             <Button variant="success">Extend</Button>
                         </td>
-                        <td key={idx}>
+                        <td>
                             <Button variant="danger">Cancel</Button>
                         </td>
-                        <td key={idx}><u>View</u></td>
+                        <td><u>View</u></td>
                     </tr>
                 ))}
                 </tbody>

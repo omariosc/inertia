@@ -24,13 +24,13 @@ export default function BookingHistory() {
                 </tr>
                 </thead>
                 <tbody>
-                {orderDetails.map((details, info) => (
+                {orderDetails.map((details) => (
                     <tr>
-                        <td key={info}>{details[0]}</td>
-                        <td key={info}>{details[1]}</td>
-                        <td key={info}>{details[2]}</td>
-                        <td key={info}>£{(details[3]).toFixed(2)}</td>
-                        <td key={info}><u>View</u></td>
+                        <td>{details[0]}</td>
+                        <td>{details[1]}</td>
+                        <td>{details[2]}</td>
+                        <td>£{(details[3]).toFixed(2)}</td>
+                        <td><u>View</u></td>
                     </tr>
                 ))}
                 </tbody>

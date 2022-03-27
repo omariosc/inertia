@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Nav, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from './EmployeeDashboard.js';
+import Dashboard from './StaffDashboard.js';
 import CreateBooking from './EmployeeCreateBooking.js';
 import BookingHistory from './EmployeeBookingHistory.js';
 import CurrentBookings from './EmployeeCurrentBookings.js';

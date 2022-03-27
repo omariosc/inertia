@@ -1,9 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
+import Cookies from "universal-cookie";
 import './StaffInterface.css';
 
 export default function SubmitIssues() {
-    const priorities = ["None", "Low", "Medium", "High"]
+    const cookies = new Cookies();
+    const priorities = ["None", "Low", "Medium", "High"];
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [priority, setPriority] = useState('');
+
+    async function submitIssue() {
+        console.log(title)
+        console.log(content)
+        console.log(priority)
+    }
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Submit Issues</h1>
@@ -14,20 +26,32 @@ export default function SubmitIssues() {
                     <Col xs={6}>
                         <Form>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label><b>Description of Issue</b></Form.Label>
-                                <Form.Control as="textarea" rows={3}/>
+                                <Form.Label><b>Enter Issue Title</b></Form.Label>
+                                <Form.Control placeholder="Enter issue title here..."
+                                              onInput={e => setTitle(e.target.value)} required/>
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                <Form.Label><b>Enter Issue Description</b></Form.Label>
+                                <Form.Control as="textarea" rows={3} placeholder="Enter issue description here..."
+                                              onInput={e => setContent(e.target.value)}/>
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label><b>Select Priority</b></Form.Label>
-                                <FormSelect>
+                                <FormSelect
+                                    defaultValue="Select priority..."
+                                    onChange={(e) => {
+                                        setPriority(e.target.value)
+                                    }}>
+                                    <option value="none">Select priority...
+                                    </option>
                                     {priorities.map((priority, idx) => (
-                                        <option key={idx}>{priority}</option>
+                                        <option key={idx} value={idx}>{priority}</option>
                                     ))}
                                 </FormSelect>
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button>Submit Issue</Button>
+                                <Button onClick={submitIssue}>Submit Issue</Button>
                             </Form.Group>
                         </Form>
                     </Col>

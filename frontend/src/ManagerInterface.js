@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Nav, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from './ManagerDashboard.js';
+import Dashboard from './StaffDashboard.js';
 import ScooterManagement from './ManagerScooterManagement.js';
 import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';

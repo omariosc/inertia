@@ -13,7 +13,7 @@ export default function ManageApplications() {
             <h1 style={{paddingLeft: '10px'}}>Manage Applications</h1>
             <br/>
             <Container>
-                <div className="scroll">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover>
                         <thead>
                         <tr>

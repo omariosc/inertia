@@ -38,7 +38,7 @@ export default function ScooterManagement() {
             <Container>
                 <h3>Configure scooter availability</h3>
                 <br/>
-                <div className="scroll">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover style={{tableLayout: 'fixed'}}>
                         <thead>
                         <tr>

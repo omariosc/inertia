@@ -13,7 +13,7 @@ export default function CurrentBookings() {
             <h1 style={{paddingLeft: '10px'}}>Current Bookings</h1>
             <br/>
             <Container>
-                <div className="scroll">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover>
                         <thead>
                         <tr>

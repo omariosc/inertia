@@ -12,7 +12,7 @@ export default function BookingHistory() {
             <h1 style={{paddingLeft: '10px'}}>Booking History</h1>
             <br/>
             <Container>
-                <div className="scroll">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover>
                         <thead>
                         <tr>

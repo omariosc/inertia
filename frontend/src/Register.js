@@ -15,7 +15,7 @@ export default function RegisterForm(props) {
             return;
         }
         try {
-            await fetch(host + 'api/Users/signup', {
+            let request = await fetch(host + 'api/Users/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,6 +28,13 @@ export default function RegisterForm(props) {
                 }),
                 mode: "cors"
             });
+            let response = await request;
+            if (response.status === 200) {
+                alert("Successfully registered account.")
+                props.onHide();
+            } else {
+                alert("Email address already in use.")
+            }
         } catch (error) {
             console.error(error);
         }

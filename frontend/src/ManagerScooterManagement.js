@@ -48,10 +48,6 @@ export default function ScooterManagement({map_locations}) {
     }
 
     async function changePrice() {
-        if (hireChoiceId === "none" || hireChoiceId === "") {
-            alert("Select a time slot.");
-            return;
-        }
         if (!(hireChoicePrice.match(/^\d+(\.\d{0,2})?$/))) {
             alert("Enter a valid price.");
             return;
@@ -71,7 +67,7 @@ export default function ScooterManagement({map_locations}) {
             })
             let response = await request;
             if (response.status === 200) {
-                alert("Success! Changed price")
+                alert("Changed price")
             }
         } catch (error) {
             console.error(error);
@@ -85,7 +81,7 @@ export default function ScooterManagement({map_locations}) {
             return;
         }
         try {
-            await fetch(host + 'api/admin/Scooters/' + scooterCurrentId.toString(), {
+            let request = await fetch(host + 'api/admin/Scooters/' + scooterCurrentId.toString(), {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,6 +95,12 @@ export default function ScooterManagement({map_locations}) {
                 }),
                 mode: "cors"
             })
+            let response = await request.json();
+            if (response.errorCode === 7) {
+                alert("Scooter ID is already taken.");
+            } else {
+                alert("Changed scooter details.");
+            }
         } catch (error) {
             console.error(error);
         }
@@ -173,10 +175,15 @@ export default function ScooterManagement({map_locations}) {
                                                            onInput={e => setHireChoicePrice(e.target.value)} required/>
                                                 </InputGroup>
                                             </Form.Group>
-                                            <br/>
-                                            <Form.Group style={{float: "right"}}>
-                                                <Button variant="primary" onClick={changePrice}>Update price</Button>
-                                            </Form.Group>
+                                            {(hireChoicePrice === '') ? null :
+                                                <>
+                                                    <br/>
+                                                    <Form.Group style={{float: "right"}}>
+                                                        <Button variant="primary" onClick={changePrice}>Update
+                                                            price</Button>
+                                                    </Form.Group>
+                                                </>
+                                            }
                                         </div>
                                     </>
                                 }

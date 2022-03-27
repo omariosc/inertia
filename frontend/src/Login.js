@@ -24,12 +24,13 @@ export default function LoginForm(props) {
                 mode: "cors"
             });
             let response = await request.json();
-            if (response.account) {
-                console.log(response)
+            if (response.accessToken) {
                 alert(`Logged in as ${response.account.name}.`);
                 cookies.set("accountID", response.account.accountId, {path: '/'});
+                cookies.set("accountName", response.account.name, {path: '/'});
+                cookies.set("accountRole", response.account.role, {path: '/'});
                 cookies.set("accessToken", response.accessToken, {path: '/'});
-                if (email === "admin@inertia" || response.account.role === 2) {
+                if (response.account.role === 2) {
                     props.showmanager();
                 } else if (response.account.role === 1) {
                     props.showemployee();
@@ -39,7 +40,7 @@ export default function LoginForm(props) {
                     console.log(response);
                 }
             } else {
-                alert(response.description);
+                alert("Login credentials invalid.");
             }
         } catch (error) {
             console.error(error);

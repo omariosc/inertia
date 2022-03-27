@@ -13,7 +13,7 @@ export default function Issues() {
     }, []);
 
     async function fetchIssues() {
-        let request = await fetch(host + "api/admin/Issues?closed=false&priority=3", {
+        let request = await fetch(host + "api/admin/Issues/?closed=false&priority=3", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export default function Issues() {
     }
 
     async function resolveIssue(id) {
-        let request = await fetch(host + `api/admin/Issues/${id}`, {
+        await fetch(host + `api/admin/Issues/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,6 @@ export default function Issues() {
             }),
             mode: "cors"
         });
-        setIssues(await request.json());
         await fetchIssues();
     }
 
@@ -51,25 +50,29 @@ export default function Issues() {
                 {(issues === '') ?
                     <h6>Loading...</h6> :
                     <>
-                        {/*{(issues.length == 0) ?*/}
+                        {(issues.length === 0) ?
                         <h6>There are no high priority issues</h6> :
                         <>
                             <div className="scroll">
                                 {issues.map((issue, idx) => (
+                                    <>
                                     <Card
                                         bg="light"
                                         key={idx}
                                         text="dark"
-                                        className="mb-2"
+                                        className="g-2"
                                     >
-                                        <Card.Header>Title: {issue.title}</Card.Header>
+                                        <Card.Header><b>{issue.title}</b></Card.Header>
                                         <Card.Body>
                                             <Card.Text><b>Description:</b> {issue.content}</Card.Text>
+                                            <Card.Text><b>Date Opened:</b> {issue.dateOpened}</Card.Text>
                                             <Card.Text><b>Priority:</b> High</Card.Text>
-                                            <Button variant="primary" onClick={resolveIssue(issue.id)}>Mark as
+                                            <Button variant="primary" onClick={() => resolveIssue(issue.issueId)}>Mark as
                                                 Resolved</Button>
                                         </Card.Body>
                                     </Card>
+                                    <br/>
+                                    </>
                                 ))}
                             </div>
                         </>

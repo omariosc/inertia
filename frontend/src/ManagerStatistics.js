@@ -6,11 +6,12 @@ import './StaffInterface.css';
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-export default function Statistics() {
+export default function Statistics({isDark}) {
     const cookies = new Cookies();
     const [weeklyData, setWeeklyData] = useState('');
     const [weeklyHiresData, setWeeklyHiresData] = useState('');
     const [combinedDailyData, setCombinedDailyData] = useState('');
+    let chartTheme = (isDark ? "dark2" : "light2")
 
     useEffect(() => {
         fetchStatistics();
@@ -32,7 +33,6 @@ export default function Statistics() {
         setWeeklyHiresData(await weeklyHiresDataRequest.json());
         let combinedDailyDataRequest = await fetch(host + "api/admin/Plot/combinedDaily", init);
         setCombinedDailyData(await combinedDailyDataRequest.json());
-        console.log(combinedDailyData)
     }
 
     return (
@@ -45,8 +45,10 @@ export default function Statistics() {
                     <>
                         <CanvasJSChart options={
                             {
+                                theme: `${chartTheme}`,
+                                animationEnabled: true,
                                 title: {
-                                    text: "Weekly Income (hire options)",
+                                    text: "Weekly Income (Hire Options)",
                                     fontFamily: "arial",
                                     fontWeight: "bold"
                                 },
@@ -135,6 +137,8 @@ export default function Statistics() {
                     <>
                         <CanvasJSChart options={
                             {
+                                theme: `${chartTheme}`,
+                                animationEnabled: true,
                                 title: {
                                     text: "Weekly Income",
                                     fontFamily: "arial",
@@ -174,6 +178,7 @@ export default function Statistics() {
                     <>
                         <CanvasJSChart options={
                             {
+                                theme: `${chartTheme}`,
                                 animationEnabled: true,
                                 title: {
                                     text: "Daily Combined Income",

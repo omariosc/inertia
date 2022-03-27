@@ -65,7 +65,7 @@ export default function AccountManagement() {
             });
             let patchResponse = await patchRequest;
             if (patchResponse.status === 200) {
-                alert(`Success! Created employee account for ${name}`)
+                alert(`Created employee account for ${name}.`)
             } else {
                 alert(patchResponse.description)
             }

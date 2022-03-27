@@ -18,10 +18,34 @@ const App = () => {
     const cookies = new Cookies();
     const center = [53.8, -1.55]
     const [map_locations, setMapLocations] = useState('');
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+    const [showCustomer, setShowCustomer] = useState(false);
+    const [showManager, setShowManager] = useState(false);
+    const [showEmployee, setShowEmployee] = useState(false);
+    const [showLanding, setShowLanding] = useState(true);
+    const [isDark, {toggle}] = useDarkreader(true);
 
     useEffect(() => {
+        checkRole();
         fetchLocations()
     }, []);
+
+    function checkRole() {
+        if (cookies.get("accessToken")) {
+            setShowLanding(false);
+            switch (cookies.get("accountRole")) {
+                case '1':
+                    setShowEmployee(true);
+                    break;
+                case '2':
+                    setShowManager(true);
+                    break;
+                default:
+                    setShowLanding(true);
+            }
+        }
+    }
 
     async function fetchLocations() {
         let request = await fetch(host + "api/Depos", {
@@ -34,14 +58,6 @@ const App = () => {
         });
         setMapLocations(await request.json());
     }
-
-    const [showLogin, setShowLogin] = useState(false);
-    const [showRegister, setShowRegister] = useState(false);
-    const [showCustomer, setShowCustomer] = useState(false);
-    const [showManager, setShowManager] = useState(false);
-    const [showEmployee, setShowEmployee] = useState(false);
-    const [showLanding, setShowLanding] = useState(true);
-    const [isDark, {toggle}] = useDarkreader(true);
 
     function CustomerLogin() {
         setShowLogin(false);
@@ -158,14 +174,9 @@ const App = () => {
                             INERTIA
                         </Navbar.Brand>
                         <Navbar.Collapse className="justify-content-end">
-                            {showManager ?
-                                <Navbar.Text className="navbar-pad-right-right">
-                                    Signed in as: <u>Manager</u>
-                                </Navbar.Text> : null}
-                            {showEmployee ?
                                 <Navbar.Text className="navbar-pad-right">
-                                    Signed in as: <u>Employee</u>
-                                </Navbar.Text> : null}
+                                    Logged in as: <a>{cookies.get("accountName")}</a>
+                                </Navbar.Text>
                             <Nav.Item className="navbar-pad-right">
                                 <DropdownButton
                                     align="end"

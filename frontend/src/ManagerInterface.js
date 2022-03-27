@@ -88,7 +88,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
                         {showScooter ? <ScooterManagement map_locations={map_locations} onHide={() => setShowScooter(false)}/> : null}
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
-                        {showStatistics ? <Statistics onHide={() => setShowStatistics(false)}/> : null}
+                        {showStatistics ? <Statistics isDark={isDark} onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}
                         {showSettings ? <StaffSettings isDark={isDark} toggle={toggle}
                                                        onHide={() => setShowSettings(false)}/> : null}

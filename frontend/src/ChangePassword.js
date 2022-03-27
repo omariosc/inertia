@@ -16,6 +16,10 @@ export default async function changePassword(oldPassword, password, confirmPassw
         alert("Passwords do not match.");
         return;
     }
+    if (oldPassword === password) {
+        alert("Passwords must be different.")
+        return;
+    }
     try {
         let request = await fetch(host + `api/Users/${cookies.get('accountID')}/ChangePassword`, {
             method: 'POST',
@@ -30,8 +34,12 @@ export default async function changePassword(oldPassword, password, confirmPassw
             }),
             mode: "cors"
         });
-        let response = await request.json();
-        alert(response.message)
+        let response = await request;
+        if (response.status === 200) {
+            alert("Changed password.")
+        } else {
+            alert("Incorrect password.")
+        }
     } catch (error) {
         console.error(error);
     }

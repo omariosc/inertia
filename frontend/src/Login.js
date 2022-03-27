@@ -4,14 +4,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import Cookies from 'universal-cookie';
 
-function LoginForm(props) {
+export default function LoginForm(props) {
     const cookies = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     async function onSubmit() {
         try {
-            const request = await fetch(host + 'api/Users/authorize', {
+            let request = await fetch(host + 'api/Users/authorize', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,25 +23,24 @@ function LoginForm(props) {
                 }),
                 mode: "cors"
             });
-            const response = await request.json();
-            try {
-                if (email === "admin@inertia" && password === "admin") {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onManager();
-                } else if (response.account.role === 2) {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onEmployee();
+            let response = await request.json();
+            if (response.accessToken) {
+                alert(`Logged in as ${response.account.name}.`);
+                cookies.set("accountID", response.account.accountId, {path: '/'});
+                cookies.set("accountName", response.account.name, {path: '/'});
+                cookies.set("accountRole", response.account.role, {path: '/'});
+                cookies.set("accessToken", response.accessToken, {path: '/'});
+                if (response.account.role === 2) {
+                    props.showmanager();
+                } else if (response.account.role === 1) {
+                    props.showemployee();
                 } else if (response.account.role === 0) {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onCustomer();
+                    props.showcustomer();
                 } else {
                     console.log(response);
                 }
-            } catch (error) {
-                console.log(error)
+            } else {
+                alert("Login credentials invalid.");
             }
         } catch (error) {
             console.error(error);
@@ -82,5 +81,3 @@ function LoginForm(props) {
         </Modal>
     );
 }
-
-export default LoginForm;

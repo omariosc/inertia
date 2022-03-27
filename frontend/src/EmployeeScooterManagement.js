@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function ScooterManagement() {
+export default function ScooterManagement() {
     const map_locations = [
         ["Trinity Centre", [53.798351, -1.545100], "A"],
         ["Train Station", [53.796770, -1.540510], "B"],
@@ -38,7 +38,7 @@ function ScooterManagement() {
             <Container>
                 <h3>Configure scooter availability</h3>
                 <br/>
-                <div className="scroll-scooters">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover style={{tableLayout: 'fixed'}}>
                         <thead>
                         <tr>
@@ -50,13 +50,13 @@ function ScooterManagement() {
                         </tr>
                         </thead>
                         <tbody>
-                        {scooters.map((scooter, idx) => (
+                        {scooters.map((scooter) => (
                             <tr>
-                                <td key={idx}>{scooter[0]}</td>
-                                <td key={idx}>{scooter[1]}</td>
-                                <td key={idx}>{scooter[2]}</td>
-                                <td key={idx}><Button>Make unavailable</Button></td>
-                                <td key={idx}>{scooter[3][2]} - {scooter[3][0]}</td>
+                                <td>{scooter[0]}</td>
+                                <td>{scooter[1]}</td>
+                                <td>{scooter[2]}</td>
+                                <td><Button>Make unavailable</Button></td>
+                                <td>{scooter[3][2]} - {scooter[3][0]}</td>
                             </tr>
                         ))}
                         </tbody>
@@ -66,5 +66,3 @@ function ScooterManagement() {
         </>
     );
 }
-
-export default ScooterManagement;

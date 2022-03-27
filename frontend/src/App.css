@@ -78,11 +78,7 @@
 #account-page {
     pointer-events: all;
     position: relative;
-    padding-left: 20%;
+    padding-left: 15%;
     padding-top: 2%;
-    padding-right: 27%;
-}
-
-.Visa {
-    background-color: cadetblue !important;
+    padding-right: 25%;
 }

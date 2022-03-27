@@ -1,15 +1,5 @@
 .scroll {
-    max-height: 40rem;
-    overflow-y: scroll;
-}
-
-.scroll-graphs {
     max-height: 45rem;
-    overflow-y: scroll;
-}
-
-.scroll-scooters {
-    max-height: 35rem;
     overflow-y: scroll;
 }
 

@@ -1,15 +1,15 @@
 import React from "react";
 import {Button, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function CurrentBookings() {
+export default function CurrentBookings() {
     const bookings = [
         [101, "4 hours", "12/04/22 12:54"],
         [103, "1 day", "25/05/22 18:53"],
         [105, "1 week", "14/05/22 15:33"]
     ]
     return (
-        <div className="scroll-graphs">
+        <div className="scroll">
             <Table>
                 <thead>
                 <tr>
@@ -22,18 +22,18 @@ function CurrentBookings() {
                 </tr>
                 </thead>
                 <tbody>
-                {bookings.map((booking, idx) => (
+                {bookings.map((booking) => (
                     <tr>
-                        <td key={idx}>{booking[0]}</td>
-                        <td key={idx}>{booking[1]}</td>
-                        <td key={idx}>{booking[2]}</td>
-                        <td key={idx}>
+                        <td>{booking[0]}</td>
+                        <td>{booking[1]}</td>
+                        <td>{booking[2]}</td>
+                        <td>
                             <Button variant="success">Extend</Button>
                         </td>
-                        <td key={idx}>
+                        <td>
                             <Button variant="danger">Cancel</Button>
                         </td>
-                        <td key={idx}><u>View</u></td>
+                        <td><u>View</u></td>
                     </tr>
                 ))}
                 </tbody>
@@ -41,5 +41,3 @@ function CurrentBookings() {
         </div>
     );
 }
-
-export default CurrentBookings;

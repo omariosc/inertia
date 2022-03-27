@@ -2,34 +2,41 @@ import React, {useState} from "react";
 import {InputGroup, Button, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
+import validate from './Validators';
 
-function RegisterForm(props) {
+export default function RegisterForm(props) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     async function onSubmit() {
-        if (password === confirmPassword) {
-            try {
-                await fetch(host + 'api/Users/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'name': name,
-                        'email': email,
-                        'password': password
-                    }),
-                    mode: "cors"
-                });
-            } catch (error) {
-                console.error(error);
+        if (!validate(name, email, password, confirmPassword)) {
+            return;
+        }
+        try {
+            let request = await fetch(host + 'api/Users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    'name': name,
+                    'email': email,
+                    'password': password
+                }),
+                mode: "cors"
+            });
+            let response = await request;
+            if (response.status === 200) {
+                alert("Successfully registered account.")
+                props.onHide();
+            } else {
+                alert("Email address already in use.")
             }
-        } else {
-            console.error("Error: Passwords do not match");
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -75,5 +82,3 @@ function RegisterForm(props) {
         </Modal>
     );
 }
-
-export default RegisterForm;

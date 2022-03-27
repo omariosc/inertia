@@ -1,11 +1,9 @@
 import React, {useState} from "react";
 import {Button, Col, Form, Row, Table} from "react-bootstrap";
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import host from "./host";
-import Cookies from 'universal-cookie';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react';
+import changePassword from "./ChangePassword";
 
-function CustomerSettings({isDark, toggle}) {
-    const cookies = new Cookies();
+export default function CustomerSettings({isDark, toggle}) {
     const userDetails = [
         ["Full Name", "Hashir Choudry"],
         ["Email Address", "hashirsing@gmail.com"]
@@ -15,29 +13,7 @@ function CustomerSettings({isDark, toggle}) {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     async function onSubmit() {
-        if (password === confirmPassword) {
-            try {
-                let request = await fetch(host + `api/Users/${cookies.get('accountID')}/ChangePassword`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${cookies.get('accessToken')}`
-                    },
-                    body: JSON.stringify({
-                        'oldPassword': oldPassword,
-                        'newPassword': password
-                    }),
-                    mode: "cors"
-                });
-                let response = await request.json();
-                console.log(response)
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-            console.error("Error: Passwords do not match");
-        }
+        await changePassword(oldPassword, password, confirmPassword);
     }
 
     return (
@@ -105,5 +81,3 @@ function CustomerSettings({isDark, toggle}) {
         </>
     );
 }
-
-export default CustomerSettings;

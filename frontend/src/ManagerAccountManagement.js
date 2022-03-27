@@ -2,35 +2,75 @@ import React, {useState} from "react";
 import {Button, Form, Container, Col, Row} from "react-bootstrap";
 import './StaffInterface.css';
 import host from './host';
+import validate from './Validators';
+import Cookies from "universal-cookie";
 
-function AccountManagement() {
+export default function AccountManagement() {
+    const cookies = new Cookies();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     async function onSubmit() {
-        if (password === confirmPassword) {
-            try {
-                await fetch(host + 'api/Users/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'name': name,
-                        'email': email,
-                        'password': password
-                        // 'role': "employee"
-                    }),
-                    mode: "cors"
-                });
-            } catch (error) {
-                console.error(error);
+        if (!validate(name, email, password, confirmPassword)) {
+            return;
+        }
+        let accountId;
+        try {
+            let signupRequest = await fetch(host + 'api/Users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    'name': name,
+                    'email': email,
+                    'password': password
+                }),
+                mode: "cors"
+            });
+            let signupResponse = await signupRequest;
+            console.log(signupResponse)
+            let getRequest = await fetch(host + 'api/admin/Users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let getResponse = await getRequest.json();
+            for (let i = 0; getResponse.length; i++) {
+                let account = getResponse[i];
+                if (account.email === email) {
+                    accountId = account.accountId;
+                    break;
+                }
             }
-        } else {
-            console.error("Error: Passwords do not match");
+            let patchRequest = await fetch(host + `api/admin/Users/${accountId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    'accountRole': 1
+                }),
+                mode: "cors"
+            });
+            let patchResponse = await patchRequest;
+            if (patchResponse.status === 200) {
+                alert(`Created employee account for ${name}.`)
+            } else {
+                alert(patchResponse.description)
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -80,5 +120,3 @@ function AccountManagement() {
         </>
     );
 }
-
-export default AccountManagement;

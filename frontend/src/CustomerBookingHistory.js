@@ -1,9 +1,9 @@
 import React from "react";
 import {Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css"
-import './StaffInterface.css'
+import "bootstrap/dist/css/bootstrap.css";
+import './StaffInterface.css';
 
-function BookingHistory() {
+export default function BookingHistory() {
     const orderDetails = [
         [101, "1 hour", "8/2/22 13:02", 10],
         [102, "1 week", "9/2/22 16:45", 0],
@@ -12,7 +12,7 @@ function BookingHistory() {
         [204, "1 day", "20/2/22 10:45", 200]
     ]
     return (
-        <div className="scroll-graphs">
+        <div className="scroll">
             <Table>
                 <thead>
                 <tr>
@@ -24,13 +24,13 @@ function BookingHistory() {
                 </tr>
                 </thead>
                 <tbody>
-                {orderDetails.map((details, info) => (
+                {orderDetails.map((details) => (
                     <tr>
-                        <td key={info}>{details[0]}</td>
-                        <td key={info}>{details[1]}</td>
-                        <td key={info}>{details[2]}</td>
-                        <td key={info}>£{(details[3]).toFixed(2)}</td>
-                        <td key={info}><u>View</u></td>
+                        <td>{details[0]}</td>
+                        <td>{details[1]}</td>
+                        <td>{details[2]}</td>
+                        <td>£{(details[3]).toFixed(2)}</td>
+                        <td><u>View</u></td>
                     </tr>
                 ))}
                 </tbody>
@@ -38,5 +38,3 @@ function BookingHistory() {
         </div>
     )
 }
-
-export default BookingHistory;

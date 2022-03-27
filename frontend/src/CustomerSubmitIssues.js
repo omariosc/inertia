@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Form} from "react-bootstrap";
 
-function SubmitIssue() {
+export default function SubmitIssue() {
     return (
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -14,5 +14,3 @@ function SubmitIssue() {
         </Form>
     );
 }
-
-export default SubmitIssue;

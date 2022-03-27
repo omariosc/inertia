@@ -1,8 +1,8 @@
 import React from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function ManageApplications() {
+export default function ManageApplications() {
     const applications = [
         [3, "Student", "sc20osc@leeds.ac.uk", "17/03/22 12:54"],
         [4, "Student", "sc20jdr@leeds.ac.uk", "18/03/22 18:53"],
@@ -13,7 +13,7 @@ function ManageApplications() {
             <h1 style={{paddingLeft: '10px'}}>Manage Applications</h1>
             <br/>
             <Container>
-                <div className="scroll-graphs">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover>
                         <thead>
                         <tr>
@@ -26,14 +26,14 @@ function ManageApplications() {
                         </tr>
                         </thead>
                         <tbody>
-                        {applications.map((application, idx) => (
+                        {applications.map((application) => (
                             <tr>
-                                <td key={idx}>{application[0]}</td>
-                                <td key={idx}>{application[1]}</td>
-                                <td key={idx}>{application[2]}</td>
-                                <td key={idx}>{application[3]}</td>
-                                <td key={idx}><u>View</u></td>
-                                <td key={idx}>
+                                <td>{application[0]}</td>
+                                <td>{application[1]}</td>
+                                <td>{application[2]}</td>
+                                <td>{application[3]}</td>
+                                <td><u>View</u></td>
+                                <td>
                                     <Button style={{float: 'left', width: '47.5%'}} variant="success">Approve</Button>
                                     <Button style={{float: 'right', width: '47.5%'}} variant="danger">Reject</Button>
                                 </td>
@@ -46,5 +46,3 @@ function ManageApplications() {
         </>
     );
 }
-
-export default ManageApplications;

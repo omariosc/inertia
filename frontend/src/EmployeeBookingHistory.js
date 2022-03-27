@@ -1,8 +1,8 @@
 import React from "react";
 import {Container, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function BookingHistory() {
+export default function BookingHistory() {
     const history = [
         [102, "george02@gmail.com", "1 hour", "21/02/22 17:14"],
         [106, "lucyt@gmail.com", "1 day", "24/02/22 19:53"]
@@ -12,7 +12,7 @@ function BookingHistory() {
             <h1 style={{paddingLeft: '10px'}}>Booking History</h1>
             <br/>
             <Container>
-                <div className="scroll-graphs">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover>
                         <thead>
                         <tr>
@@ -24,13 +24,13 @@ function BookingHistory() {
                         </tr>
                         </thead>
                         <tbody>
-                        {history.map((booking, idx) => (
+                        {history.map((booking) => (
                             <tr>
-                                <td key={idx}>{booking[0]}</td>
-                                <td key={idx}>{booking[1]}</td>
-                                <td key={idx}>{booking[2]}</td>
-                                <td key={idx}>{booking[3]}</td>
-                                <td key={idx}><u>View</u></td>
+                                <td>{booking[0]}</td>
+                                <td>{booking[1]}</td>
+                                <td>{booking[2]}</td>
+                                <td>{booking[3]}</td>
+                                <td><u>View</u></td>
                             </tr>
                         ))}
                         </tbody>
@@ -40,5 +40,3 @@ function BookingHistory() {
         </>
     );
 }
-
-export default BookingHistory;

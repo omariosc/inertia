@@ -1,9 +1,9 @@
 import React from "react";
 import {Button, Col, Form, Row, Container} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import './StaffInterface.css'
+import './StaffInterface.css';
 
-function CreateBooking() {
+export default function CreateBooking() {
     const map_locations = [
         ["Trinity Centre", [53.798351, -1.545100], "A"],
         ["Train Station", [53.796770, -1.540510], "B"],
@@ -131,8 +131,5 @@ function CreateBooking() {
                 </Row>
             </Container>
         </>
-    )
-        ;
+    );
 }
-
-export default CreateBooking;

@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import './StaffInterface.css'
-import Cookies from 'universal-cookie';
 import host from "./host";
+import Cookies from 'universal-cookie';
+import './StaffInterface.css';
 
-function CreateBooking({map_locations}) {
+export default function CreateBooking({map_locations}) {
     const cookies = new Cookies();
     const center = [53.8010441, -1.5497378]
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [scooterChoice, setScooterChoice] = useState('');
     const [hireChoice, setHireChoice] = useState('');
+    const [cardNo, setCardNo] = useState('')
+    const [expiry, setExpiry] = useState('')
+    const [cvv, setCVV] = useState('')
     const discount = false;
 
     useEffect(() => {
@@ -20,11 +23,12 @@ function CreateBooking({map_locations}) {
     }, []);
 
     async function fetchHirePeriods() {
-        const request = await fetch(host + "api/HireOptions", {
+        let request = await fetch(host + "api/HireOptions", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
             },
             mode: "cors"
         });
@@ -32,11 +36,12 @@ function CreateBooking({map_locations}) {
     }
 
     async function fetchScooters() {
-        const request = await fetch(host + "api/Scooters/available", {
+        let request = await fetch(host + "api/Scooters/available", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${cookies.get('accessToken')}`
             },
             mode: "cors"
         });
@@ -44,41 +49,33 @@ function CreateBooking({map_locations}) {
     }
 
     async function makeBooking() {
-        console.log(scooterChoice);
-        console.log(hireChoice);
-        await fetch(host + "api/Orders", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            body: JSON.stringify({
-                'hireOptionId': scooterChoice,
-                'scooterId': hireChoice,
-                'startTime': '2022-03-26T15:28:19.875082'
-            }),
-            mode: "cors"
-        });
-    }
-
-    const [cardNo, setCardNo] = useState('')
-    const [expiry, setExpiry] = useState('')
-    const [cvv, setCVV] = useState('')
-
-    function onSubmit() {
         cookies.set('cardNumber', cardNo, {path: '/'});
         cookies.set('expiryDate', expiry, {path: '/'});
         cookies.set('cvv', cvv, {path: '/'});
-        makeBooking()
+        console.log(scooterChoice);
+        console.log(hireChoice);
+        try {
+            await fetch(host + "api/Orders", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    'hireOptionId': scooterChoice,
+                    'scooterId': hireChoice,
+                    'startTime': '2022-03-26T15:28:19.875082'
+                }),
+                mode: "cors"
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     function checkCardExists() {
-        if (cookies.get('cardNumber') && cookies.get('expiryDate') && cookies.get('cvv')) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(cookies.get('cardNumber') && cookies.get('expiryDate') && cookies.get('cvv'));
     }
 
     return (
@@ -88,11 +85,18 @@ function CreateBooking({map_locations}) {
             <Form>
                 <Form.Group>
                     <Form.Label><h6>Select Location</h6></Form.Label>
-                    <Form.Select className="dropdown-basic-button" title="Select location"
-                                 defaultValue={cookies.get('selectedLocation')}>
+                    <Form.Select
+                        className="dropdown-basic-button"
+                        title="Select location"
+                        defaultValue={map_locations[0].depoId}
+                    >
                         {map_locations.map((location, idx) => (
-                            <option key={idx}
-                                    value={location.name}>{location.depoId} - {location.name}</option>
+                            <option
+                                key={idx}
+                                value={location.depoId}
+                            >
+                                {location.depoId} - {location.name}
+                            </option>
                         ))}
                     </Form.Select>
                 </Form.Group>
@@ -176,8 +180,6 @@ function CreateBooking({map_locations}) {
                     }
                 </div>
                 <br/>
-                <br/>
-                <br/>
                 <h5>Enter Card Details</h5>
                 <br/>
                 {checkCardExists() ?
@@ -215,12 +217,9 @@ function CreateBooking({map_locations}) {
                     :
                     <>
                         <h6>Using Stored Card Details:</h6>
-                        <h7>Card Number: {cookies.get('cardNumber')}</h7>
-                        <br/>
-                        <h7>Expiry Date: {cookies.get('expiryDate')}</h7>
-                        <br/>
-                        <h7>CVV: {cookies.get('cvv')}</h7>
-                        <br/>
+                        <p style={{margin: "0"}}>Card Number: {cookies.get('cardNumber')}</p>
+                        <p style={{margin: "0"}}>Expiry Date: {cookies.get('expiryDate')}</p>
+                        <p style={{margin: "0"}}>CVV: {cookies.get('cvv')}</p>
                         <br/>
                         <Button variant="primary" onClick={() => {
                             cookies.remove('cardNumber');
@@ -231,11 +230,9 @@ function CreateBooking({map_locations}) {
                 }
                 <br/>
                 <Form.Group>
-                    <Button variant="primary" style={{float: "right"}} onClick={onSubmit}>Confirm Booking</Button>
+                    <Button variant="primary" style={{float: "right"}} onClick={makeBooking}>Confirm Booking</Button>
                 </Form.Group>
             </Form>
         </div>
     );
 }
-
-export default CreateBooking;

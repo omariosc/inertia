@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Nav, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from './ManagerDashboard.js';
+import Dashboard from './StaffDashboard.js';
 import ScooterManagement from './ManagerScooterManagement.js';
 import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';
@@ -9,7 +9,7 @@ import AccountManagement from './ManagerAccountManagement.js';
 import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
-function ManagerInterface({isDark, toggle}) {
+export default function ManagerInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showScooter, setShowScooter] = useState(false);
     const [showIssues, setShowIssues] = useState(false);
@@ -86,9 +86,9 @@ function ManagerInterface({isDark, toggle}) {
                 <Col xs={9}>
                     <>
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
-                        {showScooter ? <ScooterManagement onHide={() => setShowScooter(false)}/> : null}
+                        {showScooter ? <ScooterManagement map_locations={map_locations} onHide={() => setShowScooter(false)}/> : null}
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
-                        {showStatistics ? <Statistics onHide={() => setShowStatistics(false)}/> : null}
+                        {showStatistics ? <Statistics isDark={isDark} onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}
                         {showSettings ? <StaffSettings isDark={isDark} toggle={toggle}
                                                        onHide={() => setShowSettings(false)}/> : null}
@@ -98,5 +98,3 @@ function ManagerInterface({isDark, toggle}) {
         </div>
     );
 }
-
-export default ManagerInterface;

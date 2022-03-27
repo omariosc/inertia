@@ -48,6 +48,14 @@ export default function ScooterManagement({map_locations}) {
     }
 
     async function changePrice() {
+        if (hireChoiceId === '' || hireChoiceId === 'none') {
+            alert("You must select a hire option.");
+            return;
+        }
+        if (hireChoicePrice === '') {
+            alert("Hire option price is required.");
+            return;
+        }
         if (!(hireChoicePrice.match(/^\d+(\.\d{0,2})?$/))) {
             alert("Enter a valid price.");
             return;
@@ -67,7 +75,7 @@ export default function ScooterManagement({map_locations}) {
             })
             let response = await request;
             if (response.status === 200) {
-                alert("Changed price")
+                alert("Changed price.")
             }
         } catch (error) {
             console.error(error);
@@ -76,8 +84,20 @@ export default function ScooterManagement({map_locations}) {
     }
 
     async function editScooter() {
+        if (scooterCurrentId === '' || scooterCurrentId === 'none') {
+            alert("You must select a scooter.");
+            return;
+        }
         if (!(scooterNewId.match(/^\d+$/))) {
             alert("Scooter ID must be an integer.");
+            return;
+        }
+        if (scooterAvailability === '' || scooterAvailability === 'none') {
+            alert("You must select scooter availability.");
+            return;
+        }
+        if (scooterLocation === '' || scooterLocation === 'none') {
+            alert("You must select scooter location.");
             return;
         }
         try {
@@ -163,30 +183,22 @@ export default function ScooterManagement({map_locations}) {
                                         </Form.Select>
                                     }
                                 </Form.Group>
-                                {(hireChoiceId === '' || hireChoiceId === 'none') ? null :
-                                    <>
-                                        <br/>
-                                        <br/>
-                                        <div>
-                                            <Form.Group style={{float: "left"}}>
-                                                <Form.Label><b>Change hire period price</b></Form.Label>
-                                                <InputGroup>
-                                                    <input type="price" name="price" placeholder="Enter new price"
-                                                           onInput={e => setHireChoicePrice(e.target.value)} required/>
-                                                </InputGroup>
-                                            </Form.Group>
-                                            {(hireChoicePrice === '') ? null :
-                                                <>
-                                                    <br/>
-                                                    <Form.Group style={{float: "right"}}>
-                                                        <Button variant="primary" onClick={changePrice}>Update
-                                                            price</Button>
-                                                    </Form.Group>
-                                                </>
-                                            }
-                                        </div>
-                                    </>
-                                }
+                                <br/>
+                                <br/>
+                                <div>
+                                    <Form.Group style={{float: "left"}}>
+                                        <Form.Label><b>Change hire period price</b></Form.Label>
+                                        <InputGroup>
+                                            <input type="price" name="price" placeholder="Enter new price"
+                                                   onInput={e => setHireChoicePrice(e.target.value)} required/>
+                                        </InputGroup>
+                                    </Form.Group>
+                                    <br/>
+                                    <Form.Group style={{float: "right"}}>
+                                        <Button variant="primary" onClick={changePrice}>Update
+                                            price</Button>
+                                    </Form.Group>
+                                </div>
                             </Form>
                         </Row>
                         <br/>
@@ -219,76 +231,60 @@ export default function ScooterManagement({map_locations}) {
                                                 ))}
                                             </Form.Select>
                                         </Form.Group>
-                                        {(scooterCurrentId === '' || scooterCurrentId === 'none') ? null :
-                                            <>
-                                                <br/>
-                                                <Form.Group style={{paddingTop: "30px"}}>
-                                                    <Form.Label><b>Enter scooter ID</b></Form.Label>
-                                                    <InputGroup>
-                                                        <input name="scooter-name" placeholder={scooterCurrentSoftId}
-                                                               onInput={e => setScooterNewId(e.target.value)} required/>
-                                                    </InputGroup>
-                                                </Form.Group>
-                                                {(scooterNewId === '') ? null :
-                                                    <>
-                                                        <br/>
-                                                        <Form.Group>
-                                                            <Form.Label><b>Change scooter availability</b></Form.Label>
-                                                            <Form.Select
-                                                                defaultValue="Select availability..."
-                                                                onChange={(e) => {
-                                                                    setScooterAvailability(e.target.value)
-                                                                }}
-                                                            >
-                                                                <option value="none">Select availability...
-                                                                </option>
-                                                                {["Available", "Unavailable"].map((status, idy) => (
-                                                                    <option key={idy} value={status}>{status}</option>
-                                                                ))}
-                                                            </Form.Select>
-                                                        </Form.Group>
-                                                        {(scooterAvailability === '' || scooterAvailability === 'none') ? null :
-                                                            <>
-                                                                <br/>
-                                                                <Form.Group style={{paddingTop: "30px"}}>
-                                                                    <Form.Label><b>Change scooter
-                                                                        location</b></Form.Label>
-                                                                    <Form.Select
-                                                                        variant="primary"
-                                                                        defaultValue="Select location..."
-                                                                        onChange={(e) => {
-                                                                            setScooterLocation(e.target.value)
-                                                                        }}
-                                                                    >
-                                                                        <option value="none">Select location...
-                                                                        </option>
-                                                                        {map_locations.map((location, idy) => (
-                                                                            <option
-                                                                                key={idy}
-                                                                                value={location.depoId}
-                                                                            >
-                                                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                                            </option>
-                                                                        ))}
-                                                                    </Form.Select>
-                                                                </Form.Group>
-                                                                {(scooterLocation === '' || scooterLocation === 'none') ? null :
-                                                                    <>
-                                                                        <br/>
-                                                                        <Form.Group style={{paddingTop: "50px"}}>
-                                                                            <Button
-                                                                                style={{float: "right"}}
-                                                                                onClick={editScooter}>Save
-                                                                                changes</Button>
-                                                                        </Form.Group>
-                                                                    </>
-                                                                }
-                                                            </>
-                                                        }
-                                                    </>
-                                                }
-                                            </>
-                                        }
+                                        <br/>
+                                        <Form.Group>
+                                            <Form.Label><b>Enter scooter ID</b></Form.Label>
+                                            <InputGroup>
+                                                <input name="scooter-name" placeholder={scooterCurrentSoftId}
+                                                       onInput={e => setScooterNewId(e.target.value)} required/>
+                                            </InputGroup>
+                                        </Form.Group>
+                                        <br/>
+                                        <Form.Group>
+                                            <Form.Label><b>Change scooter availability</b></Form.Label>
+                                            <Form.Select
+                                                defaultValue="Select availability..."
+                                                onChange={(e) => {
+                                                    setScooterAvailability(e.target.value)
+                                                }}
+                                            >
+                                                <option value="none">Select availability...
+                                                </option>
+                                                {["Available", "Unavailable"].map((status, idy) => (
+                                                    <option key={idy} value={status}>{status}</option>
+                                                ))}
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <br/>
+                                        <Form.Group>
+                                            <Form.Label><b>Change scooter
+                                                location</b></Form.Label>
+                                            <Form.Select
+                                                variant="primary"
+                                                defaultValue="Select location..."
+                                                onChange={(e) => {
+                                                    setScooterLocation(e.target.value)
+                                                }}
+                                            >
+                                                <option value="none">Select location...
+                                                </option>
+                                                {map_locations.map((location, idy) => (
+                                                    <option
+                                                        key={idy}
+                                                        value={location.depoId}
+                                                    >
+                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <br/>
+                                        <Form.Group>
+                                            <Button
+                                                style={{float: "right"}}
+                                                onClick={editScooter}>Save
+                                                changes</Button>
+                                        </Form.Group>
                                     </Form>
                                 </>
                             }

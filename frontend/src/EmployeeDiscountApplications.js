@@ -1,8 +1,9 @@
 import React from "react";
 import {Button, Container, Table} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css';
 
-export default function ManageApplications() {
+export default function DiscountApplications() {
     const applications = [
         [3, "Student", "sc20osc@leeds.ac.uk", "17/03/22 12:54"],
         [4, "Student", "sc20jdr@leeds.ac.uk", "18/03/22 18:53"],
@@ -10,7 +11,7 @@ export default function ManageApplications() {
     ]
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Manage Applications</h1>
+            <h1 style={{paddingLeft: '10px'}}>Manage Discount Applications</h1>
             <br/>
             <Container>
                 <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>

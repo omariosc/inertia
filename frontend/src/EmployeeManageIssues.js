@@ -1,4 +1,5 @@
-import {Button, Card, Col, Container, Dropdown, DropdownButton, Form, FormSelect, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, {useEffect, useState} from "react";
 import host from "./host";
 import Cookies from "universal-cookie";
@@ -13,7 +14,7 @@ export default function ManageIssues() {
         fetchIssues()
     }, []);
 
-    async function fetchIssues() {
+    async function fetchIssues(sortOption = null) {
         let request = await fetch(host + "api/admin/Issues/?closed=false", {
             method: "GET",
             headers: {
@@ -23,13 +24,24 @@ export default function ManageIssues() {
             },
             mode: "cors"
         });
-        setIssues(await request.json());
+        let response = await request.json();
+        const sortFunctions = {
+            '1': (a, b) => b.issueId - a.issueId,
+            '2': (a, b) => a.issueId - b.issueId,
+            '3': (a, b) => a.priority - b.priority,
+            '4': (a, b) => b.priority - a.priority
+        }
+        setIssues(response.sort(sortFunctions[sortOption]));
     }
 
     async function editIssue(id, changePriority = false) {
         const requestBody = (changePriority ?
             {"priority": parseInt(priority)} :
             {"resolution": "Resolved"})
+        if (changePriority === true && (priority === '' || priority === 'none')) {
+            alert("You must select a priority.");
+            return;
+        }
         await fetch(host + `api/admin/Issues/${id}`, {
             method: "PATCH",
             headers: {
@@ -52,19 +64,21 @@ export default function ManageIssues() {
                     <h6>There are no open issues</h6> :
                     <>
                         <div style={{float: "right"}}>
-                            <DropdownButton className="dropdown-basic-button" title="Sort by: ">
-                                <Dropdown.Item>Priority: Ascending</Dropdown.Item>
-                                <Dropdown.Item>Priority: Descending</Dropdown.Item>
-                                <Dropdown.Item>Time: First</Dropdown.Item>
-                                <Dropdown.Item>Time: Last</Dropdown.Item>
-                            </DropdownButton>
+                            <Form.Select onChange={(e) => {
+                                fetchIssues(e.target.value);
+                            }}>
+                                <option value={1}>Time: Newest</option>
+                                <option value={2}>Time: Oldest</option>
+                                <option value={3}>Priority: Ascending</option>
+                                <option value={4}>Priority: Descending</option>
+                            </Form.Select>
                         </div>
                         <br/>
                         <br/>
                         <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                             <Row xs={1} md={2} className="card-deck">
-                                {issues.map((issue, keyidx) => (
-                                    <Col key={keyidx}>
+                                {issues.map((issue, keyID) => (
+                                    <Col key={keyID}>
                                         <Card className="mb-2">
                                             <Card.Header><b>{issue.title}</b></Card.Header>
                                             <Card.Body>

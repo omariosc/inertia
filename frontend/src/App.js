@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import host from './host';
+import center from "./center";
 import Cookies from 'universal-cookie';
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
@@ -16,7 +17,6 @@ import './App.css';
 
 const App = () => {
     const cookies = new Cookies();
-    const center = [53.8, -1.55];
     const [map_locations, setMapLocations] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
@@ -112,6 +112,7 @@ const App = () => {
         cookies.remove('accessToken');
         cookies.remove('accountID');
         cookies.remove('accountRole');
+        cookies.remove('accountName');
     }
 
     return (

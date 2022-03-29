@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import host from './host';
 import Cookies from 'universal-cookie';
 import './StaffInterface.css';
@@ -12,7 +13,7 @@ export default function Issues() {
         fetchIssues()
     }, []);
 
-    async function fetchIssues() {
+    async function fetchIssues(sortOption = null) {
         let request = await fetch(host + "api/admin/Issues/?closed=false&priority=3", {
             method: "GET",
             headers: {
@@ -22,7 +23,12 @@ export default function Issues() {
             },
             mode: "cors"
         });
-        setIssues(await request.json());
+        let response = await request.json();
+        const sortFunctions = {
+            '1': (a, b) => b.issueId - a.issueId,
+            '2': (a, b) => a.issueId - b.issueId
+        }
+        setIssues(response.sort(sortFunctions[sortOption]));
     }
 
     async function resolveIssue(id) {
@@ -49,13 +55,23 @@ export default function Issues() {
                 {(issues === '') ?
                     <h6>Loading...</h6> :
                     <>
+                        <div style={{float: "right"}}>
+                            <Form.Select onChange={(e) => {
+                                fetchIssues(e.target.value);
+                            }}>
+                                <option value={1}>Time: Newest</option>
+                                <option value={2}>Time: Oldest</option>
+                            </Form.Select>
+                        </div>
+                        <br/>
+                        <br/>
                         {(issues.length === 0) ?
                             <h6>There are no high priority issues</h6> :
                             <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                                 <Row xs={1} md={2} className="card-deck">
                                     {issues.map((issue, idx) => (
                                         <Col key={idx}>
-                                            <Card className="g-2" >
+                                            <Card className="g-2">
                                                 <Card.Header><b>{issue.title}</b></Card.Header>
                                                 <Card.Body>
                                                     <Card.Text>
@@ -63,7 +79,8 @@ export default function Issues() {
                                                         <br/>
                                                         <b>Priority:</b> High
                                                     </Card.Text>
-                                                    <Button style={{float: "right"}} onClick={() => resolveIssue(issue.issueId)}>Mark as
+                                                    <Button style={{float: "right"}}
+                                                            onClick={() => resolveIssue(issue.issueId)}>Mark as
                                                         Resolved</Button>
                                                 </Card.Body>
                                             </Card>

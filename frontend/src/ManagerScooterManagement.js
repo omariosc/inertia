@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, InputGroup, Row, Table} from "react-bootstrap";
-import './StaffInterface.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import host from './host';
 import Cookies from 'universal-cookie';
+import './StaffInterface.css';
 
 export default function ScooterManagement({map_locations}) {
     const cookies = new Cookies();
@@ -133,8 +134,8 @@ export default function ScooterManagement({map_locations}) {
             <br/>
             <Container>
                 <Row>
-                    <Col xs={5}>
-                        <h3>Configure scooter availability</h3>
+                    <Col xs={7}>
+                        <h3>View Scooters</h3>
                         <br/>
                         <div className="scroll" style={{maxHeight: "40rem"}}>
                             <Table striped bordered hover>
@@ -151,8 +152,7 @@ export default function ScooterManagement({map_locations}) {
                                         <tr key={idx}>
                                             <td>{scooter.softScooterId}</td>
                                             <td>{(scooter.available ? "Available" : "Unavailable")}</td>
-                                            <td>{String.fromCharCode(scooter.depoId + 64)} -
-                                                {map_locations[scooter.depoId - 1].name}</td>
+                                            <td>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -160,29 +160,26 @@ export default function ScooterManagement({map_locations}) {
                         </div>
                     </Col>
                     <Col xs={1}/>
-                    <Col xs={6}>
+                    <Col xs={4}>
                         <Row>
                             <h3 style={{paddingBottom: "20px"}}>Configure scooter price</h3>
                             <Form>
                                 <Form.Group>
                                     <Form.Label><b>Price per hire period</b></Form.Label>
                                     {(hireOptions === '') ?
-                                        <h6>Loading</h6> :
+                                        <h6>Loading...</h6> :
                                         <Form.Select
-                                            className="dropdown-basic-button"
                                             onChange={(e) => {
                                                 setHireChoiceId(e.target.value)
                                             }}
                                         >
                                             <option value="none" key="none">Select a time slot...</option>
                                             {hireOptions.map((option, idx) => (
-                                                <option key={idx} value={option.hireOptionId}>{option.name} -
-                                                    £{option.cost}</option>
+                                                <option key={idx} value={option.hireOptionId}>{option.name} - £{option.cost}</option>
                                             ))}
                                         </Form.Select>
                                     }
                                 </Form.Group>
-                                <br/>
                                 <br/>
                                 <div>
                                     <Form.Group style={{float: "left"}}>
@@ -204,7 +201,7 @@ export default function ScooterManagement({map_locations}) {
                         <Row>
                             <h3 style={{paddingBottom: "20px"}}>Configure scooter details</h3>
                             {(scooters === '') ?
-                                <h6>Loading</h6> :
+                                <h6>Loading...</h6> :
                                 <>
                                     <br/>
                                     <Form>
@@ -212,7 +209,7 @@ export default function ScooterManagement({map_locations}) {
                                             <Form.Label><b>Select scooter</b></Form.Label>
                                             <Form.Select
                                                 onChange={(e) => {
-                                                    let scooter = e.target.value.split(',')
+                                                    let scooter = e.target.value.split(',');
                                                     setScooterCurrentId(scooter[0]);
                                                     setScooterCurrentSoftId(scooter[1])
                                                 }}
@@ -261,8 +258,7 @@ export default function ScooterManagement({map_locations}) {
                                                 </option>
                                                 {map_locations.map((location, idx) => (
                                                     <option value={location.depoId} key={idx}>
-                                                        {String.fromCharCode(parseInt(location.depoId + 64))}
-                                                        - {location.name}</option>
+                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}</option>
                                                 ))}
                                             </Form.Select>
                                         </Form.Group>

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import changePassword from "./ChangePassword";
 

@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import './StaffInterface.css';
-import host from './host';
+import "bootstrap/dist/css/bootstrap.min.css";
 import validate from './Validators';
+import host from './host';
 import Cookies from "universal-cookie";
+import './StaffInterface.css';
 
 export default function AccountManagement() {
     const cookies = new Cookies();
@@ -83,7 +84,7 @@ export default function AccountManagement() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Account Management</h1>
+            <h1 style={{paddingLeft: '10px'}}>Create Employee Account</h1>
             <br/>
             <Container>
                 <Row>

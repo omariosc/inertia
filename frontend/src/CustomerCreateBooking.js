@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import host from "./host";
 import Cookies from 'universal-cookie';

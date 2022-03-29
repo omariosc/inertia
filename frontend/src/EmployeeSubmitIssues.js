@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import host from "./host";
 import Cookies from "universal-cookie";
 import './StaffInterface.css';
 
@@ -10,9 +12,37 @@ export default function SubmitIssues() {
     const [priority, setPriority] = useState('');
 
     async function submitIssue() {
-        console.log(title);
-        console.log(content);
-        console.log(priority);
+        if (title.length === 0) {
+            alert("Issue must have a title");
+            return;
+        }
+        if (content.length === 0) {
+            alert("Issue must have a title");
+            return;
+        }
+        if (priority === '' || priority === 'none') {
+            alert("Issue must have a priority");
+            return;
+        }
+        try {
+            await fetch(host + `api/Users/${cookies.get("accountID")}/issues`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    "priority": parseInt(priority),
+                    "title": title.toString(),
+                    "content": content.toString()
+                }),
+                mode: "cors"
+            });
+            alert("Created issue.");
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return (

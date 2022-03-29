@@ -112,6 +112,7 @@ const App = () => {
         cookies.remove('accessToken');
         cookies.remove('accountID');
         cookies.remove('accountRole');
+        cookies.remove('accountName');
     }
 
     return (

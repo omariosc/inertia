@@ -1,4 +1,5 @@
 import {Button, Card, Col, Container, Dropdown, DropdownButton, Form, FormSelect, Row} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, {useEffect, useState} from "react";
 import host from "./host";
 import Cookies from "universal-cookie";
@@ -30,6 +31,10 @@ export default function ManageIssues() {
         const requestBody = (changePriority ?
             {"priority": parseInt(priority)} :
             {"resolution": "Resolved"})
+        if (changePriority === true && (priority === '' || priority === 'none')) {
+            alert("You must select a priority.");
+            return;
+        }
         await fetch(host + `api/admin/Issues/${id}`, {
             method: "PATCH",
             headers: {

@@ -1,5 +1,6 @@
 import React from "react";
 import {Button, Table} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css';
 
 export default function CurrentBookings() {

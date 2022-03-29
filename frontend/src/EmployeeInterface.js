@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Nav, Row, Col} from "react-bootstrap";
+import {Col, Nav, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from './StaffDashboard.js';
 import CreateBooking from './EmployeeCreateBooking.js';
@@ -12,7 +12,7 @@ import ManageApplication from './EmployeeManageApplications.js'
 import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
-export default function EmployeeInterface({isDark, toggle}) {
+export default function EmployeeInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showCreateBooking, setShowCreateBooking] = useState(false);
     const [showBookingHistory, setShowBookingHistory] = useState(false);
@@ -149,7 +149,8 @@ export default function EmployeeInterface({isDark, toggle}) {
                         {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
                         {showCurrentBookings ? <CurrentBookings onHide={() => setShowCurrentBookings(false)}/> : null}
                         {showScooterManagement ?
-                            <ScooterManagement onHide={() => setShowScooterManagement(false)}/> : null}
+                            <ScooterManagement map_locations={map_locations}
+                                               onHide={() => setShowScooterManagement(false)}/> : null}
                         {showSubmitIssues ? <SubmitIssues onHide={() => setShowSubmitIssues(false)}/> : null}
                         {showManageIssues ? <ManageIssues onHide={() => setShowManageIssues(false)}/> : null}
                         {showManageApplication ?

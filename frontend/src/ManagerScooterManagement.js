@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, InputGroup, Row, Table} from "react-bootstrap";
-import './StaffInterface.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import host from './host';
 import Cookies from 'universal-cookie';
+import './StaffInterface.css';
 
 export default function ScooterManagement({map_locations}) {
     const cookies = new Cookies();
@@ -134,7 +135,7 @@ export default function ScooterManagement({map_locations}) {
             <Container>
                 <Row>
                     <Col xs={5}>
-                        <h3>Configure scooter availability</h3>
+                        <h3>View Scooters</h3>
                         <br/>
                         <div className="scroll" style={{maxHeight: "40rem"}}>
                             <Table striped bordered hover>
@@ -151,8 +152,7 @@ export default function ScooterManagement({map_locations}) {
                                         <tr key={idx}>
                                             <td>{scooter.softScooterId}</td>
                                             <td>{(scooter.available ? "Available" : "Unavailable")}</td>
-                                            <td>{String.fromCharCode(scooter.depoId + 64)} -
-                                                {map_locations[scooter.depoId - 1].name}</td>
+                                            <td>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -176,8 +176,7 @@ export default function ScooterManagement({map_locations}) {
                                         >
                                             <option value="none" key="none">Select a time slot...</option>
                                             {hireOptions.map((option, idx) => (
-                                                <option key={idx} value={option.hireOptionId}>{option.name} -
-                                                    £{option.cost}</option>
+                                                <option key={idx} value={option.hireOptionId}>{option.name} - £{option.cost}</option>
                                             ))}
                                         </Form.Select>
                                     }
@@ -261,8 +260,7 @@ export default function ScooterManagement({map_locations}) {
                                                 </option>
                                                 {map_locations.map((location, idx) => (
                                                     <option value={location.depoId} key={idx}>
-                                                        {String.fromCharCode(parseInt(location.depoId + 64))}
-                                                        - {location.name}</option>
+                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}</option>
                                                 ))}
                                             </Form.Select>
                                         </Form.Group>

@@ -72,7 +72,7 @@ export default function ScooterManagement({map_locations}) {
                     "cost": hireChoicePrice
                 }),
                 mode: "cors"
-            })
+            });
             let response = await request;
             if (response.status === 200) {
                 alert("Changed price.")
@@ -114,7 +114,7 @@ export default function ScooterManagement({map_locations}) {
                     "available": (scooterAvailability === "Available")
                 }),
                 mode: "cors"
-            })
+            });
             let response = await request.json();
             if (response.errorCode === 7) {
                 alert("Scooter ID is already taken.");
@@ -151,7 +151,8 @@ export default function ScooterManagement({map_locations}) {
                                         <tr key={idx}>
                                             <td>{scooter.softScooterId}</td>
                                             <td>{(scooter.available ? "Available" : "Unavailable")}</td>
-                                            <td>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</td>
+                                            <td>{String.fromCharCode(scooter.depoId + 64)} -
+                                                {map_locations[scooter.depoId - 1].name}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -169,13 +170,11 @@ export default function ScooterManagement({map_locations}) {
                                         <h6>Loading</h6> :
                                         <Form.Select
                                             className="dropdown-basic-button"
-                                            title="Select hire period"
                                             onChange={(e) => {
                                                 setHireChoiceId(e.target.value)
                                             }}
-                                            defaultValue="Select a time slot..."
                                         >
-                                            <option value="none">Select a time slot...</option>
+                                            <option value="none" key="none">Select a time slot...</option>
                                             {hireOptions.map((option, idx) => (
                                                 <option key={idx} value={option.hireOptionId}>{option.name} -
                                                     £{option.cost}</option>
@@ -189,14 +188,13 @@ export default function ScooterManagement({map_locations}) {
                                     <Form.Group style={{float: "left"}}>
                                         <Form.Label><b>Change hire period price</b></Form.Label>
                                         <InputGroup>
-                                            <input type="price" name="price" placeholder="Enter new price"
-                                                   onInput={e => setHireChoicePrice(e.target.value)} required/>
+                                            <input type="price" placeholder="Enter new price"
+                                                   onInput={e => setHireChoicePrice(e.target.value)}/>
                                         </InputGroup>
                                     </Form.Group>
                                     <br/>
                                     <Form.Group style={{float: "right"}}>
-                                        <Button variant="primary" onClick={changePrice}>Update
-                                            price</Button>
+                                        <Button onClick={changePrice}>Update price</Button>
                                     </Form.Group>
                                 </div>
                             </Form>
@@ -213,21 +211,17 @@ export default function ScooterManagement({map_locations}) {
                                         <Form.Group>
                                             <Form.Label><b>Select scooter</b></Form.Label>
                                             <Form.Select
-                                                defaultValue="Select a scooter..."
                                                 onChange={(e) => {
                                                     let scooter = e.target.value.split(',')
                                                     setScooterCurrentId(scooter[0]);
                                                     setScooterCurrentSoftId(scooter[1])
                                                 }}
                                             >
-                                                <option value="none">Select a scooter...</option>
-                                                {scooters.map((scooter, idy) => (
-                                                    <option
-                                                        key={idy}
-                                                        value={[scooter.scooterId, scooter.softScooterId]}
-                                                    >
-                                                        Scooter {scooter.softScooterId}
-                                                    </option>
+                                                <option value="none" key="none">Select a scooter...</option>
+                                                {scooters.map((scooter, idx) => (
+                                                    <option value={[scooter.scooterId, scooter.softScooterId]}
+                                                            key={idx}>
+                                                        Scooter {scooter.softScooterId}</option>
                                                 ))}
                                             </Form.Select>
                                         </Form.Group>
@@ -235,23 +229,22 @@ export default function ScooterManagement({map_locations}) {
                                         <Form.Group>
                                             <Form.Label><b>Enter scooter ID</b></Form.Label>
                                             <InputGroup>
-                                                <input name="scooter-name" placeholder={scooterCurrentSoftId}
-                                                       onInput={e => setScooterNewId(e.target.value)} required/>
+                                                <input placeholder={scooterCurrentSoftId}
+                                                       onInput={e => setScooterNewId(e.target.value)}/>
                                             </InputGroup>
                                         </Form.Group>
                                         <br/>
                                         <Form.Group>
                                             <Form.Label><b>Change scooter availability</b></Form.Label>
                                             <Form.Select
-                                                defaultValue="Select availability..."
                                                 onChange={(e) => {
                                                     setScooterAvailability(e.target.value)
                                                 }}
                                             >
-                                                <option value="none">Select availability...
+                                                <option value="none" key="none">Select availability...
                                                 </option>
-                                                {["Available", "Unavailable"].map((status, idy) => (
-                                                    <option key={idy} value={status}>{status}</option>
+                                                {["Available", "Unavailable"].map((status, idx) => (
+                                                    <option value={status} key={idx}>{status}</option>
                                                 ))}
                                             </Form.Select>
                                         </Form.Group>
@@ -260,30 +253,22 @@ export default function ScooterManagement({map_locations}) {
                                             <Form.Label><b>Change scooter
                                                 location</b></Form.Label>
                                             <Form.Select
-                                                variant="primary"
-                                                defaultValue="Select location..."
                                                 onChange={(e) => {
                                                     setScooterLocation(e.target.value)
                                                 }}
                                             >
-                                                <option value="none">Select location...
+                                                <option value="none" key="none">Select location...
                                                 </option>
-                                                {map_locations.map((location, idy) => (
-                                                    <option
-                                                        key={idy}
-                                                        value={location.depoId}
-                                                    >
-                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                    </option>
+                                                {map_locations.map((location, idx) => (
+                                                    <option value={location.depoId} key={idx}>
+                                                        {String.fromCharCode(parseInt(location.depoId + 64))}
+                                                        - {location.name}</option>
                                                 ))}
                                             </Form.Select>
                                         </Form.Group>
                                         <br/>
                                         <Form.Group>
-                                            <Button
-                                                style={{float: "right"}}
-                                                onClick={editScooter}>Save
-                                                changes</Button>
+                                            <Button style={{float: "right"}} onClick={editScooter}>Save changes</Button>
                                         </Form.Group>
                                     </Form>
                                 </>
@@ -294,4 +279,4 @@ export default function ScooterManagement({map_locations}) {
             </Container>
         </>
     );
-}
+};

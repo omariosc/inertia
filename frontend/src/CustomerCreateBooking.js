@@ -7,19 +7,19 @@ import './StaffInterface.css';
 
 export default function CreateBooking({map_locations}) {
     const cookies = new Cookies();
-    const center = [53.8010441, -1.5497378]
+    const center = [53.8010441, -1.5497378];
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [scooterChoice, setScooterChoice] = useState('');
     const [hireChoice, setHireChoice] = useState('');
-    const [cardNo, setCardNo] = useState('')
-    const [expiry, setExpiry] = useState('')
-    const [cvv, setCVV] = useState('')
+    const [cardNo, setCardNo] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cvv, setCVV] = useState('');
     const discount = false;
 
     useEffect(() => {
         fetchScooters();
-        fetchHirePeriods()
+        fetchHirePeriods();
     }, []);
 
     async function fetchHirePeriods() {
@@ -87,16 +87,10 @@ export default function CreateBooking({map_locations}) {
                     <Form.Label><h6>Select Location</h6></Form.Label>
                     <Form.Select
                         className="dropdown-basic-button"
-                        title="Select location"
                         defaultValue={map_locations[0].depoId}
                     >
-                        {map_locations.map((location, idx) => (
-                            <option
-                                key={idx}
-                                value={location.depoId}
-                            >
-                                {location.depoId} - {location.name}
-                            </option>
+                        {map_locations.map((location) => (
+                            <option value={location.depoId}>{location.depoId} - {location.name}</option>
                         ))}
                     </Form.Select>
                 </Form.Group>
@@ -120,11 +114,9 @@ export default function CreateBooking({map_locations}) {
                         <h6>Loading</h6> :
                         <Form.Select
                             className="dropdown-basic-button"
-                            title="Select scooter"
                             onChange={(e) => {
                                 setScooterChoice(e.target.value)
                             }}
-                            defaultValue={100}
                         >
                             {scooters.map((scooter, idx) => (
                                 <option key={idx} value={scooter.id}>Scooter {scooter.softScooterId}</option>
@@ -139,11 +131,9 @@ export default function CreateBooking({map_locations}) {
                         <h6>Loading</h6> :
                         <Form.Select
                             className="dropdown-basic-button"
-                            title="Select hire period"
                             onChange={(e) => {
                                 setHireChoice(e.target.value)
                             }}
-                            defaultValue={1}
                         >
                             {hireOptions.map((option, idx) => (
                                 <option key={idx} value={option.hireOptionId}>{option.name} - £{option.cost}</option>
@@ -188,7 +178,6 @@ export default function CreateBooking({map_locations}) {
                             <Form.Label><h6>Card Number</h6></Form.Label>
                             <Form.Control
                                 type="text"
-                                required as="input"
                                 value={cardNo}
                                 onInput={e => setCardNo(e.target.value)}
                             />
@@ -198,7 +187,6 @@ export default function CreateBooking({map_locations}) {
                             <Form.Label><h6>Expiry Date</h6></Form.Label>
                             <Form.Control
                                 type="text"
-                                required as="input"
                                 value={expiry}
                                 onInput={e => setExpiry(e.target.value)}
                             />
@@ -208,7 +196,6 @@ export default function CreateBooking({map_locations}) {
                             <Form.Label><h6>CVV</h6></Form.Label>
                             <Form.Control
                                 type="text"
-                                required as="input"
                                 value={cvv}
                                 onInput={e => setCVV(e.target.value)}
                             />
@@ -221,7 +208,7 @@ export default function CreateBooking({map_locations}) {
                         <p style={{margin: "0"}}>Expiry Date: {cookies.get('expiryDate')}</p>
                         <p style={{margin: "0"}}>CVV: {cookies.get('cvv')}</p>
                         <br/>
-                        <Button variant="primary" onClick={() => {
+                        <Button onClick={() => {
                             cookies.remove('cardNumber');
                             cookies.remove('expiryDate');
                             cookies.remove('cvv')
@@ -230,7 +217,7 @@ export default function CreateBooking({map_locations}) {
                 }
                 <br/>
                 <Form.Group>
-                    <Button variant="primary" style={{float: "right"}} onClick={makeBooking}>Confirm Booking</Button>
+                    <Button style={{float: "right"}} onClick={makeBooking}>Confirm Booking</Button>
                 </Form.Group>
             </Form>
         </div>

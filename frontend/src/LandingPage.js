@@ -28,12 +28,8 @@ export default function LandingPage({center, map_locations}) {
                             <InputGroup id="search-bar" className="clickable" onChange={event => {
                                 setSearchTerm(event.target.value)
                             }}>
-                                <FormControl
-                                    placeholder="Search"
-                                    aria-label="Search"
-                                    aria-describedby="basic-addon2"
-                                />
-                                <Button variant="secondary" id="button-addon2">
+                                <FormControl placeholder="Search"/>
+                                <Button id="button-addon2">
                                     <i><FontAwesomeIcon icon={faMagnifyingGlass}/></i>
                                 </Button>
                             </InputGroup>
@@ -42,10 +38,7 @@ export default function LandingPage({center, map_locations}) {
                     </Row>
                     <Row className={"flex-grow-1"}>
                         <Col xs={7} md={3}>
-                            <Card className={"clickable search-results"}
-                                  bg="dark"
-                                  text="light"
-                            >
+                            <Card className={"clickable search-results"}>
                                 <Card.Title>Search results</Card.Title>
                                 <ListGroup style={{padding: "5px"}}>
                                     {map_locations.filter((map_location) => {
@@ -65,8 +58,8 @@ export default function LandingPage({center, map_locations}) {
                                                         <div style={{float: 'right'}}>
                                                             <Button onClick={() => {
                                                                 setShowPayment(true);
-                                                                setBookingDepot(map_location.name)}}>
-                                                                Book Scooter</Button>
+                                                                setBookingDepot(map_location.name)
+                                                            }}>Book Scooter</Button>
                                                         </div>
                                                     </Card.Body>
                                                 </Card>
@@ -79,8 +72,10 @@ export default function LandingPage({center, map_locations}) {
                         <Col xs={5} md={9}/>
                     </Row>
                 </Container>
-                {showPayment ? <Order show={showPayment} onHide={() => setShowPayment(false)} location={bookingDepot}/> : null}
+                {showPayment ?
+                    <Order show={showPayment} onHide={() => setShowPayment(false)} location={bookingDepot}/>
+                    : null}
             </div>
         </>
     );
-}
+};

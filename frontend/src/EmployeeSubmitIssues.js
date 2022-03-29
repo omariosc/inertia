@@ -5,15 +5,14 @@ import './StaffInterface.css';
 
 export default function SubmitIssues() {
     const cookies = new Cookies();
-    const priorities = ["None", "Low", "Medium", "High"];
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [priority, setPriority] = useState('');
 
     async function submitIssue() {
-        console.log(title)
-        console.log(content)
-        console.log(priority)
+        console.log(title);
+        console.log(content);
+        console.log(priority);
     }
 
     return (
@@ -28,7 +27,7 @@ export default function SubmitIssues() {
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label><b>Enter Issue Title</b></Form.Label>
                                 <Form.Control placeholder="Enter issue title here..."
-                                              onInput={e => setTitle(e.target.value)} required/>
+                                              onInput={e => setTitle(e.target.value)}/>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                 <Form.Label><b>Enter Issue Description</b></Form.Label>
@@ -38,14 +37,14 @@ export default function SubmitIssues() {
                             <Form.Group>
                                 <Form.Label><b>Select Priority</b></Form.Label>
                                 <FormSelect
-                                    defaultValue="Select priority..."
                                     onChange={(e) => {
                                         setPriority(e.target.value)
-                                    }}>
+                                    }}
+                                >
                                     <option value="none">Select priority...
                                     </option>
-                                    {priorities.map((priority, idx) => (
-                                        <option key={idx} value={idx}>{priority}</option>
+                                    {["None", "Low", "Medium", "High"].map((priority, idx) => (
+                                        <option value={idx}>{priority}</option>
                                     ))}
                                 </FormSelect>
                             </Form.Group>

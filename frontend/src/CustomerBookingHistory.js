@@ -10,7 +10,7 @@ export default function BookingHistory() {
         [103, "4 hours", "11/2/22 19:52", 30],
         [205, "1 hour", "15/2/22 09:24", 10],
         [204, "1 day", "20/2/22 10:45", 200]
-    ]
+    ];
     return (
         <div className="scroll">
             <Table>
@@ -36,5 +36,5 @@ export default function BookingHistory() {
                 </tbody>
             </Table>
         </div>
-    )
-}
+    );
+};

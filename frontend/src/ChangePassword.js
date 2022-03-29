@@ -17,7 +17,7 @@ export default async function changePassword(oldPassword, password, confirmPassw
         return;
     }
     if (oldPassword === password) {
-        alert("Passwords must be different.")
+        alert("Passwords must be different.");
         return;
     }
     try {
@@ -36,11 +36,11 @@ export default async function changePassword(oldPassword, password, confirmPassw
         });
         let response = await request;
         if (response.status === 200) {
-            alert("Changed password.")
+            alert("Changed password.");
         } else {
-            alert("Incorrect password.")
+            alert("Incorrect password.");
         }
     } catch (error) {
         console.error(error);
     }
-}
+};

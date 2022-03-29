@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Form, Container, Col, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import './StaffInterface.css';
 import host from './host';
 import validate from './Validators';
@@ -16,7 +16,6 @@ export default function AccountManagement() {
         if (!validate(name, email, password, confirmPassword)) {
             return;
         }
-        let accountId;
         try {
             let signupRequest = await fetch(host + 'api/Users/signup', {
                 method: 'POST',
@@ -33,7 +32,10 @@ export default function AccountManagement() {
                 mode: "cors"
             });
             let signupResponse = await signupRequest;
-            console.log(signupResponse)
+            if (signupResponse.status === 422) {
+                alert("Email address already exists.");
+                return;
+            }
             let getRequest = await fetch(host + 'api/admin/Users', {
                 method: 'GET',
                 headers: {
@@ -44,12 +46,17 @@ export default function AccountManagement() {
                 mode: "cors"
             });
             let getResponse = await getRequest.json();
+            let accountId;
             for (let i = 0; getResponse.length; i++) {
                 let account = getResponse[i];
                 if (account.email === email) {
                     accountId = account.accountId;
                     break;
                 }
+            }
+            if (!accountId) {
+                alert("Could not patch account to employee role.");
+                return;
             }
             let patchRequest = await fetch(host + `api/admin/Users/${accountId}`, {
                 method: 'PATCH',
@@ -86,32 +93,29 @@ export default function AccountManagement() {
                             <Form.Group>
                                 <Form.Label><b>Employee Name</b></Form.Label>
                                 <Form.Control type="name" onInput={e => setName(e.target.value)}
-                                              placeholder="Enter employee name" required as="input"/>
+                                              placeholder="Enter employee name"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Employee Email</b></Form.Label>
                                 <Form.Control type="email" onInput={e => setEmail(e.target.value)}
-                                              placeholder="Enter employee email" required as="input"/>
+                                              placeholder="Enter employee email"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Employee Password</b></Form.Label>
                                 <Form.Control type="password" onInput={e => setPassword(e.target.value)}
-                                              placeholder="Enter employee password" required
-                                              as="input"/>
+                                              placeholder="Enter employee password"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Confirm Employee Password</b></Form.Label>
                                 <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)}
-                                              placeholder="Confirm employee password" required
-                                              as="input"/>
+                                              placeholder="Confirm employee password"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button variant="primary" onClick={onSubmit} style={{float: 'right'}}>Create Employee
-                                    Account</Button>
+                                <Button onClick={onSubmit} style={{float: 'right'}}>Create Employee Account</Button>
                             </Form.Group>
                         </Form>
                     </Col>
@@ -119,4 +123,4 @@ export default function AccountManagement() {
             </Container>
         </>
     );
-}
+};

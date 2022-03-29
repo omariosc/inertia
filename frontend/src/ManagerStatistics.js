@@ -11,7 +11,7 @@ export default function Statistics({isDark}) {
     const [weeklyData, setWeeklyData] = useState('');
     const [weeklyHiresData, setWeeklyHiresData] = useState('');
     const [combinedDailyData, setCombinedDailyData] = useState('');
-    let chartTheme = (isDark ? "dark2" : "light2")
+    let chartTheme = (isDark ? "dark2" : "light2");
 
     useEffect(() => {
         fetchStatistics();
@@ -255,4 +255,4 @@ export default function Statistics({isDark}) {
             </div>
         </>
     );
-}
+};

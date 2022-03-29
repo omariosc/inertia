@@ -8,7 +8,6 @@ export default function ManageIssues() {
     const [issues, setIssues] = useState('');
     const [priority, setPriority] = useState('');
     const priorities = ["None", "Low", "Medium", "High"];
-    const sort_filters = ["Priority: Ascending", "Priority: Descending", "Time: First", "Time: Last"];
 
     useEffect(() => {
         fetchIssues()
@@ -54,58 +53,50 @@ export default function ManageIssues() {
                     <>
                         <div style={{float: "right"}}>
                             <DropdownButton className="dropdown-basic-button" title="Sort by: ">
-                                {sort_filters.map((filter, idx) => (
-                                    <Dropdown.Item key={idx}>{filter}</Dropdown.Item>
-                                ))}
+                                <Dropdown.Item>Priority: Ascending</Dropdown.Item>
+                                <Dropdown.Item>Priority: Descending</Dropdown.Item>
+                                <Dropdown.Item>Time: First</Dropdown.Item>
+                                <Dropdown.Item>Time: Last</Dropdown.Item>
                             </DropdownButton>
                         </div>
                         <br/>
                         <br/>
                         <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                             <Row xs={1} md={2} className="card-deck">
-                                {issues.map((issue, idx) => (
-                                    <Col>
-                                        <Card
-                                            bg="light"
-                                            key={idx}
-                                            text="dark"
-                                            className="mb-2"
-                                        >
+                                {issues.map((issue, keyidx) => (
+                                    <Col key={keyidx}>
+                                        <Card className="mb-2">
                                             <Card.Header><b>{issue.title}</b></Card.Header>
                                             <Card.Body>
-                                                <Card.Text><b>Description:</b> {issue.content}</Card.Text>
-                                                <Card.Text><b>Priority:</b> High</Card.Text>
-                                                <Card.Text>
-                                                    <Form>
-                                                        <Form.Group>
-                                                            <Card.Text><b>Priority:</b> {priorities[issue.priority]}
-                                                            </Card.Text>
-                                                            <FormSelect
-                                                                defaultValue="Select priority..."
-                                                                onChange={(e) => {
-                                                                    setPriority(e.target.value)
-                                                                }}
-                                                            >
-                                                                <option value="none">Select priority...
-                                                                </option>
-                                                                {priorities.map((priority, idx) => (
-                                                                    <option key={idx} value={idx}>{priority}</option>
-                                                                ))}
-                                                            </FormSelect>
-                                                        </Form.Group>
+                                                <Form>
+                                                    <Card.Text>
+                                                        <b>Description:</b> {issue.content}
                                                         <br/>
-                                                        <Form.Group>
-                                                            <Button variant="primary" style={{float: "left"}}
-                                                                    onClick={() => editIssue(issue.issueId, true)}>Change
-                                                                Priority
-                                                            </Button>
-                                                            <Button variant="primary" style={{float: "right"}}
-                                                                    onClick={() => editIssue(issue.issueId)}>Mark as
-                                                                Resolved
-                                                            </Button>
-                                                        </Form.Group>
-                                                    </Form>
-                                                </Card.Text>
+                                                        <b>Priority:</b> {priorities[issue.priority]}
+                                                        <br/>
+                                                        <br/>
+                                                        <FormSelect
+                                                            onChange={(e) => {
+                                                                setPriority(e.target.value)
+                                                            }}
+                                                        >
+                                                            <option value="none" key="none">Select priority...
+                                                            </option>
+                                                            {priorities.map((priority, idx) => (
+                                                                <option value={idx} key={idx}>{priority}</option>
+                                                            ))}
+                                                        </FormSelect>
+                                                        <br/>
+                                                        <Button style={{float: "left"}}
+                                                                onClick={() => {
+                                                                    editIssue(issue.issueId, true)
+                                                                }}>Change Priority</Button>
+                                                        <Button style={{float: "right"}}
+                                                                onClick={() => {
+                                                                    editIssue(issue.issueId)
+                                                                }}>Mark as Resolved</Button>
+                                                    </Card.Text>
+                                                </Form>
                                             </Card.Body>
                                         </Card>
                                         <br/>
@@ -118,4 +109,4 @@ export default function ManageIssues() {
             </Container>
         </>
     );
-}
+};

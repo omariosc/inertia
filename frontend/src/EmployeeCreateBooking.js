@@ -47,27 +47,27 @@ export default function CreateBooking() {
                         <Form>
                             <Form.Group>
                                 <Form.Label><b>Name</b></Form.Label>
-                                <Form.Control type="name" required as="input"/>
+                                <Form.Control type="name"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>User Email</b></Form.Label>
-                                <Form.Control type="email" required as="input"/>
+                                <Form.Control type="email"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Card Number</b></Form.Label>
-                                <Form.Control type="text" required as="input"/>
+                                <Form.Control type="text"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Expiry Date</b></Form.Label>
-                                <Form.Control type="text" required as="input"/>
+                                <Form.Control type="text"/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>CVV</b></Form.Label>
-                                <Form.Control type="password" required as="input"/>
+                                <Form.Control type="password"/>
                             </Form.Group>
                         </Form>
                     </Col>
@@ -78,9 +78,9 @@ export default function CreateBooking() {
                         <Form>
                             <Form.Group>
                                 <Form.Label><b>Select Location</b></Form.Label>
-                                <Form.Select className="dropdown-basic-button" title="Select location">
-                                    {map_locations.map((location, idx) => (
-                                        <option key={idx}>{location[2]} - {location[0]}</option>
+                                <Form.Select className="dropdown-basic-button">
+                                    {map_locations.map((location) => (
+                                        <option>{location[2]} - {location[0]}</option>
                                     ))}
                                 </Form.Select>
                             </Form.Group>
@@ -88,9 +88,9 @@ export default function CreateBooking() {
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Scooter</b></Form.Label>
-                                <Form.Select className="dropdown-basic-button" title="Select scooter">
-                                    {scooters.map((scooter, idx) => (
-                                        <option key={idx}>{scooter[0]} - {scooter[1]}</option>
+                                <Form.Select className="dropdown-basic-button">
+                                    {scooters.map((scooter, ) => (
+                                        <option>{scooter[0]} - {scooter[1]}</option>
                                     ))}
                                 </Form.Select>
                             </Form.Group>
@@ -98,9 +98,9 @@ export default function CreateBooking() {
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Hire Period</b></Form.Label>
-                                <Form.Select className="dropdown-basic-button" title="Select hire period">
+                                <Form.Select className="dropdown-basic-button">
                                     {times.map((time, idx) => (
-                                        <option key={idx}>{time} - £{price[idx]}</option>
+                                        <option>{time} - £{price[idx]}</option>
                                     ))}
                                 </Form.Select>
                             </Form.Group>
@@ -111,7 +111,7 @@ export default function CreateBooking() {
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button variant="primary" style={{float: "right"}}>Confirm Booking</Button>
+                                <Button style={{float: "right"}}>Confirm Booking</Button>
                             </Form.Group>
                         </Form>
                     </Col>

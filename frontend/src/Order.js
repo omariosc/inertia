@@ -88,19 +88,16 @@ function Order({show, onHide, location, loggedIn}) {
                             type="radio"
                             id="1-hour"
                             label="1 hour"
-                            name="lengthRadioButton"
                         />
                         <Form.Check
                             type="radio"
                             id="4-hour"
                             label="4 hours"
-                            name="lengthRadioButton"
                         />
                         <Form.Check
                             type="radio"
                             id="24-hour"
                             label="1 day"
-                            name="lengthRadioButton"
                         />
                     </div>
                     <CardElement/>
@@ -116,7 +113,7 @@ function Order({show, onHide, location, loggedIn}) {
                 <Button variant="danger" onClick={onHide}>
                     Cancel
                 </Button>
-                <Button variant="primary" onClick={() => {
+                <Button onClick={() => {
                     onSubmit();
                     onHide()
                 }}>

@@ -12,17 +12,6 @@
     padding-right: 10px;
 }
 
-.navbar-pad-right-right {
-    padding-right: 20px;
-}
-
-.interface-choice {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 550px;
-}
-
 .leaflet-container {
     width: 100%;
     height: 100vh;

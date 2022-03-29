@@ -27,13 +27,12 @@ export default function Discounts() {
                             <p>To apply for our 10% student discount, upload student ID below.</p>
                             <input
                                 type="file"
-                                name="studentID"
                                 onChange={(event) => {
                                     setStudentImage(event.target.files[0]);
                                     console.log(studentImage)
                                 }}
                             />
-                            <Button variant="primary">Submit</Button>
+                            <Button>Submit</Button>
                         </> : null
                     }
                     {seniorUser ?
@@ -47,13 +46,12 @@ export default function Discounts() {
                             <p>To apply for our 10% senior discount, upload ID showing senior status below.</p>
                             <input
                                 type="file"
-                                name="seniorID"
                                 onChange={(event) => {
                                     setSeniorImage(event.target.files[0]);
                                     console.log(seniorImage)
                                 }}
                             />
-                            <Button variant="primary">Submit</Button>
+                            <Button>Submit</Button>
                         </> : null
                     }
                 </>

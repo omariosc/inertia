@@ -21,18 +21,15 @@ export default function CustomerSettings({isDark, toggle}) {
             <Row>
                 <Col xs={6}>
                     <h5>Two-Factor Authentication</h5>
-                    <Button variant="primary">Enable 2FA</Button>
+                    <Button>Enable 2FA</Button>
                 </Col>
                 <Col xs={1}/>
                 <Col xs={3}>
                     <h5>Dark Mode</h5>
                     <BootstrapSwitchButton
-                        bg="dark"
                         checked={isDark}
                         onlabel='On'
                         offlabel='Off'
-                        onstyle='light'
-                        offstyle='primary'
                         onChange={toggle}
                     />
                 </Col>
@@ -41,8 +38,8 @@ export default function CustomerSettings({isDark, toggle}) {
             <h5>Account Information</h5>
             <Table>
                 <tbody>
-                {userDetails.map((title, info) => (
-                    <tr key={info}>
+                {userDetails.map((title) => (
+                    <tr>
                         <td>{title[0]}</td>
                         <td>{title[1]}</td>
                     </tr>
@@ -55,25 +52,24 @@ export default function CustomerSettings({isDark, toggle}) {
                 <Form.Group>
                     <Form.Label><h6>Old Password</h6></Form.Label>
                     <Form.Control type="password" onInput={e => setOldPassword(e.target.value)}
-                                  placeholder="Enter old password" required as="input"/>
+                                  placeholder="Enter old password"/>
                 </Form.Group>
                 <br/>
                 <Form.Group>
                     <Form.Label><h6>New Password</h6></Form.Label>
                     <Form.Control type="password" onInput={e => setPassword(e.target.value)}
-                                  placeholder="Enter new password" required as="input"/>
+                                  placeholder="Enter new password"/>
                 </Form.Group>
                 <br/>
                 <Form.Group>
                     <Form.Label><h6>Confirm Password</h6></Form.Label>
                     <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)}
-                                  placeholder="Confirm new password" required as="input"/>
+                                  placeholder="Confirm new password"/>
                 </Form.Group>
                 <br/>
                 <Form.Group>
                     <Button
                         style={{float: 'right'}}
-                        variant="primary"
                         onClick={onSubmit}
                     >Change password</Button>
                 </Form.Group>

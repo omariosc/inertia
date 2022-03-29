@@ -33,4 +33,4 @@ export default function validate(name, email, password, confirmPassword) {
         return 0;
     }
     return 1;
-}
+};

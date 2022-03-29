@@ -211,7 +211,7 @@ export default function ScooterManagement({map_locations}) {
                                             <Form.Label><b>Select scooter</b></Form.Label>
                                             <Form.Select
                                                 onChange={(e) => {
-                                                    let scooter = e.target.value.split(',')
+                                                    let scooter = e.target.value.split(',');
                                                     setScooterCurrentId(scooter[0]);
                                                     setScooterCurrentSoftId(scooter[1])
                                                 }}

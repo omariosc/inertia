@@ -1,4 +1,4 @@
-import {Button, Card, Col, Container, Dropdown, DropdownButton, Form, FormSelect, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, {useEffect, useState} from "react";
 import host from "./host";
@@ -14,7 +14,7 @@ export default function ManageIssues() {
         fetchIssues()
     }, []);
 
-    async function fetchIssues() {
+    async function fetchIssues(sort = null) {
         let request = await fetch(host + "api/admin/Issues/?closed=false", {
             method: "GET",
             headers: {
@@ -24,7 +24,24 @@ export default function ManageIssues() {
             },
             mode: "cors"
         });
-        setIssues(await request.json());
+        let response = await request.json();
+        switch (sort) {
+            case '1':
+                response.sort((a, b) => b.issueId - a.issueId);
+                break;
+            case '2':
+                response.sort((a, b) => a.issueId - b.issueId);
+                break;
+            case '3':
+                response.sort((a, b) => a.priority - b.priority);
+                break;
+            case '4':
+                response.sort((a, b) => b.priority - a.priority);
+                break;
+            default:
+                break;
+        }
+        setIssues(response);
     }
 
     async function editIssue(id, changePriority = false) {
@@ -57,12 +74,14 @@ export default function ManageIssues() {
                     <h6>There are no open issues</h6> :
                     <>
                         <div style={{float: "right"}}>
-                            <DropdownButton className="dropdown-basic-button" title="Sort by: ">
-                                <Dropdown.Item>Priority: Ascending</Dropdown.Item>
-                                <Dropdown.Item>Priority: Descending</Dropdown.Item>
-                                <Dropdown.Item>Time: First</Dropdown.Item>
-                                <Dropdown.Item>Time: Last</Dropdown.Item>
-                            </DropdownButton>
+                            <Form.Select onChange={(e) => {
+                                fetchIssues(e.target.value);
+                            }}>
+                                <option value={1}>Time: Newest</option>
+                                <option value={2}>Time: Oldest</option>
+                                <option value={3}>Priority: Ascending</option>
+                                <option value={4}>Priority: Descending</option>
+                            </Form.Select>
                         </div>
                         <br/>
                         <br/>

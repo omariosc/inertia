@@ -70,4 +70,53 @@
     padding-left: 15%;
     padding-top: 2%;
     padding-right: 25%;
+    overflow:scroll;
+}
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+    #account-page {
+        pointer-events: all;
+        position: relative;
+        padding-left: 5%;
+        padding-right: 7%;
+        padding-top: 2%;
+        overflow:scroll;
+    }
+
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+    #account-page {
+        pointer-events: all;
+        position: relative;
+        padding-left: 1%;
+        padding-right: 1%;
+        padding-top: 2%;
+        overflow:scroll;
+    }
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+    #account-page {
+        pointer-events: all;
+        position: relative;
+        padding-left: 1%;
+        padding-right: 1%;
+        padding-top: 2%;
+        overflow:scroll;
+    }
+
 }

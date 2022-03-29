@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Row, Col, Nav} from "react-bootstrap";
+import {Row, Col, Nav, Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 import CreateBooking from "./CustomerCreateBooking";
 import CurrentBookings from "./CustomerCurrentBooking";
@@ -17,11 +17,12 @@ function CustomerInterface({isDark, toggle, map_locations}) {
     const [showSettings, setShowSettings] = useState(false);
     return (
         <div id="account-page">
+
             <Row>
-                <Col xs={4} className="d-flex justify-content-end border-end border-dark">
+                <Col lg={4} xs={12} className="d-flex justify-content-end border-end border-dark">
                     <h1>INERTIA</h1>
                 </Col>
-                <Col>
+                <Col lg={8} xs={12}>
                     <>
                         {showCreateBooking ? <h4>Create Booking</h4> : null}
                         {showCurrentBookings ? <h4>Current Bookings</h4> : null}
@@ -33,7 +34,7 @@ function CustomerInterface({isDark, toggle, map_locations}) {
                 </Col>
             </Row>
             <Row>
-                <Col xs={4} className="border-end border-dark">
+                <Col lg={4} xs={12} className="border-end border-dark">
                     <Nav defaultActiveKey="#/create-bookings" className="align-items-end flex-column">
                         <Nav.Link href="#/create-bookings"
                                   onClick={() => {
@@ -91,7 +92,7 @@ function CustomerInterface({isDark, toggle, map_locations}) {
                                   }}>Settings</Nav.Link>
                     </Nav>
                 </Col>
-                <Col>
+                <Col lg={8} xs={12}>
                     <>
                         {showCreateBooking ? <CreateBooking map_locations={map_locations}
                                                             onHide={() => setShowCreateBooking(false)}/> : null}

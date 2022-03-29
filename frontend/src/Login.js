@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {InputGroup, Button, Modal} from "react-bootstrap";
+import {Button, InputGroup, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import Cookies from 'universal-cookie';
@@ -48,36 +48,25 @@ export default function LoginForm(props) {
     }
 
     return (
-        <Modal
-            {...props}
-            centered
-        >
+        <Modal {...props} centered>
             <Modal.Header closeButton>
-                <Modal.Title>
-                    Login
-                </Modal.Title>
+                <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="text" name="email" placeholder="Enter email address"
-                           onInput={e => setEmail(e.target.value)} required/>
+                    <input type="text" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="password" name="password" placeholder="Enter password"
-                           onInput={e => setPassword(e.target.value)} required/>
+                    <input type="password" placeholder="Enter password" onInput={e => setPassword(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <u>Forgot Password?</u>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={props.onHide}>
-                    Cancel
-                </Button>
-                <Button variant="primary" onClick={onSubmit}>
-                    Login
-                </Button>
+                <Button variant="danger" onClick={props.onHide}>Cancel</Button>
+                <Button onClick={onSubmit}>Login</Button>
             </Modal.Footer>
         </Modal>
     );
-}
+};

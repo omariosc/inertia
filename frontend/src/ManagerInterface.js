@@ -33,7 +33,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(false);
-                            setShowSettings(false)
+                            setShowSettings(false);
                         }}
                                   href="#/dashboard">Dashboard</Nav.Link>
                         <Nav.Link onClick={() => {
@@ -42,7 +42,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(false);
-                            setShowSettings(false)
+                            setShowSettings(false);
                         }}
                                   href="#/scooters">Scooter Management</Nav.Link>
                         <Nav.Link onClick={() => {
@@ -51,7 +51,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowIssues(true);
                             setShowStatistics(false);
                             setShowAccounts(false);
-                            setShowSettings(false)
+                            setShowSettings(false);
                         }}
                                   href="#/issues">Issues</Nav.Link>
                         <Nav.Link onClick={() => {
@@ -60,7 +60,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowIssues(false);
                             setShowStatistics(true);
                             setShowAccounts(false);
-                            setShowSettings(false)
+                            setShowSettings(false);
                         }}
                                   href="#/statistics">Statistics</Nav.Link>
                         <Nav.Link onClick={() => {
@@ -69,7 +69,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(true);
-                            setShowSettings(false)
+                            setShowSettings(false);
                         }}
                                   href="#/accounts">Account Management</Nav.Link>
                         <Nav.Link onClick={() => {
@@ -78,7 +78,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(false);
-                            setShowSettings(true)
+                            setShowSettings(true);
                         }}
                                   href="#/settings">Settings</Nav.Link>
                     </Nav>
@@ -97,4 +97,4 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
             </Row>
         </div>
     );
-}
+};

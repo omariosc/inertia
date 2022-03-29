@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Container} from "react-bootstrap";
+import {Button, Card, Col, Container, Row} from "react-bootstrap";
 import host from './host';
 import Cookies from 'universal-cookie';
 import './StaffInterface.css';
@@ -50,34 +50,32 @@ export default function Issues() {
                     <h6>Loading...</h6> :
                     <>
                         {(issues.length === 0) ?
-                        <h6>There are no high priority issues</h6> :
-                        <>
-                            <div className="scroll">
-                                {issues.map((issue, idx) => (
-                                    <>
-                                    <Card
-                                        bg="light"
-                                        key={idx}
-                                        text="dark"
-                                        className="g-2"
-                                    >
-                                        <Card.Header><b>{issue.title}</b></Card.Header>
-                                        <Card.Body>
-                                            <Card.Text><b>Description:</b> {issue.content}</Card.Text>
-                                            <Card.Text><b>Priority:</b> High</Card.Text>
-                                            <Button variant="primary" onClick={() => resolveIssue(issue.issueId)}>Mark as
-                                                Resolved</Button>
-                                        </Card.Body>
-                                    </Card>
-                                    <br/>
-                                    </>
-                                ))}
+                            <h6>There are no high priority issues</h6> :
+                            <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
+                                <Row xs={1} md={2} className="card-deck">
+                                    {issues.map((issue, idx) => (
+                                        <Col key={idx}>
+                                            <Card className="g-2" >
+                                                <Card.Header><b>{issue.title}</b></Card.Header>
+                                                <Card.Body>
+                                                    <Card.Text>
+                                                        <b>Description:</b> {issue.content}
+                                                        <br/>
+                                                        <b>Priority:</b> High
+                                                    </Card.Text>
+                                                    <Button style={{float: "right"}} onClick={() => resolveIssue(issue.issueId)}>Mark as
+                                                        Resolved</Button>
+                                                </Card.Body>
+                                            </Card>
+                                            <br/>
+                                        </Col>
+                                    ))}
+                                </Row>
                             </div>
-                        </>
                         }
                     </>
                 }
             </Container>
         </>
     );
-}
+};

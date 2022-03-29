@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Navbar, Nav, Dropdown, DropdownButton} from "react-bootstrap";
+import {Dropdown, DropdownButton, Nav, Navbar} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,7 @@ import './App.css';
 
 const App = () => {
     const cookies = new Cookies();
-    const center = [53.8, -1.55]
+    const center = [53.8, -1.55];
     const [map_locations, setMapLocations] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
@@ -28,7 +28,7 @@ const App = () => {
 
     useEffect(() => {
         checkRole();
-        fetchLocations()
+        fetchLocations();
     }, []);
 
     function checkRole() {
@@ -65,7 +65,7 @@ const App = () => {
         setShowCustomer(true);
         setShowManager(false);
         setShowEmployee(false);
-        setShowLanding(false)
+        setShowLanding(false);
     }
 
     function EmployeeLogin() {
@@ -74,7 +74,7 @@ const App = () => {
         setShowCustomer(false);
         setShowManager(false);
         setShowEmployee(true);
-        setShowLanding(false)
+        setShowLanding(false);
     }
 
     function ManagerLogin() {
@@ -83,7 +83,7 @@ const App = () => {
         setShowCustomer(false);
         setShowManager(true);
         setShowEmployee(false);
-        setShowLanding(false)
+        setShowLanding(false);
     }
 
     async function signOut() {
@@ -122,7 +122,6 @@ const App = () => {
                         <DropdownButton
                             align="end"
                             title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                            variant="primary"
                             className="dropdown-basic-button clickable"
                         >
                             {showLanding ?
@@ -164,26 +163,17 @@ const App = () => {
                         </DropdownButton>
                     </div> :
                     <Navbar expand="lg" bg="primary" variant="dark" className="clickable">
-                        <Navbar.Brand className="navbar-pad-left">
-                            <img
-                                src="favicon.ico"
-                                width="45"
-                                height="30"
-                                alt=""
-                                style={{paddingRight: "15px"}}
-                            />
-                            INERTIA
-                        </Navbar.Brand>
+                        <Navbar.Brand style={{paddingLeft: "15px"}}>INERTIA</Navbar.Brand>
                         <Navbar.Collapse className="justify-content-end">
-                                <Navbar.Text className="navbar-pad-right">
-                                    Logged in as: <a>{cookies.get("accountName")}</a>
-                                </Navbar.Text>
+                            <Navbar.Text className="navbar-pad-right">
+                                Logged in as: <a>{cookies.get("accountName")}</a>
+                            </Navbar.Text>
                             <Nav.Item className="navbar-pad-right">
                                 <DropdownButton
                                     align="end"
                                     className="dropdown-basic-button"
+                                    variant="dark"
                                     title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                                    variant="light"
                                 >
                                     {showLanding ?
                                         <>
@@ -214,10 +204,8 @@ const App = () => {
                                             setShowCustomer(false);
                                             setShowManager(false);
                                             setShowEmployee(false);
-                                            setShowLanding(true)
-                                        }}
-                                    ><p>Sign Out</p>
-                                    </Dropdown.Item>
+                                            setShowLanding(true);
+                                        }}><p>Sign Out</p></Dropdown.Item>
                                 </DropdownButton>
                             </Nav.Item>
                         </Navbar.Collapse>
@@ -237,14 +225,14 @@ const App = () => {
                                       onHide={() => setShowManager(false)}/> : null}
             </div>
             {(map_locations === "") ?
-                <h5>Loading...</h5>
-                : <>
+                <h5>Loading...</h5> :
+                <>
                     {showLanding ? <LandingPage center={center} map_locations={map_locations}
-                                                onHide={() => setShowLanding(false)}/> : null}
-                </>
-            }
+                                                onHide={() => setShowLanding(false)}/>
+                        : null}
+                </>}
         </div>
     );
-}
+};
 
 export default App;

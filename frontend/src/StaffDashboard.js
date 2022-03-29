@@ -31,7 +31,7 @@ export default function Dashboard() {
                 "High priority issues": responseJson.highPriorityIssues,
                 "Revenue today": "£" + responseJson.revenueToday.toString(),
                 "Scooters in use": responseJson.scootersInUse
-            })
+            });
         } else if (cookies.get("accountRole") === '1') {
             setData({
                 "Scooters in use": responseJson.scootersInUse,
@@ -41,7 +41,7 @@ export default function Dashboard() {
                 "Medium priority issues": responseJson.mediumPriorityIssues,
                 "Low priority issues": responseJson.lowPriorityIssues,
                 "Unassigned issues": responseJson.unassignedPriorityIssues
-            })
+            });
         }
     }
 
@@ -55,12 +55,8 @@ export default function Dashboard() {
                     : <div>
                         <Row>
                             {Object.keys(data).map((key, idx) => (
-                                <Col xs={4}>
-                                    <Card
-                                        bg="light"
-                                        key={idx}
-                                        text="dark"
-                                        className="mb-2">
+                                <Col xs={4} key={idx}>
+                                    <Card className="mb-2">
                                         <Card.Body>
                                             <Card.Title>{key}</Card.Title>
                                             <Card.Text>{data[key]}</Card.Text>
@@ -73,5 +69,5 @@ export default function Dashboard() {
                 }
             </Container>
         </>
-    )
-}
+    );
+};

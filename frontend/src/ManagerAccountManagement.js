@@ -84,7 +84,7 @@ export default function AccountManagement() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Account Management</h1>
+            <h1 style={{paddingLeft: '10px'}}>Create Employee Account</h1>
             <br/>
             <Container>
                 <Row>

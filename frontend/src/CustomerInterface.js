@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {Row, Col, Nav} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 import CreateBooking from "./CustomerCreateBooking";
-import CurrentBookings from "./CustomerCurrentBooking";
+import OngoingBookings from "./CustomerOngoingBooking";
 import BookingHistory from "./CustomerBookingHistory";
 import CustomerSettings from './CustomerSettings';
 import Discounts from "./CustomerDiscounts";
-import SubmitIssue from "./CustomerSubmitIssues";
+import SubmitIssue from "./CustomerSubmitIssue";
 
 function CustomerInterface({isDark, toggle, map_locations}) {
     const [showCreateBooking, setShowCreateBooking] = useState(true);
@@ -95,7 +95,7 @@ function CustomerInterface({isDark, toggle, map_locations}) {
                     <>
                         {showCreateBooking ? <CreateBooking map_locations={map_locations}
                                                             onHide={() => setShowCreateBooking(false)}/> : null}
-                        {showCurrentBookings ? <CurrentBookings onHide={() => setShowCurrentBookings(false)}/> : null}
+                        {showCurrentBookings ? <OngoingBookings onHide={() => setShowCurrentBookings(false)}/> : null}
                         {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
                         {showSubmitIssue ? <SubmitIssue onHide={() => setShowBookingHistory(false)}/> : null}
                         {showDiscounts ? <Discounts onHide={() => setShowDiscounts(false)}/> : null}

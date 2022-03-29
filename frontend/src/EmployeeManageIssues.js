@@ -14,7 +14,7 @@ export default function ManageIssues() {
         fetchIssues()
     }, []);
 
-    async function fetchIssues(sort = null) {
+    async function fetchIssues(sortOption = null) {
         let request = await fetch(host + "api/admin/Issues/?closed=false", {
             method: "GET",
             headers: {
@@ -25,23 +25,13 @@ export default function ManageIssues() {
             mode: "cors"
         });
         let response = await request.json();
-        switch (sort) {
-            case '1':
-                response.sort((a, b) => b.issueId - a.issueId);
-                break;
-            case '2':
-                response.sort((a, b) => a.issueId - b.issueId);
-                break;
-            case '3':
-                response.sort((a, b) => a.priority - b.priority);
-                break;
-            case '4':
-                response.sort((a, b) => b.priority - a.priority);
-                break;
-            default:
-                break;
+        const sortFunctions = {
+            '1': (a, b) => b.issueId - a.issueId,
+            '2': (a, b) => a.issueId - b.issueId,
+            '3': (a, b) => a.priority - b.priority,
+            '4': (a, b) => b.priority - a.priority
         }
-        setIssues(response);
+        setIssues(response.sort(sortFunctions[sortOption]));
     }
 
     async function editIssue(id, changePriority = false) {
@@ -87,8 +77,8 @@ export default function ManageIssues() {
                         <br/>
                         <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                             <Row xs={1} md={2} className="card-deck">
-                                {issues.map((issue, keyidx) => (
-                                    <Col key={keyidx}>
+                                {issues.map((issue, keyID) => (
+                                    <Col key={keyID}>
                                         <Card className="mb-2">
                                             <Card.Header><b>{issue.title}</b></Card.Header>
                                             <Card.Body>

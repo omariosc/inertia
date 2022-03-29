@@ -1,20 +1,20 @@
-const validateEmail = (str) => {
-    return str.match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-};
-
-const validatePassword = (str) => {
-    return str.match(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    );
-};
-
-const validateName = (str) => {
-    return (str.length > 0)
-};
-
 export default function validate(name, email, password, confirmPassword) {
+    const validateName = (str) => {
+        return (str.length > 0)
+    };
+
+    const validatePassword = (str) => {
+        return str.match(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        );
+    };
+
+    const validateEmail = (str) => {
+        return str.match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+
     if (!validateName(name)) {
         alert("Please enter your full name.");
         return 0;

@@ -134,7 +134,7 @@ export default function ScooterManagement({map_locations}) {
             <br/>
             <Container>
                 <Row>
-                    <Col xs={5}>
+                    <Col xs={7}>
                         <h3>View Scooters</h3>
                         <br/>
                         <div className="scroll" style={{maxHeight: "40rem"}}>
@@ -160,16 +160,15 @@ export default function ScooterManagement({map_locations}) {
                         </div>
                     </Col>
                     <Col xs={1}/>
-                    <Col xs={6}>
+                    <Col xs={4}>
                         <Row>
                             <h3 style={{paddingBottom: "20px"}}>Configure scooter price</h3>
                             <Form>
                                 <Form.Group>
                                     <Form.Label><b>Price per hire period</b></Form.Label>
                                     {(hireOptions === '') ?
-                                        <h6>Loading</h6> :
+                                        <h6>Loading...</h6> :
                                         <Form.Select
-                                            className="dropdown-basic-button"
                                             onChange={(e) => {
                                                 setHireChoiceId(e.target.value)
                                             }}
@@ -181,7 +180,6 @@ export default function ScooterManagement({map_locations}) {
                                         </Form.Select>
                                     }
                                 </Form.Group>
-                                <br/>
                                 <br/>
                                 <div>
                                     <Form.Group style={{float: "left"}}>
@@ -203,7 +201,7 @@ export default function ScooterManagement({map_locations}) {
                         <Row>
                             <h3 style={{paddingBottom: "20px"}}>Configure scooter details</h3>
                             {(scooters === '') ?
-                                <h6>Loading</h6> :
+                                <h6>Loading...</h6> :
                                 <>
                                     <br/>
                                     <Form>

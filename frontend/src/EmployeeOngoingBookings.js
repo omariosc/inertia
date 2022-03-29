@@ -3,7 +3,7 @@ import {Button, Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css';
 
-export default function CurrentBookings() {
+export default function OngoingBookings() {
     const bookings = [
         [101, "sc20osc@leeds.ac.uk", "4 hours", "17/03/22 12:54"],
         [103, "sc20jdr@leeds.ac.uk", "1 day", "18/03/22 18:53"],
@@ -11,7 +11,7 @@ export default function CurrentBookings() {
     ]
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Current Bookings</h1>
+            <h1 style={{paddingLeft: '10px'}}>Ongoing Bookings</h1>
             <br/>
             <Container>
                 <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>

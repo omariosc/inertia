@@ -13,7 +13,7 @@ export default function Issues() {
         fetchIssues()
     }, []);
 
-    async function fetchIssues(sort = null) {
+    async function fetchIssues(sortOption = null) {
         let request = await fetch(host + "api/admin/Issues/?closed=false&priority=3", {
             method: "GET",
             headers: {
@@ -24,17 +24,11 @@ export default function Issues() {
             mode: "cors"
         });
         let response = await request.json();
-        switch (sort) {
-            case '1':
-                response.sort((a, b) => b.issueId - a.issueId);
-                break;
-            case '2':
-                response.sort((a, b) => a.issueId - b.issueId);
-                break;
-            default:
-                break;
+        const sortFunctions = {
+            '1': (a, b) => b.issueId - a.issueId,
+            '2': (a, b) => a.issueId - b.issueId
         }
-        setIssues(response);
+        setIssues(response.sort(sortFunctions[sortOption]));
     }
 
     async function resolveIssue(id) {

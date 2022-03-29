@@ -3,7 +3,7 @@ import {Button, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './StaffInterface.css';
 
-export default function CurrentBookings() {
+export default function OngoingBookings() {
     const bookings = [
         [101, "4 hours", "12/04/22 12:54"],
         [103, "1 day", "25/05/22 18:53"],

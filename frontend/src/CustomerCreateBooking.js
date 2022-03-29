@@ -3,12 +3,12 @@ import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import host from "./host";
+import center from "./center";
 import Cookies from 'universal-cookie';
 import './StaffInterface.css';
 
 export default function CreateBooking({map_locations}) {
     const cookies = new Cookies();
-    const center = [53.8010441, -1.5497378];
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [scooterChoice, setScooterChoice] = useState('');
@@ -86,10 +86,7 @@ export default function CreateBooking({map_locations}) {
             <Form>
                 <Form.Group>
                     <Form.Label><h6>Select Location</h6></Form.Label>
-                    <Form.Select
-                        className="dropdown-basic-button"
-                        defaultValue={map_locations[0].depoId}
-                    >
+                    <Form.Select defaultValue={map_locations[0].depoId}>
                         {map_locations.map((location) => (
                             <option value={location.depoId}>{location.depoId} - {location.name}</option>
                         ))}
@@ -112,9 +109,8 @@ export default function CreateBooking({map_locations}) {
                 <Form.Group>
                     <Form.Label><h6>Select Scooter</h6></Form.Label>
                     {(scooters === '') ?
-                        <h6>Loading</h6> :
+                        <h6>Loading...</h6> :
                         <Form.Select
-                            className="dropdown-basic-button"
                             onChange={(e) => {
                                 setScooterChoice(e.target.value)
                             }}
@@ -129,9 +125,8 @@ export default function CreateBooking({map_locations}) {
                 <Form.Group>
                     <Form.Label><h6>Select Hire Period</h6></Form.Label>
                     {(hireOptions === '') ?
-                        <h6>Loading</h6> :
+                        <h6>Loading...</h6> :
                         <Form.Select
-                            className="dropdown-basic-button"
                             onChange={(e) => {
                                 setHireChoice(e.target.value)
                             }}
@@ -151,7 +146,7 @@ export default function CreateBooking({map_locations}) {
                                 <Form.Label><h6>10% Discount applied</h6></Form.Label>
                             </Form.Group>
                             {(hireChoice === '') ?
-                                <h6>Loading</h6>
+                                <h6>Loading...</h6>
                                 :
                                 <Form.Group style={{float: "right"}}>
                                     <Form.Label><h6>Total Cost: £{(0.9 * parseFloat(hireChoice.cost)).toFixed(2)}</h6>
@@ -160,7 +155,7 @@ export default function CreateBooking({map_locations}) {
                             }
                         </> : <>
                             {(hireChoice === '') ?
-                                <h6>Loading</h6>
+                                <h6>Loading...</h6>
                                 :
                                 <Form.Group style={{float: "right"}}>
                                     <Form.Label><h6>Total Cost: £{parseFloat(hireChoice.cost).toFixed(2)}</h6>
@@ -177,28 +172,22 @@ export default function CreateBooking({map_locations}) {
                     <>
                         <Form.Group>
                             <Form.Label><h6>Card Number</h6></Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={cardNo}
-                                onInput={e => setCardNo(e.target.value)}
+                            <Form.Control type="text" placeholder="Enter customer card number" value={cardNo}
+                                          onInput={e => setCardNo(e.target.value)}
                             />
                         </Form.Group>
                         <br/>
                         <Form.Group>
                             <Form.Label><h6>Expiry Date</h6></Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={expiry}
-                                onInput={e => setExpiry(e.target.value)}
+                            <Form.Control type="text" placeholder="Enter customer card expiry date" value={expiry}
+                                          onInput={e => setExpiry(e.target.value)}
                             />
                         </Form.Group>
                         <br/>
                         <Form.Group>
                             <Form.Label><h6>CVV</h6></Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={cvv}
-                                onInput={e => setCVV(e.target.value)}
+                            <Form.Control type="text" placeholder="Enter customer card cvv code" value={cvv}
+                                          onInput={e => setCVV(e.target.value)}
                             />
                         </Form.Group>
                     </>

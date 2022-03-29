@@ -44,11 +44,6 @@ export default function ScooterManagement({map_locations}) {
             alert("Scooter availability must be different.");
             return;
         }
-        console.log(scooterCurrentId)
-        console.log(scooterCurrentAvailability)
-        console.log(scooterAvailability)
-        console.log(typeof (scooterCurrentAvailability))
-        console.log(typeof (scooterAvailability))
         try {
             await fetch(host + 'api/admin/Scooters/' + scooterCurrentId.toString(), {
                 method: 'PATCH',
@@ -62,6 +57,7 @@ export default function ScooterManagement({map_locations}) {
                 }),
                 mode: "cors"
             });
+            setScooterCurrentAvailability((scooterCurrentAvailability === "true" ? "false" : "true"));
             alert("Changed scooter details.");
         } catch (error) {
             console.error(error);
@@ -105,7 +101,7 @@ export default function ScooterManagement({map_locations}) {
                         <Row>
                             <h3 style={{paddingBottom: "20px"}}>Configure scooter availability</h3>
                             {(scooters === '') ?
-                                <h6>Loading</h6> :
+                                <h6>Loading...</h6> :
                                 <>
                                     <br/>
                                     <Form>

@@ -5,7 +5,7 @@ import host from "./host";
 import Cookies from "universal-cookie";
 import './StaffInterface.css';
 
-export default function SubmitIssues() {
+export default function SubmitIssue() {
     const cookies = new Cookies();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -47,7 +47,7 @@ export default function SubmitIssues() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Submit Issues</h1>
+            <h1 style={{paddingLeft: '10px'}}>Submit Issue</h1>
             <br/>
             <Container>
                 <Row>
@@ -80,7 +80,7 @@ export default function SubmitIssues() {
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button onClick={submitIssue}>Submit Issue</Button>
+                                <Button onClick={submitIssue} style={{float: "right"}}>Create Issue</Button>
                             </Form.Group>
                         </Form>
                     </Col>

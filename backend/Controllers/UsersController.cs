@@ -232,7 +232,7 @@ public class UsersController : MyControllerBase
         return Ok();
     }
 
-    [HttpGet("{accountId}/ApplyDiscount")]
+    [HttpPost("{accountId}/ApplyDiscount")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(DiscountApplication), 200)]
@@ -270,7 +270,7 @@ public class UsersController : MyControllerBase
         }
     }
 
-    [HttpGet("{accountId}/ApplyDiscountUploadImage")]
+    [HttpPost("{accountId}/ApplyDiscountUploadImage")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [Consumes("application/octet-stream")]
     [ProducesResponseType(typeof(ApplicationError), 422)]

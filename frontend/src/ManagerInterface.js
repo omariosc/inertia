@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Nav, Row, Col} from "react-bootstrap";
+import {Nav,  Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from './StaffDashboard.js';
 import ScooterManagement from './ManagerScooterManagement.js';
@@ -9,7 +9,10 @@ import AccountManagement from './ManagerAccountManagement.js';
 import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
+import {NavMenu} from "./navbar";
+
 export default function ManagerInterface({isDark, toggle, map_locations}) {
+    const [expanded, setExpanded] = useState(false);
     const [showDashboard, setShowDashboard] = useState(true);
     const [showScooter, setShowScooter] = useState(false);
     const [showIssues, setShowIssues] = useState(false);
@@ -27,6 +30,11 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                         className="flex-column"
                         style={{paddingLeft: "15px", color: "black"}}
                     >
+                        <NavMenu
+                            className="flex-column"
+                            style={{paddingLeft: "15px", color: "black"}}
+                        >
+
                         <Nav.Link onClick={() => {
                             setShowDashboard(true);
                             setShowScooter(false);
@@ -81,6 +89,8 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowSettings(true);
                         }}
                                   href="#/settings">Settings</Nav.Link>
+
+                        </NavMenu>
                     </Nav>
                 </Col>
                 <Col xs={9}>

@@ -73,6 +73,20 @@
     overflow:scroll;
 }
 
+.customer-column {
+    display: flex;
+    justify-content: end;
+    border-block-end: black;
+    border: black;
+
+}
+
+.customer-navigation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Large desktops and laptops */
 @media (min-width: 1200px) {
 
@@ -88,10 +102,27 @@
     #account-page {
         pointer-events: all;
         position: relative;
-        padding-left: 5%;
-        padding-right: 7%;
+        padding-left: 15%;
+        padding-right: 10%;
         padding-top: 2%;
         overflow:scroll;
+        border: none;
+    }
+
+    .customer-column {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        border: none;
+    }
+
+    .customer-column-page {
+        display: flex;
+        justify-content: center;
+    }
+
+    .customer-navigation {
+        flex-direction: row;
     }
 
 }
@@ -101,10 +132,26 @@
     #account-page {
         pointer-events: all;
         position: relative;
-        padding-left: 1%;
-        padding-right: 1%;
+        padding-left: 15%;
+        padding-right: 10%;
         padding-top: 2%;
         overflow:scroll;
+        border: none;
+    }
+
+    .customer-column {
+        display: flex;
+        justify-content: center;
+        border: none;
+    }
+
+    .customer-column-page {
+        display: flex;
+        justify-content: center;
+    }
+
+    .customer-navigation {
+        flex-direction: row;
     }
 }
 
@@ -113,10 +160,26 @@
     #account-page {
         pointer-events: all;
         position: relative;
-        padding-left: 1%;
-        padding-right: 1%;
+        padding-left: 3%;
+        padding-right: 3%;
         padding-top: 2%;
         overflow:scroll;
+        border: none;
+    }
+
+    .customer-column {
+        display: flex;
+        justify-content: center;
+        border: none;
+    }
+
+    .customer-column-page {
+        display: flex;
+        justify-content: center;
+    }
+
+    .customer-navigation {
+        flex-direction: row;
     }
 
 }

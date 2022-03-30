@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Row, Col, Nav, Container} from "react-bootstrap";
+import {Row, Col, Nav, Navbar} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 import CreateBooking from "./CustomerCreateBooking";
 import CurrentBookings from "./CustomerCurrentBooking";
@@ -19,10 +19,10 @@ function CustomerInterface({isDark, toggle, map_locations}) {
         <div id="account-page">
 
             <Row>
-                <Col lg={4} xs={12} className="d-flex justify-content-end border-end border-dark">
+                <Col lg={4} xs={12} className="customer-column border-end border-dark">
                     <h1>INERTIA</h1>
                 </Col>
-                <Col lg={8} xs={12}>
+                <Col lg={8} xs={12} className="customer-column-page">
                     <>
                         {showCreateBooking ? <h4>Create Booking</h4> : null}
                         {showCurrentBookings ? <h4>Current Bookings</h4> : null}
@@ -34,8 +34,9 @@ function CustomerInterface({isDark, toggle, map_locations}) {
                 </Col>
             </Row>
             <Row>
-                <Col lg={4} xs={12} className="border-end border-dark">
-                    <Nav defaultActiveKey="#/create-bookings" className="align-items-end flex-column">
+                <Col lg={4} xs={12} className="customer-column border-end border-dark">
+                    {/*NAVIGATION BAR*/}
+                    <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">
                         <Nav.Link href="#/create-bookings"
                                   onClick={() => {
                                       setShowCreateBooking(true);

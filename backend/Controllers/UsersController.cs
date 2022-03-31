@@ -256,7 +256,7 @@ public class UsersController : MyControllerBase
             {
                 Account = account,
                 DisccountType = request.DiscountType,
-                State = DiscountApplicationState.Pending
+                State = DiscountApplicationState.AwaitingImage
             };
 
             await _db.DiscountApplications.AddAsync(application);

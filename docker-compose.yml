@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  backend:
+    build: backend/
+    restart: always
+  frontend:
+    build: frontend/
+    restart: always
+  nginx:
+    build: nginx/
+    restart: always
+    ports:
+      - "42069:80"

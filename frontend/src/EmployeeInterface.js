@@ -1,33 +1,34 @@
 import React, {useState} from "react";
-import {Nav, Row, Col} from "react-bootstrap";
+import {Col, Nav, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from './EmployeeDashboard.js';
-import CreateBooking from './EmployeeCreateBooking.js';
-import BookingHistory from './EmployeeBookingHistory.js';
-import CurrentBookings from './EmployeeCurrentBookings.js';
-import ScooterManagement from './EmployeeScooterManagement.js';
-import SubmitIssues from './EmployeeSubmitIssues.js';
-import ManageIssues from './EmployeeManageIssues.js';
-import ManageApplication from './EmployeeManageApplications.js'
-import StaffSettings from './StaffSettings.js';
+import Dashboard from './StaffDashboard';
+import CreateBooking from './EmployeeCreateBooking';
+import BookingHistory from './EmployeeBookingHistory';
+import OngoingBookings from './EmployeeOngoingBookings';
+import ScooterManagement from './EmployeeScooterManagement';
+import SubmitIssue from './EmployeeSubmitIssues';
+import ManageIssues from './EmployeeManageIssues';
+import DiscountApplication from './EmployeeDiscountApplications';
+import StaffSettings from './StaffSettings';
 import './StaffInterface.css';
 
-function EmployeeInterface({isDark, toggle}) {
+export default function EmployeeInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showCreateBooking, setShowCreateBooking] = useState(false);
     const [showBookingHistory, setShowBookingHistory] = useState(false);
-    const [showCurrentBookings, setShowCurrentBookings] = useState(false);
-    const [showManageApplication, setShowManageApplication] = useState(false);
+    const [showOngoingBookings, setShowOngoingBookings] = useState(false);
+    const [showManageDiscountApplications, setShowManageDiscountApplications] = useState(false);
     const [showScooterManagement, setShowScooterManagement] = useState(false);
-    const [showSubmitIssues, setShowSubmitIssues] = useState(false);
+    const [showSubmitIssue, setShowSubmitIssue] = useState(false);
     const [showManageIssues, setShowManageIssues] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+
     return (
         <div className="clickable">
             <Row>
                 <Col xs={2} className="border-end border-dark">
                     <Nav
-                        defaultActiveKey="#/dashboard"
+                        defaultActiveKey="#/employee-dashboard"
                         variant="pills"
                         className="flex-column"
                         style={{paddingLeft: "15px"}}
@@ -36,124 +37,138 @@ function EmployeeInterface({isDark, toggle}) {
                             setShowDashboard(true);
                             setShowCreateBooking(false);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/dashboard">Dashboard</Nav.Link>
+                                  href="#/employee-dashboard">Dashboard</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(true);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/create-booking">Create Booking</Nav.Link>
+                                  href="#/employee-create-booking">Create Booking</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(true);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/current-bookings">Current Bookings</Nav.Link>
+                                  href="#/employee-booking-applications">Booking Applications</Nav.Link>
+                        <Nav.Link onClick={() => {
+                            setShowDashboard(false);
+                            setShowCreateBooking(false);
+                            setShowBookingHistory(false);
+                            setShowOngoingBookings(true);
+                            setShowScooterManagement(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
+                            setShowManageIssues(false);
+                            setShowSettings(false)
+                        }}
+                                  href="#/employee-ongoing-bookings">Ongoing Bookings</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
                             setShowBookingHistory(true);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/booking-history">Booking History</Nav.Link>
+                                  href="#/employee-booking-history">Booking History</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(true);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/scooter-management">Scooter Management</Nav.Link>
+                                  href="#/employee-scooter-management">Scooter Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(true);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(true);
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/submit-issues">Submit Issues</Nav.Link>
+                                  href="#/employee-submit-issues">Submit Issue</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(true);
                             setShowSettings(false)
                         }}
-                                  href="#/manage-issues">Manage Issues</Nav.Link>
+                                  href="#/employee-manage-issues">Manage Issues</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(true);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(true);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/manage-applications">Manage Applications</Nav.Link>
+                                  href="#/employee-discount-applications">Discount Applications</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
                             setShowBookingHistory(false);
-                            setShowCurrentBookings(false);
+                            setShowOngoingBookings(false);
                             setShowScooterManagement(false);
-                            setShowManageApplication(false);
-                            setShowSubmitIssues(false);
+                            setShowManageDiscountApplications(false);
+                            setShowSubmitIssue(false);
                             setShowManageIssues(false);
                             setShowSettings(true)
                         }}
-                                  href="#/settings">Settings</Nav.Link>
+                                  href="#/employee-settings">Settings</Nav.Link>
                     </Nav>
                 </Col>
                 <Col xs={9}>
                     <>
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
-                        {showCreateBooking ? <CreateBooking onHide={() => setShowCreateBooking(false)}/> : null}
+                        {showCreateBooking ? <CreateBooking map_locations={map_locations}
+                                                            onHide={() => setShowCreateBooking(false)}/> : null}
                         {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
-                        {showCurrentBookings ? <CurrentBookings onHide={() => setShowCurrentBookings(false)}/> : null}
+                        {showOngoingBookings ? <OngoingBookings onHide={() => setShowOngoingBookings(false)}/> : null}
                         {showScooterManagement ?
-                            <ScooterManagement onHide={() => setShowScooterManagement(false)}/> : null}
-                        {showSubmitIssues ? <SubmitIssues onHide={() => setShowSubmitIssues(false)}/> : null}
+                            <ScooterManagement map_locations={map_locations}
+                                               onHide={() => setShowScooterManagement(false)}/> : null}
+                        {showSubmitIssue ? <SubmitIssue onHide={() => setShowSubmitIssue(false)}/> : null}
                         {showManageIssues ? <ManageIssues onHide={() => setShowManageIssues(false)}/> : null}
-                        {showManageApplication ?
-                            <ManageApplication onHide={() => setShowManageApplication(false)}/> : null}
+                        {showManageDiscountApplications ?
+                            <DiscountApplication onHide={() => setShowManageDiscountApplications(false)}/> : null}
                         {showSettings ? <StaffSettings isDark={isDark} toggle={toggle}
                                                        onHide={() => setShowSettings(false)}/> : null}
                     </>
@@ -161,6 +176,4 @@ function EmployeeInterface({isDark, toggle}) {
             </Row>
         </div>
     );
-}
-
-export default EmployeeInterface;
+};

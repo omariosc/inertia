@@ -1,6 +1,7 @@
 using inertia.Authorization;
 using inertia.Dtos;
 using inertia.Enums;
+using inertia.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ public class IssuesController : MyControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> ListIssues(
+    public async Task<ActionResult<List<Issue>>> ListIssues(
         [FromQuery] bool? closed,
         [FromQuery] IssuePriority? priority
         )
@@ -47,6 +48,8 @@ public class IssuesController : MyControllerBase
     }
 
     [HttpGet("{issueId:int}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Issue), 200)]
     public async Task<ActionResult> GetIssue(int issueId)
     {
         var issue = await _db.Issues
@@ -60,6 +63,8 @@ public class IssuesController : MyControllerBase
     }
     
     [HttpPatch("{issueId:int}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Issue), 200)]
     public async Task<ActionResult> PatchIssue(
         int issueId,
         [FromBody] PatchIssueRequest request)

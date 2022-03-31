@@ -9,7 +9,6 @@ using inertia.Enums;
 using inertia.Exceptions;
 using inertia.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 
 namespace inertia.Controllers;
 
@@ -38,6 +37,8 @@ public class UsersController : MyControllerBase
     }
 
     [HttpPost("signup")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Signup([FromBody] SignupRequest request)
     {
         try
@@ -59,6 +60,8 @@ public class UsersController : MyControllerBase
     }
     
     [HttpPost("authorize")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(LoginResponse), 200)]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest loginRequest)
     {
         var account = await _users.MatchAccount(loginRequest.Email, loginRequest.Password);
@@ -95,6 +98,7 @@ public class UsersController : MyControllerBase
 
     [HttpDelete("authorize")]
     [Authorize]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> Logout([FromBody] LogoutRequest request)
     {
         var loginInstance = await _db.LoginInstances.Where(i => i.AccessToken == request.AccessToken).FirstOrDefaultAsync();
@@ -110,12 +114,11 @@ public class UsersController : MyControllerBase
 
     [HttpGet("{accountId}/profile")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Account), 200)]
     public async Task<ActionResult> GetProfile(string accountId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-
-        var account = await _db.Accounts
+       var account = await _db.Accounts
             .Where(a => a.AccountId == accountId && a.State != AccountState.Suspended)
             .FirstOrDefaultAsync();
         
@@ -127,11 +130,10 @@ public class UsersController : MyControllerBase
 
     [HttpGet("{accountId}/orders")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(List<Order>), 200)]
     public async Task<ActionResult> GetOrders(string accountId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         await _inertia.UpdateOrderStatus();
         
         var orders = await _db.Orders
@@ -145,12 +147,11 @@ public class UsersController : MyControllerBase
 
     [HttpGet("{accountId}/issues")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(List<Issue>), 200)]
     public async Task<ActionResult> GetIssues(string accountId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
-        var issues = await _db.Issues
+       var issues = await _db.Issues
             .OrderByDescending(i => i.DateOpened)
             .Where(i => i.AccountId == accountId)
             .ToListAsync();
@@ -160,13 +161,12 @@ public class UsersController : MyControllerBase
     
     [HttpPost("{accountId}/issues")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Issue), 200)]
     public async Task<ActionResult> CreateIssue(
         string accountId, 
         [FromBody] CreateIssueRequest request)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var account = await _db.Accounts
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -195,12 +195,11 @@ public class UsersController : MyControllerBase
     
     [HttpGet("{accountId}/issues/{issueId:int}")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Issue), 200)]
     public async Task<ActionResult> GetIssue(string accountId, int issueId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
-        var issue = await _db.Issues
+       var issue = await _db.Issues
             .Where(i => i.IssueId == issueId && i.AccountId == accountId)
             .FirstOrDefaultAsync();
 
@@ -212,11 +211,10 @@ public class UsersController : MyControllerBase
     
     [HttpDelete("{accountId}/issues/{issueId:int}")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> CloseIssue(string accountId, int issueId)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var issue = await _db.Issues
             .Where(i => i.AccountId == accountId && i.IssueId == issueId)
             .FirstOrDefaultAsync();
@@ -234,15 +232,14 @@ public class UsersController : MyControllerBase
         return Ok();
     }
 
-    [HttpGet("{accountId}/ApplyDiscount")]
+    [HttpPost("{accountId}/ApplyDiscount")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(DiscountApplication), 200)]
     public async Task<ActionResult> ApplyDiscount(
         string accountId,
         [FromBody]ApplyDiscountRequest request)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var account = await _db.Accounts
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -273,16 +270,15 @@ public class UsersController : MyControllerBase
         }
     }
 
-    [HttpGet("{accountId}/ApplyDiscountUploadImage")]
+    [HttpPost("{accountId}/ApplyDiscountUploadImage")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [Consumes("application/octet-stream")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> ApplyDiscountUploadImage(
         string accountId,
         [FromBody] byte[] image)
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var application = await _db.DiscountApplications
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -304,14 +300,13 @@ public class UsersController : MyControllerBase
 
     [HttpPost("{accountId}/ChangePassword")]
     [Authorize(Policy = Policies.MatchAccountId)]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(void), 200)]
     public async Task<ActionResult> ChangePassword(
         string accountId,
         [FromBody] ChangePasswordRequest request
     )
     {
-        if (accountId != User.FindFirstValue(ClaimTypes.PrimarySid))
-            return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid account id");
-        
         var account = await _db.Accounts
             .Where(a => a.AccountId == accountId)
             .FirstOrDefaultAsync();

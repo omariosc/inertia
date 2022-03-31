@@ -2,13 +2,13 @@ import React, {useState} from "react";
 import {Row, Col, Nav} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 import CreateBooking from "./CustomerCreateBooking";
-import CurrentBookings from "./CustomerCurrentBooking";
+import OngoingBookings from "./CustomerOngoingBooking";
 import BookingHistory from "./CustomerBookingHistory";
 import CustomerSettings from './CustomerSettings';
 import Discounts from "./CustomerDiscounts";
-import SubmitIssue from "./CustomerSubmitIssues";
+import SubmitIssue from "./CustomerSubmitIssue";
 
-function CustomerInterface({isDark, toggle}) {
+export default function CustomerInterface({isDark, toggle, map_locations}) {
     const [showCreateBooking, setShowCreateBooking] = useState(true);
     const [showCurrentBookings, setShowCurrentBookings] = useState(false);
     const [showBookingHistory, setShowBookingHistory] = useState(false);
@@ -18,10 +18,10 @@ function CustomerInterface({isDark, toggle}) {
     return (
         <div id="account-page">
             <Row>
-                <Col xs={4} className="d-flex justify-content-end border-end border-dark">
+                <Col lg={4} xs={12} className="customer-column border-end border-dark">
                     <h1>INERTIA</h1>
                 </Col>
-                <Col>
+                <Col lg={8} xs={12} className="customer-column-page">
                     <>
                         {showCreateBooking ? <h4>Create Booking</h4> : null}
                         {showCurrentBookings ? <h4>Current Bookings</h4> : null}
@@ -33,8 +33,9 @@ function CustomerInterface({isDark, toggle}) {
                 </Col>
             </Row>
             <Row>
-                <Col xs={4} className="border-end border-dark">
-                    <Nav defaultActiveKey="#/create-bookings" className="align-items-end flex-column">
+                <Col lg={4} xs={12} className="customer-column border-end border-dark">
+                    {/*NAVIGATION BAR*/}
+                    <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">
                         <Nav.Link href="#/create-bookings"
                                   onClick={() => {
                                       setShowCreateBooking(true);
@@ -91,10 +92,11 @@ function CustomerInterface({isDark, toggle}) {
                                   }}>Settings</Nav.Link>
                     </Nav>
                 </Col>
-                <Col>
+                <Col lg={8} xs={12}>
                     <>
-                        {showCreateBooking ? <CreateBooking onHide={() => setShowCreateBooking(false)}/> : null}
-                        {showCurrentBookings ? <CurrentBookings onHide={() => setShowCurrentBookings(false)}/> : null}
+                        {showCreateBooking ? <CreateBooking map_locations={map_locations}
+                                                            onHide={() => setShowCreateBooking(false)}/> : null}
+                        {showCurrentBookings ? <OngoingBookings onHide={() => setShowCurrentBookings(false)}/> : null}
                         {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
                         {showSubmitIssue ? <SubmitIssue onHide={() => setShowBookingHistory(false)}/> : null}
                         {showDiscounts ? <Discounts onHide={() => setShowDiscounts(false)}/> : null}
@@ -106,6 +108,4 @@ function CustomerInterface({isDark, toggle}) {
             </Row>
         </div>
     );
-}
-
-export default CustomerInterface;
+};

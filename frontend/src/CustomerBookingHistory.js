@@ -1,42 +1,149 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css"
-import './StaffInterface.css'
+import "bootstrap/dist/css/bootstrap.css";
+import host from './host';
+import Cookies from 'universal-cookie';
 
-function BookingHistory() {
-    const orderDetails = [
-        [101, "1 hour", "8/2/22 13:02", 10],
-        [102, "1 week", "9/2/22 16:45", 0],
-        [103, "4 hours", "11/2/22 19:52", 30],
-        [205, "1 hour", "15/2/22 09:24", 10],
-        [204, "1 day", "20/2/22 10:45", 200]
-    ]
+export default function BookingHistory() {
+    const cookies = new Cookies();
+    const [bookingHistory, setBookingHistory] = useState('');
+    const [booking, setBooking] = useState('');
+    const orderState = ["Cancelled", "PendingApproval", "Upcoming", "Ongoing", "PendingReturn", "Completed", "Denied"];
+
+    useEffect(() => {
+        fetchBookings();
+    }, []);
+
+    async function fetchBookings() {
+        try {
+            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setBookingHistory(await request.json());
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    function showDate(date) {
+        return new Intl.DateTimeFormat('en', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric'
+        }).format(new Date(date));
+    }
+
     return (
-        <div className="scroll-graphs">
-            <Table>
-                <thead>
-                <tr>
-                    <th>Scooter</th>
-                    <th>Hire Length</th>
-                    <th>Time Expired</th>
-                    <th>Amount Paid</th>
-                    <th>Booking Confirmation</th>
-                </tr>
-                </thead>
-                <tbody>
-                {orderDetails.map((details, info) => (
-                    <tr>
-                        <td key={info}>{details[0]}</td>
-                        <td key={info}>{details[1]}</td>
-                        <td key={info}>{details[2]}</td>
-                        <td key={info}>£{(details[3]).toFixed(2)}</td>
-                        <td key={info}><u>View</u></td>
-                    </tr>
-                ))}
-                </tbody>
-            </Table>
-        </div>
-    )
-}
-
-export default BookingHistory;
+        <>
+            {(bookingHistory === '') ?
+                <h6>Loading...</h6> :
+                <>
+                    {(bookingHistory.length === 0) ?
+                        <h6>You have no bookings.</h6> :
+                        <>
+                            <div className="scroll">
+                                {(booking === '') ?
+                                    <h6>Select a booking to show booking details</h6> :
+                                    <Table>
+                                        <tbody>
+                                        <tr>
+                                            <td><b>Booking ID:</b></td>
+                                            <td>{booking.orderId}</td>
+                                        </tr>
+                                        {(booking.scooter) ?
+                                            <tr>
+                                                <td><b>Scooter ID:</b></td>
+                                                <td>{booking.scooter.softScooterId}</td>
+                                            </tr>
+                                            :
+                                            <tr>
+                                                <td><b>Scooter:</b></td>
+                                                <td>{booking.scooterId}</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td><b>Customer ID:</b></td>
+                                            <td>{booking.accountId}</td>
+                                        </tr>
+                                        {(booking.account) ?
+                                            <>
+                                                {(booking.account.depo) ?
+                                                    <tr>
+                                                        <td><b>Depot:</b></td>
+                                                        <td>{booking.account.depo.name}</td>
+                                                    </tr> : null
+                                                }
+                                            </>
+                                            : null
+                                        }
+                                        <tr>
+                                            <td><b>Hire Option:</b></td>
+                                            <td>{booking.hireOption.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Cost:</b></td>
+                                            <td>£{booking.cost}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Discount:</b></td>
+                                            <td>£{booking.discount}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Created At:</b></td>
+                                            <td>{showDate(booking.createdAt)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Start Time:</b></td>
+                                            <td>{showDate(booking.startTime)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>End Time:</b></td>
+                                            <td>{showDate(booking.endTime)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Extensions:</b></td>
+                                            <td>{(booking.extensions ? booking.extensions.length : "None")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Order Status:</b></td>
+                                            <td>{orderState[booking.orderState]}</td>
+                                        </tr>
+                                        </tbody>
+                                    </Table>
+                                }
+                                <br/>
+                                <Table>
+                                    <thead>
+                                    <tr>
+                                        <th>Booking ID</th>
+                                        <th>Booking Details</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {bookingHistory.map((booking, idx) => (
+                                        <tr key={idx}>
+                                            <td>{booking.orderId}</td>
+                                            <td><a onClick={() => setBooking(bookingHistory[idx])}
+                                                   href="#/view-booking">View</a>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </>
+                    }
+                </>
+            }
+        </>
+    );
+};

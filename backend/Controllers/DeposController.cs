@@ -1,3 +1,4 @@
+using inertia.Dtos;
 using inertia.Enums;
 using Microsoft.AspNetCore.Mvc;
 using inertia.Models;
@@ -24,13 +25,15 @@ public class DeposController : MyControllerBase
     }
     
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Depo>> GetItem(int id)
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Depo), 200)]
+    public async Task<ActionResult> GetItem(int id)
     {
         var depo = await _db.Depos.FindAsync(id);
 
         if (depo == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
         
-        return depo;
+        return Ok(depo);
     }
 }

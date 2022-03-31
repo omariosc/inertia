@@ -1,30 +1,23 @@
-import React, {useState} from "react";
-import {Navbar, Nav, Dropdown, DropdownButton} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Dropdown, DropdownButton, Nav, Navbar} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
+import host from './host';
+import center from "./center";
+import Cookies from 'universal-cookie';
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
-import LandingPage from './LandingPage'
+import LandingPage from './LandingPage';
 import CustomerInterface from "./CustomerInterface";
 import ManagerInterface from './ManagerInterface';
 import EmployeeInterface from './EmployeeInterface';
-import './App.css'
 import {useDarkreader} from 'react-darkreader';
-import host from './host';
-import Cookies from 'universal-cookie';
-
-const cookies = new Cookies();
+import './App.css';
 
 const App = () => {
-    const center = [53.8, -1.55]
-    const map_locations = [
-        ["Trinity Centre", [53.798351, -1.545100]],
-        ["Train Station", [53.796770, -1.540510]],
-        ["Merrion Centre", [53.801270, -1.543190]],
-        ["Leeds General Infirmary Hospital", [53.802509, -1.552887]],
-        ["UoL Edge Sports Centre", [53.804167, -1.553208]]
-    ]
+    const cookies = new Cookies();
+    const [map_locations, setMapLocations] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [showCustomer, setShowCustomer] = useState(false);
@@ -32,22 +25,42 @@ const App = () => {
     const [showEmployee, setShowEmployee] = useState(false);
     const [showLanding, setShowLanding] = useState(true);
     const [isDark, {toggle}] = useDarkreader(true);
-    let selectedLocation = null;
 
-    if (cookies.get('accountToken')) {
-        setShowLanding(false);
-        setShowManager(true);
+    useEffect(() => {
+        checkRole();
+        fetchLocations();
+    }, []);
+
+    function checkRole() {
+        if (cookies.get("accessToken")) {
+            setShowLanding(false);
+            switch (cookies.get("accountRole")) {
+                case '1':
+                    setShowEmployee(true);
+                    break;
+                case '2':
+                    setShowManager(true);
+                    break;
+                default:
+                    setShowLanding(true);
+            }
+        }
     }
 
-    function Book(location) {
-        setShowLogin(false);
-        setShowRegister(false);
-        setShowCustomer(true);
-        setShowManager(false);
-        setShowEmployee(false);
-        setShowLanding(false);
-        selectedLocation = location[0];
-        cookies.set('selectedLocation', selectedLocation, {path: '/'});
+    async function fetchLocations() {
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     function CustomerLogin() {
@@ -57,7 +70,6 @@ const App = () => {
         setShowManager(false);
         setShowEmployee(false);
         setShowLanding(false);
-        cookies.remove('selectedLocation');
     }
 
     function EmployeeLogin() {
@@ -67,7 +79,6 @@ const App = () => {
         setShowManager(false);
         setShowEmployee(true);
         setShowLanding(false);
-        cookies.remove('selectedLocation');
     }
 
     function ManagerLogin() {
@@ -77,7 +88,6 @@ const App = () => {
         setShowManager(true);
         setShowEmployee(false);
         setShowLanding(false);
-        cookies.remove('selectedLocation');
     }
 
     async function signOut() {
@@ -88,7 +98,7 @@ const App = () => {
         setShowEmployee(false);
         setShowLanding(true);
         try {
-            const request = await fetch(host + 'api/Users/authorize', {
+            await fetch(host + 'api/Users/authorize', {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,6 +115,8 @@ const App = () => {
         }
         cookies.remove('accessToken');
         cookies.remove('accountID');
+        cookies.remove('accountRole');
+        cookies.remove('accountName');
     }
 
     return (
@@ -115,68 +127,58 @@ const App = () => {
                         <DropdownButton
                             align="end"
                             title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                            variant="primary"
                             className="dropdown-basic-button clickable"
                         >
                             {showLanding ?
-                                <Dropdown.Item
-                                    href="#/login"
-                                    onClick={() => {
-                                        setShowLogin(true);
-                                        setShowRegister(false);
-                                    }}>
-                                    <p>Log In</p>
-                                </Dropdown.Item> : null}
-                            {showLanding ? <Dropdown.Item
-                                href="#/register"
-                                onClick={() => {
-                                    setShowLogin(false);
-                                    setShowRegister(true);
-                                }}>
-                                <p>Register</p>
-                            </Dropdown.Item> : null}
-                            <Dropdown.Item
-                                href="#/sign-out"
-                                onClick={() => {
-                                    signOut();
-                                    setShowLogin(false);
-                                    setShowRegister(false);
-                                    setShowCustomer(false);
-                                    setShowManager(false);
-                                    setShowEmployee(false);
-                                    setShowLanding(true)
-                                }}
-                            >
-                                <p>Sign Out</p>
-                            </Dropdown.Item>
+                                <>
+                                    <Dropdown.Item
+                                        href="#/login"
+                                        onClick={() => {
+                                            setShowLogin(true);
+                                            setShowRegister(false);
+                                        }}>
+                                        <p>Log In</p>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        href="#/register"
+                                        onClick={() => {
+                                            setShowLogin(false);
+                                            setShowRegister(true);
+                                        }}>
+                                        <p>Register</p>
+                                    </Dropdown.Item>
+                                </> : null}
+                            {showCustomer ?
+                                <>
+                                    <Dropdown.Item
+                                        href="#/sign-out"
+                                        onClick={() => {
+                                            signOut();
+                                            setShowLogin(false);
+                                            setShowRegister(false);
+                                            setShowCustomer(false);
+                                            setShowManager(false);
+                                            setShowEmployee(false);
+                                            setShowLanding(true)
+                                        }}
+                                    >
+                                        <p>Sign Out</p>
+                                    </Dropdown.Item>
+                                </> : null}
                         </DropdownButton>
                     </div> :
                     <Navbar expand="lg" bg="primary" variant="dark" className="clickable">
-                        <Navbar.Brand className="navbar-pad-left">
-                            <img
-                                src="favicon.ico"
-                                width="45"
-                                height="30"
-                                alt=""
-                                style={{paddingRight: "15px"}}
-                            />
-                            INERTIA
-                        </Navbar.Brand>
+                        <Navbar.Brand style={{paddingLeft: "15px"}}>INERTIA</Navbar.Brand>
                         <Navbar.Collapse className="justify-content-end">
-                            {showManager ?
-                                <Navbar.Text className="navbar-pad-right-right">
-                                    Signed in as: <u>Manager</u>
-                                </Navbar.Text> : null}
-                            {showEmployee ?
-                                <Navbar.Text className="navbar-pad-right">
-                                    Signed in as: <u>Employee</u>
-                                </Navbar.Text> : null}
+                            <Navbar.Text className="navbar-pad-right">
+                                Logged in as: <a>{cookies.get("accountName")}</a>
+                            </Navbar.Text>
                             <Nav.Item className="navbar-pad-right">
                                 <DropdownButton
                                     align="end"
                                     className="dropdown-basic-button"
+                                    variant="dark"
                                     title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                                    variant="light"
                                 >
                                     {showLanding ?
                                         <>
@@ -207,30 +209,35 @@ const App = () => {
                                             setShowCustomer(false);
                                             setShowManager(false);
                                             setShowEmployee(false);
-                                            setShowLanding(true)
-                                        }}
-                                    >
-                                        <p>Sign Out</p>
-                                    </Dropdown.Item>
+                                            setShowLanding(true);
+                                        }}><p>Sign Out</p></Dropdown.Item>
                                 </DropdownButton>
                             </Nav.Item>
                         </Navbar.Collapse>
                     </Navbar>}
-                <LoginForm show={showLogin} onCustomer={CustomerLogin} onEmployee={EmployeeLogin}
-                           onManager={ManagerLogin} onHide={() => setShowLogin(false)}/>
+                <LoginForm show={showLogin} showcustomer={CustomerLogin} showemployee={EmployeeLogin}
+                           showmanager={ManagerLogin} onHide={() => setShowLogin(false)}/>
                 {showLanding ? null : <br/>}
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
                 {showEmployee ?
-                    <EmployeeInterface isDark={isDark} toggle={toggle} onHide={() => setShowEmployee(false)}/> : null}
+                    <EmployeeInterface map_locations={map_locations} isDark={isDark} toggle={toggle}
+                                       onHide={() => setShowEmployee(false)}/> : null}
                 {showCustomer ?
-                    <CustomerInterface isDark={isDark} toggle={toggle} onHide={() => setShowCustomer(false)}/> : null}
+                    <CustomerInterface map_locations={map_locations} isDark={isDark} toggle={toggle}
+                                       onHide={() => setShowCustomer(false)}/> : null}
                 {showManager ?
-                    <ManagerInterface isDark={isDark} toggle={toggle} onHide={() => setShowManager(false)}/> : null}
+                    <ManagerInterface map_locations={map_locations} isDark={isDark} toggle={toggle}
+                                      onHide={() => setShowManager(false)}/> : null}
             </div>
-            {showLanding ? <LandingPage center={center} map_locations={map_locations} Book={Book}
-                                        onHide={() => setShowLanding(false)}/> : null}
+            {(map_locations === "") ?
+                <h5>Loading...</h5> :
+                <>
+                    {showLanding ? <LandingPage center={center} map_locations={map_locations}
+                                                onHide={() => setShowLanding(false)}/>
+                        : null}
+                </>}
         </div>
     );
-}
+};
 
 export default App;

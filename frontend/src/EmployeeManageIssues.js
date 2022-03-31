@@ -1,64 +1,134 @@
-import {Button, Card, Container, Dropdown, DropdownButton, Form, FormSelect} from "react-bootstrap";
-import React from "react";
+import {Button, Card, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, {useEffect, useState} from "react";
+import host from "./host";
+import Cookies from "universal-cookie";
 
-function ManageIssues() {
-    const issues = [
-        ["It appears the scooter 103 has faulty brakes and will need to be made unavailable until is able to be serviced.", "sc20jdr@leeds.ac.uk", "High"],
-        ["Scooter 108 is not available to be rented despite being in working order.", "sc20wt@leeds.ac.uk", "None"],
-        ["The payment system does not accept my credit card details.", "sc20osc@leeds.ac.uk", "Medium"],
-        ["The price of scooter 202 has been set to half of what it should be.", "sc20mf@leeds.ac.uk", "Low"]]
-    const priorities = ["None", "Low", "Medium", "High"]
-    const sort_filters = ["Priority: Ascending", "Priority: Descending", "Time: First", "Time: Last"]
+export default function ManageIssues() {
+    const cookies = new Cookies();
+    const [issues, setIssues] = useState('');
+    const [priority, setPriority] = useState('');
+    const priorities = ["None", "Low", "Medium", "High"];
+
+    useEffect(() => {
+        fetchIssues();
+    }, []);
+
+    async function fetchIssues(sortOption = null) {
+        try {
+            let request = await fetch(host + "api/admin/Issues/?closed=false", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let response = await request.json();
+            const sortFunctions = {
+                '1': (a, b) => b.issueId - a.issueId,
+                '2': (a, b) => a.issueId - b.issueId,
+                '3': (a, b) => a.priority - b.priority,
+                '4': (a, b) => b.priority - a.priority
+            }
+            setIssues(response.sort(sortFunctions[sortOption]));
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function editIssue(id, changePriority = false) {
+        const requestBody = (changePriority ?
+            {"priority": parseInt(priority)} :
+            {"resolution": "Resolved"})
+        if (changePriority === true && (priority === '' || priority === 'none')) {
+            alert("You must select a priority.");
+            return;
+        }
+        try {
+            await fetch(host + `api/admin/Issues/${id}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify(requestBody),
+                mode: "cors"
+            });
+            await fetchIssues();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Manage Issues</h1>
             <br/>
             <Container>
-                <div style={{float: "right"}}>
-                    <DropdownButton className="dropdown-basic-button" title="Sort by: ">
-                        {sort_filters.map((filter, idx) => (
-                            <Dropdown.Item key={idx}>{filter}</Dropdown.Item>
-                        ))}
-                    </DropdownButton>
-                </div>
-                <br/>
-                <br/>
-                <div className="scroll">
-                    {issues.map((issue, idx) => (
-                        <Card
-                            bg="light"
-                            key={idx}
-                            text="dark"
-                            className="mb-2"
-                        >
-                            <Card.Header>Issue {idx + 1}</Card.Header>
-                            <Card.Body>
-                                <Card.Text>{issue[0]}</Card.Text>
-                                <Card.Text>Reported by: {issue[1]}</Card.Text>
-                                <Card.Text>
-                                    <Form>
-                                        <Form.Group>
-                                            <Form.Label>Priority: {issue[2]}</Form.Label>
-                                            <FormSelect placeholder={issue[2]}>
-                                                {priorities.map((priority, idx) => (
-                                                    <option key={idx}>{priority}</option>
-                                                ))}
-                                            </FormSelect>
-                                        </Form.Group>
+                {(issues.length === 0) ?
+                    <h6>There are no open issues</h6> :
+                    <>
+                        <div style={{float: "right"}}>
+                            <Form.Select onChange={(e) => {
+                                fetchIssues(e.target.value);
+                            }}>
+                                <option value={1}>Time: Newest</option>
+                                <option value={2}>Time: Oldest</option>
+                                <option value={3}>Priority: Ascending</option>
+                                <option value={4}>Priority: Descending</option>
+                            </Form.Select>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
+                            <Row xs={1} md={2} className="card-deck">
+                                {issues.map((issue, keyID) => (
+                                    <Col key={keyID}>
+                                        <Card className="mb-2">
+                                            <Card.Header><b>{issue.title}</b></Card.Header>
+                                            <Card.Body>
+                                                <Form>
+                                                    <Card.Text>
+                                                        <b>Description:</b> {issue.content}
+                                                        <br/>
+                                                        <b>Priority:</b> {priorities[issue.priority]}
+                                                        <br/>
+                                                        <br/>
+                                                        <FormSelect
+                                                            onChange={(e) => {
+                                                                setPriority(e.target.value)
+                                                            }}
+                                                        >
+                                                            <option value="none" key="none">Select priority...
+                                                            </option>
+                                                            {priorities.map((priority, idx) => (
+                                                                <option value={idx} key={idx}>{priority}</option>
+                                                            ))}
+                                                        </FormSelect>
+                                                        <br/>
+                                                        <Button style={{float: "left"}}
+                                                                onClick={() => {
+                                                                    editIssue(issue.issueId, true)
+                                                                }}>Change Priority</Button>
+                                                        <Button style={{float: "right"}}
+                                                                onClick={() => {
+                                                                    editIssue(issue.issueId)
+                                                                }}>Mark as Resolved</Button>
+                                                    </Card.Text>
+                                                </Form>
+                                            </Card.Body>
+                                        </Card>
                                         <br/>
-                                        <Form.Group>
-                                            <Button variant="primary">Change Priority</Button>
-                                        </Form.Group>
-                                    </Form>
-                                </Card.Text>
-                                <Button variant="primary">Mark as Resolved</Button>
-                            </Card.Body>
-                        </Card>
-                    ))}
-                </div>
+                                    </Col>
+                                ))}
+                            </Row>
+                        </div>
+                    </>
+                }
             </Container>
         </>
     );
-}
-
-export default ManageIssues;
+};

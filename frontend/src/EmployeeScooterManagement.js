@@ -1,70 +1,96 @@
-import React from "react";
-import {Button, Container, Table} from "react-bootstrap";
-import './StaffInterface.css'
+import React, {useEffect, useState} from "react";
+import {Container, Table} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import host from './host';
+import Cookies from 'universal-cookie';
+import './StaffInterface.css';
 
-function ScooterManagement() {
-    const map_locations = [
-        ["Trinity Centre", [53.798351, -1.545100], "A"],
-        ["Train Station", [53.796770, -1.540510], "B"],
-        ["Merrion Centre", [53.801270, -1.543190], "C"],
-        ["Leeds General Infirmary Hospital", [53.802509, -1.552887], "D"],
-        ["UoL Edge Sports Centre", [53.804167, -1.553208], "E"],
-    ]
-    const scooters = [
-        [100, "Scooter A", "Available", map_locations[0]],
-        [101, "Scooter B", "Available", map_locations[0]],
-        [102, "Scooter C", "Available", map_locations[0]],
-        [103, "Scooter D", "Available", map_locations[0]],
-        [104, "Scooter E", "Available", map_locations[0]],
-        [105, "Scooter F", "Available", map_locations[0]],
-        [106, "Scooter G", "Available", map_locations[0]],
-        [107, "Scooter H", "Available", map_locations[0]],
-        [108, "Scooter I", "Available", map_locations[0]],
-        [109, "Scooter J", "Available", map_locations[0]],
-        [200, "Scooter K", "Available", map_locations[0]],
-        [201, "Scooter L", "Available", map_locations[0]],
-        [202, "Scooter M", "Available", map_locations[0]],
-        [203, "Scooter N", "Available", map_locations[0]],
-        [204, "Scooter O", "Available", map_locations[0]],
-        [205, "Scooter P", "Available", map_locations[0]],
-        [206, "Scooter Q", "Available", map_locations[0]],
-        [207, "Scooter R", "Available", map_locations[0]],
-        [208, "Scooter S", "Available", map_locations[0]],
-        [209, "Scooter T", "Available", map_locations[0]]]
+export default function ScooterManagement({map_locations}) {
+    const cookies = new Cookies();
+    const [scooters, setScooters] = useState('');
+    const scooterStatus = ["In Depot", "Ongoing Order", "Pending Return", "Unavailable By Staff"];
+
+    useEffect(() => {
+        fetchScooters();
+    }, []);
+
+    async function fetchScooters() {
+        try {
+            let request = await fetch(host + "api/admin/Scooters", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setScooters(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function editScooter(id, availability) {
+        try {
+            await fetch(host + `api/admin/Scooters/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    "available": !availability
+                }),
+                mode: "cors"
+            });
+            alert("Changed scooter details.");
+            await fetchScooters();
+        } catch (error) {
+            console.error(error);
+        }
+        await fetchScooters();
+    }
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Scooter Management</h1>
             <br/>
             <Container>
-                <h3>Configure scooter availability</h3>
+                <h3>View Scooters</h3>
                 <br/>
-                <div className="scroll-scooters">
+                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover style={{tableLayout: 'fixed'}}>
                         <thead>
                         <tr>
                             <th>Scooter ID</th>
-                            <th>Name</th>
+                            <th>Availability</th>
                             <th>Status</th>
-                            <th>Action</th>
                             <th>Location</th>
+                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {scooters.map((scooter, idx) => (
-                            <tr>
-                                <td key={idx}>{scooter[0]}</td>
-                                <td key={idx}>{scooter[1]}</td>
-                                <td key={idx}>{scooter[2]}</td>
-                                <td key={idx}><Button>Make unavailable</Button></td>
-                                <td key={idx}>{scooter[3][2]} - {scooter[3][0]}</td>
-                            </tr>
-                        ))}
+                        {(scooters === '') ? null :
+                            scooters.map((scooter, idx) => (
+                                <tr key={idx}>
+                                    <td>{scooter.softScooterId}</td>
+                                    <td>{(scooter.available ? "Available" : "Unavailable")}</td>
+                                    <td>{scooterStatus[scooter.scooterStatus]}</td>
+                                    <td>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</td>
+                                    <td>
+                                        <a onClick={() => editScooter(scooter.scooterId, scooter.available)}
+                                           href="#/employee-change-availability">
+                                            {(scooter.available ? "Make Unavailable" : "Make Available")}
+                                        </a>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </Table>
                 </div>
             </Container>
         </>
     );
-}
-
-export default ScooterManagement;
+};

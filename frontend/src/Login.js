@@ -1,18 +1,17 @@
 import React, {useState} from "react";
-import {InputGroup, Button, Modal} from "react-bootstrap";
+import {Button, InputGroup, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
-
-function LoginForm(props) {
+export default function LoginForm(props) {
+    const cookies = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     async function onSubmit() {
         try {
-            const request = await fetch(host + 'api/Users/authorize', {
+            let request = await fetch(host + 'api/Users/authorize', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,28 +23,24 @@ function LoginForm(props) {
                 }),
                 mode: "cors"
             });
-            const response = await request.json();
-            try {
-                if (email === "admin@inertia" && password === "admin") {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accountRole", "manager", {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onManager();
-                } else if (response.account.role === 2) {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accountRole", "employee", {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onEmployee();
+            let response = await request.json();
+            if (response.accessToken) {
+                alert(`Logged in as ${response.account.name}.`);
+                cookies.set("accountID", response.account.accountId, {path: '/'});
+                cookies.set("accountName", response.account.name, {path: '/'});
+                cookies.set("accountRole", response.account.role, {path: '/'});
+                cookies.set("accessToken", response.accessToken, {path: '/'});
+                if (response.account.role === 2) {
+                    props.showmanager();
+                } else if (response.account.role === 1) {
+                    props.showemployee();
                 } else if (response.account.role === 0) {
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accountRole", "customer", {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    props.onCustomer();
+                    props.showcustomer();
                 } else {
                     console.log(response);
                 }
-            } catch (error) {
-                console.log(error)
+            } else {
+                alert("Login credentials invalid.");
             }
         } catch (error) {
             console.error(error);
@@ -53,38 +48,25 @@ function LoginForm(props) {
     }
 
     return (
-        <Modal
-            {...props}
-            centered
-        >
+        <Modal {...props} centered>
             <Modal.Header closeButton>
-                <Modal.Title>
-                    Login
-                </Modal.Title>
+                <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="text" name="email" placeholder="Enter email address"
-                           onInput={e => setEmail(e.target.value)} required/>
+                    <input type="text" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="password" name="password" placeholder="Enter password"
-                           onInput={e => setPassword(e.target.value)} required/>
+                    <input type="password" placeholder="Enter password" onInput={e => setPassword(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <u>Forgot Password?</u>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={props.onHide}>
-                    Cancel
-                </Button>
-                <Button variant="primary" onClick={onSubmit}>
-                    Login
-                </Button>
+                <Button variant="danger" onClick={props.onHide}>Cancel</Button>
+                <Button onClick={onSubmit}>Login</Button>
             </Modal.Footer>
         </Modal>
     );
-}
-
-export default LoginForm;
+};

@@ -1,6 +1,7 @@
 using inertia.Dtos;
 using inertia.Enums;
 using inertia.Exceptions;
+using inertia.Models;
 using inertia.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ public class UsersController : MyControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(List<Account>), 200)]
     public async Task<ActionResult> GetUsers()
     {
         var users = await _db.Accounts
@@ -35,6 +37,8 @@ public class UsersController : MyControllerBase
     }
 
     [HttpGet("{accountId}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Account), 200)]
     public async Task<ActionResult> GetUser(string accountId)
     {
         var account = await _db.Accounts
@@ -48,6 +52,8 @@ public class UsersController : MyControllerBase
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(CreateUserResponse), 200)]
     public async Task<ActionResult<CreateUserResponse>> CreateUser([FromBody] CreateUserRequest request)
     {
         try
@@ -71,6 +77,8 @@ public class UsersController : MyControllerBase
     }
     
     [HttpPatch("{accountId}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Account), 200)]
     public async Task<ActionResult> PatchUser(string accountId, [FromBody] PatchUserRequest request)
     {
         var account = await _db.Accounts

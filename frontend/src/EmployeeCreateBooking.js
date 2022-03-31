@@ -1,40 +1,128 @@
-import React from "react";
-import {Button, Col, Form, Row, Container} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import './StaffInterface.css'
+import host from "./host";
+import center from "./center";
+import Cookies from "universal-cookie";
+import './StaffInterface.css';
 
-function CreateBooking() {
-    const map_locations = [
-        ["Trinity Centre", [53.798351, -1.545100], "A"],
-        ["Train Station", [53.796770, -1.540510], "B"],
-        ["Merrion Centre", [53.801270, -1.543190], "C"],
-        ["Leeds General Infirmary Hospital", [53.802509, -1.552887], "D"],
-        ["UoL Edge Sports Centre", [53.804167, -1.553208], "E"],
-    ]
-    const center = [53.8010441, -1.5497378]
-    const scooters = [
-        [100, "Scooter A", "Available", map_locations[0]],
-        [101, "Scooter B", "Available", map_locations[0]],
-        [102, "Scooter C", "Available", map_locations[0]],
-        [103, "Scooter D", "Available", map_locations[0]],
-        [104, "Scooter E", "Available", map_locations[0]],
-        [105, "Scooter F", "Available", map_locations[0]],
-        [106, "Scooter G", "Available", map_locations[0]],
-        [107, "Scooter H", "Available", map_locations[0]],
-        [108, "Scooter I", "Available", map_locations[0]],
-        [109, "Scooter J", "Available", map_locations[0]],
-        [200, "Scooter K", "Available", map_locations[0]],
-        [201, "Scooter L", "Available", map_locations[0]],
-        [202, "Scooter M", "Available", map_locations[0]],
-        [203, "Scooter N", "Available", map_locations[0]],
-        [204, "Scooter O", "Available", map_locations[0]],
-        [205, "Scooter P", "Available", map_locations[0]],
-        [206, "Scooter Q", "Available", map_locations[0]],
-        [207, "Scooter R", "Available", map_locations[0]],
-        [208, "Scooter S", "Available", map_locations[0]],
-        [209, "Scooter T", "Available", map_locations[0]]]
-    const times = ["1 hour", "4 hours", "1 day", "1 week"]
-    const price = [10, 30, 100, 1000]
+export default function CreateBooking({map_locations}) {
+    const cookies = new Cookies();
+    const [scooters, setScooters] = useState('');
+    const [email, setEmail] = useState('');
+    const [confirmEmail, setConfirmEmail] = useState('');
+    const [phoneNo, setPhoneNo] = useState('');
+    const [hireOptions, setHireOptions] = useState('');
+    const [hireChoiceId, setHireChoiceId] = useState('');
+    const [price, setPrice] = useState('');
+    const [scooterChoiceId, setScooterChoiceId] = useState('');
+    const [cardNo, setCardNo] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cvv, setCVV] = useState('');
+
+    useEffect(() => {
+        fetchAvailableScooters();
+        fetchHirePeriods();
+    }, []);
+
+    async function fetchAvailableScooters() {
+        try {
+            let request = await fetch(host + "api/Scooters/available", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setScooters(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function fetchHirePeriods() {
+        try {
+            let request = await fetch(host + "api/HireOptions", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setHireOptions(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function createGuestBooking() {
+        if (email !== confirmEmail) {
+            alert("Customer email and confirm email addresses do not match.");
+            return;
+        }
+        if (!(email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))) {
+            alert("Email address is invalid.");
+            return;
+        }
+        if (!(phoneNo.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/))) {
+            alert("Phone number is invalid.");
+            return;
+        }
+        if (!(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/))) {
+            alert("Expiry date is invalid. Must in the form \"MM/YY\"");
+            return;
+        }
+        if (cardNo.length < 0 || cardNo.length > 15) {
+            alert("Credit card number is invalid.");
+            return;
+        }
+        if (!(cvv.match(/^[0-9]{3,4}$/))) {
+            alert("CVV code is invalid.");
+            return;
+        }
+        if (scooterChoiceId === '' || scooterChoiceId === 'none') {
+            alert("Select a scooter.");
+            return;
+        }
+        if (hireChoiceId === '' || hireChoiceId === 'none') {
+            alert("Select a hire option.");
+            return;
+        }
+        try {
+            let request = await fetch(host + "api/admin/Orders/CreateGuestOrder", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    "email": email,
+                    "phoneNumber": phoneNo,
+                    "hireOptionId": parseInt(hireChoiceId),
+                    "scooterId": parseInt(scooterChoiceId),
+                    "startTime": new Date(Date.now()).toISOString()
+                }),
+                mode: "cors"
+            });
+            let response = await request;
+            if (response.status === 200) {
+                alert("Created guest booking.");
+            } else if (response.status === 422) {
+                alert("Scooter is currently unavailable.");
+            } else {
+                alert("Could not create booking.");
+            }
+        } catch (e) {
+            console.log(e);
+        }
+        await fetchAvailableScooters();
+    }
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Create Booking</h1>
@@ -46,28 +134,39 @@ function CreateBooking() {
                         <br/>
                         <Form>
                             <Form.Group>
-                                <Form.Label><b>Name</b></Form.Label>
-                                <Form.Control type="name" required as="input"/>
+                                <Form.Label><b>Customer Email Address</b></Form.Label>
+                                <Form.Control type="email" placeholder="Enter customer email address"
+                                              onInput={e => setEmail(e.target.value)}/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Form.Label><b>User Email</b></Form.Label>
-                                <Form.Control type="email" required as="input"/>
+                                <Form.Label><b>Confirm Customer Email Address</b></Form.Label>
+                                <Form.Control type="email" placeholder="Confirm customer email address"
+                                              onInput={e => setConfirmEmail(e.target.value)}/>
+                            </Form.Group>
+                            <br/>
+                            <Form.Group>
+                                <Form.Label><b>Customer Phone Number</b></Form.Label>
+                                <Form.Control type="text" placeholder="Enter customer phone number"
+                                              onInput={e => setPhoneNo(e.target.value)}/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Card Number</b></Form.Label>
-                                <Form.Control type="text" required as="input"/>
+                                <Form.Control type="text" placeholder="Enter customer card number"
+                                              onInput={e => setCardNo(e.target.value)}/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Expiry Date</b></Form.Label>
-                                <Form.Control type="text" required as="input"/>
+                                <Form.Control type="text" placeholder="Enter customer card expiry date"
+                                              onInput={e => setExpiry(e.target.value)}/>
                             </Form.Group>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>CVV</b></Form.Label>
-                                <Form.Control type="password" required as="input"/>
+                                <Form.Control type="text" placeholder="Enter customer card cvv code"
+                                              onInput={e => setCVV(e.target.value)}/>
                             </Form.Group>
                         </Form>
                     </Col>
@@ -77,41 +176,51 @@ function CreateBooking() {
                         <br/>
                         <Form>
                             <Form.Group>
-                                <Form.Label><b>Select Location</b></Form.Label>
-                                <Form.Select className="dropdown-basic-button" title="Select location">
-                                    {map_locations.map((location, idx) => (
-                                        <option key={idx}>{location[2]} - {location[0]}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                            <br/>
-                            <br/>
-                            <Form.Group>
                                 <Form.Label><b>Select Scooter</b></Form.Label>
-                                <Form.Select className="dropdown-basic-button" title="Select scooter">
-                                    {scooters.map((scooter, idx) => (
-                                        <option key={idx}>{scooter[0]} - {scooter[1]}</option>
-                                    ))}
-                                </Form.Select>
+                                {(scooters === '') ?
+                                    <h6>Loading...</h6> :
+                                    <Form.Select
+                                        onChange={(e) => {
+                                            setScooterChoiceId(e.target.value);
+                                        }}
+                                    >
+                                        <option value="none" key="none">Select a scooter...</option>
+                                        {scooters.map((scooter, idx) => (
+                                            <option value={scooter.scooterId} key={idx}>
+                                                Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
+                                        ))}
+                                    </Form.Select>
+                                }
                             </Form.Group>
-                            <br/>
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Hire Period</b></Form.Label>
-                                <Form.Select className="dropdown-basic-button" title="Select hire period">
-                                    {times.map((time, idx) => (
-                                        <option key={idx}>{time} - £{price[idx]}</option>
-                                    ))}
-                                </Form.Select>
+                                {(hireOptions === '') ?
+                                    <h6>Loading...</h6> :
+                                    <Form.Select
+                                        onChange={(e) => {
+                                            let value = e.target.value.split(',')
+                                            setHireChoiceId(value[0]);
+                                            setPrice(value[1])
+                                        }}
+                                    >
+                                        <option value="none" key="none">Select a hire option slot...</option>
+                                        {hireOptions.map((option, idx) => (
+                                            <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
+                                                £{option.cost}</option>
+                                        ))}
+                                    </Form.Select>
+                                }
                             </Form.Group>
                             <br/>
-                            <br/>
                             <Form.Group>
-                                <Form.Label><b>Total Cost: £{price[0].toFixed(2)}</b></Form.Label>
+                                {(isNaN(parseFloat(price))) ? null :
+                                    <Form.Label><b>Total Cost: £{parseFloat(price).toFixed(2)}</b></Form.Label>
+                                }
                             </Form.Group>
                             <br/>
                             <Form.Group>
-                                <Button variant="primary" style={{float: "right"}}>Confirm Booking</Button>
+                                <Button style={{float: "right"}} onClick={createGuestBooking}>Confirm Booking</Button>
                             </Form.Group>
                         </Form>
                     </Col>
@@ -122,8 +231,8 @@ function CreateBooking() {
                                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                             {map_locations.map((map_location, index) => (
-                                <Marker key={index} position={map_location[1]}>
-                                    <Popup>{map_location[0]}</Popup>
+                                <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
+                                    <Popup>{map_location.name}</Popup>
                                 </Marker>
                             ))}
                         </MapContainer>
@@ -131,8 +240,5 @@ function CreateBooking() {
                 </Row>
             </Container>
         </>
-    )
-        ;
-}
-
-export default CreateBooking;
+    );
+};

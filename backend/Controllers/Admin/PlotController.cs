@@ -20,6 +20,7 @@ public class PlotController : MyControllerBase
     }
 
     [HttpGet("weekly")]
+    [ProducesResponseType(typeof(Plot), 200)]
     public async Task<ActionResult> PlotWeeklyIncome([FromQuery] bool separateHireOptions)
     {
         if (!separateHireOptions)
@@ -113,6 +114,7 @@ public class PlotController : MyControllerBase
     }
 
     [HttpGet("combinedDaily")]
+    [ProducesResponseType(typeof(PlotBarChart), 200)]
     public async Task<ActionResult> PlotCombinedDaily()
     {
         var hireOptions = await _db.HireOptions

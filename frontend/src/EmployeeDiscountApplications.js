@@ -50,6 +50,33 @@ export default function DiscountApplications() {
         }
     }
 
+    async function getImage(id) {
+        try {
+            let request = await fetch(host + `api/admin/DiscountApplications/${id}/Image`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            // setImage(await request.blob());
+
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64data = reader.result;
+                console.log(base64data);
+            }
+            const imageBlob = await request.blob();
+            reader.readAsDataURL(imageBlob);
+            console.log(reader)
+            setImage(reader)
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Manage Discount Applications</h1>
@@ -64,7 +91,8 @@ export default function DiscountApplications() {
                                 {image ?
                                     <>
                                         <h6>Image Preview</h6>
-                                        {/*<img src={URL.createObjectURL(image)}/>*/}
+                                        <img alt="Image Preview" src={URL.createObjectURL(image)}/>
+                                        <br/>
                                         <br/>
                                     </>
                                     : null
@@ -85,7 +113,7 @@ export default function DiscountApplications() {
                                             <td>{application.account.name}</td>
                                             <td>{application.account.email}</td>
                                             <td>{applicationType[application.disccountType]}</td>
-                                            <td><a onClick={() => setImage(application.discountApplicationId)}
+                                            <td><a onClick={() => getImage(application.discountApplicationId)}
                                                    href="#/employee-view-discount-applications">View</a></td>
                                             <td>
                                                 <a onClick={() => applicationAction(application.discountApplicationId, "Approve")}

@@ -8,7 +8,7 @@ export default function BookingHistory() {
     const cookies = new Cookies();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
-    const orderState = ["Cancelled", "PendingApproval", "Upcoming", "Ongoing", "PendingReturn", "Completed", "Denied"];
+    const orderState = ["Cancelled", "Pending Approval", "Upcoming", "Ongoing", "Pending Return", "Completed", "Denied"];
 
     useEffect(() => {
         fetchBookings();
@@ -26,6 +26,7 @@ export default function BookingHistory() {
                 mode: "cors"
             });
             setBookingHistory(await request.json());
+            console.log(bookingHistory)
         } catch (e) {
             console.log(e);
         }

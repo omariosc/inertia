@@ -68,7 +68,7 @@ export default function ScooterManagement({map_locations}) {
                             <th>Availability</th>
                             <th>Status</th>
                             <th>Location</th>
-                            <th>Action</th>
+                            <th>Change Availability</th>
                         </tr>
                         </thead>
                         <tbody>

@@ -10,15 +10,6 @@ export default function DiscountApplications() {
     const [applications, setApplications] = useState('');
     const [image, setImage] = useState(null);
     const applicationType = ["Student", "Senior"];
-    const init = {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${cookies.get('accessToken')}`
-        },
-        mode: "cors"
-    };
 
     useEffect(() => {
         fetchApplications();
@@ -43,7 +34,15 @@ export default function DiscountApplications() {
 
     async function applicationAction(id, choice) {
         try {
-            await fetch(host + `api/admin/DiscountApplications/${id}/${choice}`, init);
+            await fetch(host + `api/admin/DiscountApplications/${id}/${choice}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
             await fetchApplications();
         } catch (e) {
             console.log(e);
@@ -61,17 +60,7 @@ export default function DiscountApplications() {
                 },
                 mode: "cors"
             });
-            // setImage(await request.blob());
-
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const base64data = reader.result;
-                console.log(base64data);
-            }
-            const imageBlob = await request.blob();
-            reader.readAsDataURL(imageBlob);
-            console.log(reader)
-            setImage(reader)
+            setImage(await request.blob());
         } catch (e) {
             console.log(e);
         }
@@ -91,7 +80,7 @@ export default function DiscountApplications() {
                                 {image ?
                                     <>
                                         <h6>Image Preview</h6>
-                                        <img alt="Image Preview" src={URL.createObjectURL(image)}/>
+                                        <img alt="Image Preview" src={URL.createObjectURL(image)} height="300px"/>
                                         <br/>
                                         <br/>
                                     </>

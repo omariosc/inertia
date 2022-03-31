@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import validateCard from "./cardValidator";
 import host from "./host";
 import center from "./center";
 import Cookies from "universal-cookie";
@@ -72,16 +73,7 @@ export default function CreateBooking({map_locations}) {
             alert("Phone number is invalid.");
             return;
         }
-        if (!(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/))) {
-            alert("Expiry date is invalid. Must in the form \"MM/YY\"");
-            return;
-        }
-        if (cardNo.length < 0 || cardNo.length > 15) {
-            alert("Credit card number is invalid.");
-            return;
-        }
-        if (!(cvv.match(/^[0-9]{3,4}$/))) {
-            alert("CVV code is invalid.");
+        if (!validateCard(cardNo, expiry, cvv)) {
             return;
         }
         if (scooterChoiceId === '' || scooterChoiceId === 'none') {

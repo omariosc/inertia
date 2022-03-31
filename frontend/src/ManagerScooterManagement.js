@@ -19,33 +19,41 @@ export default function ScooterManagement({map_locations}) {
 
     useEffect(() => {
         fetchScooters();
-        fetchHirePeriods()
+        fetchHirePeriods();
     }, []);
 
     async function fetchScooters() {
-        let request = await fetch(host + "api/admin/Scooters", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            mode: "cors"
-        });
-        setScooters(await request.json());
+        try {
+            let request = await fetch(host + "api/admin/Scooters", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setScooters(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     async function fetchHirePeriods() {
-        let request = await fetch(host + "api/HireOptions", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            mode: "cors"
-        });
-        setHireOptions(await request.json());
+        try {
+            let request = await fetch(host + "api/HireOptions", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setHireOptions(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     async function changePrice() {
@@ -175,7 +183,8 @@ export default function ScooterManagement({map_locations}) {
                                         >
                                             <option value="none" key="none">Select a time slot...</option>
                                             {hireOptions.map((option, idx) => (
-                                                <option key={idx} value={option.hireOptionId}>{option.name} - £{option.cost}</option>
+                                                <option key={idx} value={option.hireOptionId}>{option.name} -
+                                                    £{option.cost}</option>
                                             ))}
                                         </Form.Select>
                                     }

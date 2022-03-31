@@ -8,6 +8,7 @@ export default function BookingHistory() {
     const cookies = new Cookies();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
+    const orderState = ["Cancelled", "PendingApproval", "Upcoming", "Ongoing", "PendingReturn", "Completed", "Denied"];
 
     useEffect(() => {
         fetchBookings();
@@ -30,6 +31,17 @@ export default function BookingHistory() {
         }
     }
 
+    function showDate(date) {
+        return new Intl.DateTimeFormat('en', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric'
+        }).format(new Date(date));
+    }
+
     return (
         <>
             {(bookingHistory === '') ?
@@ -47,10 +59,32 @@ export default function BookingHistory() {
                                             <td><b>Booking ID:</b></td>
                                             <td>{booking.orderId}</td>
                                         </tr>
+                                        {(booking.scooter) ?
+                                            <tr>
+                                                <td><b>Scooter ID:</b></td>
+                                                <td>{booking.scooter.softScooterId}</td>
+                                            </tr>
+                                            :
+                                            <tr>
+                                                <td><b>Scooter:</b></td>
+                                                <td>{booking.scooterId}</td>
+                                            </tr>
+                                        }
                                         <tr>
-                                            <td><b>Scooter ID:</b></td>
-                                            <td>{booking.scooterId}</td>
+                                            <td><b>Customer ID:</b></td>
+                                            <td>{booking.accountId}</td>
                                         </tr>
+                                        {(booking.account) ?
+                                            <>
+                                                {(booking.account.depo) ?
+                                                    <tr>
+                                                        <td><b>Depot:</b></td>
+                                                        <td>{booking.account.depo.name}</td>
+                                                    </tr> : null
+                                                }
+                                            </>
+                                            : null
+                                        }
                                         <tr>
                                             <td><b>Hire Option:</b></td>
                                             <td>{booking.hireOption.name}</td>
@@ -65,15 +99,23 @@ export default function BookingHistory() {
                                         </tr>
                                         <tr>
                                             <td><b>Created At:</b></td>
-                                            <td>{booking.createdAt}</td>
+                                            <td>{showDate(booking.createdAt)}</td>
                                         </tr>
                                         <tr>
                                             <td><b>Start Time:</b></td>
-                                            <td>{booking.startTime}</td>
+                                            <td>{showDate(booking.startTime)}</td>
                                         </tr>
                                         <tr>
                                             <td><b>End Time:</b></td>
-                                            <td>{booking.endTime}</td>
+                                            <td>{showDate(booking.endTime)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Extensions:</b></td>
+                                            <td>{(booking.extensions ? booking.extensions.length : "None")}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Order Status:</b></td>
+                                            <td>{orderState[booking.orderState]}</td>
                                         </tr>
                                         </tbody>
                                     </Table>
@@ -90,10 +132,7 @@ export default function BookingHistory() {
                                     {bookingHistory.map((booking, idx) => (
                                         <tr key={idx}>
                                             <td>{booking.orderId}</td>
-                                            <td><a onClick={() => {
-                                                setBooking(bookingHistory[idx]);
-                                                console.log(booking)
-                                            }}
+                                            <td><a onClick={() => setBooking(bookingHistory[idx])}
                                                    href="#/view-booking">View</a>
                                             </td>
                                         </tr>

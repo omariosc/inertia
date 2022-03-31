@@ -37,6 +37,7 @@ export default function SubmitIssue() {
             console.log(e);
         }
     }
+
     return (
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -55,4 +56,4 @@ export default function SubmitIssue() {
             </Form.Group>
         </Form>
     );
-}
+};

@@ -24,29 +24,37 @@ export default function CreateBooking({map_locations}) {
     }, []);
 
     async function fetchHirePeriods() {
-        let request = await fetch(host + "api/HireOptions", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            mode: "cors"
-        });
-        setHireOptions(await request.json());
+        try {
+            let request = await fetch(host + "api/HireOptions", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setHireOptions(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     async function fetchScooters() {
-        let request = await fetch(host + "api/Scooters/available", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            mode: "cors"
-        });
-        setScooters(await request.json());
+        try {
+            let request = await fetch(host + "api/Scooters/available", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setScooters(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     async function makeBooking() {
@@ -212,4 +220,4 @@ export default function CreateBooking({map_locations}) {
             </Form>
         </div>
     );
-}
+};

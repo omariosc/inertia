@@ -69,4 +69,4 @@ export default function RegisterForm(props) {
             </Modal.Footer>
         </Modal>
     );
-}
+};

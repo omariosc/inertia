@@ -1,5 +1,5 @@
 import React from "react";
-import {InputGroup, Button, Modal, Form, Container, Row, Col} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Modal, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 import {CardElement, useElements, useStripe,} from "@stripe/react-stripe-js";
 import host from "./host";
@@ -22,16 +22,17 @@ function Order({show, onHide, location, loggedIn}) {
                 mode: "cors"
             });
             const {data: clientSecret} = await request.json();
-            const cardElement = elements.getElement(CardElement)
+            const cardElement = elements.getElement(CardElement);
             const paymentMethodRequest = await stripe.createPaymentMethod({
                 type: "card",
                 card: cardElement
-            })
-            const confirmedCardPayment = await stripe.confirmCardPayment(clientSecret, {
+            });
+            // const confirmedCardPayment = await stripe.confirmCardPayment(clientSecret, {
+            await stripe.confirmCardPayment(clientSecret, {
                 payment_method: paymentMethodRequest.paymentMethod.id,
-            })
+            });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
 
     }

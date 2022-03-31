@@ -48,15 +48,19 @@ const App = () => {
     }
 
     async function fetchLocations() {
-        let request = await fetch(host + "api/Depos", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            mode: "cors"
-        });
-        setMapLocations(await request.json());
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     function CustomerLogin() {

@@ -104,4 +104,4 @@ export default function CustomerSettings({isDark, toggle}) {
             </Form>
         </>
     );
-}
+};

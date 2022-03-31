@@ -8,7 +8,8 @@ export default function OngoingBookings() {
         [101, "sc20osc@leeds.ac.uk", "4 hours", "17/03/22 12:54"],
         [103, "sc20jdr@leeds.ac.uk", "1 day", "18/03/22 18:53"],
         [105, "sc20mf@leeds.ac.uk", "1 week", "24/03/22 15:33"]
-    ]
+    ];
+
     return (
         <>
             <h1 style={{paddingLeft: '10px'}}>Ongoing Bookings</h1>
@@ -46,4 +47,4 @@ export default function OngoingBookings() {
             </Container>
         </>
     );
-}
+};

@@ -10,41 +10,49 @@ export default function Issues() {
     const [issues, setIssues] = useState('');
 
     useEffect(() => {
-        fetchIssues()
+        fetchIssues();
     }, []);
 
     async function fetchIssues(sortOption = null) {
-        let request = await fetch(host + "api/admin/Issues/?closed=false&priority=3", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            mode: "cors"
-        });
-        let response = await request.json();
-        const sortFunctions = {
-            '1': (a, b) => b.issueId - a.issueId,
-            '2': (a, b) => a.issueId - b.issueId
+        try {
+            let request = await fetch(host + "api/admin/Issues/?closed=false&priority=3", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let response = await request.json();
+            const sortFunctions = {
+                '1': (a, b) => b.issueId - a.issueId,
+                '2': (a, b) => a.issueId - b.issueId
+            }
+            setIssues(response.sort(sortFunctions[sortOption]));
+        } catch (error) {
+            console.error(error);
         }
-        setIssues(response.sort(sortFunctions[sortOption]));
     }
 
     async function resolveIssue(id) {
-        await fetch(host + `api/admin/Issues/${id}`, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            body: JSON.stringify({
-                "resolution": "Resolved"
-            }),
-            mode: "cors"
-        });
-        await fetchIssues();
+        try {
+            await fetch(host + `api/admin/Issues/${id}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    "resolution": "Resolved"
+                }),
+                mode: "cors"
+            });
+            await fetchIssues();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

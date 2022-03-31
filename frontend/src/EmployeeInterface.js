@@ -8,7 +8,7 @@ import OngoingBookings from './EmployeeOngoingBookings';
 import ScooterManagement from './EmployeeScooterManagement';
 import SubmitIssue from './EmployeeSubmitIssues';
 import ManageIssues from './EmployeeManageIssues';
-import DiscountApplication from './EmployeeDiscountApplications'
+import DiscountApplication from './EmployeeDiscountApplications';
 import StaffSettings from './StaffSettings';
 import './StaffInterface.css';
 
@@ -22,6 +22,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
     const [showSubmitIssue, setShowSubmitIssue] = useState(false);
     const [showManageIssues, setShowManageIssues] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+
     return (
         <div className="clickable">
             <Row>
@@ -175,4 +176,4 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
             </Row>
         </div>
     );
-}
+};

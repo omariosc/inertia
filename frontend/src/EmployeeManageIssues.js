@@ -11,27 +11,31 @@ export default function ManageIssues() {
     const priorities = ["None", "Low", "Medium", "High"];
 
     useEffect(() => {
-        fetchIssues()
+        fetchIssues();
     }, []);
 
     async function fetchIssues(sortOption = null) {
-        let request = await fetch(host + "api/admin/Issues/?closed=false", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            mode: "cors"
-        });
-        let response = await request.json();
-        const sortFunctions = {
-            '1': (a, b) => b.issueId - a.issueId,
-            '2': (a, b) => a.issueId - b.issueId,
-            '3': (a, b) => a.priority - b.priority,
-            '4': (a, b) => b.priority - a.priority
+        try {
+            let request = await fetch(host + "api/admin/Issues/?closed=false", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let response = await request.json();
+            const sortFunctions = {
+                '1': (a, b) => b.issueId - a.issueId,
+                '2': (a, b) => a.issueId - b.issueId,
+                '3': (a, b) => a.priority - b.priority,
+                '4': (a, b) => b.priority - a.priority
+            }
+            setIssues(response.sort(sortFunctions[sortOption]));
+        } catch (error) {
+            console.error(error);
         }
-        setIssues(response.sort(sortFunctions[sortOption]));
     }
 
     async function editIssue(id, changePriority = false) {
@@ -42,17 +46,21 @@ export default function ManageIssues() {
             alert("You must select a priority.");
             return;
         }
-        await fetch(host + `api/admin/Issues/${id}`, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
-            },
-            body: JSON.stringify(requestBody),
-            mode: "cors"
-        });
-        await fetchIssues();
+        try {
+            await fetch(host + `api/admin/Issues/${id}`, {
+                method: "PATCH",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify(requestBody),
+                mode: "cors"
+            });
+            await fetchIssues();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

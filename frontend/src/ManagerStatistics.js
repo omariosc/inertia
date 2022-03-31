@@ -27,12 +27,16 @@ export default function Statistics({isDark}) {
             },
             mode: "cors"
         }
-        let weeklyDataRequest = await fetch(host + "api/admin/Plot/weekly?separateHireOptions=true", init);
-        setWeeklyData(await weeklyDataRequest.json());
-        let weeklyHiresDataRequest = await fetch(host + "api/admin/Plot/weekly?separateHireOptions=false", init);
-        setWeeklyHiresData(await weeklyHiresDataRequest.json());
-        let combinedDailyDataRequest = await fetch(host + "api/admin/Plot/combinedDaily", init);
-        setCombinedDailyData(await combinedDailyDataRequest.json());
+        try {
+            let weeklyDataRequest = await fetch(host + "api/admin/Plot/weekly?separateHireOptions=true", init);
+            setWeeklyData(await weeklyDataRequest.json());
+            let weeklyHiresDataRequest = await fetch(host + "api/admin/Plot/weekly?separateHireOptions=false", init);
+            setWeeklyHiresData(await weeklyHiresDataRequest.json());
+            let combinedDailyDataRequest = await fetch(host + "api/admin/Plot/combinedDaily", init);
+            setCombinedDailyData(await combinedDailyDataRequest.json());
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (

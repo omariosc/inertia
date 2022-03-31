@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Row, Col, Nav, Navbar} from "react-bootstrap";
+import {Row, Col, Nav} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
 import CreateBooking from "./CustomerCreateBooking";
 import OngoingBookings from "./CustomerOngoingBooking";
@@ -8,7 +8,7 @@ import CustomerSettings from './CustomerSettings';
 import Discounts from "./CustomerDiscounts";
 import SubmitIssue from "./CustomerSubmitIssue";
 
-function CustomerInterface({isDark, toggle, map_locations}) {
+export default function CustomerInterface({isDark, toggle, map_locations}) {
     const [showCreateBooking, setShowCreateBooking] = useState(true);
     const [showCurrentBookings, setShowCurrentBookings] = useState(false);
     const [showBookingHistory, setShowBookingHistory] = useState(false);
@@ -17,7 +17,6 @@ function CustomerInterface({isDark, toggle, map_locations}) {
     const [showSettings, setShowSettings] = useState(false);
     return (
         <div id="account-page">
-
             <Row>
                 <Col lg={4} xs={12} className="customer-column border-end border-dark">
                     <h1>INERTIA</h1>
@@ -109,6 +108,4 @@ function CustomerInterface({isDark, toggle, map_locations}) {
             </Row>
         </div>
     );
-}
-
-export default CustomerInterface;
+};

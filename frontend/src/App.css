@@ -70,7 +70,7 @@
     padding-left: 15%;
     padding-top: 2%;
     padding-right: 25%;
-    overflow:scroll;
+    overflow: scroll;
 }
 
 .customer-column {
@@ -89,7 +89,12 @@
 
 /* Large desktops and laptops */
 @media (min-width: 1200px) {
-
+    #account-page {
+        pointer-events: all;
+        position: relative;
+        overflow-x: hidden;
+        border: none;
+    }
 }
 
 /* Landscape tablets and medium desktops */
@@ -105,7 +110,7 @@
         padding-left: 15%;
         padding-right: 10%;
         padding-top: 2%;
-        overflow:scroll;
+        overflow: hidden;
         border: none;
     }
 
@@ -124,7 +129,6 @@
     .customer-navigation {
         flex-direction: row;
     }
-
 }
 
 /* Landscape phones and portrait tablets */
@@ -135,7 +139,7 @@
         padding-left: 15%;
         padding-right: 10%;
         padding-top: 2%;
-        overflow:scroll;
+        overflow: scroll;
         border: none;
     }
 
@@ -163,7 +167,7 @@
         padding-left: 3%;
         padding-right: 3%;
         padding-top: 2%;
-        overflow:scroll;
+        overflow: scroll;
         border: none;
     }
 

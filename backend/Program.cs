@@ -4,7 +4,7 @@ using System.Text;
 using inertia;
 using inertia.Authorization;
 using inertia.Services;
-
+using inertia.Util;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -105,6 +105,9 @@ builder.Services
 
         options.DefaultPolicy = options.GetPolicy(Policies.Authenticated)!;
     });
+
+builder.Services.AddControllers(options =>
+    options.InputFormatters.Add(new ByteArrayInputFormatter()));
 
 var app = builder.Build();
 

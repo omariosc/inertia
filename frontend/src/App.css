@@ -75,7 +75,7 @@
 
 .customer-column {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     border-block-end: black;
     border: black;
 

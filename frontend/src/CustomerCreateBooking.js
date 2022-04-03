@@ -222,7 +222,7 @@ export default function CreateBooking({map_locations}) {
                             <option value="none" key="none">Select a hire option slot...</option>
                             {hireOptions.map((option, idx) => (
                                 <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
-                                    £{option.cost}</option>
+                                     £{option.cost}</option>
                             ))}
                         </Form.Select>
                     }

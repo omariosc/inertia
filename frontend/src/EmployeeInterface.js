@@ -3,8 +3,9 @@ import {Col, Nav, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from './StaffDashboard';
 import CreateBooking from './EmployeeCreateBooking';
-import BookingHistory from './EmployeeBookingHistory';
+import BookingApplications from './EmployeeBookingApplications';
 import OngoingBookings from './EmployeeOngoingBookings';
+import BookingHistory from './EmployeeBookingHistory';
 import ScooterManagement from './EmployeeScooterManagement';
 import SubmitIssue from './EmployeeSubmitIssues';
 import ManageIssues from './EmployeeManageIssues';
@@ -15,8 +16,9 @@ import './StaffInterface.css';
 export default function EmployeeInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showCreateBooking, setShowCreateBooking] = useState(false);
-    const [showBookingHistory, setShowBookingHistory] = useState(false);
+    const [showBookingApplications, setShowBookingApplications] = useState(false);
     const [showOngoingBookings, setShowOngoingBookings] = useState(false);
+    const [showBookingHistory, setShowBookingHistory] = useState(false);
     const [showManageDiscountApplications, setShowManageDiscountApplications] = useState(false);
     const [showScooterManagement, setShowScooterManagement] = useState(false);
     const [showSubmitIssue, setShowSubmitIssue] = useState(false);
@@ -36,8 +38,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(true);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -48,8 +51,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(true);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -60,8 +64,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(true);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -72,8 +77,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(true);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -84,8 +90,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(true);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(true);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -96,8 +103,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(true);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -108,8 +116,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(true);
@@ -120,8 +129,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -132,6 +142,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
+                            setShowBookingApplications(false);
                             setShowBookingHistory(false);
                             setShowOngoingBookings(false);
                             setShowScooterManagement(false);
@@ -144,8 +155,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
-                            setShowBookingHistory(false);
+                            setShowBookingApplications(false);
                             setShowOngoingBookings(false);
+                            setShowBookingHistory(false);
                             setShowScooterManagement(false);
                             setShowManageDiscountApplications(false);
                             setShowSubmitIssue(false);
@@ -160,8 +172,9 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
                         {showCreateBooking ? <CreateBooking map_locations={map_locations}
                                                             onHide={() => setShowCreateBooking(false)}/> : null}
-                        {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
+                        {showBookingApplications ? <BookingApplications onHide={() => setShowBookingApplications(false)}/> : null}
                         {showOngoingBookings ? <OngoingBookings onHide={() => setShowOngoingBookings(false)}/> : null}
+                        {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
                         {showScooterManagement ?
                             <ScooterManagement map_locations={map_locations}
                                                onHide={() => setShowScooterManagement(false)}/> : null}

@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {Table} from "react-bootstrap";
+import {Form, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "./host";
 import Cookies from "universal-cookie";
-import './StaffInterface.css';
 
 export default function OngoingBookings() {
     const cookies = new Cookies();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
+    const [hireOptions, setHireOptions] = useState('');
+    const [hireChoiceId, setHireChoiceId] = useState('');
     const orderState = ["Cancelled", "Pending Approval", "Upcoming", "Ongoing", "Pending Return", "Completed", "Denied"];
 
     useEffect(() => {
         fetchBookings();
+        fetchHirePeriods();
     }, []);
 
     async function fetchBookings() {
@@ -28,7 +30,7 @@ export default function OngoingBookings() {
             });
             let allBookings = await request.json();
             let ongoingBookings = [];
-            for (let i = 0; i < allBookings.length; i ++) {
+            for (let i = 0; i < allBookings.length; i++) {
                 if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
                     ongoingBookings.push(allBookings[i]);
                 }
@@ -36,6 +38,23 @@ export default function OngoingBookings() {
             setBookingHistory(ongoingBookings);
         } catch (e) {
             console.log(e);
+        }
+    }
+
+    async function fetchHirePeriods() {
+        try {
+            let request = await fetch(host + "api/HireOptions", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setHireOptions(await request.json());
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -49,7 +68,7 @@ export default function OngoingBookings() {
                     'Authorization': `Bearer ${cookies.get('accessToken')}`
                 },
                 body: JSON.stringify({
-                    'hireOptionId': 0
+                    'hireOptionId': parseInt(hireChoiceId)
                 }),
                 mode: "cors"
             });
@@ -127,10 +146,6 @@ export default function OngoingBookings() {
                                                 <td>{booking.scooterId}</td>
                                             </tr>
                                         }
-                                        <tr>
-                                            <td><b>Customer ID:</b></td>
-                                            <td>{booking.accountId}</td>
-                                        </tr>
                                         {(booking.account) ?
                                             <>
                                                 {(booking.account.depo) ?
@@ -168,7 +183,7 @@ export default function OngoingBookings() {
                                         </tr>
                                         <tr>
                                             <td><b>Extensions:</b></td>
-                                            <td>{(booking.extensions ? booking.extensions.length : "None")}</td>
+                                            <td>{((booking.extensions.length !== 0) ? booking.extensions.length : "None")}</td>
                                         </tr>
                                         <tr>
                                             <td><b>Order Status:</b></td>
@@ -191,26 +206,47 @@ export default function OngoingBookings() {
                                     </thead>
                                     <tbody>
                                     {(bookingHistory === '') ?
-                                        <h6>Loading orders...</h6> :
+                                        <h6>Loading bookings...</h6> :
                                         <>
                                             {bookingHistory.map((booking, idx) => (
-                                                <tr>
+                                                <tr key={idx}>
                                                     <td>{booking.scooterId}</td>
                                                     <td>{booking.hireOption.name}</td>
                                                     <td>{showDate(booking.endTime)}</td>
                                                     <td>
                                                         {(booking.orderState === 1) ? "N/A (Pending Approval)" :
-                                                            <a onClick={() => extendBooking(booking.orderId)}
-                                                            color="green"
-                                                            href="#/extend"
-                                                            >Extend</a>
+                                                            <>
+                                                                {(hireOptions === '') ?
+                                                                    <h6>Loading hire options...</h6> :
+                                                                    <Form.Select
+                                                                        onChange={(e) => {
+                                                                            setHireChoiceId(e.target.value);
+                                                                        }}
+                                                                    >
+                                                                        <option value="none" key="none">Select a hire
+                                                                            option slot...
+                                                                        </option>
+                                                                        {hireOptions.map((option, idx) => (
+                                                                            <option key={idx}
+                                                                                    value={option.hireOptionId}>{option.name} -
+                                                                                £{option.cost}</option>
+                                                                        ))}
+                                                                    </Form.Select>
+                                                                }
+                                                                <a onClick={() => extendBooking(booking.orderId)}
+                                                                   color="green"
+                                                                   href="#/extend"
+                                                                >Extend</a>
+                                                            </>
                                                         }
                                                     </td>
                                                     <td>
-                                                        <a onClick={() => cancelBooking(booking.orderId)}
-                                                           color="red"
-                                                           href="#/cancel"
-                                                        >Cancel</a>
+                                                        {(booking.orderState === 2) ? "N/A (Booking is upcoming)" :
+                                                            <a onClick={() => cancelBooking(booking.orderId)}
+                                                               color="red"
+                                                               href="#/cancel"
+                                                            >Cancel</a>
+                                                        }
                                                     </td>
                                                     <td>
                                                         <a onClick={() => setBooking(bookingHistory[idx])}

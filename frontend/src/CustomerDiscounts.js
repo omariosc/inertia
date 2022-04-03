@@ -123,7 +123,7 @@ export default function Discounts() {
     return (
         <>
             {(loading === '') ?
-                <h6>Loading...</h6> :
+                <h6>Loading discount status...</h6> :
                 <>
                     {(!frequentUser && !studentUser && !seniorUser) ?
 

@@ -63,7 +63,7 @@ export default function CustomerSettings({isDark, toggle}) {
             <br/>
             <h5>Account Information</h5>
             {(accountInfo === '') ?
-                <h6>Loading...</h6> :
+                <h6>Loading account information...</h6> :
                 <Table>
                     <tbody>
                     <tr>

@@ -72,7 +72,7 @@ export default function DiscountApplications() {
             <br/>
             <Container>
                 {(applications === '') ?
-                    <h6>Loading...</h6> :
+                    <h6>Loading discount applications...</h6> :
                     <>
                         {(applications.length === 0) ?
                             <h6>There are currently no discount applications.</h6> :

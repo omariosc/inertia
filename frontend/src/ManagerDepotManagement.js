@@ -157,7 +157,7 @@ export default function DepotManagement() {
             <br/>
             <Container>
                 {(depots === '') ?
-                    <h6>Loading...</h6> :
+                    <h6>Loading depots...</h6> :
                     <>
                         {(depots.length === 0) ?
                             <h6>There are no hire options.</h6> :

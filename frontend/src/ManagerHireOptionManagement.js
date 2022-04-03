@@ -168,7 +168,7 @@ export default function HireOptionManagement() {
             <br/>
             <Container>
                 {(hireOptions === '') ?
-                    <h6>Loading...</h6> :
+                    <h6>Loading hire options...</h6> :
                     <>
                         {(hireOptions.length === 0) ?
                             <h6>There are no hire options.</h6> :

@@ -170,7 +170,7 @@ export default function CreateBooking({map_locations}) {
                             <Form.Group>
                                 <Form.Label><b>Select Scooter</b></Form.Label>
                                 {(scooters === '') ?
-                                    <h6>Loading...</h6> :
+                                    <h6>Loading scooters...</h6> :
                                     <Form.Select
                                         onChange={(e) => {
                                             setScooterChoiceId(e.target.value);
@@ -188,7 +188,7 @@ export default function CreateBooking({map_locations}) {
                             <Form.Group>
                                 <Form.Label><b>Select Hire Period</b></Form.Label>
                                 {(hireOptions === '') ?
-                                    <h6>Loading...</h6> :
+                                    <h6>Loading hire options...</h6> :
                                     <Form.Select
                                         onChange={(e) => {
                                             let value = e.target.value.split(',')

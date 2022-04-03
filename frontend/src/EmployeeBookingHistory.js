@@ -79,7 +79,7 @@ export default function BookingHistory() {
                     <Col xs={6}>
                         <h3 style={{paddingBottom: "20px"}}>All Bookings</h3>
                         {(userBookings === '' || guestBookings === '') ?
-                            <h6>Loading...</h6> :
+                            <h6>Loading bookings...</h6> :
                             <>
                                 <div className="scroll" style={{maxHeight: "40rem"}}>
                                     <Table striped bordered hover>

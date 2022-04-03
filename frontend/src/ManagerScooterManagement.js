@@ -154,7 +154,7 @@ export default function ScooterManagement({map_locations}) {
             <br/>
             <Container>
                 {(scooters === '') ?
-                    <h6>Loading...</h6> :
+                    <h6>Loading scooters...</h6> :
                     <>
                         {(scooters.length === 0) ?
                             <h6>There are no scooters.</h6> :

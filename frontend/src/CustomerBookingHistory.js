@@ -26,7 +26,6 @@ export default function BookingHistory() {
                 mode: "cors"
             });
             setBookingHistory(await request.json());
-            console.log(bookingHistory)
         } catch (e) {
             console.log(e);
         }
@@ -46,7 +45,7 @@ export default function BookingHistory() {
     return (
         <>
             {(bookingHistory === '') ?
-                <h6>Loading...</h6> :
+                <h6>Loading booking history...</h6> :
                 <>
                     {(bookingHistory.length === 0) ?
                         <h6>You have no bookings.</h6> :

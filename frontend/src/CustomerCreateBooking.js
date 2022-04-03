@@ -7,6 +7,7 @@ import host from "./host";
 import center from "./center";
 import Cookies from 'universal-cookie';
 import './StaffInterface.css';
+import moment from "moment";
 
 export default function CreateBooking({map_locations}) {
     const cookies = new Cookies();
@@ -18,12 +19,69 @@ export default function CreateBooking({map_locations}) {
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
-    const discount = 0;
+    const [discount, setDiscount] = useState(false);
+    const [loading, setLoading] = useState('');
+    const scooterStatus = ["In Depot", "Ongoing Order", "Pending Return", "Unavailable By Staff"];
 
     useEffect(() => {
         fetchAvailableScooters();
         fetchHirePeriods();
+        fetchDiscountStatus();
     }, []);
+
+    async function getDiscountStatus() {
+        try {
+            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let response = await request.json();
+            let thresholdDate = moment().subtract(1, 'week').toISOString()
+            let recentBookings = response.filter(e => e.createdAt >= thresholdDate);
+            let recentHours = 0;
+            for (let i = 0; i < recentBookings.length; i++) {
+                recentHours += recentBookings[i].hireOption.durationInHours;
+                if (recentBookings[i]["extensions"] != null) {
+                    for (let j = 0; j < recentBookings[i]["extensions"].length; j++) {
+                        recentHours += recentBookings[i]["extensions"][j].hireOption.durationInHours;
+                    }
+                }
+            }
+            if (recentHours >= 8) {
+                setDiscount(true);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async function fetchDiscountStatus() {
+        try {
+            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let response = await request.json();
+            if (response.userType === 0 || response.userType === 1) {
+                setDiscount(true);
+            } else {
+                await getDiscountStatus();
+            }
+            setLoading('complete');
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     async function fetchHirePeriods() {
         try {
@@ -68,8 +126,10 @@ export default function CreateBooking({map_locations}) {
             alert("Select a hire option.");
             return;
         }
-        if (!validateCard(cardNo, expiry, cvv)) {
-            return;
+        if (checkCardExists()) {
+            if (!validateCard(cardNo, expiry, cvv)) {
+                return;
+            }
         }
         try {
             let request = await fetch(host + "api/Orders", {
@@ -80,24 +140,25 @@ export default function CreateBooking({map_locations}) {
                     'Authorization': `Bearer ${cookies.get('accessToken')}`
                 },
                 body: JSON.stringify({
-                    'hireOptionId': parseInt(scooterChoiceId),
-                    'scooterId': parseInt(hireChoiceId),
-                    "startTime": new Date(Date.now()).toISOString()
+                    'hireOptionId': parseInt(hireChoiceId),
+                    'scooterId': parseInt(scooterChoiceId),
+                    'startTime': new Date(Date.now()).toISOString(),
+                    'discount': discount ? 0.9 * parseFloat(price) : price
                 }),
                 mode: "cors"
             });
             let response = await request;
-            console.log(response)
-            if (response.status !== 200) {
-                alert("Could not create booking.");
-            } else if (response.status === 422) {
+            if (response.status === 422) {
                 alert("Scooter is currently unavailable.");
+            } else if (response.status !== 200) {
+                alert("Could not create booking.");
             } else {
                 alert("Created booking.");
-                console.log(response.json())
-                cookies.set('cardNumber', cardNo, {path: '/'});
-                cookies.set('expiryDate', expiry, {path: '/'});
-                cookies.set('cvv', cvv, {path: '/'});
+                if (checkCardExists()) {
+                    cookies.set('cardNumber', cardNo, {path: '/'});
+                    cookies.set('expiryDate', expiry, {path: '/'});
+                    cookies.set('cvv', cvv, {path: '/'});
+                }
             }
         } catch (error) {
             console.error(error);
@@ -126,7 +187,8 @@ export default function CreateBooking({map_locations}) {
                             <option value="none" key="none">Select a scooter...</option>
                             {scooters.map((scooter, idx) => (
                                 <option value={scooter.scooterId} key={idx}>
-                                    Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
+                                    Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})
+                                    ({scooterStatus[scooter.scooterStatus]})</option>
                             ))}
                         </Form.Select>
                     }
@@ -165,23 +227,27 @@ export default function CreateBooking({map_locations}) {
                 </Form.Group>
                 <br/>
                 <div>
-                    {(discount !== 0) ?
+                    {(loading === '') ? null :
                         <>
-                            <Form.Group style={{float: "right", paddingRight: "15px"}}>
-                                <Form.Label>
-                                    <h6>10% Discount applied.
-                                {(hireChoiceId === '') ? null :
-                                    ` Total Cost: £${(0.9 * parseFloat(price)).toFixed(2)}`
-                                }
-                                    </h6>
-                                </Form.Label>
-                            </Form.Group>
-                        </> : <>
-                            {(hireChoiceId === '') ? null :
-                                <Form.Group style={{float: "right", paddingRight: "15px"}}>
-                                    <Form.Label><h6>Total Cost: £{parseFloat(price).toFixed(2)}</h6>
-                                    </Form.Label>
-                                </Form.Group>
+                            {(discount) ?
+                                <>
+                                    <Form.Group style={{float: "right", paddingRight: "15px"}}>
+                                        <Form.Label>
+                                            <h6>10% Discount applied.
+                                                {(hireChoiceId === '') ? null :
+                                                    ` Total Cost: £${(0.9 * parseFloat(price)).toFixed(2)}`
+                                                }
+                                            </h6>
+                                        </Form.Label>
+                                    </Form.Group>
+                                </> : <>
+                                    {(hireChoiceId === '') ? null :
+                                        <Form.Group style={{float: "right", paddingRight: "15px"}}>
+                                            <Form.Label><h6>Total Cost: £{parseFloat(price).toFixed(2)}</h6>
+                                            </Form.Label>
+                                        </Form.Group>
+                                    }
+                                </>
                             }
                         </>
                     }
@@ -215,7 +281,8 @@ export default function CreateBooking({map_locations}) {
                     :
                     <>
                         <h6>Using Stored Card Details:</h6>
-                        <p style={{margin: "0"}}>Card Number: **** **** **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}</p>
+                        <p style={{margin: "0"}}>Card Number: **** ****
+                            **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}</p>
                         <p style={{margin: "0"}}>Expiry Date: {cookies.get('expiryDate')}</p>
                         <p style={{margin: "0"}}>CVV: {cookies.get('cvv')}</p>
                         <br/>

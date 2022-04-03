@@ -37,7 +37,7 @@ export default function HireOptionManagement() {
     }
 
     async function editHireOption(id, mode) {
-        const json = {}
+        const json = {};
         switch (mode) {
             case 1:
                 if (newName === '') {
@@ -83,7 +83,7 @@ export default function HireOptionManagement() {
             });
             let response = await request;
             if (response.status === 200) {
-                alert("Modified hire option");
+                alert("Modified hire option.");
             } else {
                 alert("Could not modify hire option.");
             }
@@ -129,7 +129,7 @@ export default function HireOptionManagement() {
             });
             let response = await request;
             if (response.status === 200) {
-                alert("Created new hire option");
+                alert("Created new hire option.");
             } else {
                 alert("Could not create hire option.");
             }

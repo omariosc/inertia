@@ -92,11 +92,11 @@ export default function BookingHistory() {
                                         </tr>
                                         <tr>
                                             <td><b>Cost:</b></td>
-                                            <td>£{booking.cost}</td>
+                                            <td>£{booking.cost.toFixed(2)}</td>
                                         </tr>
                                         <tr>
                                             <td><b>Discount:</b></td>
-                                            <td>£{booking.discount}</td>
+                                            <td>£{booking.discount.toFixed(2)}</td>
                                         </tr>
                                         <tr>
                                             <td><b>Created At:</b></td>

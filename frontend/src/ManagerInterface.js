@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from './StaffDashboard.js';
 import ScooterManagement from './ManagerScooterManagement.js';
 import HireOptionManagement from "./ManagerHireOptionManagement";
+import DepotManagement from "./ManagerDepotManagement";
 import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';
 import AccountManagement from './ManagerAccountManagement.js';
@@ -125,7 +126,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
                         {showScooter ? <ScooterManagement map_locations={map_locations} onHide={() => setShowScooter(false)}/> : null}
                         {showHireOption ? <HireOptionManagement onHide={() => setShowHireOption(false)}/> : null}
-                        {/*{showDepot ? <DepotManagement map_locations={map_locations} onHide={() => setShowDepot(false)}/> : null}*/}
+                        {showDepot ? <DepotManagement map_locations={map_locations} onHide={() => setShowDepot(false)}/> : null}
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
                         {showStatistics ? <Statistics isDark={isDark} onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}

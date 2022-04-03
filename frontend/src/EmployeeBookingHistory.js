@@ -10,7 +10,6 @@ export default function BookingHistory() {
     const [userBookings, setUserBookings] = useState('');
     const [guestBookings, setGuestBookings] = useState('');
     const [booking, setBooking] = useState('');
-    const [showBooking, setShowBooking] = useState(false);
     const orderState = ["Cancelled", "PendingApproval", "Upcoming", "Ongoing", "PendingReturn", "Completed", "Denied"];
 
     useEffect(() => {
@@ -58,7 +57,6 @@ export default function BookingHistory() {
         } else {
             setBooking(guestBookings[id]);
         }
-        setShowBooking(true);
     }
 
     function showDate(date) {
@@ -179,11 +177,11 @@ export default function BookingHistory() {
                                 }
                                 <tr>
                                     <td><b>Cost:</b></td>
-                                    <td>£{booking.cost}</td>
+                                    <td>£{booking.cost.toFixed(2)}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Discount:</b></td>
-                                    <td>£{booking.discount}</td>
+                                    <td>£{booking.discount.toFixed(2)}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Created At:</b></td>

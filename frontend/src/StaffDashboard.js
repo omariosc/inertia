@@ -55,7 +55,7 @@ export default function Dashboard() {
             <br/>
             <Container>
                 {(data === "") ?
-                    <h5>Loading...</h5>
+                    <h6>Loading...</h6>
                     : <div>
                         <Row>
                             {Object.keys(data).map((key, idx) => (

@@ -230,7 +230,7 @@ const App = () => {
                                       onHide={() => setShowManager(false)}/> : null}
             </div>
             {(map_locations === "") ?
-                <h5>Loading...</h5> :
+                <h5>Loading map locations...</h5> :
                 <>
                     {showLanding ? <LandingPage center={center} map_locations={map_locations}
                                                 onHide={() => setShowLanding(false)}/>

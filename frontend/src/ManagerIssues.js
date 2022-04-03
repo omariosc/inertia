@@ -61,7 +61,7 @@ export default function Issues() {
             <br/>
             <Container>
                 {(issues === '') ?
-                    <h6>Loading...</h6> :
+                    <h6>Loading issues...</h6> :
                     <>
                         <div style={{float: "right"}}>
                             <Form.Select onChange={(e) => {

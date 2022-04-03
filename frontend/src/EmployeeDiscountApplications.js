@@ -10,15 +10,6 @@ export default function DiscountApplications() {
     const [applications, setApplications] = useState('');
     const [image, setImage] = useState(null);
     const applicationType = ["Student", "Senior"];
-    const init = {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${cookies.get('accessToken')}`
-        },
-        mode: "cors"
-    };
 
     useEffect(() => {
         fetchApplications();
@@ -43,8 +34,33 @@ export default function DiscountApplications() {
 
     async function applicationAction(id, choice) {
         try {
-            await fetch(host + `api/admin/DiscountApplications/${id}/${choice}`, init);
+            await fetch(host + `api/admin/DiscountApplications/${id}/${choice}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
             await fetchApplications();
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async function getImage(id) {
+        try {
+            let request = await fetch(host + `api/admin/DiscountApplications/${id}/Image`, {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            setImage(await request.blob());
         } catch (e) {
             console.log(e);
         }
@@ -56,7 +72,7 @@ export default function DiscountApplications() {
             <br/>
             <Container>
                 {(applications === '') ?
-                    <h6>Loading...</h6> :
+                    <h6>Loading discount applications...</h6> :
                     <>
                         {(applications.length === 0) ?
                             <h6>There are currently no discount applications.</h6> :
@@ -64,7 +80,8 @@ export default function DiscountApplications() {
                                 {image ?
                                     <>
                                         <h6>Image Preview</h6>
-                                        {/*<img src={URL.createObjectURL(image)}/>*/}
+                                        <img alt="Image Preview" src={URL.createObjectURL(image)} height="300px"/>
+                                        <br/>
                                         <br/>
                                     </>
                                     : null
@@ -85,7 +102,7 @@ export default function DiscountApplications() {
                                             <td>{application.account.name}</td>
                                             <td>{application.account.email}</td>
                                             <td>{applicationType[application.disccountType]}</td>
-                                            <td><a onClick={() => setImage(application.discountApplicationId)}
+                                            <td><a onClick={() => getImage(application.discountApplicationId)}
                                                    href="#/employee-view-discount-applications">View</a></td>
                                             <td>
                                                 <a onClick={() => applicationAction(application.discountApplicationId, "Approve")}

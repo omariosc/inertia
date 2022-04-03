@@ -1,19 +1,21 @@
 import React, {useState} from "react";
 import {Nav, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from './StaffDashboard';
-import ScooterManagement from './ManagerScooterManagement';
-import Issues from './ManagerIssues';
-import Statistics from './ManagerStatistics';
-import AccountManagement from './ManagerAccountManagement';
-import StaffSettings from './StaffSettings';
+import Dashboard from './StaffDashboard.js';
+import ScooterManagement from './ManagerScooterManagement.js';
+import HireOptionManagement from "./ManagerHireOptionManagement";
+import DepotManagement from "./ManagerDepotManagement";
+import Issues from './ManagerIssues.js';
+import Statistics from './ManagerStatistics.js';
+import AccountManagement from './ManagerAccountManagement.js';
+import StaffSettings from './StaffSettings.js';
 import './StaffInterface.css';
 
 export default function ManagerInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
     const [showScooter, setShowScooter] = useState(false);
-    const [showDepo, setShowDepot] = useState(false);
-    const [showHireOptions, setShowHireOptions] = useState(false);
+    const [showHireOption, setShowHireOption] = useState(false);
+    const [showDepot, setShowDepot] = useState(false);
     const [showIssues, setShowIssues] = useState(false);
     const [showStatistics, setShowStatistics] = useState(false);
     const [showAccounts, setShowAccounts] = useState(false);
@@ -24,7 +26,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
             <Row>
                 <Col xs={2} className="border-end border-dark">
                     <Nav
-                        defaultActiveKey="#/manager-dashboard"
+                        defaultActiveKey="#/dashboard"
                         variant="pills"
                         className="flex-column"
                         style={{paddingLeft: "15px", color: "black"}}
@@ -32,8 +34,8 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(true);
                             setShowScooter(false);
+                            setShowHireOption(false);
                             setShowDepot(false);
-                            setShowHireOptions(false);
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(false);
@@ -43,52 +45,52 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(true);
+                            setShowHireOption(false);
                             setShowDepot(false);
-                            setShowHireOptions(false);
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-scooter-management">Scooter Management</Nav.Link>
-                        {/*<Nav.Link onClick={() => {
+                                  href="#/manager-scooters">Scooter Management</Nav.Link>
+                        <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
+                            setShowHireOption(true);
+                            setShowDepot(false);
+                            setShowIssues(false);
+                            setShowStatistics(false);
+                            setShowAccounts(false);
+                            setShowSettings(false);
+                        }}
+                                  href="#/manager-hire-options">Hire Option Management</Nav.Link>
+                        <Nav.Link onClick={() => {
+                            setShowDashboard(false);
+                            setShowScooter(false);
+                            setShowHireOption(false);
                             setShowDepot(true);
-                            setShowHireOptions(false);
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-depot-management">Depot Management</Nav.Link>
+                                  href="#/manager-depot">Depot Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
+                            setShowHireOption(false);
                             setShowDepot(false);
-                            setShowHireOptions(true);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-hire-options-management">Hire Option Management</Nav.Link>*/}
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowDepot(false);
-                            setShowHireOptions(false);
                             setShowIssues(true);
                             setShowStatistics(false);
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-issues">High Priority Issues</Nav.Link>
+                                  href="#/manager-issues">Issues</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
+                            setShowHireOption(false);
                             setShowDepot(false);
-                            setShowHireOptions(false);
                             setShowIssues(false);
                             setShowStatistics(true);
                             setShowAccounts(false);
@@ -98,19 +100,19 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
+                            setShowHireOption(false);
                             setShowDepot(false);
-                            setShowHireOptions(false);
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(true);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-account-management">Create Employee Account</Nav.Link>
+                                  href="#/manager-accounts">Account Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
+                            setShowHireOption(false);
                             setShowDepot(false);
-                            setShowHireOptions(false);
                             setShowIssues(false);
                             setShowStatistics(false);
                             setShowAccounts(false);
@@ -123,6 +125,8 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                     <>
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
                         {showScooter ? <ScooterManagement map_locations={map_locations} onHide={() => setShowScooter(false)}/> : null}
+                        {showHireOption ? <HireOptionManagement onHide={() => setShowHireOption(false)}/> : null}
+                        {showDepot ? <DepotManagement map_locations={map_locations} onHide={() => setShowDepot(false)}/> : null}
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
                         {showStatistics ? <Statistics isDark={isDark} onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}

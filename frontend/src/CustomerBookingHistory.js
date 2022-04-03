@@ -8,7 +8,7 @@ export default function BookingHistory() {
     const cookies = new Cookies();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
-    const orderState = ["Cancelled", "PendingApproval", "Upcoming", "Ongoing", "PendingReturn", "Completed", "Denied"];
+    const orderState = ["Cancelled", "Pending Approval", "Upcoming", "Ongoing", "Pending Return", "Completed", "Denied"];
 
     useEffect(() => {
         fetchBookings();
@@ -45,7 +45,7 @@ export default function BookingHistory() {
     return (
         <>
             {(bookingHistory === '') ?
-                <h6>Loading...</h6> :
+                <h6>Loading booking history...</h6> :
                 <>
                     {(bookingHistory.length === 0) ?
                         <h6>You have no bookings.</h6> :
@@ -91,11 +91,11 @@ export default function BookingHistory() {
                                         </tr>
                                         <tr>
                                             <td><b>Cost:</b></td>
-                                            <td>£{booking.cost}</td>
+                                            <td>£{booking.cost.toFixed(2)}</td>
                                         </tr>
                                         <tr>
                                             <td><b>Discount:</b></td>
-                                            <td>£{booking.discount}</td>
+                                            <td>£{booking.discount.toFixed(2)}</td>
                                         </tr>
                                         <tr>
                                             <td><b>Created At:</b></td>

@@ -186,9 +186,11 @@ export default function CreateBooking({map_locations}) {
                         >
                             <option value="none" key="none">Select a scooter...</option>
                             {scooters.map((scooter, idx) => (
-                                <option value={scooter.scooterId} key={idx}>
-                                    Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})
-                                    ({scooterStatus[scooter.scooterStatus]})</option>
+                                (scooter.scooterStatus === 0) ?
+                                    <option value={scooter.scooterId} key={idx}>
+                                        Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})
+                                        ({scooterStatus[scooter.scooterStatus]})</option>
+                                    : null
                             ))}
                         </Form.Select>
                     }

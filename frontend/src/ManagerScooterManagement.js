@@ -9,6 +9,8 @@ export default function ScooterManagement({map_locations}) {
     const cookies = new Cookies();
     const [scooters, setScooters] = useState('');
     const [newID, setScooterNewId] = useState('');
+    const [createID, setCreateId] = useState('');
+    const [createDepo, setCreateDepo] = useState('');
     const scooterStatus = ["In Depot", "Ongoing Order", "Pending Return", "Unavailable By Staff"];
 
     useEffect(() => {
@@ -67,10 +69,78 @@ export default function ScooterManagement({map_locations}) {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Modified scooter");
+            if (response.status === 422) {
+                alert("Scooter ID is already taken.");
+            } else if (response.status === 200) {
+                alert("Modified scooter.");
             } else {
                 alert("Could not modify scooter.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        await fetchScooters();
+    }
+
+    async function createScooter() {
+        if (!(createID.match(/^\d+$/))) {
+            alert("Scooter ID must be an integer.");
+            return;
+        }
+        for (let scooter in scooters) {
+            if (createID === scooter.softScooterId) {
+                alert("Scooter ID already exists.")
+                return;
+            }
+        }
+        if (createDepo === '' || createDepo === 'none') {
+            alert("Depot selection cannot be empty.")
+            return;
+        }
+        try {
+            let request = await fetch(host + `api/admin/Scooters`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                body: JSON.stringify({
+                    "softScooterId": parseInt(createID),
+                    "name": createID,
+                    "depoId": parseInt(createDepo),
+                    "available": true
+                }),
+                mode: "cors"
+            });
+            let response = await request;
+            if (response.status === 200) {
+                alert("Created new scooter.");
+            } else {
+                alert("Could not create scooter.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        await fetchScooters();
+    }
+
+    async function deleteScooter(id) {
+        try {
+            let request = await fetch(host + `api/admin/Scooters/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+            let response = await request;
+            if (response.status === 200) {
+                alert("Deleted scooter.");
+            } else {
+                alert("Could not delete scooter.");
             }
         } catch (error) {
             console.error(error);
@@ -96,6 +166,7 @@ export default function ScooterManagement({map_locations}) {
                                         <th>Availability</th>
                                         <th>Status</th>
                                         <th>Location</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -108,7 +179,7 @@ export default function ScooterManagement({map_locations}) {
                                                            onInput={e => setScooterNewId(e.target.value)}/>
                                                 </InputGroup>
                                                 <a onClick={() => {
-                                                    if (scooter.scooterId !== parseInt(newId)) {
+                                                    if (scooter.scooterId !== parseInt(newID)) {
                                                         editScooter(scooter.scooterId, 2);
                                                     } else {
                                                         alert("Scooter ID cannot be the same");
@@ -145,8 +216,46 @@ export default function ScooterManagement({map_locations}) {
                                                     </Form.Select>
                                                 </Form>
                                             </td>
+                                            <td>
+                                                <a onClick={() => deleteScooter(scooter.scooterId)}
+                                                   href="#/manager-delete-scooter" color="red">
+                                                    Delete
+                                                </a>
+                                            </td>
                                         </tr>
                                     ))}
+                                    <tr key="create">
+                                        <td>
+                                            <InputGroup>
+                                                <input type="text" placeholder="Enter new ID"
+                                                       onInput={e => setCreateId(e.target.value)}/>
+                                            </InputGroup>
+                                        </td>
+                                        <td>Available (by default)</td>
+                                        <td>In Depot (by default)</td>
+                                        <td>
+                                            <Form>
+                                                <Form.Select
+                                                    onChange={(e) => {
+                                                        setCreateDepo(e.target.value);
+                                                    }}
+                                                >
+                                                    <option value="none" key="none">Select location...</option>
+                                                    {map_locations.map((location, idx) => (
+                                                        <option value={location.depoId} key={idx}>
+                                                            {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                        </option>
+                                                    ))}
+                                                </Form.Select>
+                                            </Form>
+                                        </td>
+                                        <td>
+                                            <a onClick={createScooter}
+                                               href="#/manager-create-scooter" color="green">
+                                                Create New
+                                            </a>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </Table>
                             </div>

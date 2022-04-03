@@ -165,10 +165,10 @@ export default function DepotManagement() {
                                 <Table striped bordered hover>
                                     <thead>
                                     <tr>
-                                        <th>Hire Option ID</th>
-                                        <th>Duration (hours)</th>
+                                        <th>Depot ID</th>
                                         <th>Name</th>
-                                        <th>Cost (£)</th>
+                                        <th>Latitude</th>
+                                        <th>Longitude</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>

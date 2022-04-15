@@ -106,7 +106,7 @@ public class DbInitializer
         }
         
         var staffTask = users.CreateAccount(
-            "admin@inertia", 
+            "admin@inertia",
             passwordAccounts[0], 
             "Root Account",
             UserType.Regular, 
@@ -240,7 +240,7 @@ public class DbInitializer
             jessie
         };
 
-        List<AbstractOrder> orders = new List<AbstractOrder>();
+        List<Order> orders = new List<Order>();
         DateTime startTime = DateTime.Today - TimeSpan.FromDays(61);
 
         int currentScooter = 0;

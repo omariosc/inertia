@@ -2,7 +2,7 @@ namespace inertia.Dtos;
 
 public record CreateGuestOrderRequest(
     string Email,
-    string PhoneNumber,
+    string Name,
     int HireOptionId,
     int ScooterId,
     DateTime StartTime

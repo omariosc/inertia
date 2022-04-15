@@ -19,43 +19,54 @@ public class OrdersController : MyControllerBase
     private readonly InertiaContext _db;
     private readonly InertiaService _inertia;
     private readonly EmailService _email;
+    private readonly UsersService _users;
 
-    public OrdersController(InertiaContext db, InertiaService inertia, EmailService email)
+    public OrdersController(InertiaContext db, InertiaService inertia, EmailService email, UsersService users)
     {
         _db = db;
         _inertia = inertia;
         _email = email;
+        _users = users;
     }
 
-    [HttpGet("AccountOrders")]
-    [ProducesResponseType(typeof(Order), 200)]
-    public async Task<ActionResult> ListOrders()
+    [HttpGet]
+    public async Task<ActionResult<List<Order>>> ListOrders()
     {
         var list = await _db.Orders
-            .OfType<Order>()
             .Include(e => e.Scooter)
-            .Include(e => e.Extensions)
+            .Include(e => e.HireOption)
             .Where(e => e.ExtendsId == null)
             .ToListAsync();
         return Ok(list);
     }
     
-    [HttpGet("GuestOrders")]
-    [ProducesResponseType(typeof(List<GuestOrder>), 200)]
-    public async Task<ActionResult> ListGuestOrders()
+    [HttpGet("{orderId}")]
+    [ProducesResponseType(typeof(ApplicationError), 422)]
+    [ProducesResponseType(typeof(Order), 200)]
+    public async Task<ActionResult> ListOrders(string orderId)
     {
-        var list = await _db.Orders
-            .OfType<GuestOrder>()
+        var order = await _db.Orders
             .Include(e => e.Scooter)
+            .Include(e => e.HireOption)
             .Include(e => e.Extensions)
-            .Where(e => e.ExtendsId == null)
-            .ToListAsync();
-        return Ok(list);
-    }
+            .Where(e => e.ExtendsId == null && e.OrderId == orderId)
+            .FirstOrDefaultAsync();
 
+        if (order is null)
+        {
+            return ApplicationError(
+                ApplicationErrorCode.InvalidEntity,
+                "invalid order id",
+                "order"
+            );
+        }
+        
+        return Ok(order);
+    }
+    
     [HttpPost("CreateGuestOrder")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
-    [ProducesResponseType(typeof(AbstractOrder), 200)]
+    [ProducesResponseType(typeof(Order), 200)]
     public async Task<ActionResult> CreateGuestOrder([FromBody] CreateGuestOrderRequest createOrder)
     {
         var scooter = await _db.Scooters
@@ -84,11 +95,33 @@ public class OrdersController : MyControllerBase
             );
         }
 
+        var account = await _db.Accounts
+            .Where(a => a.Email == createOrder.Email)
+            .FirstOrDefaultAsync();
+
+        if (account != null && account.Role != AccountRole.Guest)
+        {
+            return ApplicationError(
+                ApplicationErrorCode.CannotCreateGuestBookingForRegisteredUser,
+                "email provided is associated with a non-guest account"
+            );
+        }
+
+        if (account == null)
+        {
+            account = await _users.CreateAccount(
+                createOrder.Email,
+                "",
+                createOrder.Name,
+                UserType.Regular,
+                AccountRole.Guest
+            );
+        }
+
         try
         {
-            var order = await _inertia.CreateGuestOrder(
-                createOrder.Email,
-                createOrder.PhoneNumber,
+            var order = await _inertia.CreateOrder(
+                account,
                 scooter,
                 hireOption,
                 createOrder.StartTime
@@ -141,7 +174,7 @@ public class OrdersController : MyControllerBase
 
     [HttpPost("{orderId}/extend")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
-    [ProducesResponseType(typeof(AbstractOrder), 200)]
+    [ProducesResponseType(typeof(Order), 200)]
     public async Task<ActionResult> ExtendOrder(string orderId, [FromBody] ExtendOrderRequest extendOrder)
     {
         var order = await _db.Orders

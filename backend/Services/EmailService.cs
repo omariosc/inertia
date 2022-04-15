@@ -45,7 +45,7 @@ public class EmailService
         _db = db;
     }
 
-    public async Task SendBookingOrderConfirmation(string email, AbstractOrder order)
+    public async Task SendBookingOrderConfirmation(string email, Order order)
     {
         _db.Entry(order).Reference(o => o.Scooter).Load();
         _db.Entry(order).Reference(o => o.HireOption).Load();

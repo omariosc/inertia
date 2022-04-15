@@ -4,5 +4,6 @@ public enum AccountRole
 {
     User,
     Employee,
-    Manager
+    Manager,
+    Guest
 }

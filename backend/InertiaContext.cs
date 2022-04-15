@@ -13,7 +13,7 @@ public class InertiaContext : DbContext
 
     public DbSet<LoginInstance> LoginInstances { get; set; } = null!;
 
-    public DbSet<AbstractOrder> Orders { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
 
     public DbSet<HireOption> HireOptions { get; set; } = null!;
 
@@ -29,11 +29,5 @@ public class InertiaContext : DbContext
     {
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.UseExceptionProcessor();
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Order>();
-        modelBuilder.Entity<GuestOrder>();
     }
 }

@@ -137,7 +137,6 @@ public class UsersController : MyControllerBase
         await _inertia.UpdateOrderStatus();
         
         var orders = await _db.Orders
-            .OfType<Order>()
             .Include(e => e.HireOption)
             .Where(e => e.AccountId == accountId)
             .ToListAsync();

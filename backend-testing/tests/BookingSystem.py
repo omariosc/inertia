@@ -125,3 +125,31 @@ class BookingSystem(unittest.TestCase):
         self.assertEqual(available.available, before_available.available)
 
         self.staff.debug_remove_order(order.order_id)
+
+    def test_guest_order(self):
+        self.staff = api.client.Client(self.host)
+        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
+
+        t = datetime.now()
+
+        depos = self.staff.list_depos()
+        scooter = self.staff.get_available_scooters(
+            startTime=str(t).replace(' ', 'T'),
+            depoId=depos[0].depo_id
+        )[0]
+        hire_option = self.staff.hire_options()[0]
+
+        order = self.staff.admin_create_guest_order(
+            email='emilianachubosky@gmail.com',
+            name='Emiliana Chubosky',
+            hire_option=hire_option.hire_option_id,
+            scooter=scooter.scooter_id,
+            start_time=t
+        )
+
+        order_renewed = self.staff.admin_get_order(order.order_id)
+
+        self.assertEqual(order.order_id, order_renewed.order_id)
+
+        self.staff.debug_remove_order(order.order_id)
+        self.staff.debug_remove_account('emilianachubosky@gmail.com')

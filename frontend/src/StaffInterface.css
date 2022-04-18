@@ -1,3 +1,11 @@
+.wrapper, html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#wrapper {
+    display:flex;
+}
 .scroll {
     max-height: 45rem;
     overflow-y: scroll;
@@ -20,3 +28,43 @@
     min-width: 100%;
     max-height: 620px;
 }
+
+/*STYLING FOR NAVIGATION BAR, MANAGER AND EMPLOYEE (even though in the name it says manager)*/
+.manager-vert-navbar {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.manager-vert-navbar a {
+    color: black;
+}
+
+/*styling for pill navbar on hover*/
+.manager-vert-navbar a:hover {
+    color: black;
+    background-color: lightgray;
+}
+
+/*styling for active pill in navbar*/
+.nav-pills .nav-link.active {
+    background-color: lightgray;
+    color: black;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: black;
+}
+
+/*expands the row to fit the whole page so the divider line extends down to the bottom of the page*/
+#manager-row {
+    height: 100vh;
+}
+
+#pageName {
+    padding-left: 10px;
+    padding-top: 15px;
+}
+

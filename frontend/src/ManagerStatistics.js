@@ -41,7 +41,7 @@ export default function Statistics({isDark}) {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Statistics</h1>
+            <h1 id={"pageName"}>Statistics</h1>
             <br/>
             <div className="scroll">
                 {(weeklyData === '') ?

@@ -22,13 +22,13 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
     const [showSettings, setShowSettings] = useState(false);
 
     return (
-        <div className="clickable">
-            <Row>
-                <Col xs={2} className="border-end border-dark">
+        <div id="manager-wrapper" className="clickable">
+            <Row id={"manager-row"}>
+                <Col xs={2} style={{backgroundColor: "#F0F0F0"}}className="border-end border-dark">
                     <Nav
                         defaultActiveKey="#/dashboard"
                         variant="pills"
-                        className="flex-column"
+                        className="manager-vert-navbar"
                         style={{paddingLeft: "15px", color: "black"}}
                     >
                         <Nav.Link onClick={() => {

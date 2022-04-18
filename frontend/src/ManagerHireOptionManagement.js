@@ -164,7 +164,7 @@ export default function HireOptionManagement() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Hire Option Management</h1>
+            <h1 id={"pageName"}>Hire Option Management</h1>
             <br/>
             <Container>
                 {(hireOptions === '') ?

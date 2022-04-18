@@ -99,7 +99,7 @@ export default function BookingApplications() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Booking Applications</h1>
+            <h1 id={"pageName"}>Booking Applications</h1>
             <br/>
             <Container>
                 {(bookingHistory === '') ?

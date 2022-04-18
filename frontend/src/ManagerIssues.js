@@ -57,7 +57,7 @@ export default function Issues() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>High Priority Issues</h1>
+            <h1 id={"pageName"}>High Priority Issues</h1>
             <br/>
             <Container>
                 {(issues === '') ?

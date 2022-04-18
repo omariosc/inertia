@@ -51,7 +51,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Dashboard</h1>
+            <h1 id="pageName">Dashboard</h1>
             <br/>
             <Container>
                 {(data === "") ?

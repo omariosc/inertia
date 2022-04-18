@@ -15,7 +15,7 @@ export default function StaffSettings({isDark, toggle}) {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Settings</h1>
+            <h1 id={"pageName"}>Settings</h1>
             <br/>
             <Container>
                 <Row>

@@ -27,12 +27,12 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
 
     return (
         <div className="clickable">
-            <Row>
-                <Col xs={2} className="border-end border-dark">
+            <Row id={"manager-row"}>
+                <Col xs={2} style={{backgroundColor: "#F0F0F0"}}className="border-end border-dark">
                     <Nav
                         defaultActiveKey="#/employee-dashboard"
                         variant="pills"
-                        className="flex-column"
+                        className="manager-vert-navbar flex-column"
                         style={{paddingLeft: "15px"}}
                     >
                         <Nav.Link onClick={() => {

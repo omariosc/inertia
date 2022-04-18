@@ -123,7 +123,7 @@ export default function OngoingBookings() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Ongoing Bookings</h1>
+            <h1 id={"pageName"}>Ongoing Bookings</h1>
             <br/>
             <Container>
             {(bookingHistory === '') ?

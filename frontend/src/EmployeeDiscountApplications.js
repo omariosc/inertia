@@ -68,7 +68,7 @@ export default function DiscountApplications() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Manage Discount Applications</h1>
+            <h1 id={"pageName"}>Manage Discount Applications</h1>
             <br/>
             <Container>
                 {(applications === '') ?

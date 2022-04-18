@@ -150,7 +150,7 @@ export default function ScooterManagement({map_locations}) {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Scooter Management</h1>
+            <h1 id={"pageName"}>Scooter Management</h1>
             <br/>
             <Container>
                 {(scooters === '') ?

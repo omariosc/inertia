@@ -65,7 +65,7 @@ export default function ManageIssues() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Manage Issues</h1>
+            <h1 id={"pageName"}>Manage Issues</h1>
             <br/>
             <Container>
                 {(issues.length === 0) ?

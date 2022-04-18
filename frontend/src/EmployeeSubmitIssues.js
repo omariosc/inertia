@@ -47,7 +47,7 @@ export default function SubmitIssue() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Submit Issue</h1>
+            <h1 id={"pageName"}>Submit Issue</h1>
             <br/>
             <Container>
                 <Row>

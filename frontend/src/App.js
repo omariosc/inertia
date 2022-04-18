@@ -167,11 +167,11 @@ const App = () => {
                                 </> : null}
                         </DropdownButton>
                     </div> :
-                    <Navbar expand="lg" bg="primary" variant="dark" className="clickable">
-                        <Navbar.Brand style={{paddingLeft: "15px"}}>INERTIA</Navbar.Brand>
+                    <Navbar style={{backgroundColor: "black"}}expand="lg" className="clickable" >
+                        <Navbar.Brand style={{paddingLeft: "15px", fontSize: "35px", color:"white"}}><b>INERTIA</b></Navbar.Brand>
                         <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text className="navbar-pad-right">
-                                Logged in as: <a>{cookies.get("accountName")}</a>
+                            <Navbar.Text style={{color:"white"}}className="navbar-pad-right">
+                                Logged in as: <a style={{color:"white"}}>{cookies.get("accountName")}</a>
                             </Navbar.Text>
                             <Nav.Item className="navbar-pad-right">
                                 <DropdownButton
@@ -217,7 +217,7 @@ const App = () => {
                     </Navbar>}
                 <LoginForm show={showLogin} showcustomer={CustomerLogin} showemployee={EmployeeLogin}
                            showmanager={ManagerLogin} onHide={() => setShowLogin(false)}/>
-                {showLanding ? null : <br/>}
+                {showLanding ? null : null}
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
                 {showEmployee ?
                     <EmployeeInterface map_locations={map_locations} isDark={isDark} toggle={toggle}

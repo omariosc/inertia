@@ -72,7 +72,7 @@ export default function BookingHistory() {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Booking History</h1>
+            <h1 id={"pageName"}>Booking History</h1>
             <br/>
             <Container>
                 <Row xs={1}>

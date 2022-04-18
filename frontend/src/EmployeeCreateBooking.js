@@ -117,7 +117,7 @@ export default function CreateBooking({map_locations}) {
 
     return (
         <>
-            <h1 style={{paddingLeft: '10px'}}>Create Booking</h1>
+            <h1 id={"pageName"}>Create Booking</h1>
             <br/>
             <Container>
                 <Row>

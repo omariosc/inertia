@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Form, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from "./host";
+import host from "../host";
 import Cookies from "universal-cookie";
 
 export default function OngoingBookings() {
@@ -167,7 +167,7 @@ export default function OngoingBookings() {
                                         </tr>
                                         <tr>
                                             <td><b>Discount:</b></td>
-                                            <td>£{booking.discount.toFixed(2)}</td>
+                                            <td>{booking.discount * 100}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>Created At:</b></td>
@@ -241,11 +241,13 @@ export default function OngoingBookings() {
                                                         }
                                                     </td>
                                                     <td>
-                                                        {(booking.orderState === 2) ? "N/A (Booking is upcoming)" :
+                                                        {(booking.orderState === 2) ? "N/A (Booking is upcoming)" : null}
+                                                        {(booking.orderState === 3) ? "N/A (Booking is ongoing)" : null}
+                                                        {(booking.orderState !== 2 && booking.orderState !== 3) ?
                                                             <a onClick={() => cancelBooking(booking.orderId)}
                                                                color="red"
                                                                href="#/cancel"
-                                                            >Cancel</a>
+                                                            >Cancel</a> : null
                                                         }
                                                     </td>
                                                     <td>

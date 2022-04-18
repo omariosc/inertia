@@ -9,9 +9,9 @@ import Cookies from 'universal-cookie';
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
 import LandingPage from './LandingPage';
-import CustomerInterface from "./CustomerInterface";
-import ManagerInterface from './ManagerInterface';
-import EmployeeInterface from './EmployeeInterface';
+import CustomerInterface from "./customer/CustomerInterface";
+import ManagerInterface from './staff/manager/ManagerInterface';
+import EmployeeInterface from './staff/employee/EmployeeInterface';
 import {useDarkreader} from 'react-darkreader';
 import './App.css';
 
@@ -121,7 +121,7 @@ const App = () => {
 
     return (
         <div id="wrapper">
-            <div id="map-overlay">
+            <div id="overlay">
                 {(showLanding || showCustomer) ?
                     <div id="top-bar">
                         <DropdownButton
@@ -164,14 +164,19 @@ const App = () => {
                                     >
                                         <p>Sign Out</p>
                                     </Dropdown.Item>
-                                </> : null}
+                                </> : null
+                            }
                         </DropdownButton>
                     </div> :
-                    <Navbar style={{backgroundColor: "black"}}expand="lg" className="clickable" >
-                        <Navbar.Brand style={{paddingLeft: "15px", fontSize: "35px", color:"white"}}><b>INERTIA</b></Navbar.Brand>
+                    <Navbar style={{backgroundColor: "black"}} expand="lg" className="clickable">
+                        <Navbar.Brand style={{
+                            paddingLeft: "15px",
+                            fontSize: "35px",
+                            color: "white"
+                        }}><b>INERTIA</b></Navbar.Brand>
                         <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text style={{color:"white"}}className="navbar-pad-right">
-                                Logged in as: <a style={{color:"white"}}>{cookies.get("accountName")}</a>
+                            <Navbar.Text style={{color: "white"}} className="navbar-pad-right">
+                                Logged in as: <a style={{color: "white"}}>{cookies.get("accountName")}</a>
                             </Navbar.Text>
                             <Nav.Item className="navbar-pad-right">
                                 <DropdownButton
@@ -214,7 +219,8 @@ const App = () => {
                                 </DropdownButton>
                             </Nav.Item>
                         </Navbar.Collapse>
-                    </Navbar>}
+                    </Navbar>
+                }
                 <LoginForm show={showLogin} showcustomer={CustomerLogin} showemployee={EmployeeLogin}
                            showmanager={ManagerLogin} onHide={() => setShowLogin(false)}/>
                 {showLanding ? null : null}
@@ -234,8 +240,10 @@ const App = () => {
                 <>
                     {showLanding ? <LandingPage center={center} map_locations={map_locations}
                                                 onHide={() => setShowLanding(false)}/>
-                        : null}
-                </>}
+                        : null
+                    }
+                </>
+            }
         </div>
     );
 };

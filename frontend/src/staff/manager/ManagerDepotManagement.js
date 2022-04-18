@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Container, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from "./host";
+import host from "../../host";
 import Cookies from 'universal-cookie';
-import './StaffInterface.css';
+import '../StaffInterface.css';
 
 export default function DepotManagement() {
     const cookies = new Cookies();
@@ -30,7 +30,6 @@ export default function DepotManagement() {
                 mode: "cors"
             });
             let response = await request.json();
-            console.log(response)
             setDepots(response);
         } catch (error) {
             console.error(error);

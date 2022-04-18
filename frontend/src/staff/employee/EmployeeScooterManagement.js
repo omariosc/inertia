@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from './host';
+import host from '../../host';
 import Cookies from 'universal-cookie';
-import './StaffInterface.css';
+import '../StaffInterface.css';
 
 export default function ScooterManagement({map_locations}) {
     const cookies = new Cookies();

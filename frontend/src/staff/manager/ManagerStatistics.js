@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {default as CanvasJSReact} from "./canvasjs.react.js";
+import {default as CanvasJSReact} from "../../canvasjs.react.js";
 import Cookies from "universal-cookie";
-import host from "./host";
-import './StaffInterface.css';
+import host from "../../host";
+import '../StaffInterface.css';
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

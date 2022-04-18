@@ -2,12 +2,11 @@
     height: 100%;
     margin: 0;
 }
+
 #wrapper {
     position: relative;
     height: 100%;
-    pointer-events: none;
 }
-
 
 #top-navbar {
     background-color: aquamarine;
@@ -28,7 +27,7 @@
     pointer-events: all;
 }
 
-#map-overlay {
+#overlay {
     z-index: 100000;
     position: absolute;
     top: 0;
@@ -45,7 +44,6 @@
     margin-top: 0.5%;
     margin-left: 3%;
     margin-right: 0.5%;
-    pointer-events: none;
 }
 
 .clickable {
@@ -87,7 +85,6 @@
     justify-content: flex-end;
     border-block-end: black;
     border: black;
-
 }
 
 .customer-navigation {

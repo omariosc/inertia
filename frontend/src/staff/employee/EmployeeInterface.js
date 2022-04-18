@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Col, Nav, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from './StaffDashboard';
+import Dashboard from '../StaffDashboard';
 import CreateBooking from './EmployeeCreateBooking';
 import BookingApplications from './EmployeeBookingApplications';
 import OngoingBookings from './EmployeeOngoingBookings';
@@ -10,8 +10,8 @@ import ScooterManagement from './EmployeeScooterManagement';
 import SubmitIssue from './EmployeeSubmitIssues';
 import ManageIssues from './EmployeeManageIssues';
 import DiscountApplication from './EmployeeDiscountApplications';
-import StaffSettings from './StaffSettings';
-import './StaffInterface.css';
+import StaffSettings from '../StaffSettings';
+import '../StaffInterface.css';
 
 export default function EmployeeInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
@@ -28,7 +28,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
     return (
         <div className="clickable">
             <Row id={"manager-row"}>
-                <Col xs={2} style={{backgroundColor: "#F0F0F0"}}className="border-end border-dark">
+                <Col xs={2} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
                     <Nav
                         defaultActiveKey="#/employee-dashboard"
                         variant="pills"
@@ -172,7 +172,8 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
                         {showCreateBooking ? <CreateBooking map_locations={map_locations}
                                                             onHide={() => setShowCreateBooking(false)}/> : null}
-                        {showBookingApplications ? <BookingApplications onHide={() => setShowBookingApplications(false)}/> : null}
+                        {showBookingApplications ?
+                            <BookingApplications onHide={() => setShowBookingApplications(false)}/> : null}
                         {showOngoingBookings ? <OngoingBookings onHide={() => setShowOngoingBookings(false)}/> : null}
                         {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
                         {showScooterManagement ?

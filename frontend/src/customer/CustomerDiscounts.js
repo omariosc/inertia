@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import host from "./host";
+import host from "../host";
 import Cookies from "universal-cookie";
 import moment from "moment";
 import {Button} from "react-bootstrap";
@@ -31,7 +31,7 @@ export default function Discounts() {
                 mode: "cors"
             });
             let response = await request.json();
-            let thresholdDate = moment().subtract(1, 'week').toISOString()
+            let thresholdDate = moment().subtract(1, 'week').toISOString();
             let recentBookings = response.filter(e => e.createdAt >= thresholdDate);
             let recentHours = 0;
             for (let i = 0; i < recentBookings.length; i++) {
@@ -126,7 +126,6 @@ export default function Discounts() {
                 <h6>Loading discount status...</h6> :
                 <>
                     {(!frequentUser && !studentUser && !seniorUser) ?
-
                         <div className="scroll">
                             <h5>Frequent User Discount</h5>
                             <p>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent

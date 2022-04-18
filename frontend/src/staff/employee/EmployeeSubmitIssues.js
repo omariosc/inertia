@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from "./host";
+import host from "../../host";
 import Cookies from "universal-cookie";
-import './StaffInterface.css';
+import '../StaffInterface.css';
 
 export default function SubmitIssue() {
     const cookies = new Cookies();

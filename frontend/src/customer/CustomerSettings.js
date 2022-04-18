@@ -2,8 +2,8 @@ import React, {useEffect, useState} from "react";
 import {Button, Col, Form, Row, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
-import changePassword from "./ChangePassword";
-import host from "./host";
+import changePassword from "../ChangePassword";
+import host from "../host";
 import Cookies from "universal-cookie";
 
 export default function CustomerSettings({isDark, toggle}) {

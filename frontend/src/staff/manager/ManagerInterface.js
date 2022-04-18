@@ -1,15 +1,15 @@
 import React, {useState} from "react";
 import {Nav, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from './StaffDashboard.js';
+import Dashboard from '../StaffDashboard.js';
 import ScooterManagement from './ManagerScooterManagement.js';
 import HireOptionManagement from "./ManagerHireOptionManagement";
 import DepotManagement from "./ManagerDepotManagement";
 import Issues from './ManagerIssues.js';
 import Statistics from './ManagerStatistics.js';
 import AccountManagement from './ManagerAccountManagement.js';
-import StaffSettings from './StaffSettings.js';
-import './StaffInterface.css';
+import StaffSettings from '../StaffSettings.js';
+import '../StaffInterface.css';
 
 export default function ManagerInterface({isDark, toggle, map_locations}) {
     const [showDashboard, setShowDashboard] = useState(true);
@@ -24,7 +24,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
     return (
         <div id="manager-wrapper" className="clickable">
             <Row id={"manager-row"}>
-                <Col xs={2} style={{backgroundColor: "#F0F0F0"}}className="border-end border-dark">
+                <Col xs={2} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
                     <Nav
                         defaultActiveKey="#/dashboard"
                         variant="pills"
@@ -124,9 +124,11 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                 <Col xs={9}>
                     <>
                         {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
-                        {showScooter ? <ScooterManagement map_locations={map_locations} onHide={() => setShowScooter(false)}/> : null}
+                        {showScooter ? <ScooterManagement map_locations={map_locations}
+                                                          onHide={() => setShowScooter(false)}/> : null}
                         {showHireOption ? <HireOptionManagement onHide={() => setShowHireOption(false)}/> : null}
-                        {showDepot ? <DepotManagement map_locations={map_locations} onHide={() => setShowDepot(false)}/> : null}
+                        {showDepot ?
+                            <DepotManagement map_locations={map_locations} onHide={() => setShowDepot(false)}/> : null}
                         {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
                         {showStatistics ? <Statistics isDark={isDark} onHide={() => setShowStatistics(false)}/> : null}
                         {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}

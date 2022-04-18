@@ -60,8 +60,6 @@ export default function LoginForm(props) {
                 <InputGroup>
                     <input type="password" placeholder="Enter password" onInput={e => setPassword(e.target.value)}/>
                 </InputGroup>
-                <br/>
-                <u>Forgot Password?</u>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="danger" onClick={props.onHide}>Cancel</Button>

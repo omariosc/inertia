@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import validateCard from "./cardValidator";
-import host from "./host";
-import center from "./center";
+import validateCard from "../../cardValidator";
+import host from "../../host";
+import center from "../../center";
 import Cookies from "universal-cookie";
-import './StaffInterface.css';
+import '../StaffInterface.css';
 
 export default function CreateBooking({map_locations}) {
     const cookies = new Cookies();

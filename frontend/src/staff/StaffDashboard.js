@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Card, Col, Container, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from './host';
+import host from '../host';
 import Cookies from 'universal-cookie';
 import './StaffInterface.css';
 

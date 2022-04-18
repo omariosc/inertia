@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from "./host";
+import host from "../host";
 import Cookies from "universal-cookie";
 
 export default function SubmitIssue() {

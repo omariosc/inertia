@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Container, Form, InputGroup, Table} from "react-bootstrap";
+import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from './host';
+import host from '../../host';
 import Cookies from 'universal-cookie';
-import './StaffInterface.css';
+import '../StaffInterface.css';
 
 export default function ScooterManagement({map_locations}) {
     const cookies = new Cookies();
@@ -191,10 +191,9 @@ export default function ScooterManagement({map_locations}) {
                                             </td>
                                             <td>
                                                 <p>{(scooter.available ? "Available" : "Unavailable")}</p>
-                                                <a onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}
-                                                   href="#/manager-change-availability">
+                                                <Button onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
                                                     {(scooter.available ? "Make Unavailable" : "Make Available")}
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>{scooterStatus[scooter.scooterStatus]}</td>
                                             <td>

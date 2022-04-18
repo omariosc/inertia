@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Col, Container, Row, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from './host';
+import host from '../../host';
 import Cookies from 'universal-cookie';
-import './StaffInterface.css';
+import '../StaffInterface.css';
 
 export default function BookingHistory() {
     const cookies = new Cookies();
@@ -181,7 +181,7 @@ export default function BookingHistory() {
                                 </tr>
                                 <tr>
                                     <td><b>Discount:</b></td>
-                                    <td>£{booking.discount.toFixed(2)}</td>
+                                    <td>{booking.discount*100}%</td>
                                 </tr>
                                 <tr>
                                     <td><b>Created At:</b></td>

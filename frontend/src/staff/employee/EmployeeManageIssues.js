@@ -1,7 +1,7 @@
 import {Button, Card, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, {useEffect, useState} from "react";
-import host from "./host";
+import host from "../../host";
 import Cookies from "universal-cookie";
 
 export default function ManageIssues() {

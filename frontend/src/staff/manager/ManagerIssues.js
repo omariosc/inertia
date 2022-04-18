@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import host from './host';
+import host from '../../host';
 import Cookies from 'universal-cookie';
-import './StaffInterface.css';
+import '../StaffInterface.css';
 
 export default function Issues() {
     const cookies = new Cookies();

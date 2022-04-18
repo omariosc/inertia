@@ -2,11 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import validateCard from "./cardValidator";
-import host from "./host";
-import center from "./center";
+import validateCard from "../cardValidator";
+import host from "../host";
+import center from "../center";
 import Cookies from 'universal-cookie';
-import './StaffInterface.css';
+import '../staff/StaffInterface.css';
 import moment from "moment";
 
 export default function CreateBooking({map_locations}) {
@@ -171,7 +171,7 @@ export default function CreateBooking({map_locations}) {
     }
 
     return (
-        <div className="scroll">
+        <>
             <h5>Select Booking Details</h5>
             <br/>
             <Form>
@@ -197,7 +197,7 @@ export default function CreateBooking({map_locations}) {
                 </Form.Group>
                 <br/>
                 <MapContainer center={center} zoom={15} zoomControl={false} className="minimap"
-                              style={{height: "325px", paddingRight: "100px"}}>
+                              style={{height: "300px", paddingRight: "100px"}}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
@@ -222,7 +222,7 @@ export default function CreateBooking({map_locations}) {
                             <option value="none" key="none">Select a hire option slot...</option>
                             {hireOptions.map((option, idx) => (
                                 <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
-                                     £{option.cost}</option>
+                                    £{option.cost}</option>
                             ))}
                         </Form.Select>
                     }
@@ -300,6 +300,6 @@ export default function CreateBooking({map_locations}) {
                     <Button style={{float: "right"}} onClick={createBooking}>Create Booking</Button>
                 </Form.Group>
             </Form>
-        </div>
+        </>
     );
 };

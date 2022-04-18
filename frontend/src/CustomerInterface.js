@@ -32,7 +32,7 @@ export default function CustomerInterface({isDark, toggle, map_locations}) {
                     </>
                 </Col>
             </Row>
-            <Row>
+            <Row id={"customer-row"}>
                 <Col lg={4} xs={12} className="customer-column border-end border-dark">
                     {/*NAVIGATION BAR*/}
                     <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">

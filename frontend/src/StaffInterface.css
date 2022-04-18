@@ -58,11 +58,12 @@
     color: black;
 }
 
-/*expands the row to fit the whole page so the divider line extends down to the bottom of the page*/
+/*expands the row that the vertical navbar is in to fit the whole page so the divider line extends down to the bottom of the page*/
 #manager-row {
     height: 100vh;
 }
 
+/*css to push the headers of each page in slightly*/
 #pageName {
     padding-left: 10px;
     padding-top: 15px;

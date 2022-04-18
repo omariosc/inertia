@@ -96,6 +96,10 @@
     align-items: center;
 }
 
+#customer-row {
+    height: 75vh;
+}
+
 /* Large desktops and laptops */
 @media (min-width: 1200px) {
     #account-page {

@@ -263,7 +263,7 @@ public class InertiaService
             throw new UnavailableScooterException();
         }
 
-        var discount = account.UserType != UserType.Regular ? 10 / 100 : 0;
+        float discount = account.UserType != UserType.Regular ? 10.0F / 100.0F : 0.0F;
         var cost = hireOption.Cost * (1 - discount);
         
         Order abstractOrder = new Order {

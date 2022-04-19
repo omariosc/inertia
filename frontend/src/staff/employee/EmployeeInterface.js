@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Col, Nav, Row} from "react-bootstrap";
+import {MdDashboard, MdElectricScooter, MdSettings, MdHistory, MdCreate, MdBook} from "react-icons/md"
+import {FaExclamation, FaPercentage} from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from '../StaffDashboard';
 import CreateBooking from './EmployeeCreateBooking';
@@ -28,7 +30,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
     return (
         <div className="clickable">
             <Row id={"manager-row"}>
-                <Col xs={2} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
+                <Col xs={"auto"} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
                     <Nav
                         defaultActiveKey="#/employee-dashboard"
                         variant="pills"
@@ -47,7 +49,8 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-dashboard">Dashboard</Nav.Link>
+                                  href="#/employee-dashboard"><MdDashboard/> Dashboard</Nav.Link>
+                        <Nav.Link><MdBook/> Bookings</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(true);
@@ -60,7 +63,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-create-booking">Create Booking</Nav.Link>
+                                  href="#/employee-create-booking" className={"nav-indented"}>Create Booking</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -73,7 +76,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-booking-applications">Booking Applications</Nav.Link>
+                                  href="#/employee-booking-applications" className={"nav-indented"}>Booking Applications</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -86,7 +89,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-ongoing-bookings">Ongoing Bookings</Nav.Link>
+                                  href="#/employee-ongoing-bookings" className={"nav-indented"}>Ongoing Bookings</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -99,7 +102,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-booking-history">Booking History</Nav.Link>
+                                  href="#/employee-booking-history" className={"nav-indented"}>Booking History</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -112,7 +115,8 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-scooter-management">Scooter Management</Nav.Link>
+                                  href="#/employee-scooter-management"><MdElectricScooter/> Scooter Management</Nav.Link>
+                        <Nav.Link><FaExclamation/> Issues</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -125,7 +129,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-submit-issues">Submit Issue</Nav.Link>
+                                  href="#/employee-submit-issues" className={"nav-indented"}> Submit Issue</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -138,7 +142,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(true);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-manage-issues">Manage Issues</Nav.Link>
+                                  href="#/employee-manage-issues" className={"nav-indented"}>Manage Issues</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -151,7 +155,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(false)
                         }}
-                                  href="#/employee-discount-applications">Discount Applications</Nav.Link>
+                                  href="#/employee-discount-applications"><FaPercentage/> Discount Applications</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowCreateBooking(false);
@@ -164,7 +168,7 @@ export default function EmployeeInterface({isDark, toggle, map_locations}) {
                             setShowManageIssues(false);
                             setShowSettings(true)
                         }}
-                                  href="#/employee-settings">Settings</Nav.Link>
+                                  href="#/employee-settings"><MdSettings/> Settings</Nav.Link>
                     </Nav>
                 </Col>
                 <Col xs={9}>

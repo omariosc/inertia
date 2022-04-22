@@ -3,9 +3,8 @@ import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
-import '../StaffInterface.css';
 
-export default function SubmitIssue() {
+export default function EmployeeSubmitIssue() {
     const cookies = new Cookies();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');

@@ -1,10 +1,12 @@
 import React, {useState} from "react";
+import {useNavigate} from 'react-router-dom';
 import {Button, InputGroup, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import Cookies from 'universal-cookie';
 
 export default function LoginForm(props) {
+    let navigate = useNavigate();
     const cookies = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,15 +32,14 @@ export default function LoginForm(props) {
                 cookies.set("accountName", response.account.name, {path: '/'});
                 cookies.set("accountRole", response.account.role, {path: '/'});
                 cookies.set("accessToken", response.accessToken, {path: '/'});
-                if (response.account.role === 2) {
-                    props.showmanager();
-                } else if (response.account.role === 1) {
-                    props.showemployee();
+                if (response.account.role === 2 || response.account.role === 1) {
+                    navigate('/dashboard');
                 } else if (response.account.role === 0) {
-                    props.showcustomer();
+                    navigate('/create-booking');
                 } else {
                     console.log(response);
                 }
+                window.location = window.location
             } else {
                 alert("Login credentials invalid.");
             }
@@ -54,7 +55,7 @@ export default function LoginForm(props) {
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="text" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
+                    <input type="email" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>

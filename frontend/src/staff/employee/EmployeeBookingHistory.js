@@ -3,9 +3,8 @@ import {Col, Container, Row, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from '../../host';
 import Cookies from 'universal-cookie';
-import '../StaffInterface.css';
 
-export default function BookingHistory() {
+export default function EmployeeBookingHistory() {
     const cookies = new Cookies();
     const [userBookings, setUserBookings] = useState('');
     const [guestBookings, setGuestBookings] = useState('');
@@ -179,10 +178,12 @@ export default function BookingHistory() {
                                     <td><b>Cost:</b></td>
                                     <td>£{booking.cost.toFixed(2)}</td>
                                 </tr>
-                                <tr>
-                                    <td><b>Discount:</b></td>
-                                    <td>{booking.discount*100}%</td>
-                                </tr>
+                                {(booking.discount > 0) ?
+                                    <tr>
+                                        <td><b>Discount:</b></td>
+                                        <td>{booking.discount * 100}%</td>
+                                    </tr> : null
+                                }
                                 <tr>
                                     <td><b>Created At:</b></td>
                                     <td>{showDate(booking.createdAt)}</td>
@@ -194,10 +195,6 @@ export default function BookingHistory() {
                                 <tr>
                                     <td><b>End Time:</b></td>
                                     <td>{showDate(booking.endTime)}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Extensions:</b></td>
-                                    <td>{((booking.extensions.length !== 0) ? booking.extensions.length : "None")}</td>
                                 </tr>
                                 <tr>
                                     <td><b>Order Status:</b></td>

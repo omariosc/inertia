@@ -3,16 +3,33 @@ import {Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from '../../host';
 import Cookies from 'universal-cookie';
-import '../StaffInterface.css';
 
-export default function ScooterManagement({map_locations}) {
+export default function EmployeeScooterManagement() {
     const cookies = new Cookies();
+    const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const scooterStatus = ["In Depot", "Ongoing Order", "Pending Return", "Unavailable By Staff"];
 
     useEffect(() => {
         fetchScooters();
+        fetchLocations();
     }, []);
+
+    async function fetchLocations() {
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     async function fetchScooters() {
         try {
@@ -78,7 +95,14 @@ export default function ScooterManagement({map_locations}) {
                                     <td>{scooter.softScooterId}</td>
                                     <td>{(scooter.available ? "Available" : "Unavailable")}</td>
                                     <td>{scooterStatus[scooter.scooterStatus]}</td>
-                                    <td>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</td>
+                                    <td>
+                                        {(map_locations === "") ?
+                                            <h5>Loading map locations...</h5> :
+                                            <>
+                                                {String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}
+                                            </>
+                                        }
+                                    </td>
                                     <td>
                                         <a onClick={() => editScooter(scooter.scooterId, scooter.available)}
                                            href="#/employee-change-availability">

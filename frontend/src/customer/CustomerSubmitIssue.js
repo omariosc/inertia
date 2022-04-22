@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../host";
 import Cookies from "universal-cookie";
 
-export default function SubmitIssue() {
+export default function CustomerSubmitIssue() {
     const cookies = new Cookies();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');

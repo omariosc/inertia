@@ -3,9 +3,8 @@ import {Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
-import '../StaffInterface.css';
 
-export default function DiscountApplications() {
+export default function EmployeeDiscountApplications() {
     const cookies = new Cookies();
     const [applications, setApplications] = useState('');
     const [image, setImage] = useState(null);

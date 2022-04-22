@@ -3,10 +3,10 @@ import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from '../../host';
 import Cookies from 'universal-cookie';
-import '../StaffInterface.css';
 
-export default function ScooterManagement({map_locations}) {
+export default function ManagerScooterManagement() {
     const cookies = new Cookies();
+    const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [newID, setScooterNewId] = useState('');
     const [createID, setCreateId] = useState('');
@@ -15,7 +15,24 @@ export default function ScooterManagement({map_locations}) {
 
     useEffect(() => {
         fetchScooters();
+        fetchLocations();
     }, []);
+
+    async function fetchLocations() {
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     async function fetchScooters() {
         try {
@@ -191,29 +208,36 @@ export default function ScooterManagement({map_locations}) {
                                             </td>
                                             <td>
                                                 <p>{(scooter.available ? "Available" : "Unavailable")}</p>
-                                                <Button onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
+                                                <Button
+                                                    onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
                                                     {(scooter.available ? "Make Unavailable" : "Make Available")}
                                                 </Button>
                                             </td>
                                             <td>{scooterStatus[scooter.scooterStatus]}</td>
                                             <td>
-                                                <p>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</p>
-                                                <Form>
-                                                    <Form.Select
-                                                        onChange={(e) => {
-                                                            if (e.target.value !== scooter.depoId.toString()) {
-                                                                editScooter(scooter.scooterId, 1, '', e.target.value);
-                                                            }
-                                                        }}
-                                                    >
-                                                        <option value="none" key="none">Select location...</option>
-                                                        {map_locations.map((location, idx) => (
-                                                            <option value={location.depoId} key={idx}>
-                                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                            </option>
-                                                        ))}
-                                                    </Form.Select>
-                                                </Form>
+                                                {(map_locations === "") ?
+                                                    <h5>Loading map locations...</h5> :
+                                                    <>
+                                                        <p>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</p>
+                                                        <Form>
+                                                            <Form.Select
+                                                                onChange={(e) => {
+                                                                    if (e.target.value !== scooter.depoId.toString()) {
+                                                                        editScooter(scooter.scooterId, 1, '', e.target.value);
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <option value="none" key="none">Select location...
+                                                                </option>
+                                                                {map_locations.map((location, idx) => (
+                                                                    <option value={location.depoId} key={idx}>
+                                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                                    </option>
+                                                                ))}
+                                                            </Form.Select>
+                                                        </Form>
+                                                    </>
+                                                }
                                             </td>
                                             <td>
                                                 <a onClick={() => deleteScooter(scooter.scooterId)}
@@ -233,20 +257,23 @@ export default function ScooterManagement({map_locations}) {
                                         <td>Available (by default)</td>
                                         <td>In Depot (by default)</td>
                                         <td>
-                                            <Form>
-                                                <Form.Select
-                                                    onChange={(e) => {
-                                                        setCreateDepo(e.target.value);
-                                                    }}
-                                                >
-                                                    <option value="none" key="none">Select location...</option>
-                                                    {map_locations.map((location, idx) => (
-                                                        <option value={location.depoId} key={idx}>
-                                                            {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                        </option>
-                                                    ))}
-                                                </Form.Select>
-                                            </Form>
+                                            {(map_locations === "") ?
+                                                <h5>Loading map locations...</h5> :
+                                                <Form>
+                                                    <Form.Select
+                                                        onChange={(e) => {
+                                                            setCreateDepo(e.target.value);
+                                                        }}
+                                                    >
+                                                        <option value="none" key="none">Select location...</option>
+                                                        {map_locations.map((location, idx) => (
+                                                            <option value={location.depoId} key={idx}>
+                                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                            </option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </Form>
+                                            }
                                         </td>
                                         <td>
                                             <a onClick={createScooter}

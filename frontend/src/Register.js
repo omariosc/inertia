@@ -51,7 +51,7 @@ export default function RegisterForm(props) {
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="text" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
+                    <input type="email" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
@@ -64,7 +64,6 @@ export default function RegisterForm(props) {
                 </InputGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={props.onHide}>Cancel</Button>
                 <Button onClick={onSubmit}>Register</Button>
             </Modal.Footer>
         </Modal>

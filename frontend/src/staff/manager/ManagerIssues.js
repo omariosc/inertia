@@ -3,9 +3,8 @@ import {Button, Card, Col, Container, Form, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from '../../host';
 import Cookies from 'universal-cookie';
-import '../StaffInterface.css';
 
-export default function Issues() {
+export default function ManagerIssues() {
     const cookies = new Cookies();
     const [issues, setIssues] = useState('');
 

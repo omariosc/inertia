@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
+import {Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import moment from "moment";
 import host from "../host";
 import Cookies from "universal-cookie";
-import moment from "moment";
-import {Button} from "react-bootstrap";
 
-export default function Discounts() {
+export default function CustomerDiscounts() {
     const cookies = new Cookies();
     const [loading, setLoading] = useState('');
     const [frequentUser, setFrequent] = useState(false);

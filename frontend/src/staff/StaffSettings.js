@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import changePassword from "../ChangePassword";
 
-export default function StaffSettings({isDark, toggle}) {
+export default function StaffSettings() {
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -19,7 +18,7 @@ export default function StaffSettings({isDark, toggle}) {
             <br/>
             <Container>
                 <Row>
-                    <Col xs={2}/>
+                    <Col xs={4}/>
                     <Col xs={4}>
                         <h3>Change Password</h3>
                         <br/>
@@ -46,17 +45,6 @@ export default function StaffSettings({isDark, toggle}) {
                                 <Button style={{float: 'right'}} onClick={onSubmit}>Change password</Button>
                             </Form.Group>
                         </Form>
-                    </Col>
-                    <Col xs={1}/>
-                    <Col xs={2}>
-                        <h3>Dark Mode</h3>
-                        <br/>
-                        <BootstrapSwitchButton
-                            checked={isDark}
-                            onlabel='On'
-                            offlabel='Off'
-                            onChange={toggle}
-                        />
                     </Col>
                 </Row>
             </Container>

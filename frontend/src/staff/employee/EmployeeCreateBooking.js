@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import validateCard from "../../cardValidator";
-import host from "../../host";
 import center from "../../center";
+import host from "../../host";
 import Cookies from "universal-cookie";
-import '../StaffInterface.css';
 
-export default function CreateBooking({map_locations}) {
+export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();
+    const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [email, setEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
@@ -24,7 +25,24 @@ export default function CreateBooking({map_locations}) {
     useEffect(() => {
         fetchAvailableScooters();
         fetchHirePeriods();
+        fetchLocations();
     }, []);
+
+    async function fetchLocations() {
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     async function fetchAvailableScooters() {
         try {
@@ -167,23 +185,26 @@ export default function CreateBooking({map_locations}) {
                         <h3>Enter Booking Details</h3>
                         <br/>
                         <Form>
-                            <Form.Group>
-                                <Form.Label><b>Select Scooter</b></Form.Label>
-                                {(scooters === '') ?
-                                    <h6>Loading scooters...</h6> :
-                                    <Form.Select
-                                        onChange={(e) => {
-                                            setScooterChoiceId(e.target.value);
-                                        }}
-                                    >
-                                        <option value="none" key="none">Select a scooter...</option>
-                                        {scooters.map((scooter, idx) => (
-                                            <option value={scooter.scooterId} key={idx}>
-                                                Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
-                                        ))}
-                                    </Form.Select>
-                                }
-                            </Form.Group>
+                            {(map_locations === "") ?
+                                <h5>Loading map locations...</h5> :
+                                <Form.Group>
+                                    <Form.Label><b>Select Scooter</b></Form.Label>
+                                    {(scooters === '') ?
+                                        <h6>Loading scooters...</h6> :
+                                        <Form.Select
+                                            onChange={(e) => {
+                                                setScooterChoiceId(e.target.value);
+                                            }}
+                                        >
+                                            <option value="none" key="none">Select a scooter...</option>
+                                            {scooters.map((scooter, idx) => (
+                                                <option value={scooter.scooterId} key={idx}>
+                                                    Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
+                                            ))}
+                                        </Form.Select>
+                                    }
+                                </Form.Group>
+                            }
                             <br/>
                             <Form.Group>
                                 <Form.Label><b>Select Hire Period</b></Form.Label>
@@ -218,16 +239,19 @@ export default function CreateBooking({map_locations}) {
                     </Col>
                     <Col xs={1}/>
                     <Col xs={4}>
-                        <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
-                            <TileLayer
-                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                            {map_locations.map((map_location, index) => (
-                                <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
-                                    <Popup>{map_location.name}</Popup>
-                                </Marker>
-                            ))}
-                        </MapContainer>
+                        {(map_locations === "") ?
+                            <h5>Loading map locations...</h5> :
+                            <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
+                                <TileLayer
+                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                                {map_locations.map((map_location, index) => (
+                                    <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
+                                        <Popup>{map_location.name}</Popup>
+                                    </Marker>
+                                ))}
+                            </MapContainer>
+                        }
                     </Col>
                 </Row>
             </Container>

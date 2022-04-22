@@ -7,5 +7,7 @@ RUN npm run build
 
 FROM docker.io/library/nginx:latest as final
 COPY --from=build /src/app/build /usr/share/nginx/html
-EXPOSE 80 
+COPY default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

@@ -3,9 +3,8 @@ import {Container, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from 'universal-cookie';
-import '../StaffInterface.css';
 
-export default function HireOptionManagement() {
+export default function ManagerHireOptionManagement() {
     const cookies = new Cookies();
     const [hireOptions, setHireOptions] = useState('');
     const [newDuration, setNewDuration] = useState('');

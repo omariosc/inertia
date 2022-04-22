@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Form, Row, Table} from "react-bootstrap";
+import {Button, Form, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import changePassword from "../ChangePassword";
 import host from "../host";
 import Cookies from "universal-cookie";
 
-export default function CustomerSettings({isDark, toggle}) {
+export default function CustomerSettings() {
     const cookies = new Cookies();
     const [accountInfo, setAccountInfo] = useState('');
     const [oldPassword, setOldPassword] = useState('');
@@ -16,10 +15,6 @@ export default function CustomerSettings({isDark, toggle}) {
     useEffect(() => {
         fetchAccountInformation();
     }, []);
-
-    async function authenticate() {
-        alert("Two Factor Authentication is currently under maintenance.");
-    }
 
     async function fetchAccountInformation() {
         try {
@@ -44,23 +39,6 @@ export default function CustomerSettings({isDark, toggle}) {
 
     return (
         <>
-            <Row>
-                <Col xs={6}>
-                    <h5>Two-Factor Authentication</h5>
-                    <Button onClick={() => authenticate()}>Enable 2FA</Button>
-                </Col>
-                <Col xs={1}/>
-                <Col xs={3}>
-                    <h5>Dark Mode</h5>
-                    <BootstrapSwitchButton
-                        checked={isDark}
-                        onlabel='On'
-                        offlabel='Off'
-                        onChange={toggle}
-                    />
-                </Col>
-            </Row>
-            <br/>
             <h5>Account Information</h5>
             {(accountInfo === '') ?
                 <h6>Loading account information...</h6> :

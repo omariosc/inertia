@@ -4,9 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import validate from '../../Validators';
 import host from '../../host';
 import Cookies from "universal-cookie";
-import '../StaffInterface.css';
 
-export default function AccountManagement() {
+export default function ManagerAccountManagement() {
     const cookies = new Cookies();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

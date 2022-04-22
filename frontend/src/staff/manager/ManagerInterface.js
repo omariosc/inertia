@@ -1,146 +1,85 @@
-import React, {useState} from "react";
-import {Nav, Row, Col} from "react-bootstrap";
-import {MdDashboard, MdElectricScooter, MdSettings, MdHistory, MdCreate, MdBook, MdManageAccounts} from "react-icons/md"
-import {FaExclamation, FaPercentage} from "react-icons/fa";
+import React from "react";
+import {Nav, Row, Col, Navbar, DropdownButton, Dropdown} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {MdDashboard, MdElectricScooter, MdSettings, MdCreate, MdManageAccounts} from "react-icons/md"
+import {FaExclamation} from "react-icons/fa";
 import {IoIosStats} from "react-icons/io"
 import {RiBuilding3Fill} from "react-icons/ri";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Dashboard from '../StaffDashboard.js';
-import ScooterManagement from './ManagerScooterManagement.js';
-import HireOptionManagement from "./ManagerHireOptionManagement";
-import DepotManagement from "./ManagerDepotManagement";
-import Issues from './ManagerIssues.js';
-import Statistics from './ManagerStatistics.js';
-import AccountManagement from './ManagerAccountManagement.js';
-import StaffSettings from '../StaffSettings.js';
-import '../StaffInterface.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
+import Cookies from 'universal-cookie';
+import {Link, Outlet, useOutletContext} from "react-router-dom";
 
-export default function ManagerInterface({isDark, toggle, map_locations}) {
-    const [showDashboard, setShowDashboard] = useState(true);
-    const [showScooter, setShowScooter] = useState(false);
-    const [showHireOption, setShowHireOption] = useState(false);
-    const [showDepot, setShowDepot] = useState(false);
-    const [showIssues, setShowIssues] = useState(false);
-    const [showStatistics, setShowStatistics] = useState(false);
-    const [showAccounts, setShowAccounts] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
+export default function ManagerInterface() {
+    const cookies = new Cookies();
+    const [signOut] = useOutletContext();
 
     return (
-        <div id="manager-wrapper" className="clickable">
-            <Row id={"manager-row"}>
-                <Col xs={"auto"} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
-                    <Nav
-                        defaultActiveKey="#/dashboard"
-                        variant="pills"
-                        className="manager-vert-navbar"
-                        style={{paddingLeft: "15px", color: "black"}}
-                    >
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(true);
-                            setShowScooter(false);
-                            setShowHireOption(false);
-                            setShowDepot(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-dashboard"><MdDashboard/> Dashboard</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(true);
-                            setShowHireOption(false);
-                            setShowDepot(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-scooters"><MdElectricScooter/> Scooter Management</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowHireOption(true);
-                            setShowDepot(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-hire-options"><MdCreate/> Hire Option Management</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowHireOption(false);
-                            setShowDepot(true);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-depot"><RiBuilding3Fill/> Depot Management</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowHireOption(false);
-                            setShowDepot(false);
-                            setShowIssues(true);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-issues"><FaExclamation/> Issues</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowHireOption(false);
-                            setShowDepot(false);
-                            setShowIssues(false);
-                            setShowStatistics(true);
-                            setShowAccounts(false);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-statistics"><IoIosStats/> Statistics</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowHireOption(false);
-                            setShowDepot(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(true);
-                            setShowSettings(false);
-                        }}
-                                  href="#/manager-accounts"><MdManageAccounts/> Account Management</Nav.Link>
-                        <Nav.Link onClick={() => {
-                            setShowDashboard(false);
-                            setShowScooter(false);
-                            setShowHireOption(false);
-                            setShowDepot(false);
-                            setShowIssues(false);
-                            setShowStatistics(false);
-                            setShowAccounts(false);
-                            setShowSettings(true);
-                        }}
-                                  href="#/manager-settings"><MdSettings/> Settings</Nav.Link>
-                    </Nav>
-                </Col>
-                <Col xs={9}>
-                    <>
-                        {showDashboard ? <Dashboard onHide={() => setShowDashboard(false)}/> : null}
-                        {showScooter ? <ScooterManagement map_locations={map_locations}
-                                                          onHide={() => setShowScooter(false)}/> : null}
-                        {showHireOption ? <HireOptionManagement onHide={() => setShowHireOption(false)}/> : null}
-                        {showDepot ?
-                            <DepotManagement map_locations={map_locations} onHide={() => setShowDepot(false)}/> : null}
-                        {showIssues ? <Issues onHide={() => setShowIssues(false)}/> : null}
-                        {showStatistics ? <Statistics isDark={isDark} onHide={() => setShowStatistics(false)}/> : null}
-                        {showAccounts ? <AccountManagement onHide={() => setShowAccounts(false)}/> : null}
-                        {showSettings ? <StaffSettings isDark={isDark} toggle={toggle}
-                                                       onHide={() => setShowSettings(false)}/> : null}
-                    </>
-                </Col>
-            </Row>
+        <div id="overlay">
+            <div id="manager-wrapper" className="clickable">
+                <Navbar style={{backgroundColor: "black"}} expand="lg" className="clickable">
+                    <Navbar.Brand style={{
+                        paddingLeft: "15px",
+                        fontSize: "35px",
+                        color: "white"
+                    }} as={Link} to="/dashboard"><b>INERTIA</b></Navbar.Brand>
+                    <Navbar.Collapse className="justify-content-end">
+                        <Navbar.Text style={{color: "white"}} className="navbar-pad-right">
+                            Logged in as: <a style={{color: "white"}}>{cookies.get("accountName")}</a>
+                        </Navbar.Text>
+                        <Nav.Item className="navbar-pad-right">
+                            <DropdownButton
+                                align="end"
+                                className="dropdown-basic-button"
+                                variant="dark"
+                                title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
+                            >
+                                <Dropdown.Item as={Link} to="/" onClick={signOut}>
+                                    <p>Sign Out</p>
+                                </Dropdown.Item>
+                            </DropdownButton>
+                        </Nav.Item>
+                    </Navbar.Collapse>
+                </Navbar>
+                <Row id={"manager-row"}>
+                    <Col xs={"auto"} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
+                        <Nav
+                            defaultActiveKey="#/dashboard"
+                            variant="pills"
+                            className="manager-vert-navbar"
+                            style={{paddingLeft: "15px", color: "black"}}
+                        >
+                            <Nav.Link as={Link} to="/dashboard">
+                                <MdDashboard/> Dashboard
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/scooter-management">
+                                <MdElectricScooter/> Scooter Management
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/hire-option-management">
+                                <MdCreate/> Hire Option Management
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/depot-management">
+                                <RiBuilding3Fill/> Depot Management
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/issues">
+                                <FaExclamation/> Issues
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/statistics">
+                                <IoIosStats/> Statistics
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/account-management">
+                                <MdManageAccounts/> Account Management
+                            </Nav.Link>
+                            <Nav.Link as={Link} to="/settings">
+                                <MdSettings/> Settings
+                            </Nav.Link>
+                        </Nav>
+                    </Col>
+                    <Col xs={9}>
+                        <Outlet context={[signOut]}/>
+                    </Col>
+                </Row>
+            </div>
         </div>
     );
 };

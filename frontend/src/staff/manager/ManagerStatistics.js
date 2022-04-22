@@ -1,17 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {default as CanvasJSReact} from "../../canvasjs.react.js";
-import Cookies from "universal-cookie";
 import host from "../../host";
-import '../StaffInterface.css';
+import Cookies from "universal-cookie";
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-export default function Statistics({isDark}) {
+export default function ManagerStatistics() {
     const cookies = new Cookies();
     const [weeklyData, setWeeklyData] = useState('');
     const [weeklyHiresData, setWeeklyHiresData] = useState('');
     const [combinedDailyData, setCombinedDailyData] = useState('');
-    let chartTheme = (isDark ? "dark2" : "light2");
+    let chartTheme = "light2";
 
     useEffect(() => {
         fetchStatistics();

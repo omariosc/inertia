@@ -1,111 +1,61 @@
-import React, {useState} from "react";
-import {Row, Col, Nav} from "react-bootstrap";
+import React from "react";
+import {useLocation, useOutletContext, Outlet, Link} from 'react-router-dom';
+import {Row, Col, Nav, DropdownButton, Dropdown} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css"
-import CreateBooking from "./CustomerCreateBooking";
-import OngoingBookings from "./CustomerOngoingBooking";
-import BookingHistory from "./CustomerBookingHistory";
-import CustomerSettings from './CustomerSettings';
-import Discounts from "./CustomerDiscounts";
-import SubmitIssue from "./CustomerSubmitIssue";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
+import '../App.css';
 
-export default function CustomerInterface({isDark, toggle, map_locations}) {
-    const [showCreateBooking, setShowCreateBooking] = useState(true);
-    const [showCurrentBookings, setShowCurrentBookings] = useState(false);
-    const [showBookingHistory, setShowBookingHistory] = useState(false);
-    const [showSubmitIssue, setShowSubmitIssue] = useState(false);
-    const [showDiscounts, setShowDiscounts] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
+export default function CustomerInterface() {
+    let location = useLocation();
+    const [signOut] = useOutletContext();
+    const headers = {
+        "/create-booking": "Create Booking",
+        "/current-bookings": "Current Bookings",
+        "/booking-history": "Booking History",
+        "/submit-issue": "Submit Issue",
+        "/discounts": "Discounts",
+        "/settings": "Settings"
+    };
+
     return (
-        <div id="account-page">
-            <Row>
-                <Col lg={4} xs={12} className="customer-column border-end border-dark">
-                    <h1>INERTIA</h1>
-                </Col>
-                <Col lg={8} xs={12} className="customer-column-page">
-                    <>
-                        {showCreateBooking ? <h4>Create Booking</h4> : null}
-                        {showCurrentBookings ? <h4>Current Bookings</h4> : null}
-                        {showBookingHistory ? <h4>Booking History</h4> : null}
-                        {showSubmitIssue ? <h4>Submit Issue</h4> : null}
-                        {showDiscounts ? <h4>Discounts</h4> : null}
-                        {showSettings ? <h4>Settings</h4> : null}
-                    </>
-                </Col>
-            </Row>
-            <Row id={"customer-row"}>
-                <Col lg={4} xs={12} className="customer-column border-end border-dark">
-                    {/*NAVIGATION BAR*/}
-                    <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">
-                        <Nav.Link href="#/create-bookings"
-                                  onClick={() => {
-                                      setShowCreateBooking(true);
-                                      setShowCurrentBookings(false);
-                                      setShowBookingHistory(false);
-                                      setShowSubmitIssue(false);
-                                      setShowDiscounts(false);
-                                      setShowSettings(false);
-                                  }}>Create Bookings</Nav.Link>
-                        <Nav.Link href="#/current-bookings"
-                                  onClick={() => {
-                                      setShowCreateBooking(false);
-                                      setShowCurrentBookings(true);
-                                      setShowBookingHistory(false);
-                                      setShowSubmitIssue(false);
-                                      setShowDiscounts(false);
-                                      setShowSettings(false);
-                                  }}>Current Booking</Nav.Link>
-                        <Nav.Link href="#/booking-history"
-                                  onClick={() => {
-                                      setShowCreateBooking(false);
-                                      setShowCurrentBookings(false);
-                                      setShowBookingHistory(true);
-                                      setShowSubmitIssue(false);
-                                      setShowDiscounts(false);
-                                      setShowSettings(false);
-                                  }}>Booking History</Nav.Link>
-                        <Nav.Link href="#/submit-issue"
-                                  onClick={() => {
-                                      setShowCreateBooking(false);
-                                      setShowCurrentBookings(false);
-                                      setShowBookingHistory(false);
-                                      setShowSubmitIssue(true);
-                                      setShowDiscounts(false);
-                                      setShowSettings(false);
-                                  }}>Submit Issue</Nav.Link>
-                        <Nav.Link href="#/discounts"
-                                  onClick={() => {
-                                      setShowCreateBooking(false);
-                                      setShowCurrentBookings(false);
-                                      setShowBookingHistory(false);
-                                      setShowSubmitIssue(false);
-                                      setShowDiscounts(true);
-                                      setShowSettings(false);
-                                  }}>Discounts</Nav.Link>
-                        <Nav.Link href="#/settings"
-                                  onClick={() => {
-                                      setShowCreateBooking(false);
-                                      setShowCurrentBookings(false);
-                                      setShowBookingHistory(false);
-                                      setShowSubmitIssue(false);
-                                      setShowDiscounts(false);
-                                      setShowSettings(true);
-                                  }}>Settings</Nav.Link>
-                    </Nav>
-                </Col>
-                <Col lg={8} xs={12}>
-                    <>
-                        {showCreateBooking ? <CreateBooking map_locations={map_locations}
-                                                            onHide={() => setShowCreateBooking(false)}/> : null}
-                        {showCurrentBookings ? <OngoingBookings onHide={() => setShowCurrentBookings(false)}/> : null}
-                        {showBookingHistory ? <BookingHistory onHide={() => setShowBookingHistory(false)}/> : null}
-                        {showSubmitIssue ? <SubmitIssue onHide={() => setShowBookingHistory(false)}/> : null}
-                        {showDiscounts ? <Discounts onHide={() => setShowDiscounts(false)}/> : null}
-                        {showSettings ?
-                            <CustomerSettings isDark={isDark} toggle={toggle}
-                                              onHide={() => setShowSettings(false)}/> : null}
-                    </>
-                </Col>
-            </Row>
+        <div id="overlay">
+            <div id="top-bar">
+                <DropdownButton
+                    align="end"
+                    title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
+                    className="dropdown-basic-button clickable"
+                >
+                    <Dropdown.Item as={Link} to="/" onClick={signOut}>
+                        <p>Sign Out</p>
+                    </Dropdown.Item>
+                </DropdownButton>
+            </div>
+            <div id="account-page">
+                <Row>
+                    <Col lg={4} xs={12} className="customer-column border-end border-dark">
+                        <Nav.Link as={Link} to="/create-booking"><h1>INERTIA</h1></Nav.Link>
+                    </Col>
+                    <Col lg={8} xs={12} className="customer-column-page">
+                        <h4>{headers[location.pathname]}</h4>
+                    </Col>
+                </Row>
+                <Row id={"customer-row"}>
+                    <Col lg={4} xs={12} className="customer-column border-end border-dark">
+                        <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">
+                            <Nav.Link as={Link} to="/create-booking">Create Booking</Nav.Link>
+                            <Nav.Link as={Link} to="/current-bookings">Current Bookings</Nav.Link>
+                            <Nav.Link as={Link} to="/booking-history">Booking History</Nav.Link>
+                            <Nav.Link as={Link} to="/submit-issue">Submit Issue</Nav.Link>
+                            <Nav.Link as={Link} to="/discounts">Discounts</Nav.Link>
+                            <Nav.Link as={Link} to="/settings">Settings</Nav.Link>
+                        </Nav>
+                    </Col>
+                    <Col lg={8} xs={12}>
+                        <Outlet context={[signOut]}/>
+                    </Col>
+                </Row>
+            </div>
         </div>
     );
 };

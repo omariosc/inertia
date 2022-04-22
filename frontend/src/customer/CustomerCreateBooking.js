@@ -3,14 +3,14 @@ import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import validateCard from "../cardValidator";
-import host from "../host";
-import center from "../center";
-import Cookies from 'universal-cookie';
-import '../staff/StaffInterface.css';
 import moment from "moment";
+import center from "../center";
+import host from "../host";
+import Cookies from 'universal-cookie';
 
-export default function CreateBooking({map_locations}) {
+export default function CustomerCreateBooking() {
     const cookies = new Cookies();
+    const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [scooterChoiceId, setScooterChoiceId] = useState('');
@@ -27,7 +27,24 @@ export default function CreateBooking({map_locations}) {
         fetchAvailableScooters();
         fetchHirePeriods();
         fetchDiscountStatus();
+        fetchLocations();
     }, []);
+
+    async function fetchLocations() {
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
     async function getDiscountStatus() {
         try {
@@ -175,40 +192,48 @@ export default function CreateBooking({map_locations}) {
             <h5>Select Booking Details</h5>
             <br/>
             <Form>
-                <Form.Group style={{paddingRight: "15px"}}>
-                    <Form.Label><b>Select Scooter</b></Form.Label>
-                    {(scooters === '') ?
-                        <h6>Loading scooters...</h6> :
-                        <Form.Select
-                            onChange={(e) => {
-                                setScooterChoiceId(e.target.value);
-                            }}
-                        >
-                            <option value="none" key="none">Select a scooter...</option>
-                            {scooters.map((scooter, idx) => (
-                                (scooter.scooterStatus === 0) ?
-                                    <option value={scooter.scooterId} key={idx}>
-                                        Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})
-                                        ({scooterStatus[scooter.scooterStatus]})</option>
-                                    : null
-                            ))}
-                        </Form.Select>
+                <Form.Group>
+                    {(map_locations === "") ?
+                        <h5>Loading map locations...</h5> :
+                        <>
+                            <Form.Label><b>Select Scooter</b></Form.Label>
+                            {(scooters === '') ?
+                                <h6>Loading scooters...</h6> :
+                                <Form.Select
+                                    onChange={(e) => {
+                                        setScooterChoiceId(e.target.value);
+                                    }}
+                                >
+                                    <option value="none" key="none">Select a scooter...</option>
+                                    {scooters.map((scooter, idx) => (
+                                        (scooter.scooterStatus === 0) ?
+                                            <option value={scooter.scooterId} key={idx}>
+                                                Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})
+                                                ({scooterStatus[scooter.scooterStatus]})</option>
+                                            : null
+                                    ))}
+                                </Form.Select>
+                            }
+                        </>
                     }
                 </Form.Group>
                 <br/>
-                <MapContainer center={center} zoom={15} zoomControl={false} className="minimap"
-                              style={{height: "300px", paddingRight: "100px"}}>
-                    <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    {map_locations.map((map_location, index) => (
-                        <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
-                            <Popup>{map_location.name}</Popup>
-                        </Marker>
-                    ))}
-                </MapContainer>
+                {(map_locations === "") ?
+                    <h5>Loading map locations...</h5> :
+                    <MapContainer center={center} zoom={15} zoomControl={false} className="minimap"
+                                  style={{height: "300px"}}>
+                        <TileLayer
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                        {map_locations.map((map_location, index) => (
+                            <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
+                                <Popup>{map_location.name}</Popup>
+                            </Marker>
+                        ))}
+                    </MapContainer>
+                }
                 <br/>
-                <Form.Group style={{paddingRight: "15px"}}>
+                <Form.Group>
                     <Form.Label><b>Select Hire Period</b></Form.Label>
                     {(hireOptions === '') ?
                         <h6>Loading hire options...</h6> :

@@ -3,9 +3,8 @@ import {Container, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from 'universal-cookie';
-import '../StaffInterface.css';
 
-export default function DepotManagement() {
+export default function ManagerDepotManagement() {
     const cookies = new Cookies();
     const [depots, setDepots] = useState('');
     const [newName, setNewName] = useState('');

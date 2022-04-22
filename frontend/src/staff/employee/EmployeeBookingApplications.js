@@ -3,9 +3,8 @@ import {Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
-import '../StaffInterface.css';
 
-export default function BookingApplications() {
+export default function EmployeeBookingApplications() {
     const cookies = new Cookies();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
@@ -138,10 +137,12 @@ export default function BookingApplications() {
                                                 <td><b>Cost:</b></td>
                                                 <td>£{booking.cost.toFixed(2)}</td>
                                             </tr>
-                                            <tr>
-                                                <td><b>Discount:</b></td>
-                                                <td>{booking.discount*100}%</td>
-                                            </tr>
+                                            {(booking.discount > 0) ?
+                                                <tr>
+                                                    <td><b>Discount:</b></td>
+                                                    <td>{booking.discount * 100}%</td>
+                                                </tr> : null
+                                            }
                                             <tr>
                                                 <td><b>Created At:</b></td>
                                                 <td>{showDate(booking.createdAt)}</td>
@@ -153,10 +154,6 @@ export default function BookingApplications() {
                                             <tr>
                                                 <td><b>End Time:</b></td>
                                                 <td>{showDate(booking.endTime)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Extensions:</b></td>
-                                                <td>{((booking.extensions.length !== 0) ? booking.extensions.length : "None")}</td>
                                             </tr>
                                             <tr>
                                                 <td><b>Order Status:</b></td>
@@ -173,7 +170,7 @@ export default function BookingApplications() {
                                             <th>Scooter ID</th>
                                             <th>Time Expiring</th>
                                             <th>Approve</th>
-                                            <th>Deny4</th>
+                                            <th>Deny</th>
                                             <th>Booking Confirmation</th>
                                         </tr>
                                         </thead>

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import orderState from "../staff/orderState";
 import host from '../host';
 import Cookies from 'universal-cookie';
 
@@ -8,7 +9,6 @@ export default function CustomerBookingHistory() {
     const cookies = new Cookies();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
-    const orderState = ["Cancelled", "Pending Approval", "Upcoming", "Ongoing", "Pending Return", "Completed", "Denied"];
 
     useEffect(() => {
         fetchBookings();
@@ -53,70 +53,74 @@ export default function CustomerBookingHistory() {
                             <div className="scroll">
                                 {(booking === '') ?
                                     <h6>Select a booking to show booking details</h6> :
-                                    <Table>
-                                        <tbody>
-                                        <tr>
-                                            <td><b>Booking ID:</b></td>
-                                            <td>{booking.orderId}</td>
-                                        </tr>
-                                        {(booking.scooter) ?
+                                    <>
+                                        <Table>
+                                            <tbody>
                                             <tr>
-                                                <td><b>Scooter ID:</b></td>
-                                                <td>{booking.scooter.softScooterId}</td>
+                                                <td><b>Booking ID:</b></td>
+                                                <td>{booking.orderId}</td>
                                             </tr>
-                                            :
+                                            {(booking.scooter) ?
+                                                <tr>
+                                                    <td><b>Scooter ID:</b></td>
+                                                    <td>{booking.scooter.softScooterId}</td>
+                                                </tr>
+                                                :
+                                                <tr>
+                                                    <td><b>Scooter:</b></td>
+                                                    <td>{booking.scooterId}</td>
+                                                </tr>
+                                            }
                                             <tr>
-                                                <td><b>Scooter:</b></td>
-                                                <td>{booking.scooterId}</td>
+                                                <td><b>Customer ID:</b></td>
+                                                <td>{booking.accountId}</td>
                                             </tr>
-                                        }
-                                        <tr>
-                                            <td><b>Customer ID:</b></td>
-                                            <td>{booking.accountId}</td>
-                                        </tr>
-                                        {(booking.account) ?
-                                            <>
-                                                {(booking.account.depo) ?
-                                                    <tr>
-                                                        <td><b>Depot:</b></td>
-                                                        <td>{booking.account.depo.name}</td>
-                                                    </tr> : null
-                                                }
-                                            </>
-                                            : null
-                                        }
-                                        <tr>
-                                            <td><b>Hire Option:</b></td>
-                                            <td>{booking.hireOption.name}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Cost:</b></td>
-                                            <td>£{booking.cost.toFixed(2)}</td>
-                                        </tr>
-                                        {(booking.discount > 0) ?
+                                            {(booking.account) ?
+                                                <>
+                                                    {(booking.account.depo) ?
+                                                        <tr>
+                                                            <td><b>Depot:</b></td>
+                                                            <td>{booking.account.depo.name}</td>
+                                                        </tr> : null
+                                                    }
+                                                </>
+                                                : null
+                                            }
                                             <tr>
-                                                <td><b>Discount:</b></td>
-                                                <td>{booking.discount * 100}%</td>
-                                            </tr> : null
-                                        }
-                                        <tr>
-                                            <td><b>Created At:</b></td>
-                                            <td>{showDate(booking.createdAt)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Start Time:</b></td>
-                                            <td>{showDate(booking.startTime)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>End Time:</b></td>
-                                            <td>{showDate(booking.endTime)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Order Status:</b></td>
-                                            <td>{orderState[booking.orderState]}</td>
-                                        </tr>
-                                        </tbody>
-                                    </Table>
+                                                <td><b>Hire Option:</b></td>
+                                                <td>{booking.hireOption.name}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Cost:</b></td>
+                                                <td>£{booking.cost.toFixed(2)}</td>
+                                            </tr>
+                                            {(booking.discount > 0) ?
+                                                <tr>
+                                                    <td><b>Discount:</b></td>
+                                                    <td>{booking.discount * 100}%</td>
+                                                </tr> : null
+                                            }
+                                            <tr>
+                                                <td><b>Created At:</b></td>
+                                                <td>{showDate(booking.createdAt)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Start Time:</b></td>
+                                                <td>{showDate(booking.startTime)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>End Time:</b></td>
+                                                <td>{showDate(booking.endTime)}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Order Status:</b></td>
+                                                <td>{orderState[booking.orderState]}</td>
+                                            </tr>
+                                            </tbody>
+                                        </Table>
+                                        <Button style={{float: "right"}} onClick={() => setBooking("")}
+                                                variant="danger">Close</Button>
+                                    </>
                                 }
                                 <br/>
                                 <Table>
@@ -130,8 +134,10 @@ export default function CustomerBookingHistory() {
                                     {bookingHistory.map((booking, idx) => (
                                         <tr key={idx}>
                                             <td>{booking.orderId}</td>
-                                            <td><a onClick={() => setBooking(bookingHistory[idx])}
-                                                   href="#/view-booking">View</a>
+                                            <td>
+                                                <Button onClick={() => setBooking(bookingHistory[idx])}>
+                                                    View
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}

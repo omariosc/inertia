@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, InputGroup, Table} from "react-bootstrap";
+import {Button, Container, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from 'universal-cookie';
@@ -192,16 +192,15 @@ export default function ManagerHireOptionManagement() {
                                                     <input type="number" placeholder="Modify duration"
                                                            onInput={e => setNewDuration(e.target.value)}/>
                                                 </InputGroup>
-                                                <a onClick={() => {
+                                                <Button onClick={() => {
                                                     if (hireOption.durationInHours !== parseInt(newDuration)) {
                                                         editHireOption(hireOption.hireOptionId, 0);
                                                     } else {
                                                         alert("Duration cannot be the same.");
                                                     }
-                                                }}
-                                                   href="#/manager-change-hire-option-duration">
+                                                }}>
                                                     Change Duration
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>
                                                 {hireOption.name}
@@ -209,16 +208,15 @@ export default function ManagerHireOptionManagement() {
                                                     <input type="text" placeholder="Modify name"
                                                            onInput={e => setNewName(e.target.value)}/>
                                                 </InputGroup>
-                                                <a onClick={() => {
+                                                <Button onClick={() => {
                                                     if (hireOption.name !== newName) {
                                                         editHireOption(hireOption.hireOptionId, 1);
                                                     } else {
                                                         alert("Name cannot be the same.");
                                                     }
-                                                }}
-                                                   href="#/manager-change-hire-option-name">
+                                                }}>
                                                     Change Name
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>
                                                 {hireOption.cost}
@@ -226,22 +224,21 @@ export default function ManagerHireOptionManagement() {
                                                     <input type="price" placeholder="Modify cost"
                                                            onInput={e => setNewCost(e.target.value)}/>
                                                 </InputGroup>
-                                                <a onClick={() => {
+                                                <Button onClick={() => {
                                                     if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
                                                         editHireOption(hireOption.hireOptionId, 2);
                                                     } else {
                                                         alert("Cost cannot be the same.");
                                                     }
-                                                }}
-                                                   href="#/manager-change-hire-option-cost">
+                                                }}>
                                                     Change Cost
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>
-                                                <a onClick={() => deleteHireOption(hireOption.hireOptionId)}
-                                                   href="#/manager-delete-hire-option" color="red">
+                                                <Button
+                                                    onClick={() => deleteHireOption(hireOption.hireOptionId)} variant="danger">
                                                     Delete
-                                                </a>
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}
@@ -266,10 +263,10 @@ export default function ManagerHireOptionManagement() {
                                             </InputGroup>
                                         </td>
                                         <td>
-                                            <a onClick={createHireOption}
-                                               href="#/manager-create-hire-option" color="green">
+                                            <Button
+                                                onClick={createHireOption} variant="success">
                                                 Create New
-                                            </a>
+                                            </Button>
                                         </td>
                                     </tr>
                                     </tbody>

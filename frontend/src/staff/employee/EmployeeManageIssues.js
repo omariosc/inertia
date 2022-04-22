@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Card, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import priorities from "../priorities";
 import host from "../../host";
 import Cookies from "universal-cookie";
 
@@ -8,7 +9,6 @@ export default function EmployeeManageIssues() {
     const cookies = new Cookies();
     const [issues, setIssues] = useState('');
     const [priority, setPriority] = useState('');
-    const priorities = ["None", "Low", "Medium", "High"];
 
     useEffect(() => {
         fetchIssues();

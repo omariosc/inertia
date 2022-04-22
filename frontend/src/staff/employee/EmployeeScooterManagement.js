@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Container, Table} from "react-bootstrap";
+import {Button, Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import scooterStatus from "../../scooterStatus";
 import host from '../../host';
 import Cookies from 'universal-cookie';
 
@@ -8,7 +9,6 @@ export default function EmployeeScooterManagement() {
     const cookies = new Cookies();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
-    const scooterStatus = ["In Depot", "Ongoing Order", "Pending Return", "Unavailable By Staff"];
 
     useEffect(() => {
         fetchScooters();
@@ -104,10 +104,9 @@ export default function EmployeeScooterManagement() {
                                         }
                                     </td>
                                     <td>
-                                        <a onClick={() => editScooter(scooter.scooterId, scooter.available)}
-                                           href="#/employee-change-availability">
+                                        <Button onClick={() => editScooter(scooter.scooterId, scooter.available)}>
                                             {(scooter.available ? "Make Unavailable" : "Make Available")}
-                                        </a>
+                                        </Button>
                                     </td>
                                 </tr>
                             ))}

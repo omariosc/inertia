@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import scooterStatus from "../../scooterStatus";
 import host from '../../host';
 import Cookies from 'universal-cookie';
 
 export default function ManagerScooterManagement() {
     const cookies = new Cookies();
-    const [map_locations, setMapLocations] = useState('');
-    const [scooters, setScooters] = useState('');
     const [newID, setScooterNewId] = useState('');
     const [createID, setCreateId] = useState('');
     const [createDepo, setCreateDepo] = useState('');
-    const scooterStatus = ["In Depot", "Ongoing Order", "Pending Return", "Unavailable By Staff"];
+    const [map_locations, setMapLocations] = useState('');
+    const [scooters, setScooters] = useState('');
 
     useEffect(() => {
         fetchScooters();
@@ -195,16 +195,15 @@ export default function ManagerScooterManagement() {
                                                     <input placeholder="Enter new scooter ID"
                                                            onInput={e => setScooterNewId(e.target.value)}/>
                                                 </InputGroup>
-                                                <a onClick={() => {
+                                                <Button onClick={() => {
                                                     if (scooter.scooterId !== parseInt(newID)) {
                                                         editScooter(scooter.scooterId, 2);
                                                     } else {
                                                         alert("Scooter ID cannot be the same");
                                                     }
-                                                }}
-                                                   href="#/manager-change-id">
+                                                }}>
                                                     Change ID
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>
                                                 <p>{(scooter.available ? "Available" : "Unavailable")}</p>
@@ -240,10 +239,10 @@ export default function ManagerScooterManagement() {
                                                 }
                                             </td>
                                             <td>
-                                                <a onClick={() => deleteScooter(scooter.scooterId)}
-                                                   href="#/manager-delete-scooter" color="red">
+                                                <Button
+                                                    onClick={() => deleteScooter(scooter.scooterId)} variant="danger">
                                                     Delete
-                                                </a>
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}
@@ -276,10 +275,10 @@ export default function ManagerScooterManagement() {
                                             }
                                         </td>
                                         <td>
-                                            <a onClick={createScooter}
-                                               href="#/manager-create-scooter" color="green">
+                                            <Button
+                                                onClick={createScooter} variant="success">
                                                 Create New
-                                            </a>
+                                            </Button>
                                         </td>
                                     </tr>
                                     </tbody>

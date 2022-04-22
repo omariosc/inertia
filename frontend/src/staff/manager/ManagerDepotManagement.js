@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, InputGroup, Table} from "react-bootstrap";
+import {Button, Container, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from 'universal-cookie';
@@ -180,16 +180,15 @@ export default function ManagerDepotManagement() {
                                                     <input type="text" placeholder="Modify name"
                                                            onInput={e => setNewName(e.target.value)}/>
                                                 </InputGroup>
-                                                <a onClick={() => {
+                                                <Button onClick={() => {
                                                     if (depot.name !== newName) {
                                                         editDepot(depot.depoId, 0);
                                                     } else {
                                                         alert("Name cannot be the same.");
                                                     }
-                                                }}
-                                                   href="#/manager-change-depot-name">
+                                                }}>
                                                     Change Name
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>
                                                 {depot.latitude}
@@ -197,16 +196,15 @@ export default function ManagerDepotManagement() {
                                                     <input type="text" placeholder="Modify Latitude"
                                                            onInput={e => setNewLatitude(e.target.value)}/>
                                                 </InputGroup>
-                                                <a onClick={() => {
+                                                <Button onClick={() => {
                                                     if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
                                                         editDepot(depot.depoId, 1);
                                                     } else {
                                                         alert("Latitude cannot be the same.");
                                                     }
-                                                }}
-                                                   href="#/manager-change-depot-latitude">
+                                                }}>
                                                     Change Latitude
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>
                                                 {depot.longitude}
@@ -214,22 +212,21 @@ export default function ManagerDepotManagement() {
                                                     <input type="text" placeholder="Modify Longitude"
                                                            onInput={e => setNewLongitude(e.target.value)}/>
                                                 </InputGroup>
-                                                <a onClick={() => {
+                                                <Button onClick={() => {
                                                     if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
                                                         editDepot(depot.depoId, 2);
                                                     } else {
                                                         alert("Longitude cannot be the same.");
                                                     }
-                                                }}
-                                                   href="#/manager-change-depot-longitude">
+                                                }}>
                                                     Change Longitude
-                                                </a>
+                                                </Button>
                                             </td>
                                             <td>
-                                                <a onClick={() => deleteDepot(depot.depoId)}
-                                                   href="#/manager-delete-depot" color="red">
+                                                <Button
+                                                    onClick={() => deleteDepot(depot.depoId)} variant="danger">
                                                     Delete
-                                                </a>
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}
@@ -254,10 +251,10 @@ export default function ManagerDepotManagement() {
                                             </InputGroup>
                                         </td>
                                         <td>
-                                            <a onClick={createDepot}
-                                               href="#/manager-create-depot" color="green">
+                                            <Button
+                                                onClick={createDepot} variant="success">
                                                 Create New
-                                            </a>
+                                            </Button>
                                         </td>
                                     </tr>
                                     </tbody>

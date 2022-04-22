@@ -3,6 +3,7 @@ import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import validateCard from "../cardValidator";
+import scooterStatus from "../scooterStatus";
 import moment from "moment";
 import center from "../center";
 import host from "../host";
@@ -21,7 +22,6 @@ export default function CustomerCreateBooking() {
     const [cvv, setCVV] = useState('');
     const [discount, setDiscount] = useState(false);
     const [loading, setLoading] = useState('');
-    const scooterStatus = ["In Depot", "Ongoing Order", "Pending Return", "Unavailable By Staff"];
 
     useEffect(() => {
         fetchAvailableScooters();

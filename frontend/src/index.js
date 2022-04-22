@@ -5,7 +5,7 @@ import App from './App';
 import LandingPage from "./LandingPage";
 import CustomerInterface from "./customer/CustomerInterface";
 import CustomerCreateBooking from "./customer/CustomerCreateBooking";
-import CustomerOngoingBookings from "./customer/CustomerOngoingBooking";
+import CustomerCurrentBookings from "./customer/CustomerCurrentBooking";
 import CustomerBookingHistory from "./customer/CustomerBookingHistory";
 import CustomerSubmitIssue from "./customer/CustomerSubmitIssue";
 import CustomerDiscounts from "./customer/CustomerDiscounts";
@@ -70,7 +70,7 @@ ReactDOM.render(
                     {(cookies.get('accountRole') === "0") ?
                         <Route path="" element={<CustomerInterface/>}>
                             <Route path="create-booking" element={<CustomerCreateBooking/>}/>
-                            <Route path="current-bookings" element={<CustomerOngoingBookings/>}/>
+                            <Route path="current-bookings" element={<CustomerCurrentBookings/>}/>
                             <Route path="booking-history" element={<CustomerBookingHistory/>}/>
                             <Route path="submit-issue" element={<CustomerSubmitIssue/>}/>
                             <Route path="discounts" element={<CustomerDiscounts/>}/>

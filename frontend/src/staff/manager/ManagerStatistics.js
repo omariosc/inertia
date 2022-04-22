@@ -10,7 +10,6 @@ export default function ManagerStatistics() {
     const [weeklyData, setWeeklyData] = useState('');
     const [weeklyHiresData, setWeeklyHiresData] = useState('');
     const [combinedDailyData, setCombinedDailyData] = useState('');
-    let chartTheme = "light2";
 
     useEffect(() => {
         fetchStatistics();
@@ -48,7 +47,7 @@ export default function ManagerStatistics() {
                     <>
                         <CanvasJSChart options={
                             {
-                                theme: `${chartTheme}`,
+                                theme: "light2",
                                 animationEnabled: true,
                                 title: {
                                     text: "Weekly Income (Hire Options)",
@@ -140,7 +139,7 @@ export default function ManagerStatistics() {
                     <>
                         <CanvasJSChart options={
                             {
-                                theme: `${chartTheme}`,
+                                theme: "light2",
                                 animationEnabled: true,
                                 title: {
                                     text: "Weekly Income",
@@ -181,7 +180,7 @@ export default function ManagerStatistics() {
                     <>
                         <CanvasJSChart options={
                             {
-                                theme: `${chartTheme}`,
+                                theme: "light2",
                                 animationEnabled: true,
                                 title: {
                                     text: "Daily Combined Income",
@@ -251,8 +250,6 @@ export default function ManagerStatistics() {
                             }
                         }
                         />
-                        <br/>
-                        <br/>
                     </>
                 }
             </div>

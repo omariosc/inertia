@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Col, Container, Row, Table} from "react-bootstrap";
+import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import orderState from "../orderState";
 import host from '../../host';
 import Cookies from 'universal-cookie';
 
@@ -9,7 +10,6 @@ export default function EmployeeBookingHistory() {
     const [userBookings, setUserBookings] = useState('');
     const [guestBookings, setGuestBookings] = useState('');
     const [booking, setBooking] = useState('');
-    const orderState = ["Cancelled", "PendingApproval", "Upcoming", "Ongoing", "PendingReturn", "Completed", "Denied"];
 
     useEffect(() => {
         fetchUserBookings();
@@ -94,8 +94,10 @@ export default function EmployeeBookingHistory() {
                                                 {userBookings.map((booking, idx) => (
                                                     <tr key={idx}>
                                                         <td>{booking.orderId}</td>
-                                                        <td><a onClick={() => displayBooking(idx, "user")}
-                                                               href="#/employee-view-user-booking">View</a>
+                                                        <td>
+                                                            <Button onClick={() => displayBooking(idx, "user")}>
+                                                                View
+                                                            </Button>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -106,8 +108,10 @@ export default function EmployeeBookingHistory() {
                                                 {guestBookings.map((booking, idx) => (
                                                     <tr key={idx}>
                                                         <td>{booking.orderId}</td>
-                                                        <td><a onClick={() => displayBooking(idx, "guest")}
-                                                               href="#/employee-view-guest-booking">View</a>
+                                                        <td>
+                                                            <Button onClick={() => displayBooking(idx, "guest")}>
+                                                                View
+                                                            </Button>
                                                         </td>
                                                     </tr>
                                                 ))}

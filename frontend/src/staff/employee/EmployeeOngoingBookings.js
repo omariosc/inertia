@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Container, Form, Table} from "react-bootstrap";
+import {Button, Container, Form, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import orderState from "../orderState";
 import host from "../../host";
 import Cookies from "universal-cookie";
 
@@ -10,7 +11,6 @@ export default function EmployeeOngoingBookings() {
     const [booking, setBooking] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [hireChoiceId, setHireChoiceId] = useState('');
-    const orderState = ["Cancelled", "Pending Approval", "Upcoming", "Ongoing", "Pending Return", "Completed", "Denied"];
 
     useEffect(() => {
         fetchBookings();
@@ -132,58 +132,62 @@ export default function EmployeeOngoingBookings() {
                                 <div className="scroll">
                                     {(booking === '') ?
                                         <h6>Select a booking to show booking details</h6> :
-                                        <Table>
-                                            <tbody>
-                                            <tr>
-                                                <td><b>Booking ID:</b></td>
-                                                <td>{booking.orderId}</td>
-                                            </tr>
-                                            {(booking.accountId) ?
+                                        <>
+                                            <Table>
+                                                <tbody>
                                                 <tr>
-                                                    <td><b>Customer ID:</b></td>
-                                                    <td>{booking.accountId}</td>
-                                                </tr> : null
-                                            }
-                                            {(booking.account) ?
-                                                <>
-                                                    {(booking.account.name) ?
-                                                        <tr>
-                                                            <td><b>Customer Name:</b></td>
-                                                            <td>{booking.account.name}</td>
-                                                        </tr>
-                                                        : null
-                                                    }
-                                                </>
-                                                : null
-                                            }
-                                            <tr>
-                                                <td><b>Cost:</b></td>
-                                                <td>£{booking.cost.toFixed(2)}</td>
-                                            </tr>
-                                            {(booking.discount > 0) ?
+                                                    <td><b>Booking ID:</b></td>
+                                                    <td>{booking.orderId}</td>
+                                                </tr>
+                                                {(booking.accountId) ?
+                                                    <tr>
+                                                        <td><b>Customer ID:</b></td>
+                                                        <td>{booking.accountId}</td>
+                                                    </tr> : null
+                                                }
+                                                {(booking.account) ?
+                                                    <>
+                                                        {(booking.account.name) ?
+                                                            <tr>
+                                                                <td><b>Customer Name:</b></td>
+                                                                <td>{booking.account.name}</td>
+                                                            </tr>
+                                                            : null
+                                                        }
+                                                    </>
+                                                    : null
+                                                }
                                                 <tr>
-                                                    <td><b>Discount:</b></td>
-                                                    <td>{booking.discount * 100}%</td>
-                                                </tr> : null
-                                            }
-                                            <tr>
-                                                <td><b>Created At:</b></td>
-                                                <td>{showDate(booking.createdAt)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Start Time:</b></td>
-                                                <td>{showDate(booking.startTime)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>End Time:</b></td>
-                                                <td>{showDate(booking.endTime)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Order Status:</b></td>
-                                                <td>{orderState[booking.orderState]}</td>
-                                            </tr>
-                                            </tbody>
-                                        </Table>
+                                                    <td><b>Cost:</b></td>
+                                                    <td>£{booking.cost.toFixed(2)}</td>
+                                                </tr>
+                                                {(booking.discount > 0) ?
+                                                    <tr>
+                                                        <td><b>Discount:</b></td>
+                                                        <td>{booking.discount * 100}%</td>
+                                                    </tr> : null
+                                                }
+                                                <tr>
+                                                    <td><b>Created At:</b></td>
+                                                    <td>{showDate(booking.createdAt)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Start Time:</b></td>
+                                                    <td>{showDate(booking.startTime)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>End Time:</b></td>
+                                                    <td>{showDate(booking.endTime)}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Order Status:</b></td>
+                                                    <td>{orderState[booking.orderState]}</td>
+                                                </tr>
+                                                </tbody>
+                                            </Table>
+                                            <Button style={{float: "right"}} onClick={() => setBooking("")}
+                                                    variant="danger">Close</Button>
+                                        </>
                                     }
                                     <br/>
                                     <Table>
@@ -230,10 +234,9 @@ export default function EmployeeOngoingBookings() {
                                                                             ))}
                                                                         </Form.Select>
                                                                     }
-                                                                    <a onClick={() => extendBooking(booking.orderId)}
-                                                                       color="green"
-                                                                       href="#/employee-extend"
-                                                                    >Extend</a>
+                                                                    <Button
+                                                                        onClick={() => extendBooking(booking.orderId)}
+                                                                        variant="success">Extend</Button>
                                                                 </> : null
                                                             }
                                                         </td>
@@ -241,15 +244,14 @@ export default function EmployeeOngoingBookings() {
                                                             {(booking.orderState === 2) ? "N/A (Booking is upcoming)" : null}
                                                             {(booking.orderState === 3) ? "N/A (Booking is ongoing)" : null}
                                                             {(booking.orderState !== 2 && booking.orderState !== 3) ?
-                                                                <a onClick={() => cancelBooking(booking.orderId)}
-                                                                   color="red"
-                                                                   href="#/employee-cancel"
-                                                                >Cancel</a> : null
+                                                                <Button onClick={() => cancelBooking(booking.orderId)}
+                                                                        variant="danger">Cancel</Button> : null
                                                             }
                                                         </td>
                                                         <td>
-                                                            <a onClick={() => setBooking(bookingHistory[idx])}
-                                                               href="#/employee-view-booking">View</a>
+                                                            <Button onClick={() => setBooking(bookingHistory[idx])}>
+                                                                View
+                                                            </Button>
                                                         </td>
                                                     </tr>
                                                 ))}

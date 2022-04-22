@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, Table} from "react-bootstrap";
+import {Button, Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
@@ -101,19 +101,22 @@ export default function EmployeeDiscountApplications() {
                                             <td>{application.account.name}</td>
                                             <td>{application.account.email}</td>
                                             <td>{applicationType[application.disccountType]}</td>
-                                            <td><a onClick={() => getImage(application.discountApplicationId)}
-                                                   href="#/employee-view-discount-applications">View</a></td>
                                             <td>
-                                                <a onClick={() => applicationAction(application.discountApplicationId, "Approve")}
-                                                   color="green"
-                                                   href="#/employee-approve-discount"
-                                                   style={{float: 'left', width: '47.5%'}}>
-                                                    Approve</a>
-                                                <a onClick={() => applicationAction(application.discountApplicationId, "Deny")}
-                                                   color="red"
-                                                   href="#/employee-reject-discount"
-                                                   style={{float: 'right', width: '47.5%'}}>
-                                                    Reject</a>
+                                                <Button onClick={() => getImage(application.discountApplicationId)}>
+                                                    View
+                                                </Button>
+                                            </td>
+                                            <td>
+                                                <Button
+                                                    onClick={() => applicationAction(application.discountApplicationId, "Approve")}
+                                                    variant="success" style={{float: 'left', width: '47.5%'}}>
+                                                    Approve
+                                                </Button>
+                                                <Button
+                                                    onClick={() => applicationAction(application.discountApplicationId, "Deny")}
+                                                    variant="danger" style={{float: 'right', width: '47.5%'}}>
+                                                    Reject
+                                                </Button>
                                             </td>
                                         </tr>
 

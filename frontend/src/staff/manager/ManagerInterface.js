@@ -1,5 +1,9 @@
 import React, {useState} from "react";
 import {Nav, Row, Col} from "react-bootstrap";
+import {MdDashboard, MdElectricScooter, MdSettings, MdHistory, MdCreate, MdBook, MdManageAccounts} from "react-icons/md"
+import {FaExclamation, FaPercentage} from "react-icons/fa";
+import {IoIosStats} from "react-icons/io"
+import {RiBuilding3Fill} from "react-icons/ri";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from '../StaffDashboard.js';
 import ScooterManagement from './ManagerScooterManagement.js';
@@ -24,7 +28,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
     return (
         <div id="manager-wrapper" className="clickable">
             <Row id={"manager-row"}>
-                <Col xs={2} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
+                <Col xs={"auto"} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
                     <Nav
                         defaultActiveKey="#/dashboard"
                         variant="pills"
@@ -41,7 +45,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-dashboard">Dashboard</Nav.Link>
+                                  href="#/manager-dashboard"><MdDashboard/> Dashboard</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(true);
@@ -52,7 +56,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-scooters">Scooter Management</Nav.Link>
+                                  href="#/manager-scooters"><MdElectricScooter/> Scooter Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -63,7 +67,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-hire-options">Hire Option Management</Nav.Link>
+                                  href="#/manager-hire-options"><MdCreate/> Hire Option Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -74,7 +78,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-depot">Depot Management</Nav.Link>
+                                  href="#/manager-depot"><RiBuilding3Fill/> Depot Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -85,7 +89,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-issues">Issues</Nav.Link>
+                                  href="#/manager-issues"><FaExclamation/> Issues</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -96,7 +100,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(false);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-statistics">Statistics</Nav.Link>
+                                  href="#/manager-statistics"><IoIosStats/> Statistics</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -107,7 +111,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(true);
                             setShowSettings(false);
                         }}
-                                  href="#/manager-accounts">Account Management</Nav.Link>
+                                  href="#/manager-accounts"><MdManageAccounts/> Account Management</Nav.Link>
                         <Nav.Link onClick={() => {
                             setShowDashboard(false);
                             setShowScooter(false);
@@ -118,7 +122,7 @@ export default function ManagerInterface({isDark, toggle, map_locations}) {
                             setShowAccounts(false);
                             setShowSettings(true);
                         }}
-                                  href="#/manager-settings">Settings</Nav.Link>
+                                  href="#/manager-settings"><MdSettings/> Settings</Nav.Link>
                     </Nav>
                 </Col>
                 <Col xs={9}>

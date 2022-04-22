@@ -48,6 +48,10 @@
     background-color: lightgray;
 }
 
+.manager-vert-navbar a.active {
+    color: black;
+}
+
 /*styling for active pill in navbar*/
 .nav-pills .nav-link.active {
     background-color: lightgray;
@@ -68,5 +72,9 @@
 #pageName {
     padding-left: 10px;
     padding-top: 15px;
+}
+
+.nav-indented {
+    padding-left: 37px;
 }
 

@@ -174,7 +174,7 @@ export default function EmployeeCreateGuestBooking() {
                 </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
             </p>
-            <h1 id={"pageName"}>Create Booking</h1>
+            <h1>Create Booking</h1>
             <Container className="pb-4">
                 <Row>
                     <Col className="col-7">

@@ -21,6 +21,14 @@ export default function EmployeeCreateGuestBooking() {
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
+    const [validEmail,      setValidEmail   ] = useState(true);
+    const [validConfirm,    setValidConfirm ] = useState(true);
+    const [validPhoneNo,    setValidPhoneNo ] = useState(true);
+    const [validScooter,    setValidScooter ] = useState(true);
+    const [validHireSlot,   setValidHireSlot] = useState(true);
+    const [validCardNo,     setValidCardNo  ] = useState(true);
+    const [validExpDate,    setValidExpDate ] = useState(true);
+    const [validCVV,        setValidCVV     ] = useState(true);
 
     useEffect(() => {
         fetchAvailableScooters();
@@ -79,26 +87,51 @@ export default function EmployeeCreateGuestBooking() {
     }
 
     async function createGuestBooking() {
-        if (email !== confirmEmail) {
+        setValidEmail((email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)));
+        setValidConfirm(email === confirmEmail);
+        setValidPhoneNo(phoneNo.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/));
+        setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
+        setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
+        setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
+        setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
+        setValidCVV(cvv.match(/^[0-9]{3,4}$/));
+        console.log(validEmail);
+        console.log(validConfirm);
+        console.log(validPhoneNo);
+        console.log(validScooter);
+        console.log(validHireSlot);
+        console.log(validCardNo);
+        console.log(validExpDate);
+        console.log(validCVV);
+        if (!validConfirm) {
             alert("Customer email and confirm email addresses do not match.");
             return;
         }
-        if (!(email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))) {
+        if (!validEmail) {
             alert("Email address is invalid.");
             return;
         }
-        if (!(phoneNo.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/))) {
+        if (!validPhoneNo) {
             alert("Phone number is invalid.");
             return;
         }
-        if (!validateCard(cardNo, expiry, cvv)) {
+        if (!validCardNo) {
+            alert("Card number is invalid.");
             return;
         }
-        if (scooterChoiceId === '' || scooterChoiceId === 'none') {
+        if (!validExpDate) {
+            alert("Expiry date is invalid.");
+            return;
+        }
+        if (!validCVV) {
+            alert("CVV is invalid.");
+            return;
+        }
+        if (!validScooter) {
             alert("Select a scooter.");
             return;
         }
-        if (hireChoiceId === '' || hireChoiceId === 'none') {
+        if (!validHireSlot) {
             alert("Select a hire option.");
             return;
         }
@@ -135,116 +168,149 @@ export default function EmployeeCreateGuestBooking() {
     }
 
     return (
-        <>
+        <div className="employeePage">
             <p id="breadcrumb">
                 <a className="breadcrumb-list" href="/dashboard">Home
                 </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
             </p>
-            <h3 id={"pageName"}>Create Guest Booking</h3>
-            <hr id="underline"/>
-            <br/>
-            <Container>
+            <h1 id={"pageName"}>Create Booking</h1>
+            <Container className="pb-4">
                 <Row>
-                    <Col xs={6}>
-                        <Form>
-                            <div className="input">
-                                <label>Email Address</label>
-                                <input type="email" onInput={e => setEmail(e.target.value)}/>
-                            </div>
-                            <div className="input">
-                                <label>Confirm Email Address</label>
-                                <input type="email" onInput={e => setConfirmEmail(e.target.value)}/>
-                            </div>
-                            <div className="input">
-                                <label>Phone Number</label>
-                                <input type="text" onInput={e => setPhoneNo(e.target.value)}/>
-                            </div>
-                            <div className="input">
-                                <label>Scooter</label>
-                                {(map_locations === "") ?
-                                    <p>Loading map locations...</p> :
-                                    <>
-                                        {(scooters === '') ?
-                                            <p>Loading scooters...</p> :
-                                            <select
-                                                onChange={(e) => {
-                                                    setScooterChoiceId(e.target.value);
-                                                }}
-                                            >
-                                                <option value="none" key="none"/>
-                                                {scooters.map((scooter, idx) => (
-                                                    <option value={scooter.scooterId} key={idx}>
-                                                        Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
-                                                ))}
-                                            </select>
-                                        }
-                                    </>
-                                }
-                            </div>
-                            <div className="input">
-                                <label>Hire Period</label>
-                                {(hireOptions === '') ?
-                                    <p>Loading hire options...</p> :
-                                    <select
-                                        onChange={(e) => {
-                                            let value = e.target.value.split(',')
-                                            setHireChoiceId(value[0]);
-                                            setPrice(value[1])
-                                        }}
-                                    >
-                                        <option value="none" key="none"/>
-                                        {hireOptions.map((option, idx) => (
-                                            <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
-                                                £{option.cost}</option>
-                                        ))}
-                                    </select>
-                                }
-                            </div>
-                            <br/>
-                            <h5>Depot Details</h5>
-                            <div className="input">
-                                <label>Depot</label>
-                                {(scooterChoiceId === '') ?
-                                    <p>select scooter first</p> :
-                                    <p>{String.fromCharCode(scooters.find(scooter => {return scooter.scooterId === parseInt(scooterChoiceId)}).depoId + 64)}</p>
-                                }
-                            </div>
-                            <div className="input">
-                                <label>Name</label>
-                                {(scooterChoiceId === '') ?
-                                    <p>select scooter first</p> :
-                                    <p>{map_locations[scooters.find(scooter => {return scooter.scooterId === parseInt(scooterChoiceId)}).depoId - 1].name}</p>
-                                }
-                            </div>
-                            <br/>
-                            <h5>Payment Details</h5>
-                            <br/>
-                            <div className="input">
-                                <label>Cost:</label>
-                                {(isNaN(parseFloat(price))) ?
-                                    <p>select hire period first</p> :
-                                    <p>£{parseFloat(price).toFixed(2)}</p>
-                                }
-                            </div>
-                            <div className="input">
-                                <label>Card Number</label>
-                                <input type="text" onInput={e => setCardNo(e.target.value)}/>
-                            </div>
-                            <div className="input">
-                                <label>Expiry Date</label>
-                                <input type="text" onInput={e => setExpiry(e.target.value)}/>
-                            </div>
-                            <div className="input">
-                                <label>CVV</label>
-                                <input type="text" onInput={e => setCVV(e.target.value)}/>
-                            </div>
-                            <Form.Group style={{paddingTop: "20px"}}>
-                                <Button onClick={createGuestBooking}>Confirm Booking</Button>
-                            </Form.Group>
-                        </Form>
+                    <Col className="col-7">
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <strong> Customer Details </strong>
+                                    <Container>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                Email Address
+                                            </Col>
+                                            <Col>
+                                                <Form.Control type="email"
+                                                              isInvalid={!validEmail}
+                                                              placeholder="username@mail.com"
+                                                              onInput={e => setEmail(e.target.value)}/>
+                                            </Col>
+                                        </Row>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                Confirm Email Address
+                                            </Col>
+                                            <Col>
+                                                <Form.Control type="email"
+                                                              isInvalid={!validConfirm}
+                                                              placeholder="username@mail.com"
+                                                              onInput={e => setConfirmEmail(e.target.value)}/>
+                                            </Col>
+                                        </Row>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                Phone Number
+                                            </Col>
+                                            <Col>
+                                                <Form.Control type="email"
+                                                              isInvalid={!validPhoneNo}
+                                                              placeholder="000000000000"
+                                                              onInput={e => setPhoneNo(e.target.value)}/>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <strong> Booking Details </strong>
+                                    <Container>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                Select Scooter
+                                            </Col>
+                                            <Col>
+                                                {map_locations === "" || scooters === "" ?
+                                                    <Form.Control type="plaintext" value="Loading Scooters..."/> :
+                                                    <Form.Select onChange={(e) => {
+                                                        setScooterChoiceId(e.target.value);
+                                                    }}
+                                                                 isInvalid={!validScooter}>
+                                                        <option value="none" key="none" selected disabled hidden>
+                                                            Select a scooter...
+                                                        </option>
+                                                        {scooters.map((scooter, idx) => (
+                                                            <option value={scooter.scooterId} key={idx}>
+                                                                Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
+                                                        ))}
+                                                    </Form.Select>}
+                                            </Col>
+                                        </Row>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                Select Hire Period
+                                            </Col>
+                                            <Col>
+                                                {hireOptions === "" ?
+                                                    <Form.Control type="plaintext" value="Loading Hire Options..."/> :
+                                                    <Form.Select onChange={(e) => {
+                                                        let value = e.target.value.split(',')
+                                                        setHireChoiceId(value[0]);
+                                                        setPrice(value[1])
+                                                    }}
+                                                                 isInvalid={!validHireSlot}>
+                                                        <option value="none" key="none" selected disabled hidden>
+                                                            Select a hire option slot...
+                                                        </option>
+                                                        {hireOptions.map((option, idx) => (
+                                                            <option key={idx}
+                                                                    value={[option.hireOptionId, option.cost]}>{option.name} -
+                                                                £{option.cost}</option>
+                                                        ))}
+                                                    </Form.Select>}
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <strong> Payment details </strong>
+                                    <Container>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                Card Number
+                                            </Col>
+                                            <Col>
+                                                <Form.Control type="text" placeholder="0000-0000-0000-0000"
+                                                              isInvalid={!validCardNo}
+                                                              onInput={e => setCardNo(e.target.value)}/>
+                                            </Col>
+                                        </Row>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                Expiry Date
+                                            </Col>
+                                            <Col>
+                                                <Form.Control type="text" placeholder="MM/YY"
+                                                              isInvalid={!validExpDate}
+                                                              onInput={e => setExpiry(e.target.value)}/>
+                                            </Col>
+                                        </Row>
+                                        <Row className="pb-2">
+                                            <Col className="text-end align-self-center">
+                                                CVV
+                                            </Col>
+                                            <Col>
+                                                <Form.Control type="text" placeholder="000"
+                                                              isInvalid={!validCVV}
+                                                              onInput={e => setCVV(e.target.value)}/>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                </Col>
+                            </Row>
+                        </Container>
                     </Col>
-                    <Col xs={6}>
+                    <Col className="col-5">
                         {(map_locations === "") ?
                             <h5>Loading map locations...</h5> :
                             <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
@@ -254,13 +320,15 @@ export default function EmployeeCreateGuestBooking() {
                                 {map_locations.map((map_location, index) => (
                                     <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
                                         <Popup>{map_location.name}</Popup>
-                                    </Marker>
-                                ))}
+                                    </Marker>))}
                             </MapContainer>
                         }
                     </Col>
                 </Row>
             </Container>
-        </>
+            <div className="d-flex justify-content-center">
+                <Button onClick={createGuestBooking}>Confirm Booking</Button>
+            </div>
+        </div>
     );
 };

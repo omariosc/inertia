@@ -26,6 +26,11 @@
     z-index: 100000;
 }
 
+.employeePage{
+    overflow-y: auto;
+    padding-bottom: 25px;
+}
+
 #pageName {
     padding-left: 80px;
     padding-top: 40px;

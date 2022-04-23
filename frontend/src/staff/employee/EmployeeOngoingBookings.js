@@ -120,7 +120,13 @@ export default function EmployeeOngoingBookings() {
 
     return (
         <>
-            <h1 id={"pageName"}>Ongoing Bookings</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/ongoing-bookings">Ongoing Bookings</a></b>
+            </p>
+            <h3 id={"pageName"}>Ongoing Bookings</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(bookingHistory === '') ?

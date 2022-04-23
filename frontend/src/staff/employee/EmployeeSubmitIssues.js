@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
@@ -46,44 +46,41 @@ export default function EmployeeSubmitIssue() {
 
     return (
         <>
-            <h1 id={"pageName"}>Submit Issue</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/submit-issue">Issues</a> > <b>
+                <a className="breadcrumb-current" href="/submit-issue">Submit Issue</a></b>
+            </p>
+            <h3 id={"pageName"}>Submit Issue</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
-                <Row>
-                    <Col xs={3}/>
-                    <Col xs={6}>
-                        <Form>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label><b>Enter Issue Title</b></Form.Label>
-                                <Form.Control placeholder="Enter issue title here..."
-                                              onInput={e => setTitle(e.target.value)}/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label><b>Enter Issue Description</b></Form.Label>
-                                <Form.Control as="textarea" rows={3} placeholder="Enter issue description here..."
-                                              onInput={e => setContent(e.target.value)}/>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label><b>Select Priority</b></Form.Label>
-                                <FormSelect
-                                    onChange={(e) => {
-                                        setPriority(e.target.value)
-                                    }}
-                                >
-                                    <option value="none">Select priority...
-                                    </option>
-                                    {["None", "Low", "Medium", "High"].map((priority, idx) => (
-                                        <option value={idx}>{priority}</option>
-                                    ))}
-                                </FormSelect>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Button onClick={submitIssue} style={{float: "right"}}>Create Issue</Button>
-                            </Form.Group>
-                        </Form>
-                    </Col>
-                </Row>
+                <Form>
+                    <div className="input issue">
+                        <label>Title</label>
+                        <input onInput={e => setTitle(e.target.value)}/>
+                    </div>
+                    <div className="input issue">
+                        <label>Priority</label>
+                        <select
+                            onChange={(e) => {
+                                setPriority(e.target.value)
+                            }}
+                        >
+                            <option value="none"/>
+                            {["None", "Low", "Medium", "High"].map((priority, idx) => (
+                                <option value={idx}>{priority}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="input issue align-self-start">
+                        <label>Description</label>
+                        <textarea rows={8} onInput={e => setContent(e.target.value)}/>
+                    </div>
+                    <Form.Group style={{paddingTop: "20px"}}>
+                        <Button onClick={submitIssue}>Create Issue</Button>
+                    </Form.Group>
+                </Form>
             </Container>
         </>
     );

@@ -65,7 +65,13 @@ export default function EmployeeManageIssues() {
 
     return (
         <>
-            <h1 id={"pageName"}>Manage Issues</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/submit-issue">Issues</a> > <b>
+                <a className="breadcrumb-current" href="/manage-issue">Manage Issue</a></b>
+            </p>
+            <h3 id={"pageName"}>Manage Issues</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(issues.length === 0) ?

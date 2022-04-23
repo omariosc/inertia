@@ -167,7 +167,8 @@ export default function ManagerScooterManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Scooter Management</h1>
+            <h3 id={"pageName"}>Scooter Management</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(scooters === '') ?

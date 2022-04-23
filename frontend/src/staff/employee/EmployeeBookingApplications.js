@@ -97,7 +97,13 @@ export default function EmployeeBookingApplications() {
 
     return (
         <>
-            <h1 id={"pageName"}>Booking Applications</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/booking-applications">Booking Applications</a></b>
+            </p>
+            <h3 id={"pageName"}>Booking Applications</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(bookingHistory === '') ?

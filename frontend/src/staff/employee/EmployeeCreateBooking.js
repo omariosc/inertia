@@ -127,6 +127,7 @@ export default function EmployeeCreateGuestBooking() {
             } else {
                 alert("Could not create booking.");
             }
+            window.reload()
         } catch (e) {
             console.log(e);
         }
@@ -135,110 +136,115 @@ export default function EmployeeCreateGuestBooking() {
 
     return (
         <>
-            <h1 id={"pageName"}>Create Booking</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
+            </p>
+            <h3 id={"pageName"}>Create Guest Booking</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 <Row>
-                    <Col xs={3}>
-                        <h3>Enter Customer Details</h3>
-                        <br/>
+                    <Col xs={6}>
                         <Form>
-                            <Form.Group>
-                                <Form.Label><b>Customer Email Address</b></Form.Label>
-                                <Form.Control type="email" placeholder="Enter customer email address"
-                                              onInput={e => setEmail(e.target.value)}/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Confirm Customer Email Address</b></Form.Label>
-                                <Form.Control type="email" placeholder="Confirm customer email address"
-                                              onInput={e => setConfirmEmail(e.target.value)}/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Customer Phone Number</b></Form.Label>
-                                <Form.Control type="text" placeholder="Enter customer phone number"
-                                              onInput={e => setPhoneNo(e.target.value)}/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Card Number</b></Form.Label>
-                                <Form.Control type="text" placeholder="Enter customer card number"
-                                              onInput={e => setCardNo(e.target.value)}/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Expiry Date</b></Form.Label>
-                                <Form.Control type="text" placeholder="Enter customer card expiry date"
-                                              onInput={e => setExpiry(e.target.value)}/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>CVV</b></Form.Label>
-                                <Form.Control type="text" placeholder="Enter customer card cvv code"
-                                              onInput={e => setCVV(e.target.value)}/>
-                            </Form.Group>
-                        </Form>
-                    </Col>
-                    <Col xs={1}/>
-                    <Col xs={3}>
-                        <h3>Enter Booking Details</h3>
-                        <br/>
-                        <Form>
-                            {(map_locations === "") ?
-                                <h5>Loading map locations...</h5> :
-                                <Form.Group>
-                                    <Form.Label><b>Select Scooter</b></Form.Label>
-                                    {(scooters === '') ?
-                                        <h6>Loading scooters...</h6> :
-                                        <Form.Select
-                                            onChange={(e) => {
-                                                setScooterChoiceId(e.target.value);
-                                            }}
-                                        >
-                                            <option value="none" key="none">Select a scooter...</option>
-                                            {scooters.map((scooter, idx) => (
-                                                <option value={scooter.scooterId} key={idx}>
-                                                    Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
-                                            ))}
-                                        </Form.Select>
-                                    }
-                                </Form.Group>
-                            }
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Select Hire Period</b></Form.Label>
+                            <div className="input">
+                                <label>Email Address</label>
+                                <input type="email" onInput={e => setEmail(e.target.value)}/>
+                            </div>
+                            <div className="input">
+                                <label>Confirm Email Address</label>
+                                <input type="email" onInput={e => setConfirmEmail(e.target.value)}/>
+                            </div>
+                            <div className="input">
+                                <label>Phone Number</label>
+                                <input type="text" onInput={e => setPhoneNo(e.target.value)}/>
+                            </div>
+                            <div className="input">
+                                <label>Scooter</label>
+                                {(map_locations === "") ?
+                                    <p>Loading map locations...</p> :
+                                    <>
+                                        {(scooters === '') ?
+                                            <p>Loading scooters...</p> :
+                                            <select
+                                                onChange={(e) => {
+                                                    setScooterChoiceId(e.target.value);
+                                                }}
+                                            >
+                                                <option value="none" key="none"/>
+                                                {scooters.map((scooter, idx) => (
+                                                    <option value={scooter.scooterId} key={idx}>
+                                                        Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
+                                                ))}
+                                            </select>
+                                        }
+                                    </>
+                                }
+                            </div>
+                            <div className="input">
+                                <label>Hire Period</label>
                                 {(hireOptions === '') ?
-                                    <h6>Loading hire options...</h6> :
-                                    <Form.Select
+                                    <p>Loading hire options...</p> :
+                                    <select
                                         onChange={(e) => {
                                             let value = e.target.value.split(',')
                                             setHireChoiceId(value[0]);
                                             setPrice(value[1])
                                         }}
                                     >
-                                        <option value="none" key="none">Select a hire option slot...</option>
+                                        <option value="none" key="none"/>
                                         {hireOptions.map((option, idx) => (
                                             <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
                                                 £{option.cost}</option>
                                         ))}
-                                    </Form.Select>
+                                    </select>
                                 }
-                            </Form.Group>
+                            </div>
                             <br/>
-                            <Form.Group>
-                                {(isNaN(parseFloat(price))) ? null :
-                                    <Form.Label><b>Total Cost: £{parseFloat(price).toFixed(2)}</b></Form.Label>
+                            <h5>Depot Details</h5>
+                            <div className="input">
+                                <label>Depot</label>
+                                {(scooterChoiceId === '') ?
+                                    <p>select scooter first</p> :
+                                    <p>{String.fromCharCode(scooters.find(scooter => {return scooter.scooterId === parseInt(scooterChoiceId)}).depoId + 64)}</p>
                                 }
-                            </Form.Group>
+                            </div>
+                            <div className="input">
+                                <label>Name</label>
+                                {(scooterChoiceId === '') ?
+                                    <p>select scooter first</p> :
+                                    <p>{map_locations[scooters.find(scooter => {return scooter.scooterId === parseInt(scooterChoiceId)}).depoId - 1].name}</p>
+                                }
+                            </div>
                             <br/>
-                            <Form.Group>
-                                <Button style={{float: "right"}} onClick={createGuestBooking}>Confirm Booking</Button>
+                            <h5>Payment Details</h5>
+                            <br/>
+                            <div className="input">
+                                <label>Cost:</label>
+                                {(isNaN(parseFloat(price))) ?
+                                    <p>select hire period first</p> :
+                                    <p>£{parseFloat(price).toFixed(2)}</p>
+                                }
+                            </div>
+                            <div className="input">
+                                <label>Card Number</label>
+                                <input type="text" onInput={e => setCardNo(e.target.value)}/>
+                            </div>
+                            <div className="input">
+                                <label>Expiry Date</label>
+                                <input type="text" onInput={e => setExpiry(e.target.value)}/>
+                            </div>
+                            <div className="input">
+                                <label>CVV</label>
+                                <input type="text" onInput={e => setCVV(e.target.value)}/>
+                            </div>
+                            <Form.Group style={{paddingTop: "20px"}}>
+                                <Button onClick={createGuestBooking}>Confirm Booking</Button>
                             </Form.Group>
                         </Form>
                     </Col>
-                    <Col xs={1}/>
-                    <Col xs={4}>
+                    <Col xs={6}>
                         {(map_locations === "") ?
                             <h5>Loading map locations...</h5> :
                             <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">

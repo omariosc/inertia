@@ -39,7 +39,7 @@ export default function ManagerStatistics() {
 
     return (
         <>
-            <h1 id={"pageName"}>Statistics</h1>
+            <h3 id={"pageName"}>Statistics</h3>
             <br/>
             <div className="scroll">
                 {(weeklyData === '') ?

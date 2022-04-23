@@ -83,7 +83,8 @@ export default function ManagerAccountManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Create Employee Account</h1>
+            <h3 id={"pageName"}>Create Employee Account</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 <Row>

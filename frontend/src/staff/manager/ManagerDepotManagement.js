@@ -151,7 +151,8 @@ export default function ManagerDepotManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Depot Management</h1>
+            <h3 id={"pageName"}>Depot Management</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(depots === '') ?

@@ -71,7 +71,13 @@ export default function EmployeeBookingHistory() {
 
     return (
         <>
-            <h1 id={"pageName"}>Booking History</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/booking-history44">Booking History</a></b>
+            </p>
+            <h3 id={"pageName"}>Booking History</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 <Row xs={1}>

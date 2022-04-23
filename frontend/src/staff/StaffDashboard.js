@@ -50,7 +50,12 @@ export default function Dashboard() {
 
     return (
         <>
-            <h1 id="pageName">Dashboard</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/dashboard">Dashboard</a></b>
+            </p>
+            <h3 id="pageName">Dashboard</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(data === "") ?
@@ -58,7 +63,7 @@ export default function Dashboard() {
                     : <div>
                         <Row>
                             {Object.keys(data).map((key, idx) => (
-                                <Col xs={4} key={idx}>
+                                <Col xs={"auto"} lg={4} key={idx}>
                                     <Card className="mb-2">
                                         <Card.Body>
                                             <Card.Title>{key}</Card.Title>

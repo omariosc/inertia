@@ -56,7 +56,8 @@ export default function ManagerIssues() {
 
     return (
         <>
-            <h1 id={"pageName"}>High Priority Issues</h1>
+            <h3 id={"pageName"}>High Priority Issues</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(issues === '') ?

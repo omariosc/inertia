@@ -72,7 +72,12 @@ export default function EmployeeScooterManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Scooter Management</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
+            </p>
+            <h3 id={"pageName"}>Scooter Management</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 <h3>View Scooters</h3>

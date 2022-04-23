@@ -163,7 +163,8 @@ export default function ManagerHireOptionManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Hire Option Management</h1>
+            <h3 id={"pageName"}>Hire Option Management</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(hireOptions === '') ?

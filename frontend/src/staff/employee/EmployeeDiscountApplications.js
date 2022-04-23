@@ -67,7 +67,12 @@ export default function EmployeeDiscountApplications() {
 
     return (
         <>
-            <h1 id={"pageName"}>Manage Discount Applications</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/discount-applications">Discount Applications</a></b>
+            </p>
+            <h3 id={"pageName"}>Manage Discount Applications</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(applications === '') ?

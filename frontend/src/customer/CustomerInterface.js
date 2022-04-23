@@ -38,6 +38,7 @@ export default function CustomerInterface() {
                     </Col>
                     <Col lg={8} xs={12} className="customer-column-page">
                         <h4>{headers[location.pathname]}</h4>
+                        <hr/>
                     </Col>
                 </Row>
                 <Row id={"customer-row"}>

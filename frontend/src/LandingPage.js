@@ -64,7 +64,7 @@ export default function LandingPage() {
             </div>
             {(map_locations === "") ?
                 <h5>Loading map locations...</h5> :
-                <MapContainer center={center} zoom={15} zoomControl={false} style={{height: "100vh"}}>
+                <MapContainer center={center} zoom={15} zoomControl={false} className="map-container">
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>

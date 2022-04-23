@@ -56,26 +56,22 @@ export default function CustomerSettings() {
                 </Table>
             }
             <h5 style={{paddingTop: "5px"}}>Change Password</h5>
-            <br/>
             <Form>
                 <Form.Group>
                     <Form.Label><b>Old Password</b></Form.Label>
                     <Form.Control type="password" onInput={e => setOldPassword(e.target.value)}
                                   placeholder="Enter old password"/>
                 </Form.Group>
-                <br/>
                 <Form.Group>
                     <Form.Label><b>New Password</b></Form.Label>
                     <Form.Control type="password" onInput={e => setPassword(e.target.value)}
                                   placeholder="Enter new password"/>
                 </Form.Group>
-                <br/>
                 <Form.Group>
                     <Form.Label><b>Confirm Password</b></Form.Label>
                     <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)}
                                   placeholder="Confirm new password"/>
                 </Form.Group>
-                <br/>
                 <Form.Group>
                     <Button style={{float: 'right'}} onClick={onSubmit}>Change password</Button>
                 </Form.Group>

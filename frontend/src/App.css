@@ -26,10 +26,10 @@
     z-index: 100000;
 }
 
-.employeePage{
+.autoScroll{
     max-height: 90%;
     overflow-y: auto;
-    padding-bottom: 55px;
+    padding-bottom: 65px;
 }
 
 #search-overlay {
@@ -302,4 +302,12 @@
 .input {
     padding-left: 40px;
     padding-bottom: 10px;
+}
+
+.map-container{
+    height: 100vh
+}
+
+.customer-create-booking-padding{
+    padding-right: 15px;
 }

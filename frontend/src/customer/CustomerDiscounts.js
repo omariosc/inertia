@@ -126,11 +126,11 @@ export default function CustomerDiscounts() {
                 <h6>Loading discount status...</h6> :
                 <>
                     {(!frequentUser && !studentUser && !seniorUser) ?
-                        <div className="scroll">
+                        <div className="autoScroll">
                             <h5>Frequent User Discount</h5>
                             <p>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent
                                 user discount!</p>
-                            <h5 style={{paddingTop: "5px"}}>Student Discount</h5>
+                            <h5>Student Discount</h5>
                             <p>To apply for our 10% student discount, upload student ID below.</p>
                             {window.FileReader ?
                                 <>
@@ -139,8 +139,6 @@ export default function CustomerDiscounts() {
                                             <h6>Image Preview</h6>
                                             <img alt="Uploaded Student Image"
                                                  src={URL.createObjectURL(studentImage)} width="75%"/>
-                                            <br/>
-                                            <br/>
                                         </>
                                         : null}
                                     <input type="file" accept="image/*"
@@ -154,7 +152,7 @@ export default function CustomerDiscounts() {
                                 <p>Your browser does not support file reader. Use another browser to upload
                                     image.</p>
                             }
-                            <h5 style={{paddingTop: "15px"}}>Senior Discount</h5>
+                            <h5>Senior Discount</h5>
                             <p>To apply for our 10% senior discount, upload ID showing senior status below.</p>
                             {window.FileReader ?
                                 <>
@@ -163,8 +161,7 @@ export default function CustomerDiscounts() {
                                             <h6>Image Preview</h6>
                                             <img alt="Uploaded Senior Image"
                                                  src={URL.createObjectURL(seniorImage)} width="75%"/>
-                                            <br/>
-                                            <br/>
+
                                         </>
                                         : null}
                                     <input type="file" accept="image/*"

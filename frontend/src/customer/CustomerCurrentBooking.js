@@ -194,7 +194,6 @@ export default function CustomerCurrentBookings() {
                                                 variant="danger">Close</Button>
                                     </>
                                 }
-                                <br/>
                                 <Table>
                                     <thead>
                                     <tr>

@@ -21,14 +21,14 @@ export default function EmployeeCreateGuestBooking() {
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
-    const [validEmail,      setValidEmail   ] = useState(true);
-    const [validConfirm,    setValidConfirm ] = useState(true);
-    const [validPhoneNo,    setValidPhoneNo ] = useState(true);
-    const [validScooter,    setValidScooter ] = useState(true);
-    const [validHireSlot,   setValidHireSlot] = useState(true);
-    const [validCardNo,     setValidCardNo  ] = useState(true);
-    const [validExpDate,    setValidExpDate ] = useState(true);
-    const [validCVV,        setValidCVV     ] = useState(true);
+    const [validEmail, setValidEmail] = useState(true);
+    const [validConfirm, setValidConfirm] = useState(true);
+    const [validPhoneNo, setValidPhoneNo] = useState(true);
+    const [validScooter, setValidScooter] = useState(true);
+    const [validHireSlot, setValidHireSlot] = useState(true);
+    const [validCardNo, setValidCardNo] = useState(true);
+    const [validExpDate, setValidExpDate] = useState(true);
+    const [validCVV, setValidCVV] = useState(true);
 
     useEffect(() => {
         fetchAvailableScooters();
@@ -95,44 +95,7 @@ export default function EmployeeCreateGuestBooking() {
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
         setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
         setValidCVV(cvv.match(/^[0-9]{3,4}$/));
-        console.log(validEmail);
-        console.log(validConfirm);
-        console.log(validPhoneNo);
-        console.log(validScooter);
-        console.log(validHireSlot);
-        console.log(validCardNo);
-        console.log(validExpDate);
-        console.log(validCVV);
-        if (!validConfirm) {
-            alert("Customer email and confirm email addresses do not match.");
-            return;
-        }
-        if (!validEmail) {
-            alert("Email address is invalid.");
-            return;
-        }
-        if (!validPhoneNo) {
-            alert("Phone number is invalid.");
-            return;
-        }
-        if (!validCardNo) {
-            alert("Card number is invalid.");
-            return;
-        }
-        if (!validExpDate) {
-            alert("Expiry date is invalid.");
-            return;
-        }
-        if (!validCVV) {
-            alert("CVV is invalid.");
-            return;
-        }
-        if (!validScooter) {
-            alert("Select a scooter.");
-            return;
-        }
-        if (!validHireSlot) {
-            alert("Select a hire option.");
+        if (!(validEmail && validConfirm && validPhoneNo && validScooter && validHireSlot && validCardNo && validExpDate && validCVV)) {
             return;
         }
         try {
@@ -168,167 +131,205 @@ export default function EmployeeCreateGuestBooking() {
     }
 
     return (
-        <div className="employeePage">
+        <>
             <p id="breadcrumb">
                 <a className="breadcrumb-list" href="/dashboard">Home
                 </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
             </p>
-            <h1>Create Booking</h1>
-            <Container className="pb-4">
-                <Row>
-                    <Col className="col-7">
-                        <Container>
-                            <Row>
-                                <Col>
-                                    <strong> Customer Details </strong>
-                                    <Container>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                Email Address
-                                            </Col>
-                                            <Col>
-                                                <Form.Control type="email"
-                                                              isInvalid={!validEmail}
-                                                              placeholder="username@mail.com"
-                                                              onInput={e => setEmail(e.target.value)}/>
-                                            </Col>
-                                        </Row>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                Confirm Email Address
-                                            </Col>
-                                            <Col>
-                                                <Form.Control type="email"
-                                                              isInvalid={!validConfirm}
-                                                              placeholder="username@mail.com"
-                                                              onInput={e => setConfirmEmail(e.target.value)}/>
-                                            </Col>
-                                        </Row>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                Phone Number
-                                            </Col>
-                                            <Col>
-                                                <Form.Control type="email"
-                                                              isInvalid={!validPhoneNo}
-                                                              placeholder="000000000000"
-                                                              onInput={e => setPhoneNo(e.target.value)}/>
-                                            </Col>
-                                        </Row>
-                                    </Container>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <strong> Booking Details </strong>
-                                    <Container>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                Select Scooter
-                                            </Col>
-                                            <Col>
-                                                {map_locations === "" || scooters === "" ?
-                                                    <Form.Control type="plaintext" value="Loading Scooters..."/> :
-                                                    <Form.Select onChange={(e) => {
-                                                        setScooterChoiceId(e.target.value);
-                                                    }}
-                                                                 isInvalid={!validScooter}>
-                                                        <option value="none" key="none" selected disabled hidden>
-                                                            Select a scooter...
-                                                        </option>
-                                                        {scooters.map((scooter, idx) => (
-                                                            <option value={scooter.scooterId} key={idx}>
-                                                                Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
-                                                        ))}
-                                                    </Form.Select>}
-                                            </Col>
-                                        </Row>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                Select Hire Period
-                                            </Col>
-                                            <Col>
-                                                {hireOptions === "" ?
-                                                    <Form.Control type="plaintext" value="Loading Hire Options..."/> :
-                                                    <Form.Select onChange={(e) => {
-                                                        let value = e.target.value.split(',')
-                                                        setHireChoiceId(value[0]);
-                                                        setPrice(value[1])
-                                                    }}
-                                                                 isInvalid={!validHireSlot}>
-                                                        <option value="none" key="none" selected disabled hidden>
-                                                            Select a hire option slot...
-                                                        </option>
-                                                        {hireOptions.map((option, idx) => (
-                                                            <option key={idx}
-                                                                    value={[option.hireOptionId, option.cost]}>{option.name} -
-                                                                £{option.cost}</option>
-                                                        ))}
-                                                    </Form.Select>}
-                                            </Col>
-                                        </Row>
-                                    </Container>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <strong> Payment details </strong>
-                                    <Container>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                Card Number
-                                            </Col>
-                                            <Col>
-                                                <Form.Control type="text" placeholder="0000-0000-0000-0000"
-                                                              isInvalid={!validCardNo}
-                                                              onInput={e => setCardNo(e.target.value)}/>
-                                            </Col>
-                                        </Row>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                Expiry Date
-                                            </Col>
-                                            <Col>
-                                                <Form.Control type="text" placeholder="MM/YY"
-                                                              isInvalid={!validExpDate}
-                                                              onInput={e => setExpiry(e.target.value)}/>
-                                            </Col>
-                                        </Row>
-                                        <Row className="pb-2">
-                                            <Col className="text-end align-self-center">
-                                                CVV
-                                            </Col>
-                                            <Col>
-                                                <Form.Control type="text" placeholder="000"
-                                                              isInvalid={!validCVV}
-                                                              onInput={e => setCVV(e.target.value)}/>
-                                            </Col>
-                                        </Row>
-                                    </Container>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Col>
-                    <Col className="col-5">
-                        {(map_locations === "") ?
-                            <h5>Loading map locations...</h5> :
-                            <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
-                                <TileLayer
-                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                                {map_locations.map((map_location, index) => (
-                                    <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
-                                        <Popup>{map_location.name}</Popup>
-                                    </Marker>))}
-                            </MapContainer>
-                        }
-                    </Col>
-                </Row>
-            </Container>
-            <div className="d-flex justify-content-center">
-                <Button onClick={createGuestBooking}>Confirm Booking</Button>
+            <hr/>
+            <div className="autoScroll">
+                <h1>Create Booking</h1>
+                <Container className="pb-4">
+                    <Row>
+                        <Col className="col-7">
+                            <Container>
+                                <Row>
+                                    <Col>
+                                        <strong> Customer Details </strong>
+                                        <Container>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    Email Address
+                                                </Col>
+                                                <Col>
+                                                    <Form.Control type="email"
+                                                                  isInvalid={!validEmail}
+                                                                  placeholder="username@mail.com"
+                                                                  onInput={e => setEmail(e.target.value)}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Invalid Email Address
+                                                    </Form.Control.Feedback>
+                                                </Col>
+                                            </Row>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    Confirm Email Address
+                                                </Col>
+                                                <Col>
+                                                    <Form.Control type="email"
+                                                                  isInvalid={!validConfirm}
+                                                                  placeholder="username@mail.com"
+                                                                  onInput={e => setConfirmEmail(e.target.value)}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Please Repeat Email Address
+                                                    </Form.Control.Feedback>
+                                                </Col>
+                                            </Row>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    Phone Number
+                                                </Col>
+                                                <Col>
+                                                    <Form.Control type="text"
+                                                                  isInvalid={!validPhoneNo}
+                                                                  placeholder="000000000000"
+                                                                  onInput={e => setPhoneNo(e.target.value)}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Invalid Phone Number
+                                                    </Form.Control.Feedback>
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <strong> Booking Details </strong>
+                                        <Container>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    Select Scooter
+                                                </Col>
+                                                <Col>
+                                                    {map_locations === "" || scooters === "" ?
+                                                        <Form.Control type="plaintext" value="Loading Scooters..."/> :
+                                                        <>
+                                                            <Form.Select onChange={(e) => {
+                                                                setScooterChoiceId(e.target.value);
+                                                            }}
+                                                                         isInvalid={!validScooter}>
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    Please provide a valid email
+                                                                </Form.Control.Feedback>
+                                                                <option value="none" key="none" selected disabled
+                                                                        hidden>
+                                                                    Select a scooter...
+                                                                </option>
+                                                                {scooters.map((scooter, idx) => (
+                                                                    <option value={scooter.scooterId} key={idx}>
+                                                                        Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
+                                                                ))}
+                                                            </Form.Select>
+                                                            <div className={"invalid-feedback"}>
+                                                                Please select option
+                                                            </div>
+                                                        </>}
+                                                </Col>
+                                            </Row>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    Select Hire Period
+                                                </Col>
+                                                <Col>
+                                                    {hireOptions === "" ?
+                                                        <Form.Control type="plaintext"
+                                                                      value="Loading Hire Options..."/> :
+                                                        <>
+                                                            <Form.Select onChange={(e) => {
+                                                                let value = e.target.value.split(',')
+                                                                setHireChoiceId(value[0]);
+                                                                setPrice(value[1])
+                                                            }}
+                                                                         isInvalid={!validHireSlot}>
+
+                                                                <option value="none" key="none" selected disabled
+                                                                        hidden>
+                                                                    Select a hire option slot...
+                                                                </option>
+                                                                {hireOptions.map((option, idx) => (
+                                                                    <option key={idx}
+                                                                            value={[option.hireOptionId, option.cost]}>{option.name} -
+                                                                        £{option.cost}</option>
+                                                                ))}
+                                                            </Form.Select>
+                                                            <div className={"invalid-feedback"}>
+                                                                Please select option
+                                                            </div>
+                                                        </>}
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <strong> Payment details </strong>
+                                        <Container>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    Card Number
+                                                </Col>
+                                                <Col>
+                                                    <Form.Control type="text" placeholder="0000-0000-0000-0000"
+                                                                  isInvalid={!validCardNo}
+                                                                  onInput={e => setCardNo(e.target.value)}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Invalid Card Number
+                                                    </Form.Control.Feedback>
+                                                </Col>
+                                            </Row>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    Expiry Date
+                                                </Col>
+                                                <Col>
+                                                    <Form.Control type="text" placeholder="MM/YY"
+                                                                  isInvalid={!validExpDate}
+                                                                  onInput={e => setExpiry(e.target.value)}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Invalid Expiry Date
+                                                    </Form.Control.Feedback>
+                                                </Col>
+                                            </Row>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">
+                                                    CVV
+                                                </Col>
+                                                <Col>
+                                                    <Form.Control type="text" placeholder="000"
+                                                                  isInvalid={!validCVV}
+                                                                  onInput={e => setCVV(e.target.value)}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Invalid CVV
+                                                    </Form.Control.Feedback>
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Col>
+                        <Col className="col-5">
+                            {(map_locations === "") ?
+                                <h5>Loading map locations...</h5> :
+                                <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
+                                    <TileLayer
+                                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                                    {map_locations.map((map_location, index) => (
+                                        <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
+                                            <Popup>{map_location.name}</Popup>
+                                        </Marker>))}
+                                </MapContainer>
+                            }
+                        </Col>
+                    </Row>
+                </Container>
+                <div className="d-flex justify-content-center">
+                    <Button onClick={createGuestBooking}>Confirm Booking</Button>
+                </div>
             </div>
-        </div>
+        </>
     );
 };

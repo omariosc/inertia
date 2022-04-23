@@ -50,7 +50,6 @@ export default function CustomerSubmitIssue() {
                 <Form.Control as="textarea" rows={3} placeholder="Enter issue description here..."
                               onInput={e => setContent(e.target.value)}/>
             </Form.Group>
-            <br/>
             <Form.Group>
                 <Button onClick={submitIssue} style={{float: "right"}}>Create Issue</Button>
             </Form.Group>

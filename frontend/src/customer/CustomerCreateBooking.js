@@ -190,7 +190,6 @@ export default function CustomerCreateBooking() {
     return (
         <>
             <h5>Select Booking Details</h5>
-            <br/>
             <Form>
                 <Form.Group>
                     {(map_locations === "") ?
@@ -217,11 +216,9 @@ export default function CustomerCreateBooking() {
                         </>
                     }
                 </Form.Group>
-                <br/>
                 {(map_locations === "") ?
                     <h5>Loading map locations...</h5> :
-                    <MapContainer center={center} zoom={15} zoomControl={false} className="minimap"
-                                  style={{height: "300px"}}>
+                    <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
@@ -232,7 +229,7 @@ export default function CustomerCreateBooking() {
                         ))}
                     </MapContainer>
                 }
-                <br/>
+
                 <Form.Group>
                     <Form.Label><b>Select Hire Period</b></Form.Label>
                     {(hireOptions === '') ?
@@ -252,13 +249,13 @@ export default function CustomerCreateBooking() {
                         </Form.Select>
                     }
                 </Form.Group>
-                <br/>
+
                 <div>
                     {(loading === '') ? null :
                         <>
                             {(discount) ?
                                 <>
-                                    <Form.Group style={{float: "right", paddingRight: "15px"}}>
+                                    <Form.Group className="float-end customer-create-booking-padding">
                                         <Form.Label>
                                             <h6>10% Discount applied.
                                                 {(hireChoiceId === '') ? null :
@@ -269,7 +266,7 @@ export default function CustomerCreateBooking() {
                                     </Form.Group>
                                 </> : <>
                                     {(hireChoiceId === '') ? null :
-                                        <Form.Group style={{float: "right", paddingRight: "15px"}}>
+                                        <Form.Group className="float-end customer-create-booking-padding">
                                             <Form.Label><h6>Total Cost: £{parseFloat(price).toFixed(2)}</h6>
                                             </Form.Label>
                                         </Form.Group>
@@ -278,10 +275,10 @@ export default function CustomerCreateBooking() {
                             }
                         </>
                     }
-                    <br/>
+
                 </div>
                 <h5>Enter Card Details</h5>
-                <br/>
+
                 {checkCardExists() ?
                     <>
                         <Form.Group>
@@ -290,14 +287,14 @@ export default function CustomerCreateBooking() {
                                           onInput={e => setCardNo(e.target.value)}
                             />
                         </Form.Group>
-                        <br/>
+
                         <Form.Group>
                             <Form.Label><h6>Expiry Date</h6></Form.Label>
                             <Form.Control type="text" placeholder="Enter customer card expiry date" value={expiry}
                                           onInput={e => setExpiry(e.target.value)}
                             />
                         </Form.Group>
-                        <br/>
+
                         <Form.Group>
                             <Form.Label><h6>CVV</h6></Form.Label>
                             <Form.Control type="text" placeholder="Enter customer card cvv code" value={cvv}
@@ -308,11 +305,11 @@ export default function CustomerCreateBooking() {
                     :
                     <>
                         <h6>Using Stored Card Details:</h6>
-                        <p style={{margin: "0"}}>Card Number: **** ****
+                        <p className="m-0">Card Number: **** ****
                             **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}</p>
-                        <p style={{margin: "0"}}>Expiry Date: {cookies.get('expiryDate')}</p>
-                        <p style={{margin: "0"}}>CVV: {cookies.get('cvv')}</p>
-                        <br/>
+                        <p className="m-0">Expiry Date: {cookies.get('expiryDate')}</p>
+                        <p className="m-0">CVV: {cookies.get('cvv')}</p>
+
                         <Button onClick={() => {
                             cookies.remove('cardNumber');
                             cookies.remove('expiryDate');
@@ -320,9 +317,8 @@ export default function CustomerCreateBooking() {
                         }}>Delete card</Button>
                     </>
                 }
-                <br/>
                 <Form.Group>
-                    <Button style={{float: "right"}} onClick={createBooking}>Create Booking</Button>
+                    <Button className="float-end" onClick={createBooking}>Create Booking</Button>
                 </Form.Group>
             </Form>
         </>

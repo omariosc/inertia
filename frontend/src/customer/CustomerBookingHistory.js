@@ -45,14 +45,14 @@ export default function CustomerBookingHistory() {
     return (
         <>
             {(bookingHistory === '') ?
-                <h6>Loading booking history...</h6> :
+                <p>Loading booking history...</p> :
                 <>
                     {(bookingHistory.length === 0) ?
-                        <h6>You have no bookings.</h6> :
+                        <p>You have no bookings.</p> :
                         <>
                             <div className="scroll">
                                 {(booking === '') ?
-                                    <h6>Select a booking to show booking details</h6> :
+                                    <p>Select a booking to show booking details</p> :
                                     <>
                                         <Table>
                                             <tbody>

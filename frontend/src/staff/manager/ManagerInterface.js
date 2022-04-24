@@ -1,14 +1,12 @@
 import React from "react";
 import {Nav, Row, Col, Navbar, DropdownButton, Dropdown} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {MdDashboard, MdElectricScooter, MdSettings, MdCreate, MdManageAccounts} from "react-icons/md"
-import {FaExclamation} from "react-icons/fa";
-import {IoIosStats} from "react-icons/io"
-import {RiBuilding3Fill} from "react-icons/ri";
+import {Link, Outlet, useOutletContext} from "react-router-dom";
+import ManagerMobileNavigation from "./ManagerMobileNavigation"
+import ManagerNavigation from "./ManagerNavigation"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import Cookies from 'universal-cookie';
-import {Link, Outlet, useOutletContext} from "react-router-dom";
 
 export default function ManagerInterface() {
     const cookies = new Cookies();
@@ -34,46 +32,15 @@ export default function ManagerInterface() {
                                 variant="dark"
                                 title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                             >
-                                <Dropdown.Item as={Link} to="/" onClick={signOut}>
-                                    <p>Sign Out</p>
-                                </Dropdown.Item>
+                                <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
                             </DropdownButton>
                         </Nav.Item>
                     </Navbar.Collapse>
                 </Navbar>
-                <Row id={"manager-row"}>
-                    <Col xs={"auto"} style={{backgroundColor: "#F0F0F0"}} className="border-end border-dark">
-                        <Nav
-                            defaultActiveKey="#/dashboard"
-                            variant="pills"
-                            className="manager-vert-navbar"
-                            style={{paddingLeft: "15px", color: "black"}}
-                        >
-                            <Nav.Link as={Link} to="/dashboard">
-                                <MdDashboard/> Dashboard
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/scooter-management">
-                                <MdElectricScooter/> Scooter Management
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/hire-option-management">
-                                <MdCreate/> Hire Option Management
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/depot-management">
-                                <RiBuilding3Fill/> Depot Management
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/issues">
-                                <FaExclamation/> Issues
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/statistics">
-                                <IoIosStats/> Statistics
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/account-management">
-                                <MdManageAccounts/> Account Management
-                            </Nav.Link>
-                            <Nav.Link as={Link} to="/settings">
-                                <MdSettings/> Settings
-                            </Nav.Link>
-                        </Nav>
+                <Row id="manager-row">
+                    <Col xs="auto" className="staff-nav-column border-end border-dark">
+                        <ManagerMobileNavigation/>
+                        <ManagerNavigation/>
                     </Col>
                     <Col xs={9}>
                         <Outlet context={[signOut]}/>

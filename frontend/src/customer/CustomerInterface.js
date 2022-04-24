@@ -26,9 +26,7 @@ export default function CustomerInterface() {
                     title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                     className="dropdown-basic-button clickable"
                 >
-                    <Dropdown.Item as={Link} to="/" onClick={signOut}>
-                        <p>Sign Out</p>
-                    </Dropdown.Item>
+                    <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
                 </DropdownButton>
             </div>
             <div id="account-page">
@@ -37,11 +35,11 @@ export default function CustomerInterface() {
                         <Nav.Link as={Link} to="/create-booking"><h1>INERTIA</h1></Nav.Link>
                     </Col>
                     <Col lg={8} xs={12} className="customer-column-page">
-                        <h4>{headers[location.pathname]}</h4>
+                        <h3>{headers[location.pathname]}</h3>
                         <hr/>
                     </Col>
                 </Row>
-                <Row id={"customer-row"}>
+                <Row id="customer-row">
                     <Col lg={4} xs={12} className="customer-column border-end border-dark">
                         <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">
                             <Nav.Link as={Link} to="/create-booking">Create Booking</Nav.Link>

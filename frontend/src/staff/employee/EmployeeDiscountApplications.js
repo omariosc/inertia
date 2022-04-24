@@ -71,19 +71,19 @@ export default function EmployeeDiscountApplications() {
                 <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
                 <a className="breadcrumb-current" href="/discount-applications">Discount Applications</a></b>
             </p>
-            <h3 id={"pageName"}>Manage Discount Applications</h3>
+            <h3 id="pageName">Manage Discount Applications</h3>
             <hr id="underline"/>
             <br/>
             <Container>
                 {(applications === '') ?
-                    <h6>Loading discount applications...</h6> :
+                    <p>Loading discount applications...</p> :
                     <>
                         {(applications.length === 0) ?
-                            <h6>There are currently no discount applications.</h6> :
+                            <p>There are currently no discount applications.</p> :
                             <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                                 {image ?
                                     <>
-                                        <h6>Image Preview</h6>
+                                        <b>Image Preview</b>
                                         <img alt="Image Preview" src={URL.createObjectURL(image)} height="300px"/>
                                         <br/>
                                         <br/>

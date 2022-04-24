@@ -26,10 +26,9 @@
     z-index: 100000;
 }
 
-.autoScroll{
-    max-height: 90%;
-    overflow-y: auto;
-    padding-bottom: 65px;
+#pageName {
+    padding-left: 80px;
+    padding-top: 40px;
 }
 
 #search-overlay {
@@ -48,14 +47,40 @@
 }
 
 #top-navbar {
-    background-color: aquamarine;
     color: black;
+}
+
+#underline {
+    background-color: black;
+    border: solid 1px black;
+    color: black;
+    margin-left: 80px;
 }
 
 #wrapper {
     display: flex;
     height: 100%;
     position: relative;
+}
+
+.account label {
+    width: 300px !important;
+}
+
+.autoScroll {
+    max-height: 90%;
+    overflow-y: auto;
+    padding-bottom: 65px;
+}
+
+.breadcrumb-current {
+    color: black;
+    text-decoration: none;
+}
+
+.breadcrumb-list {
+    color: grey;
+    text-decoration: none;
 }
 
 .canvasjs-chart-credit {
@@ -73,6 +98,22 @@
     justify-content: flex-end;
 }
 
+.customer-create-booking-padding {
+    padding-right: 15px;
+}
+
+.customer-issue input {
+    width: 500px !important;
+}
+
+.customer-issue label {
+    width: 100px !important;
+}
+
+.customer-issue textarea {
+    width: 500px;
+}
+
 .customer-navigation {
     align-items: center;
     display: flex;
@@ -81,6 +122,46 @@
 
 .dropdown-basic-button {
     float: right;
+}
+
+.input {
+    padding-bottom: 10px;
+    padding-left: 40px;
+}
+
+.input input {
+    width: 300px;
+}
+
+.input label {
+    display: inline-block;
+    padding-right: 30px;
+    text-align: right;
+    width: 200px;
+}
+
+.input p {
+    display: inline-block;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.input select {
+    width: 300px;
+}
+
+.issue input {
+    width: 1000px !important;
+}
+
+.issue select {
+    align-content: flex-start !important;
+    text-align: left !important;
+    width: 300px !important;
+}
+
+.issue textarea {
+    width: 1000px;
 }
 
 .leaflet-container {
@@ -92,6 +173,7 @@
     height: 500px;
     width: 1000px;
 }
+
 .leaflet-control-attribution {
     display: none;
 }
@@ -114,6 +196,10 @@
 .manager-vert-navbar a:hover {
     background-color: lightgray;
     color: black;
+}
+
+.map-container {
+    height: 100vh;
 }
 
 .minimap {
@@ -141,6 +227,10 @@
     background-color: lightgray;
     color: black;
     font-weight: bold;
+}
+
+.padding-down {
+    padding-bottom: 10px;
 }
 
 .scroll {
@@ -254,60 +344,4 @@
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {
-}
-
-.breadcrumb-list {
-    text-decoration: none;
-    color: grey;
-}
-.breadcrumb-current {
-    text-decoration: none;
-    color: black;
-}
-
-#underline {
-    margin-left: 80px;
-    border: solid 1px black;
-    /* Set the hr color */
-    color: black; /* old IE */
-    background-color: black; /* Modern Browsers */
-}
-
-.issue textarea {
-    width: 1000px;
-}
-.issue input {
-    width: 1000px !important;
-}
-.issue select {
-    width: 300px;
-}
-.input label {
-    display: inline-block;
-    width: 200px;
-    text-align: right;
-    padding-right: 30px;
-}
-.input input {
-    width: 300px;
-}
-.input select {
-    width: 300px;
-}
-.input p {
-    display: inline-block;
-    padding-bottom: 0;
-    margin-bottom: 0;
-}
-.input {
-    padding-left: 40px;
-    padding-bottom: 10px;
-}
-
-.map-container{
-    height: 100vh
-}
-
-.customer-create-booking-padding{
-    padding-right: 15px;
 }

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import validate from '../../Validators';
 import host from '../../host';
@@ -83,44 +83,35 @@ export default function ManagerAccountManagement() {
 
     return (
         <>
-            <h3 id={"pageName"}>Create Employee Account</h3>
+            <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>
             <br/>
             <Container>
-                <Row>
-                    <Col xs={4}/>
-                    <Col xs={4}>
-                        <Form>
-                            <Form.Group>
-                                <Form.Label><b>Employee Name</b></Form.Label>
-                                <Form.Control type="name" onInput={e => setName(e.target.value)}
-                                              placeholder="Enter employee name"/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Employee Email</b></Form.Label>
-                                <Form.Control type="email" onInput={e => setEmail(e.target.value)}
-                                              placeholder="Enter employee email"/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Employee Password</b></Form.Label>
-                                <Form.Control type="password" onInput={e => setPassword(e.target.value)}
-                                              placeholder="Enter employee password"/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Confirm Employee Password</b></Form.Label>
-                                <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)}
-                                              placeholder="Confirm employee password"/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Button onClick={onSubmit} style={{float: 'right'}}>Create Employee Account</Button>
-                            </Form.Group>
-                        </Form>
-                    </Col>
-                </Row>
+                <Form>
+                    <div className="input account">
+                        <label>Employee Name</label>
+                        <input type="name" onInput={e => setName(e.target.value)}
+                               placeholder="Enter employee name"/>
+                    </div>
+                    <div className="input account">
+                        <label>Employee Email</label>
+                        <input type="email" onInput={e => setEmail(e.target.value)}
+                               placeholder="Enter employee email"/>
+                    </div>
+                    <div className="input account">
+                        <label>Employee Password</label>
+                        <input type="password" onInput={e => setPassword(e.target.value)}
+                               placeholder="Enter employee password"/>
+                    </div>
+                    <div className="input account">
+                        <label>Confirm Employee Password</label>
+                        <input type="password" onInput={e => setConfirmPassword(e.target.value)}
+                               placeholder="Confirm employee password"/>
+                    </div>
+                    <Form.Group style={{paddingTop: "20px"}}>
+                        <Button onClick={onSubmit}>Change password</Button>
+                    </Form.Group>
+                </Form>
             </Container>
         </>
     );

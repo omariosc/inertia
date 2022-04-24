@@ -197,13 +197,13 @@ export default function CustomerCreateBooking() {
                         <>
                             <Form.Label><b>Select Scooter</b></Form.Label>
                             {(scooters === '') ?
-                                <h6>Loading scooters...</h6> :
+                                <p>Loading scooters...</p> :
                                 <Form.Select
                                     onChange={(e) => {
                                         setScooterChoiceId(e.target.value);
                                     }}
                                 >
-                                    <option value="none" key="none">Select a scooter...</option>
+                                    <option value="none" key="none" selected disabled hidden>Select scooter</option>
                                     {scooters.map((scooter, idx) => (
                                         (scooter.scooterStatus === 0) ?
                                             <option value={scooter.scooterId} key={idx}>
@@ -233,7 +233,7 @@ export default function CustomerCreateBooking() {
                 <Form.Group>
                     <Form.Label><b>Select Hire Period</b></Form.Label>
                     {(hireOptions === '') ?
-                        <h6>Loading hire options...</h6> :
+                        <p>Loading hire options...</p> :
                         <Form.Select
                             onChange={(e) => {
                                 let value = e.target.value.split(',')
@@ -241,7 +241,7 @@ export default function CustomerCreateBooking() {
                                 setPrice(value[1])
                             }}
                         >
-                            <option value="none" key="none">Select a hire option slot...</option>
+                            <option value="none" key="none" selected disabled hidden>Select hire period</option>
                             {hireOptions.map((option, idx) => (
                                 <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
                                     £{option.cost}</option>
@@ -257,17 +257,17 @@ export default function CustomerCreateBooking() {
                                 <>
                                     <Form.Group className="float-end customer-create-booking-padding">
                                         <Form.Label>
-                                            <h6>10% Discount applied.
+                                            <b>10% Discount applied.
                                                 {(hireChoiceId === '') ? null :
                                                     ` Total Cost: £${(0.9 * parseFloat(price)).toFixed(2)}`
                                                 }
-                                            </h6>
+                                            </b>
                                         </Form.Label>
                                     </Form.Group>
                                 </> : <>
                                     {(hireChoiceId === '') ? null :
                                         <Form.Group className="float-end customer-create-booking-padding">
-                                            <Form.Label><h6>Total Cost: £{parseFloat(price).toFixed(2)}</h6>
+                                            <Form.Label><b>Total Cost: £{parseFloat(price).toFixed(2)}</b>
                                             </Form.Label>
                                         </Form.Group>
                                     }
@@ -282,21 +282,21 @@ export default function CustomerCreateBooking() {
                 {checkCardExists() ?
                     <>
                         <Form.Group>
-                            <Form.Label><h6>Card Number</h6></Form.Label>
+                            <Form.Label><b>Card Number</b></Form.Label>
                             <Form.Control type="text" placeholder="Enter customer card number" value={cardNo}
                                           onInput={e => setCardNo(e.target.value)}
                             />
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label><h6>Expiry Date</h6></Form.Label>
+                            <Form.Label><b>Expiry Date</b></Form.Label>
                             <Form.Control type="text" placeholder="Enter customer card expiry date" value={expiry}
                                           onInput={e => setExpiry(e.target.value)}
                             />
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Label><h6>CVV</h6></Form.Label>
+                            <Form.Label><b>CVV</b></Form.Label>
                             <Form.Control type="text" placeholder="Enter customer card cvv code" value={cvv}
                                           onInput={e => setCVV(e.target.value)}
                             />
@@ -304,7 +304,7 @@ export default function CustomerCreateBooking() {
                     </>
                     :
                     <>
-                        <h6>Using Stored Card Details:</h6>
+                        <b>Using Stored Card Details:</b>
                         <p className="m-0">Card Number: **** ****
                             **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}</p>
                         <p className="m-0">Expiry Date: {cookies.get('expiryDate')}</p>

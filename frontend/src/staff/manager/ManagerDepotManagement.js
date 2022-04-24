@@ -151,15 +151,15 @@ export default function ManagerDepotManagement() {
 
     return (
         <>
-            <h3 id={"pageName"}>Depot Management</h3>
+            <h3 id="pageName">Depot Management</h3>
             <hr id="underline"/>
             <br/>
             <Container>
                 {(depots === '') ?
-                    <h6>Loading depots...</h6> :
+                    <p>Loading depots...</p> :
                     <>
                         {(depots.length === 0) ?
-                            <h6>There are no hire options.</h6> :
+                            <p>There are no hire options.</p> :
                             <div className="scroll" style={{maxHeight: "40rem"}}>
                                 <Table striped bordered hover>
                                     <thead>

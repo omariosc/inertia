@@ -40,40 +40,39 @@ export default function CustomerSettings() {
     return (
         <>
             <h5>Account Information</h5>
+            <br/>
             {(accountInfo === '') ?
-                <h6>Loading account information...</h6> :
+                <p>Loading account information...</p> :
                 <Table>
                     <tbody>
                     <tr>
-                        <td><b>Name: </b></td>
+                        <td>Name</td>
                         <td>{accountInfo.name}</td>
                     </tr>
                     <tr>
-                        <td><b>Email: </b></td>
+                        <td>Email</td>
                         <td>{accountInfo.email}</td>
                     </tr>
                     </tbody>
                 </Table>
             }
             <h5 style={{paddingTop: "5px"}}>Change Password</h5>
+            <br/>
             <Form>
-                <Form.Group>
-                    <Form.Label><b>Old Password</b></Form.Label>
-                    <Form.Control type="password" onInput={e => setOldPassword(e.target.value)}
-                                  placeholder="Enter old password"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label><b>New Password</b></Form.Label>
-                    <Form.Control type="password" onInput={e => setPassword(e.target.value)}
-                                  placeholder="Enter new password"/>
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label><b>Confirm Password</b></Form.Label>
-                    <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)}
-                                  placeholder="Confirm new password"/>
-                </Form.Group>
-                <Form.Group>
-                    <Button style={{float: 'right'}} onClick={onSubmit}>Change password</Button>
+                <div className="input">
+                    <label>Old Password</label>
+                    <input type="password" onInput={e => setOldPassword(e.target.value)}/>
+                </div>
+                <div className="input">
+                    <label>New Password</label>
+                    <input type="password" onInput={e => setPassword(e.target.value)}/>
+                </div>
+                <div className="input">
+                    <label>Confirm Password</label>
+                    <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
+                </div>
+                <Form.Group style={{paddingTop: "20px"}}>
+                    <Button onClick={onSubmit}>Change password</Button>
                 </Form.Group>
             </Form>
         </>

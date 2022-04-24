@@ -18,7 +18,7 @@ export default function StaffSettings() {
                 <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
                 <a className="breadcrumb-current" href="/settings">Settings</a></b>
             </p>
-            <h3 id={"pageName"}>Settings</h3>
+            <h3 id="pageName">Settings</h3>
             <hr id="underline"/>
             <br/>
             <Container>

@@ -33,28 +33,15 @@ test-backend:
       - backend/backend.log
       - backend-testing/backend-testing.log
 
-test-ui-customer:
+test-frontend:
   stage: test-integration
   image: node
   script:
-    - cd ui-customer/
+    - cd frontend/
     - npm install
     - npm run build
     - npm test -- --watchAll=false
 
   artifacts:
     paths:
-      - ui-customer/build/
-
-test-ui-staff:
-  stage: test-integration
-  image: node
-  script:
-    - cd ui-staff/
-    - npm install
-    - npm run build
-    - npm test -- --watchAll=false
-
-  artifacts:
-    paths:
-      - ui-staff/build/
+      - frontend/build/

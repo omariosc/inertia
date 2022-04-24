@@ -47,16 +47,12 @@ export default function LandingPage() {
                             onClick={() => {
                                 setShowLogin(true);
                                 setShowRegister(false);
-                            }}>
-                            <p>Log In</p>
-                        </Dropdown.Item>
+                            }}>Log In</Dropdown.Item>
                         <Dropdown.Item
                             onClick={() => {
                                 setShowLogin(false);
                                 setShowRegister(true);
-                            }}>
-                            <p>Register</p>
-                        </Dropdown.Item>
+                            }}>Register</Dropdown.Item>
                     </DropdownButton>
                 </div>
                 <LoginForm show={showLogin} onHide={() => setShowLogin(false)}/>

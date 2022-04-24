@@ -90,23 +90,19 @@ export default function ManagerAccountManagement() {
                 <Form>
                     <div className="input account">
                         <label>Employee Name</label>
-                        <input type="name" onInput={e => setName(e.target.value)}
-                               placeholder="Enter employee name"/>
+                        <input type="name" onInput={e => setName(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Employee Email</label>
-                        <input type="email" onInput={e => setEmail(e.target.value)}
-                               placeholder="Enter employee email"/>
+                        <input type="email" onInput={e => setEmail(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Employee Password</label>
-                        <input type="password" onInput={e => setPassword(e.target.value)}
-                               placeholder="Enter employee password"/>
+                        <input type="password" onInput={e => setPassword(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Confirm Employee Password</label>
-                        <input type="password" onInput={e => setConfirmPassword(e.target.value)}
-                               placeholder="Confirm employee password"/>
+                        <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
                     </div>
                     <Form.Group style={{paddingTop: "20px"}}>
                         <Button onClick={onSubmit}>Change password</Button>

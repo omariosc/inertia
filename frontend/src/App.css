@@ -46,7 +46,7 @@
     max-height: 620px;
 }
 
-/*STYLING FOR NAVIGATION BAR, MANAGER AND EMPLOYEE (even though in the name it says manager)*/
+/*DESKTOP STYLING FOR NAVIGATION BAR, MANAGER AND EMPLOYEE (even though in the name it says manager)*/
 .manager-vert-navbar {
     padding-top: 10px;
     display: flex;
@@ -55,7 +55,7 @@
 }
 
 .manager-vert-navbar a {
-    color: black;
+    color: black !important;
 }
 
 /*styling for pill navbar on hover*/
@@ -79,6 +79,22 @@
     color: black;
 }
 
+.staff-nav-column {
+    background-color: #F0F0F0;
+}
+
+
+/*MOBILE STYLING FOR THE STAFF NAVIGATION*/
+.manager-vert-navbar-mobile {
+    display: none !important;
+}
+
+.hamburger-menu {
+    display: none;
+}
+
+
+
 /*expands the row that the vertical navbar is in to fit the whole page so the divider line extends down to the bottom of the page*/
 #manager-row {
     height: 100vh;
@@ -91,7 +107,7 @@
 }
 
 .nav-indented {
-    padding-left: 37px;
+    padding-left: 37px !important;
 }
 
 #overlay {
@@ -175,6 +191,48 @@
 @media (min-width: 992px) and (max-width: 1199px) {
 }
 
+/*SPECIFICALLY FOR THE MOBILE NAVIGATION FOR STAFF*/
+@media (max-width: 991px) {
+    .manager-vert-navbar {
+        display: none !important;
+    }
+
+    .manager-vert-navbar-mobile {
+        display: flex !important;
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+        background: black;
+        z-index: 9002;
+        width: 100vw;
+        padding-bottom: 10px;
+    }
+
+    .manager-vert-navbar-mobile a {
+        color: white;
+    }
+
+    #manager-row {
+        height: 100%;
+        background-color: transparent;
+    }
+
+    .staff-nav-column {
+        background-color: transparent;
+        border-right: none;
+    }
+
+    /*styling for the hamburger menu*/
+    .hamburger-menu {
+        display: flex;
+        position: absolute;
+        /*how far in from the right it is*/
+        right: 15px;
+        top: 18px;
+        cursor: pointer;
+    }
+}
+
 /* Portrait tablets and small desktops */
 @media (min-width: 768px) and (max-width: 991px) {
     #account-page {
@@ -228,6 +286,7 @@
     .customer-navigation {
         flex-direction: row;
     }
+
 }
 
 /* Portrait phones and smaller */

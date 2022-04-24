@@ -238,7 +238,8 @@ export default function ManagerHireOptionManagement() {
                                             </td>
                                             <td>
                                                 <Button
-                                                    onClick={() => deleteHireOption(hireOption.hireOptionId)} variant="danger">
+                                                    onClick={() => deleteHireOption(hireOption.hireOptionId)}
+                                                    variant="danger">
                                                     Delete
                                                 </Button>
                                             </td>

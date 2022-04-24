@@ -188,18 +188,15 @@ export default function CustomerDiscounts() {
                                 <>
                                     <h5>Frequent User Discount</h5>
                                     <p>Well Done! You are a frequent user. Enjoy our 10% frequent user discount!</p>
-                                </>
-                                : studentUser ?
-                                <>
-                                    <h5>Student Discount</h5>
-                                    <p>10% student discount applied.</p>
-                                </>
-                                : seniorUser ?
-                                <>
-                                    <h5>Senior Discount</h5>
-                                    <p>10% student discount applied.</p>
-                                </>
-                                : null
+                                </> : studentUser ?
+                                    <>
+                                        <h5>Student Discount</h5>
+                                        <p>10% student discount applied.</p>
+                                    </> : seniorUser ?
+                                        <>
+                                            <h5>Senior Discount</h5>
+                                            <p>10% student discount applied.</p>
+                                        </> : null
                             }
                         </>
                     }

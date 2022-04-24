@@ -10,12 +10,13 @@ import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 
 const ManagerMobileNavigation = () => {
-    const [open, setOpen] = useState(false) ;
-    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
+    const [open, setOpen] = useState(false);
+    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35"
+                                           onClick={() => setOpen(!open)}/>
     const closeIcon = <CgClose className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
 
     function Links() {
-        return(
+        return (
             <Nav
                 defaultActiveKey="#/dashboard"
                 variant="pills"

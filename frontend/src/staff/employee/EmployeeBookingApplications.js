@@ -191,7 +191,7 @@ export default function EmployeeBookingApplications() {
                                                         <td>{showDate(booking.endTime)}</td>
                                                         <td>
                                                             <Button onClick={() => approveBooking(booking.orderId)}
-                                                               variant="success">Approve</Button>
+                                                                    variant="success">Approve</Button>
                                                         </td>
                                                         <td>
                                                             <Button onClick={() => denyBooking(booking.orderId)}

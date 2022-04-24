@@ -164,6 +164,10 @@ export default function ManagerHireOptionManagement() {
 
     return (
         <>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/hire-option-management">Hire Option Management</a></b>
+            </p>
             <h3 id="pageName">Hire Option Management</h3>
             <hr id="underline"/>
             <br/>
@@ -191,8 +195,7 @@ export default function ManagerHireOptionManagement() {
                                             <td>
                                                 {hireOption.durationInHours}
                                                 <InputGroup>
-                                                    <input type="number" placeholder="Modify duration"
-                                                           onInput={e => setNewDuration(e.target.value)}/>
+                                                    <input type="number" onInput={e => setNewDuration(e.target.value)}/>
                                                 </InputGroup>
                                                 <Button onClick={() => {
                                                     if (hireOption.durationInHours !== parseInt(newDuration)) {
@@ -201,14 +204,13 @@ export default function ManagerHireOptionManagement() {
                                                         alert("Duration cannot be the same.");
                                                     }
                                                 }}>
-                                                    Change Duration
+                                                    Modify Duration
                                                 </Button>
                                             </td>
                                             <td>
                                                 {hireOption.name}
                                                 <InputGroup>
-                                                    <input type="text" placeholder="Modify name"
-                                                           onInput={e => setNewName(e.target.value)}/>
+                                                    <input type="text" onInput={e => setNewName(e.target.value)}/>
                                                 </InputGroup>
                                                 <Button onClick={() => {
                                                     if (hireOption.name !== newName) {
@@ -217,14 +219,13 @@ export default function ManagerHireOptionManagement() {
                                                         alert("Name cannot be the same.");
                                                     }
                                                 }}>
-                                                    Change Name
+                                                    Modify Name
                                                 </Button>
                                             </td>
                                             <td>
                                                 {hireOption.cost}
                                                 <InputGroup>
-                                                    <input type="price" placeholder="Modify cost"
-                                                           onInput={e => setNewCost(e.target.value)}/>
+                                                    <input type="price" onInput={e => setNewCost(e.target.value)}/>
                                                 </InputGroup>
                                                 <Button onClick={() => {
                                                     if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
@@ -233,7 +234,7 @@ export default function ManagerHireOptionManagement() {
                                                         alert("Cost cannot be the same.");
                                                     }
                                                 }}>
-                                                    Change Cost
+                                                    Modify Cost
                                                 </Button>
                                             </td>
                                             <td>
@@ -249,27 +250,24 @@ export default function ManagerHireOptionManagement() {
                                         <td>{hireOptions.length + 1}</td>
                                         <td>
                                             <InputGroup>
-                                                <input type="number" placeholder="Enter new duration"
+                                                <input type="number" placeholder="Enter duration value"
                                                        onInput={e => setCreateDuration(e.target.value)}/>
                                             </InputGroup>
                                         </td>
                                         <td>
                                             <InputGroup>
-                                                <input type="text" placeholder="Enter new name"
+                                                <input type="text" placeholder="Enter name"
                                                        onInput={e => setCreateName(e.target.value)}/>
                                             </InputGroup>
                                         </td>
                                         <td>
                                             <InputGroup>
-                                                <input type="price" placeholder="Enter new cost"
+                                                <input type="price" placeholder="Enter cost"
                                                        onInput={e => setCreateCost(e.target.value)}/>
                                             </InputGroup>
                                         </td>
                                         <td>
-                                            <Button
-                                                onClick={createHireOption} variant="success">
-                                                Create New
-                                            </Button>
+                                            <Button onClick={createHireOption} variant="success">Create</Button>
                                         </td>
                                     </tr>
                                     </tbody>

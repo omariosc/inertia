@@ -151,6 +151,10 @@ export default function ManagerDepotManagement() {
 
     return (
         <>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/depot-management">Depot Management</a></b>
+            </p>
             <h3 id="pageName">Depot Management</h3>
             <hr id="underline"/>
             <br/>
@@ -178,8 +182,7 @@ export default function ManagerDepotManagement() {
                                             <td>
                                                 {depot.name}
                                                 <InputGroup>
-                                                    <input type="text" placeholder="Modify name"
-                                                           onInput={e => setNewName(e.target.value)}/>
+                                                    <input type="text" onInput={e => setNewName(e.target.value)}/>
                                                 </InputGroup>
                                                 <Button onClick={() => {
                                                     if (depot.name !== newName) {
@@ -188,14 +191,13 @@ export default function ManagerDepotManagement() {
                                                         alert("Name cannot be the same.");
                                                     }
                                                 }}>
-                                                    Change Name
+                                                    Modify Name
                                                 </Button>
                                             </td>
                                             <td>
                                                 {depot.latitude}
                                                 <InputGroup>
-                                                    <input type="text" placeholder="Modify Latitude"
-                                                           onInput={e => setNewLatitude(e.target.value)}/>
+                                                    <input type="text" onInput={e => setNewLatitude(e.target.value)}/>
                                                 </InputGroup>
                                                 <Button onClick={() => {
                                                     if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
@@ -204,14 +206,13 @@ export default function ManagerDepotManagement() {
                                                         alert("Latitude cannot be the same.");
                                                     }
                                                 }}>
-                                                    Change Latitude
+                                                    Modify Latitude
                                                 </Button>
                                             </td>
                                             <td>
                                                 {depot.longitude}
                                                 <InputGroup>
-                                                    <input type="text" placeholder="Modify Longitude"
-                                                           onInput={e => setNewLongitude(e.target.value)}/>
+                                                    <input type="text" onInput={e => setNewLongitude(e.target.value)}/>
                                                 </InputGroup>
                                                 <Button onClick={() => {
                                                     if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
@@ -220,7 +221,7 @@ export default function ManagerDepotManagement() {
                                                         alert("Longitude cannot be the same.");
                                                     }
                                                 }}>
-                                                    Change Longitude
+                                                    Modify Longitude
                                                 </Button>
                                             </td>
                                             <td>
@@ -235,27 +236,24 @@ export default function ManagerDepotManagement() {
                                         <td>{depots.length + 1}</td>
                                         <td>
                                             <InputGroup>
-                                                <input type="text" placeholder="Enter new name"
+                                                <input type="text" placeholder="Enter name"
                                                        onInput={e => setCreateName(e.target.value)}/>
                                             </InputGroup>
                                         </td>
                                         <td>
                                             <InputGroup>
-                                                <input type="text" placeholder="Enter new latitude"
+                                                <input type="text" placeholder="Enter latitude value"
                                                        onInput={e => setCreateLatitude(e.target.value)}/>
                                             </InputGroup>
                                         </td>
                                         <td>
                                             <InputGroup>
-                                                <input type="text" placeholder="Enter new longitude"
+                                                <input type="text" placeholder="Enter longitude value"
                                                        onInput={e => setCreateLongitude(e.target.value)}/>
                                             </InputGroup>
                                         </td>
                                         <td>
-                                            <Button
-                                                onClick={createDepot} variant="success">
-                                                Create New
-                                            </Button>
+                                            <Button onClick={createDepot} variant="success">Create</Button>
                                         </td>
                                     </tr>
                                     </tbody>

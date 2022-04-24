@@ -56,6 +56,11 @@ export default function ManagerIssues() {
 
     return (
         <>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
+                <a className="breadcrumb-current" href="/issues">High Priority Issues</a></b>
+            </p>
             <h3 id="pageName">High Priority Issues</h3>
             <hr id="underline"/>
             <br/>

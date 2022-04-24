@@ -83,6 +83,11 @@ export default function ManagerAccountManagement() {
 
     return (
         <>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/account-management">Account Management</a> > <b>
+                <a className="breadcrumb-current" href="/account-management">Create Employee Account</a></b>
+            </p>
             <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>
             <br/>

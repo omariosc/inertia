@@ -162,6 +162,10 @@ export default function ManagerScooterManagement() {
 
     return (
         <>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
+            </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>
             <br/>
@@ -188,8 +192,7 @@ export default function ManagerScooterManagement() {
                                             <td>
                                                 {scooter.softScooterId}
                                                 <InputGroup>
-                                                    <input placeholder="Enter new scooter ID"
-                                                           onInput={e => setScooterNewId(e.target.value)}/>
+                                                    <input onInput={e => setScooterNewId(e.target.value)}/>
                                                 </InputGroup>
                                                 <Button onClick={() => {
                                                     if (scooter.scooterId !== parseInt(newID)) {
@@ -198,7 +201,7 @@ export default function ManagerScooterManagement() {
                                                         alert("Scooter ID cannot be the same");
                                                     }
                                                 }}>
-                                                    Change ID
+                                                    Change Scooter ID
                                                 </Button>
                                             </td>
                                             <td>
@@ -252,7 +255,7 @@ export default function ManagerScooterManagement() {
                                     <tr key="create">
                                         <td>
                                             <InputGroup>
-                                                <input type="text" placeholder="Enter new ID"
+                                                <input type="text" placeholder="Enter ID"
                                                        onInput={e => setCreateId(e.target.value)}/>
                                             </InputGroup>
                                         </td>
@@ -280,10 +283,7 @@ export default function ManagerScooterManagement() {
                                             }
                                         </td>
                                         <td>
-                                            <Button
-                                                onClick={createScooter} variant="success">
-                                                Create New
-                                            </Button>
+                                            <Button onClick={createScooter} variant="success">Create</Button>
                                         </td>
                                     </tr>
                                     </tbody>

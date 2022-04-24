@@ -291,8 +291,7 @@ public class InertiaService
         HireOption hireOption
         )
     {
-        if (order.OrderState != OrderState.Upcoming && order.OrderState != OrderState.PendingApproval &&
-            order.OrderState != OrderState.Ongoing)
+        if (order.OrderState is OrderState.Completed or OrderState.Cancelled or OrderState.Denied)
             throw new OrderCannotBeExtendException();
         
         if (order.ExtendsId != null)
@@ -302,7 +301,7 @@ public class InertiaService
                 .FirstOrDefaultAsync())!;
         }
         
-        _db.Entry(order).Collection(o => o.Extensions ?? new List<Order>()).Load();
+        await _db.Entry(order).Collection(o => o.Extensions ?? new List<Order>()).LoadAsync();
 
         DateTime startTime;
         DateTime endTime;
@@ -349,15 +348,15 @@ public class InertiaService
         return extension;
     }
 
-    public async Task CancelOrder(Order abstractOrder)
+    public async Task CancelOrder(Order order)
     {
-        if (abstractOrder.OrderState != OrderState.PendingApproval)
+        if (order.OrderState is OrderState.Completed or OrderState.Cancelled or OrderState.Denied)
             throw new OrderApprovedOrOngoingException();
         
-        abstractOrder.OrderState = OrderState.Cancelled;
+        order.OrderState = OrderState.Cancelled;
         
         var extensions = await _db.Orders
-            .Where(o => o.ExtendsId == abstractOrder.OrderId)
+            .Where(o => o.ExtendsId == order.OrderId)
             .ToListAsync();
         foreach (var o in extensions)
         {

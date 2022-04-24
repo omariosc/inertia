@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import changePassword from "../ChangePassword";
 
@@ -14,39 +14,33 @@ export default function StaffSettings() {
 
     return (
         <>
-            <h1 id={"pageName"}>Settings</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/settings">Settings</a></b>
+            </p>
+            <h3 id="pageName">Settings</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
-                <Row>
-                    <Col xs={4}/>
-                    <Col xs={4}>
-                        <h3>Change Password</h3>
-                        <br/>
-                        <Form>
-                            <Form.Group>
-                                <Form.Label><b>Old Password</b></Form.Label>
-                                <Form.Control type="password" onInput={e => setOldPassword(e.target.value)}
-                                              placeholder="Enter old password"/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>New Password</b></Form.Label>
-                                <Form.Control type="password" onInput={e => setPassword(e.target.value)}
-                                              placeholder="Enter new password"/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Form.Label><b>Confirm Password</b></Form.Label>
-                                <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)}
-                                              placeholder="Confirm new password"/>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Button style={{float: 'right'}} onClick={onSubmit}>Change password</Button>
-                            </Form.Group>
-                        </Form>
-                    </Col>
-                </Row>
+                <h5>Change Password</h5>
+                <br/>
+                <Form>
+                    <div className="input">
+                        <label>Old Password</label>
+                        <input type="password" onInput={e => setOldPassword(e.target.value)}/>
+                    </div>
+                    <div className="input">
+                        <label>New Password</label>
+                        <input type="password" onInput={e => setPassword(e.target.value)}/>
+                    </div>
+                    <div className="input">
+                        <label>Confirm Password</label>
+                        <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
+                    </div>
+                    <Form.Group style={{paddingTop: "20px"}}>
+                        <Button onClick={onSubmit}>Change password</Button>
+                    </Form.Group>
+                </Form>
             </Container>
         </>
     );

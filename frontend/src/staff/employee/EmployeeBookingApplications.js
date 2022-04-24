@@ -50,9 +50,7 @@ export default function EmployeeBookingApplications() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Approved booking.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not approve booking.");
             }
         } catch (e) {
@@ -73,9 +71,7 @@ export default function EmployeeBookingApplications() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Denied booking.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not deny booking.");
             }
         } catch (e) {
@@ -97,18 +93,24 @@ export default function EmployeeBookingApplications() {
 
     return (
         <>
-            <h1 id={"pageName"}>Booking Applications</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/booking-applications">Booking Applications</a></b>
+            </p>
+            <h3 id="pageName">Booking Applications</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(bookingHistory === '') ?
-                    <h6>Loading booking applications...</h6> :
+                    <p>Loading booking applications...</p> :
                     <>
                         {(bookingHistory.length === 0) ?
-                            <h6>There are no bookings pending for approval.</h6> :
+                            <p>There are no bookings pending for approval.</p> :
                             <>
                                 <div className="scroll">
                                     {(booking === '') ?
-                                        <h6>Select a booking to show booking details</h6> :
+                                        <p>Select a booking to show booking details</p> :
                                         <>
                                             <Table>
                                                 <tbody>
@@ -180,7 +182,7 @@ export default function EmployeeBookingApplications() {
                                         </thead>
                                         <tbody>
                                         {(bookingHistory === '') ?
-                                            <h6>Loading bookings...</h6> :
+                                            <p>Loading bookings...</p> :
                                             <>
                                                 {bookingHistory.map((booking, idx) => (
                                                     <tr>

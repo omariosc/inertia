@@ -8,14 +8,13 @@ export default function CustomerSubmitIssue() {
     const cookies = new Cookies();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [validTitle, setValidTitle] = useState(true);
+    const [validDescription, setValidDescription] = useState(true);
 
     async function submitIssue() {
-        if (title.length === 0) {
-            alert("Issue must have a title");
-            return;
-        }
-        if (content.length === 0) {
-            alert("Issue must have a title");
+        setValidTitle(title.length > 0);
+        setValidDescription(content.length > 0);
+        if (title.length === 0 || content.length === 0) {
             return;
         }
         try {
@@ -41,14 +40,21 @@ export default function CustomerSubmitIssue() {
     return (
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label><h6>Enter Issue Title</h6></Form.Label>
-                <Form.Control placeholder="Enter issue title here..."
-                              onInput={e => setTitle(e.target.value)}/>
+                <Form.Label><h5>Enter Issue Title</h5></Form.Label>
+                <Form.Control type="text" placeholder="Enter issue title here..."
+                              isInvalid={!validTitle} onInput={e => setTitle(e.target.value)}/>
+                <Form.Control.Feedback type="invalid">
+                    Please enter issue title
+                </Form.Control.Feedback>
             </Form.Group>
+            <br/>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                <Form.Label><h6>Enter Issue Description</h6></Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Enter issue description here..."
-                              onInput={e => setContent(e.target.value)}/>
+                <Form.Label><h5>Enter Issue Description</h5></Form.Label>
+                <Form.Control type="text" as="textarea" rows={3} placeholder="Enter issue description here..."
+                              isInvalid={!validDescription} onInput={e => setContent(e.target.value)}/>
+                <Form.Control.Feedback type="invalid">
+                    Please enter issue description
+                </Form.Control.Feedback>
             </Form.Group>
             <br/>
             <Form.Group>

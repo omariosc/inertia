@@ -42,7 +42,8 @@ export default function EmployeeScooterManagement() {
                 },
                 mode: "cors"
             });
-            setScooters(await request.json());
+            let response = await request.json();
+            setScooters(response.sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -62,7 +63,6 @@ export default function EmployeeScooterManagement() {
                 }),
                 mode: "cors"
             });
-            alert("Changed scooter details.");
             await fetchScooters();
         } catch (error) {
             console.error(error);
@@ -72,10 +72,15 @@ export default function EmployeeScooterManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Scooter Management</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
+            </p>
+            <h3 id="pageName">Scooter Management</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
-                <h3>View Scooters</h3>
+                <h5>View Scooters</h5>
                 <br/>
                 <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
                     <Table striped bordered hover style={{tableLayout: 'fixed'}}>
@@ -104,9 +109,16 @@ export default function EmployeeScooterManagement() {
                                         }
                                     </td>
                                     <td>
-                                        <Button onClick={() => editScooter(scooter.scooterId, scooter.available)}>
-                                            {(scooter.available ? "Make Unavailable" : "Make Available")}
-                                        </Button>
+                                        {(scooter.available ?
+                                                <Button variant="danger"
+                                                        onClick={() => editScooter(scooter.scooterId, scooter.available)}>
+                                                    Make Unavailable
+                                                </Button> :
+                                                <Button variant="success"
+                                                        onClick={() => editScooter(scooter.scooterId, scooter.available)}>
+                                                    Make Available
+                                                </Button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

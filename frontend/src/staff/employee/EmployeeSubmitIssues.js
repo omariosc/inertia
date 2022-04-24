@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Col, Container, Form, FormSelect, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
@@ -15,12 +15,12 @@ export default function EmployeeSubmitIssue() {
             alert("Issue must have a title");
             return;
         }
-        if (content.length === 0) {
-            alert("Issue must have a title");
-            return;
-        }
         if (priority === '' || priority === 'none') {
             alert("Issue must have a priority");
+            return;
+        }
+        if (content.length === 0) {
+            alert("Issue must have a description");
             return;
         }
         try {
@@ -46,44 +46,52 @@ export default function EmployeeSubmitIssue() {
 
     return (
         <>
-            <h1 id={"pageName"}>Submit Issue</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/submit-issue">Issues</a> > <b>
+                <a className="breadcrumb-current" href="/submit-issue">Submit Issue</a></b>
+            </p>
+            <h3 id="pageName">Submit Issue</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
-                <Row>
-                    <Col xs={3}/>
-                    <Col xs={6}>
-                        <Form>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label><b>Enter Issue Title</b></Form.Label>
-                                <Form.Control placeholder="Enter issue title here..."
-                                              onInput={e => setTitle(e.target.value)}/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                <Form.Label><b>Enter Issue Description</b></Form.Label>
-                                <Form.Control as="textarea" rows={3} placeholder="Enter issue description here..."
-                                              onInput={e => setContent(e.target.value)}/>
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label><b>Select Priority</b></Form.Label>
-                                <FormSelect
-                                    onChange={(e) => {
-                                        setPriority(e.target.value)
-                                    }}
-                                >
-                                    <option value="none">Select priority...
-                                    </option>
-                                    {["None", "Low", "Medium", "High"].map((priority, idx) => (
-                                        <option value={idx}>{priority}</option>
-                                    ))}
-                                </FormSelect>
-                            </Form.Group>
-                            <br/>
-                            <Form.Group>
-                                <Button onClick={submitIssue} style={{float: "right"}}>Create Issue</Button>
-                            </Form.Group>
-                        </Form>
+                <Row className="input issue">
+                    <Col xs={1}>
+                        <label>Title</label>
+                    </Col>
+                    <Col xs={1}/>
+                    <Col xs="auto">
+                        <input onInput={e => setTitle(e.target.value)}/>
                     </Col>
                 </Row>
+                <Row className="input issue">
+                    <Col xs={1}>
+                        <label>Priority</label>
+                    </Col>
+                    <Col xs={1}/>
+                    <Col xs="auto">
+                        <select onChange={(e) => {
+                            setPriority(e.target.value)
+                        }}>
+                            <option value="none" key="none" selected disabled hidden>Select priority</option>
+                            {["None", "Low", "Medium", "High"].map((priority, idx) => (
+                                <option value={idx}>{priority}</option>
+                            ))}
+                        </select>
+                    </Col>
+                </Row>
+                <Row className="input issue">
+                    <Col xs={1}>
+                        <label>Description</label>
+                    </Col>
+                    <Col xs={1}/>
+                    <Col xs="auto">
+                        <textarea rows={8} onInput={e => setContent(e.target.value)}/>
+                    </Col>
+                </Row>
+                <div style={{paddingTop: "20px"}}>
+                    <Button onClick={submitIssue}>Create Issue</Button>
+                </div>
             </Container>
         </>
     );

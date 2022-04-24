@@ -39,11 +39,12 @@ export default function ManagerStatistics() {
 
     return (
         <>
-            <h1 id={"pageName"}>Statistics</h1>
+            <h3 id="pageName">Statistics</h3>
+            <hr id="underline"/>
             <br/>
             <div className="scroll">
                 {(weeklyData === '') ?
-                    <h6>Loading weekly hire options graph...</h6> :
+                    <p>Loading weekly hire options graph...</p> :
                     <>
                         <CanvasJSChart options={
                             {
@@ -135,7 +136,7 @@ export default function ManagerStatistics() {
                     </>
                 }
                 {(weeklyHiresData === '') ?
-                    <h6>Loading combined weekly graph...</h6> :
+                    <p>Loading combined weekly graph...</p> :
                     <>
                         <CanvasJSChart options={
                             {
@@ -176,7 +177,7 @@ export default function ManagerStatistics() {
                     </>
                 }
                 {(combinedDailyData === '') ?
-                    <h6>Loading combined daily graph...</h6> :
+                    <p>Loading combined daily graph...</p> :
                     <>
                         <CanvasJSChart options={
                             {

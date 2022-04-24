@@ -73,9 +73,7 @@ export default function EmployeeOngoingBookings() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Extended booking.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not extend booking.");
             }
         } catch (e) {
@@ -96,9 +94,7 @@ export default function EmployeeOngoingBookings() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Cancelled booking.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not cancel booking.");
             }
         } catch (e) {
@@ -120,18 +116,24 @@ export default function EmployeeOngoingBookings() {
 
     return (
         <>
-            <h1 id={"pageName"}>Ongoing Bookings</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/ongoing-bookings">Ongoing Bookings</a></b>
+            </p>
+            <h3 id="pageName">Ongoing Bookings</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(bookingHistory === '') ?
-                    <h6>Loading booking history...</h6> :
+                    <p>Loading booking history...</p> :
                     <>
                         {(bookingHistory.length === 0) ?
-                            <h6>You have no bookings.</h6> :
+                            <p>You have no bookings.</p> :
                             <>
                                 <div className="scroll">
                                     {(booking === '') ?
-                                        <h6>Select a booking to show booking details</h6> :
+                                        <p>Select a booking to show booking details</p> :
                                         <>
                                             <Table>
                                                 <tbody>
@@ -203,7 +205,7 @@ export default function EmployeeOngoingBookings() {
                                         </thead>
                                         <tbody>
                                         {(bookingHistory === '') ?
-                                            <h6>Loading bookings...</h6> :
+                                            <p>Loading bookings...</p> :
                                             <>
                                                 {bookingHistory.map((booking, idx) => (
                                                     <tr key={idx}>
@@ -211,42 +213,31 @@ export default function EmployeeOngoingBookings() {
                                                         <td>{booking.scooter.softScooterId}</td>
                                                         <td>{showDate(booking.endTime)}</td>
                                                         <td>
-                                                            {(booking.orderState === 1) ? "N/A (Booking is pending approval)" : null}
-                                                            {(booking.orderState === 2) ? "N/A (Booking is upcoming)" : null}
-                                                            {(booking.orderState === 3) ? "N/A (Booking is ongoing)" : null}
-                                                            {(booking.orderState !== 1 && booking.orderState !== 2 && booking.orderState !== 3) ?
-                                                                <>
-                                                                    {(hireOptions === '') ?
-                                                                        <h6>Loading hire options...</h6> :
-                                                                        <Form.Select
-                                                                            onChange={(e) => {
-                                                                                setHireChoiceId(e.target.value);
-                                                                            }}
-                                                                        >
-                                                                            <option value="none" key="none">Select a
-                                                                                hire
-                                                                                option slot...
-                                                                            </option>
-                                                                            {hireOptions.map((option, idx) => (
-                                                                                <option key={idx}
-                                                                                        value={option.hireOptionId}>{option.name} -
-                                                                                    £{option.cost}</option>
-                                                                            ))}
-                                                                        </Form.Select>
-                                                                    }
-                                                                    <Button
-                                                                        onClick={() => extendBooking(booking.orderId)}
-                                                                        variant="success">Extend</Button>
-                                                                </> : null
+                                                            {(hireOptions === '') ?
+                                                                <p>Loading hire options...</p> :
+                                                                <Form.Select
+                                                                    onChange={(e) => {
+                                                                        setHireChoiceId(e.target.value);
+                                                                    }}
+                                                                >
+                                                                    <option value="none" key="none" selected
+                                                                            disabled hidden>
+                                                                        Select hire period
+                                                                    </option>
+                                                                    {hireOptions.map((option, idx) => (
+                                                                        <option key={idx}
+                                                                                value={option.hireOptionId}>{option.name} -
+                                                                            £{option.cost}</option>
+                                                                    ))}
+                                                                </Form.Select>
                                                             }
+                                                            <Button
+                                                                onClick={() => extendBooking(booking.orderId)}
+                                                                variant="success">Extend</Button>
                                                         </td>
                                                         <td>
-                                                            {(booking.orderState === 2) ? "N/A (Booking is upcoming)" : null}
-                                                            {(booking.orderState === 3) ? "N/A (Booking is ongoing)" : null}
-                                                            {(booking.orderState !== 2 && booking.orderState !== 3) ?
-                                                                <Button onClick={() => cancelBooking(booking.orderId)}
-                                                                        variant="danger">Cancel</Button> : null
-                                                            }
+                                                            <Button onClick={() => cancelBooking(booking.orderId)}
+                                                                    variant="danger">Cancel</Button>
                                                         </td>
                                                         <td>
                                                             <Button onClick={() => setBooking(bookingHistory[idx])}>

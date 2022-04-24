@@ -56,46 +56,49 @@ export default function ManagerIssues() {
 
     return (
         <>
-            <h1 id={"pageName"}>High Priority Issues</h1>
+            <h3 id="pageName">High Priority Issues</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(issues === '') ?
-                    <h6>Loading issues...</h6> :
+                    <p>Loading issues...</p> :
                     <>
-                        <div style={{float: "right"}}>
-                            <Form.Select onChange={(e) => {
-                                fetchIssues(e.target.value);
-                            }}>
-                                <option value={1}>Time: Newest</option>
-                                <option value={2}>Time: Oldest</option>
-                            </Form.Select>
-                        </div>
-                        <br/>
-                        <br/>
                         {(issues.length === 0) ?
-                            <h6>There are no high priority issues</h6> :
-                            <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
-                                <Row xs={1} md={2} className="card-deck">
-                                    {issues.map((issue, idx) => (
-                                        <Col key={idx}>
-                                            <Card className="g-2">
-                                                <Card.Header><b>{issue.title}</b></Card.Header>
-                                                <Card.Body>
-                                                    <Card.Text>
-                                                        <b>Description:</b> {issue.content}
-                                                        <br/>
-                                                        <b>Priority:</b> High
-                                                    </Card.Text>
-                                                    <Button style={{float: "right"}}
-                                                            onClick={() => resolveIssue(issue.issueId)}>Mark as
-                                                        Resolved</Button>
-                                                </Card.Body>
-                                            </Card>
-                                            <br/>
-                                        </Col>
-                                    ))}
-                                </Row>
-                            </div>
+                            <p>There are no high priority issues</p> :
+                            <>
+                                <div style={{float: "right"}}>
+                                    <Form.Select onChange={(e) => {
+                                        fetchIssues(e.target.value);
+                                    }}>
+                                        <option value={1}>Time: Newest</option>
+                                        <option value={2}>Time: Oldest</option>
+                                    </Form.Select>
+                                </div>
+                                <br/>
+                                <br/>
+                                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
+                                    <Row xs={1} md={2} className="card-deck">
+                                        {issues.map((issue, idx) => (
+                                            <Col key={idx}>
+                                                <Card className="g-2">
+                                                    <Card.Header><b>{issue.title}</b></Card.Header>
+                                                    <Card.Body>
+                                                        <Card.Text>
+                                                            <b>Description:</b> {issue.content}
+                                                            <br/>
+                                                            <b>Priority:</b> High
+                                                        </Card.Text>
+                                                        <Button style={{float: "right"}}
+                                                                onClick={() => resolveIssue(issue.issueId)}>Mark as
+                                                            Resolved</Button>
+                                                    </Card.Body>
+                                                </Card>
+                                                <br/>
+                                            </Col>
+                                        ))}
+                                    </Row>
+                                </div>
+                            </>
                         }
                     </>
                 }

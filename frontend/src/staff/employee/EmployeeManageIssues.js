@@ -65,11 +65,17 @@ export default function EmployeeManageIssues() {
 
     return (
         <>
-            <h1 id={"pageName"}>Manage Issues</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/submit-issue">Issues</a> > <b>
+                <a className="breadcrumb-current" href="/manage-issue">Manage Issue</a></b>
+            </p>
+            <h3 id="pageName">Manage Issues</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(issues.length === 0) ?
-                    <h6>There are no open issues</h6> :
+                    <p>There are no open issues</p> :
                     <>
                         <div style={{float: "right"}}>
                             <Form.Select onChange={(e) => {
@@ -102,7 +108,9 @@ export default function EmployeeManageIssues() {
                                                                 setPriority(e.target.value)
                                                             }}
                                                         >
-                                                            <option value="none" key="none">Select priority...
+                                                            <option value="none" key="none" selected disabled
+                                                                    hidden>
+                                                                Select priority
                                                             </option>
                                                             {priorities.map((priority, idx) => (
                                                                 <option value={idx} key={idx}>{priority}</option>

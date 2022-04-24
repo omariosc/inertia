@@ -123,22 +123,23 @@ export default function CustomerDiscounts() {
     return (
         <>
             {(loading === '') ?
-                <h6>Loading discount status...</h6> :
+                <p>Loading discount status...</p> :
                 <>
                     {(!frequentUser && !studentUser && !seniorUser) ?
-                        <div className="scroll">
+                        <div className="autoScroll">
                             <h5>Frequent User Discount</h5>
                             <p>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent
                                 user discount!</p>
-                            <h5 style={{paddingTop: "5px"}}>Student Discount</h5>
+                            <br/>
+                            <h5>Student Discount</h5>
                             <p>To apply for our 10% student discount, upload student ID below.</p>
                             {window.FileReader ?
                                 <>
                                     {studentImage ?
                                         <>
-                                            <h6>Image Preview</h6>
+                                            <b>Image Preview</b>
                                             <img alt="Uploaded Student Image"
-                                                 src={URL.createObjectURL(studentImage)} width="75%"/>
+                                                 src={URL.createObjectURL(studentImage)} height="300px"/>
                                             <br/>
                                             <br/>
                                         </>
@@ -154,15 +155,17 @@ export default function CustomerDiscounts() {
                                 <p>Your browser does not support file reader. Use another browser to upload
                                     image.</p>
                             }
-                            <h5 style={{paddingTop: "15px"}}>Senior Discount</h5>
+                            <br/>
+                            <br/>
+                            <h5>Senior Discount</h5>
                             <p>To apply for our 10% senior discount, upload ID showing senior status below.</p>
                             {window.FileReader ?
                                 <>
                                     {seniorImage ?
                                         <>
-                                            <h6>Image Preview</h6>
+                                            <b>Image Preview</b>
                                             <img alt="Uploaded Senior Image"
-                                                 src={URL.createObjectURL(seniorImage)} width="75%"/>
+                                                 src={URL.createObjectURL(seniorImage)} height="300px"/>
                                             <br/>
                                             <br/>
                                         </>
@@ -186,19 +189,15 @@ export default function CustomerDiscounts() {
                                     <h5>Frequent User Discount</h5>
                                     <p>Well Done! You are a frequent user. Enjoy our 10% frequent user discount!</p>
                                 </>
-                                : null
-                            }
-                            {studentUser ?
+                                : studentUser ?
                                 <>
                                     <h5>Student Discount</h5>
-                                    <p>10% student discount applied</p>
+                                    <p>10% student discount applied.</p>
                                 </>
-                                : null
-                            }
-                            {seniorUser ?
+                                : seniorUser ?
                                 <>
                                     <h5>Senior Discount</h5>
-                                    <p>10% student discount applied</p>
+                                    <p>10% student discount applied.</p>
                                 </>
                                 : null
                             }

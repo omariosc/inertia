@@ -1,18 +1,18 @@
+import React, {useState} from "react";
 import {Nav} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import {Link} from "react-router-dom";
-import {MdBook, MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
-import {FaExclamation, FaPercentage} from "react-icons/fa";
+import {MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
+import {FaExclamation} from "react-icons/fa";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
-import React from "react";
-import {useState} from "react";
 import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 
 const ManagerMobileNavigation = () => {
     const [open, setOpen] = useState(false) ;
-    const hamburgerIcon = <GiHamburgerMenu className={"hamburger-menu"} color={"white"} size={"35"} onClick={() => setOpen(!open)}/>
-    const closeIcon = <CgClose className={"hamburger-menu"} color={"white"} size={"35"} onClick={() => setOpen(!open)}/>
+    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
+    const closeIcon = <CgClose className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
 
     function Links() {
         return(

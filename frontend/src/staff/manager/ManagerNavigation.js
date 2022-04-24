@@ -1,8 +1,9 @@
-import {Nav} from "react-bootstrap";
-import {Link} from "react-router-dom";
-import {MdBook, MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
-import {FaExclamation, FaPercentage} from "react-icons/fa";
 import React from "react";
+import {Nav} from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {Link} from "react-router-dom";
+import {MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
+import {FaExclamation} from "react-icons/fa";
 import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 

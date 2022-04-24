@@ -3,11 +3,11 @@ import {Outlet, useOutletContext, Link} from 'react-router-dom';
 import {Col, Dropdown, DropdownButton, Nav, Navbar, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js"
+import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
+import EmployeeNavigation from "./EmployeeNavigation";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import Cookies from 'universal-cookie';
-import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
-import EmployeeNavigation from "./EmployeeNavigation";
 
 export default function EmployeeInterface() {
     const cookies = new Cookies();
@@ -34,15 +34,13 @@ export default function EmployeeInterface() {
                                 variant="dark"
                                 title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                             >
-                                <Dropdown.Item as={Link} to="/" onClick={signOut}>
-                                    <p>Sign Out</p>
-                                </Dropdown.Item>
+                                <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
                             </DropdownButton>
                         </Nav.Item>
                     </Navbar.Collapse>
                 </Navbar>
-                <Row id={"manager-row"}>
-                    <Col xs={"auto"} className="staff-nav-column border-end border-dark">
+                <Row id="manager-row">
+                    <Col xs="auto" className="staff-nav-column border-end border-dark">
                         <EmployeeMobileNavigation/>
                         <EmployeeNavigation/>
                     </Col>

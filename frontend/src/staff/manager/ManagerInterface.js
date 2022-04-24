@@ -1,16 +1,12 @@
 import React from "react";
 import {Nav, Row, Col, Navbar, DropdownButton, Dropdown} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {MdDashboard, MdElectricScooter, MdSettings, MdCreate, MdManageAccounts} from "react-icons/md"
-import {FaExclamation} from "react-icons/fa";
-import {IoIosStats} from "react-icons/io"
-import {RiBuilding3Fill} from "react-icons/ri";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import Cookies from 'universal-cookie';
 import {Link, Outlet, useOutletContext} from "react-router-dom";
 import ManagerMobileNavigation from "./ManagerMobileNavigation"
 import ManagerNavigation from "./ManagerNavigation"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUser} from "@fortawesome/free-solid-svg-icons";
+import Cookies from 'universal-cookie';
 
 export default function ManagerInterface() {
     const cookies = new Cookies();
@@ -36,15 +32,13 @@ export default function ManagerInterface() {
                                 variant="dark"
                                 title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
                             >
-                                <Dropdown.Item as={Link} to="/" onClick={signOut}>
-                                    <p>Sign Out</p>
-                                </Dropdown.Item>
+                                <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
                             </DropdownButton>
                         </Nav.Item>
                     </Navbar.Collapse>
                 </Navbar>
-                <Row id={"manager-row"}>
-                    <Col xs={"auto"} className="staff-nav-column border-end border-dark">
+                <Row id="manager-row">
+                    <Col xs="auto" className="staff-nav-column border-end border-dark">
                         <ManagerMobileNavigation/>
                         <ManagerNavigation/>
                     </Col>

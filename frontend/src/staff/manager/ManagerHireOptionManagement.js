@@ -29,7 +29,8 @@ export default function ManagerHireOptionManagement() {
                 },
                 mode: "cors"
             });
-            setHireOptions(await request.json());
+            let response = await request.json();
+            setHireOptions(response.sort((a, b) => a.durationInHours - b.durationInHours));
         } catch (error) {
             console.error(error);
         }
@@ -163,14 +164,15 @@ export default function ManagerHireOptionManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Hire Option Management</h1>
+            <h3 id="pageName">Hire Option Management</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(hireOptions === '') ?
-                    <h6>Loading hire options...</h6> :
+                    <p>Loading hire options...</p> :
                     <>
                         {(hireOptions.length === 0) ?
-                            <h6>There are no hire options.</h6> :
+                            <p>There are no hire options.</p> :
                             <div className="scroll" style={{maxHeight: "40rem"}}>
                                 <Table striped bordered hover>
                                     <thead>

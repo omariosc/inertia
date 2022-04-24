@@ -71,14 +71,20 @@ export default function EmployeeBookingHistory() {
 
     return (
         <>
-            <h1 id={"pageName"}>Booking History</h1>
+            <p id="breadcrumb">
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/booking-history44">Booking History</a></b>
+            </p>
+            <h3 id="pageName">Booking History</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 <Row xs={1}>
                     <Col xs={6}>
-                        <h3 style={{paddingBottom: "20px"}}>All Bookings</h3>
+                        <h5 style={{paddingBottom: "20px"}}>All Bookings</h5>
                         {(userBookings === '' || guestBookings === '') ?
-                            <h6>Loading bookings...</h6> :
+                            <p>Loading bookings...</p> :
                             <>
                                 <div className="scroll" style={{maxHeight: "40rem"}}>
                                     <Table striped bordered hover>
@@ -125,9 +131,9 @@ export default function EmployeeBookingHistory() {
                     </Col>
                     <Col xs={1}/>
                     <Col xs={5}>
-                        <h3 style={{paddingBottom: "20px"}}>Booking Details</h3>
+                        <h5 style={{paddingBottom: "20px"}}>Booking Details</h5>
                         {(booking === '') ?
-                            <h6>Select a booking to show booking details</h6> :
+                            <>Select a booking to show booking details</> :
                             <Table>
                                 <tbody>
                                 <tr>

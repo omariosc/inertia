@@ -45,7 +45,8 @@ export default function ManagerScooterManagement() {
                 },
                 mode: "cors"
             });
-            setScooters(await request.json());
+            let response = await request.json();
+            setScooters(response.sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -88,9 +89,7 @@ export default function ManagerScooterManagement() {
             let response = await request;
             if (response.status === 422) {
                 alert("Scooter ID is already taken.");
-            } else if (response.status === 200) {
-                alert("Modified scooter.");
-            } else {
+            } else if (response.status !== 200) {
                 alert("Could not modify scooter.");
             }
         } catch (error) {
@@ -131,9 +130,7 @@ export default function ManagerScooterManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Created new scooter.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not create scooter.");
             }
         } catch (error) {
@@ -154,9 +151,7 @@ export default function ManagerScooterManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Deleted scooter.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not delete scooter.");
             }
         } catch (error) {
@@ -167,14 +162,15 @@ export default function ManagerScooterManagement() {
 
     return (
         <>
-            <h1 id={"pageName"}>Scooter Management</h1>
+            <h3 id="pageName">Scooter Management</h3>
+            <hr id="underline"/>
             <br/>
             <Container>
                 {(scooters === '') ?
-                    <h6>Loading scooters...</h6> :
+                    <p>Loading scooters...</p> :
                     <>
                         {(scooters.length === 0) ?
-                            <h6>There are no scooters.</h6> :
+                            <p>There are no scooters.</p> :
                             <div className="scroll" style={{maxHeight: "40rem"}}>
                                 <Table striped bordered hover>
                                     <thead>
@@ -206,11 +202,16 @@ export default function ManagerScooterManagement() {
                                                 </Button>
                                             </td>
                                             <td>
-                                                <p>{(scooter.available ? "Available" : "Unavailable")}</p>
-                                                <Button
-                                                    onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
-                                                    {(scooter.available ? "Make Unavailable" : "Make Available")}
-                                                </Button>
+                                                {(scooter.available ?
+                                                        <Button variant="danger"
+                                                                onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
+                                                            Make Unavailable
+                                                        </Button> :
+                                                        <Button variant="success"
+                                                                onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
+                                                            Make Available
+                                                        </Button>
+                                                )}
                                             </td>
                                             <td>{scooterStatus[scooter.scooterStatus]}</td>
                                             <td>
@@ -226,7 +227,9 @@ export default function ManagerScooterManagement() {
                                                                     }
                                                                 }}
                                                             >
-                                                                <option value="none" key="none">Select location...
+                                                                <option value="none" key="none" selected disabled
+                                                                        hidden>
+                                                                    Select location
                                                                 </option>
                                                                 {map_locations.map((location, idx) => (
                                                                     <option value={location.depoId} key={idx}>
@@ -264,7 +267,9 @@ export default function ManagerScooterManagement() {
                                                             setCreateDepo(e.target.value);
                                                         }}
                                                     >
-                                                        <option value="none" key="none">Select location...</option>
+                                                        <option value="none" key="none" selected disabled hidden>
+                                                            Select location
+                                                        </option>
                                                         {map_locations.map((location, idx) => (
                                                             <option value={location.depoId} key={idx}>
                                                                 {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}

@@ -180,49 +180,55 @@ export default function ManagerDepotManagement() {
                                         <tr key={idx}>
                                             <td>{depot.depoId}</td>
                                             <td>
-                                                {depot.name}
+                                                <div className="sameLine">
+                                                    <div className="maxWidthLongDep"> {depot.name} </div>
                                                 <InputGroup>
-                                                    <input type="text" onInput={e => setNewName(e.target.value)}/>
+                                                    <input type="text" onInput={e => setNewName(e.target.value)} size={12}/>
                                                 </InputGroup>
-                                                <Button onClick={() => {
+                                                <Button className="buttonPaddinDepo" onClick={() => {
                                                     if (depot.name !== newName) {
                                                         editDepot(depot.depoId, 0);
                                                     } else {
                                                         alert("Name cannot be the same.");
                                                     }
                                                 }}>
-                                                    Modify Name
+                                                    Edit
                                                 </Button>
+                                                </div>
                                             </td>
                                             <td>
-                                                {depot.latitude}
+                                                <div className="sameLine">
+                                                    <div className="maxWidthDepo">{depot.latitude} </div>
                                                 <InputGroup>
-                                                    <input type="text" onInput={e => setNewLatitude(e.target.value)}/>
+                                                    <input type="text" onInput={e => setNewLatitude(e.target.value)} size={12}/>
                                                 </InputGroup>
-                                                <Button onClick={() => {
+                                                <Button className="buttonPadding" onClick={() => {
                                                     if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
                                                         editDepot(depot.depoId, 1);
                                                     } else {
                                                         alert("Latitude cannot be the same.");
                                                     }
                                                 }}>
-                                                    Modify Latitude
+                                                    Edit
                                                 </Button>
+                                                </div>
                                             </td>
                                             <td>
-                                                {depot.longitude}
+                                                <div className="sameLine">
+                                                    <div className="maxWidthDepo"> {depot.longitude} </div>
                                                 <InputGroup>
-                                                    <input type="text" onInput={e => setNewLongitude(e.target.value)}/>
+                                                    <input type="text" onInput={e => setNewLongitude(e.target.value)} size={12}/>
                                                 </InputGroup>
-                                                <Button onClick={() => {
+                                                <Button className="buttonPadding" onClick={() => {
                                                     if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
                                                         editDepot(depot.depoId, 2);
                                                     } else {
                                                         alert("Longitude cannot be the same.");
                                                     }
                                                 }}>
-                                                    Modify Longitude
+                                                    Edit
                                                 </Button>
+                                                </div>
                                             </td>
                                             <td>
                                                 <Button

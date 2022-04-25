@@ -176,7 +176,7 @@ export default function ManagerScooterManagement() {
                         {(scooters.length === 0) ?
                             <p>There are no scooters.</p> :
                             <div className="scroll" style={{maxHeight: "40rem"}}>
-                                <Table striped bordered hover>
+                                <Table className="table-formatting">
                                     <thead>
                                     <tr>
                                         <th>Scooter ID</th>
@@ -190,19 +190,22 @@ export default function ManagerScooterManagement() {
                                     {scooters.map((scooter, idx) => (
                                         <tr key={idx}>
                                             <td>
-                                                {scooter.softScooterId}
-                                                <InputGroup>
-                                                    <input onInput={e => setScooterNewId(e.target.value)}/>
-                                                </InputGroup>
-                                                <Button onClick={() => {
-                                                    if (scooter.scooterId !== parseInt(newID)) {
-                                                        editScooter(scooter.scooterId, 2);
-                                                    } else {
-                                                        alert("Scooter ID cannot be the same");
-                                                    }
-                                                }}>
-                                                    Change Scooter ID
-                                                </Button>
+                                                <div className="sameLine">
+                                                <div className="marginRight"> {scooter.softScooterId}
+                                                </div>
+                                                    <InputGroup>
+                                                        <input onInput={e => setScooterNewId(e.target.value)}/>
+                                                    </InputGroup>
+                                                    <Button className="buttonPaddingScooter" onClick={() => {
+                                                        if (scooter.scooterId !== parseInt(newID)) {
+                                                            editScooter(scooter.scooterId, 2);
+                                                        } else {
+                                                            alert("Scooter ID cannot be the same");
+                                                        }
+                                                    }}>
+                                                        Edit
+                                                    </Button>
+                                                </div>
                                             </td>
                                             <td>
                                                 {(scooter.available ?
@@ -221,7 +224,6 @@ export default function ManagerScooterManagement() {
                                                 {(map_locations === "") ?
                                                     <h5>Loading map locations...</h5> :
                                                     <>
-                                                        <p>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</p>
                                                         <Form>
                                                             <Form.Select
                                                                 onChange={(e) => {
@@ -232,7 +234,7 @@ export default function ManagerScooterManagement() {
                                                             >
                                                                 <option value="none" key="none" selected disabled
                                                                         hidden>
-                                                                    Select location
+                                                                    {String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}
                                                                 </option>
                                                                 {map_locations.map((location, idx) => (
                                                                     <option value={location.depoId} key={idx}>

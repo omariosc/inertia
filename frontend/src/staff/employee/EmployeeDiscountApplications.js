@@ -80,7 +80,7 @@ export default function EmployeeDiscountApplications() {
                     <>
                         {(applications.length === 0) ?
                             <p>There are currently no discount applications.</p> :
-                            <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
+                            <>
                                 {image ?
                                     <>
                                         <b>Image Preview</b>
@@ -114,21 +114,17 @@ export default function EmployeeDiscountApplications() {
                                             <td>
                                                 <Button
                                                     onClick={() => applicationAction(application.discountApplicationId, "Approve")}
-                                                    variant="success" style={{float: 'left', width: '47.5%'}}>
-                                                    Approve
-                                                </Button>
+                                                    variant="success" className="float-left half-width">Approve</Button>
                                                 <Button
                                                     onClick={() => applicationAction(application.discountApplicationId, "Deny")}
-                                                    variant="danger" style={{float: 'right', width: '47.5%'}}>
-                                                    Reject
-                                                </Button>
+                                                    variant="danger" className="float-right half-width">Reject</Button>
                                             </td>
                                         </tr>
 
                                     ))}
                                     </tbody>
                                 </Table>
-                            </div>
+                            </>
                         }
                     </>
                 }

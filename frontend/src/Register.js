@@ -30,7 +30,6 @@ export default function RegisterForm(props) {
             });
             let response = await request;
             if (response.status === 200) {
-                alert("Successfully registered account.");
                 props.onHide();
             } else {
                 alert("Email address already in use.");
@@ -47,24 +46,25 @@ export default function RegisterForm(props) {
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="text" placeholder="Enter full name" onInput={e => setName(e.target.value)}/>
+                    <input className="max-width" type="text" placeholder="Enter full name" onInput={e => setName(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="email" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
+                    <input className="max-width" type="email" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="password" placeholder="Enter password" onInput={e => setPassword(e.target.value)}/>
+                    <input className="max-width" type="password" placeholder="Enter password" onInput={e => setPassword(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="password" placeholder="Confirm password"
+                    <input className="max-width" type="password" placeholder="Confirm password"
                            onInput={e => setConfirmPassword(e.target.value)}/>
                 </InputGroup>
             </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={onSubmit}>Register</Button>
+            <Modal.Footer className="justify-content-center">
+                <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>
+                <Button className="float-right" onClick={onSubmit}>Register</Button>
             </Modal.Footer>
         </Modal>
     );

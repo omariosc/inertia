@@ -71,7 +71,7 @@ export default function ManagerIssues() {
                         {(issues.length === 0) ?
                             <p>There are no high priority issues</p> :
                             <>
-                                <div style={{float: "right"}}>
+                                <div className="float-right">
                                     <Form.Select onChange={(e) => {
                                         fetchIssues(e.target.value);
                                     }}>
@@ -81,28 +81,26 @@ export default function ManagerIssues() {
                                 </div>
                                 <br/>
                                 <br/>
-                                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
-                                    <Row xs={1} md={2} className="card-deck">
-                                        {issues.map((issue, idx) => (
-                                            <Col key={idx}>
-                                                <Card className="g-2">
-                                                    <Card.Header><b>{issue.title}</b></Card.Header>
-                                                    <Card.Body>
-                                                        <Card.Text>
-                                                            <b>Description:</b> {issue.content}
-                                                            <br/>
-                                                            <b>Priority:</b> High
-                                                        </Card.Text>
-                                                        <Button style={{float: "right"}}
-                                                                onClick={() => resolveIssue(issue.issueId)}>Mark as
-                                                            Resolved</Button>
-                                                    </Card.Body>
-                                                </Card>
-                                                <br/>
-                                            </Col>
-                                        ))}
-                                    </Row>
-                                </div>
+                                <Row xs={1} md={2} className="card-deck">
+                                    {issues.map((issue, idx) => (
+                                        <Col key={idx}>
+                                            <Card className="g-2">
+                                                <Card.Header><b>{issue.title}</b></Card.Header>
+                                                <Card.Body>
+                                                    <Card.Text>
+                                                        <b>Description:</b> {issue.content}
+                                                        <br/>
+                                                        <b>Priority:</b> High
+                                                    </Card.Text>
+                                                    <Button className="float-right"
+                                                            onClick={() => resolveIssue(issue.issueId)}>Mark as
+                                                        Resolved</Button>
+                                                </Card.Body>
+                                            </Card>
+                                            <br/>
+                                        </Col>
+                                    ))}
+                                </Row>
                             </>
                         }
                     </>

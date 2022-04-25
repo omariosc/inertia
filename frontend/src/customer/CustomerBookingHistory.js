@@ -50,100 +50,98 @@ export default function CustomerBookingHistory() {
                     {(bookingHistory.length === 0) ?
                         <p>You have no bookings.</p> :
                         <>
-                            <div className="scroll">
-                                {(booking === '') ?
-                                    <p>Select a booking to show booking details</p> :
-                                    <>
-                                        <Table>
-                                            <tbody>
-                                            <tr>
-                                                <td><b>Booking ID:</b></td>
-                                                <td>{booking.orderId}</td>
-                                            </tr>
-                                            {(booking.scooter) ?
-                                                <tr>
-                                                    <td><b>Scooter ID:</b></td>
-                                                    <td>{booking.scooter.softScooterId}</td>
-                                                </tr>
-                                                :
-                                                <tr>
-                                                    <td><b>Scooter:</b></td>
-                                                    <td>{booking.scooterId}</td>
-                                                </tr>
-                                            }
-                                            <tr>
-                                                <td><b>Customer ID:</b></td>
-                                                <td>{booking.accountId}</td>
-                                            </tr>
-                                            {(booking.account) ?
-                                                <>
-                                                    {(booking.account.depo) ?
-                                                        <tr>
-                                                            <td><b>Depot:</b></td>
-                                                            <td>{booking.account.depo.name}</td>
-                                                        </tr> : null
-                                                    }
-                                                </>
-                                                : null
-                                            }
-                                            <tr>
-                                                <td><b>Hire Option:</b></td>
-                                                <td>{booking.hireOption.name}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Cost:</b></td>
-                                                <td>£{booking.cost.toFixed(2)}</td>
-                                            </tr>
-                                            {(booking.discount > 0) ?
-                                                <tr>
-                                                    <td><b>Discount:</b></td>
-                                                    <td>{booking.discount * 100}%</td>
-                                                </tr> : null
-                                            }
-                                            <tr>
-                                                <td><b>Created At:</b></td>
-                                                <td>{showDate(booking.createdAt)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Start Time:</b></td>
-                                                <td>{showDate(booking.startTime)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>End Time:</b></td>
-                                                <td>{showDate(booking.endTime)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Order Status:</b></td>
-                                                <td>{orderState[booking.orderState]}</td>
-                                            </tr>
-                                            </tbody>
-                                        </Table>
-                                        <Button className="float-end" onClick={() => setBooking("")}
-                                                variant="danger">Close</Button>
-                                    </>
-                                }
-                                <br/>
-                                <Table>
-                                    <thead>
-                                    <tr>
-                                        <th>Booking ID</th>
-                                        <th>Booking Details</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {bookingHistory.map((booking, idx) => (
-                                        <tr key={idx}>
+                            {(booking === '') ?
+                                <p>Select a booking to show booking details</p> :
+                                <>
+                                    <Table>
+                                        <tbody>
+                                        <tr>
+                                            <td><b>Booking ID:</b></td>
                                             <td>{booking.orderId}</td>
-                                            <td>
-                                                <Button onClick={() => setBooking(bookingHistory[idx])}>
-                                                    View
-                                                </Button>
-                                            </td>
                                         </tr>
-                                    ))}
-                                    </tbody>
-                                </Table>
-                            </div>
+                                        {(booking.scooter) ?
+                                            <tr>
+                                                <td><b>Scooter ID:</b></td>
+                                                <td>{booking.scooter.softScooterId}</td>
+                                            </tr>
+                                            :
+                                            <tr>
+                                                <td><b>Scooter:</b></td>
+                                                <td>{booking.scooterId}</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td><b>Customer ID:</b></td>
+                                            <td>{booking.accountId}</td>
+                                        </tr>
+                                        {(booking.account) ?
+                                            <>
+                                                {(booking.account.depo) ?
+                                                    <tr>
+                                                        <td><b>Depot:</b></td>
+                                                        <td>{booking.account.depo.name}</td>
+                                                    </tr> : null
+                                                }
+                                            </>
+                                            : null
+                                        }
+                                        <tr>
+                                            <td><b>Hire Option:</b></td>
+                                            <td>{booking.hireOption.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Cost:</b></td>
+                                            <td>£{booking.cost.toFixed(2)}</td>
+                                        </tr>
+                                        {(booking.discount > 0) ?
+                                            <tr>
+                                                <td><b>Discount:</b></td>
+                                                <td>{booking.discount * 100}%</td>
+                                            </tr> : null
+                                        }
+                                        <tr>
+                                            <td><b>Created At:</b></td>
+                                            <td>{showDate(booking.createdAt)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Start Time:</b></td>
+                                            <td>{showDate(booking.startTime)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>End Time:</b></td>
+                                            <td>{showDate(booking.endTime)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Order Status:</b></td>
+                                            <td>{orderState[booking.orderState]}</td>
+                                        </tr>
+                                        </tbody>
+                                    </Table>
+                                    <Button className="float-end" onClick={() => setBooking("")}
+                                            variant="danger">Close</Button>
+                                </>
+                            }
+                            <br/>
+                            <Table>
+                                <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Booking Details</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {bookingHistory.map((booking, idx) => (
+                                    <tr key={idx}>
+                                        <td>{booking.orderId}</td>
+                                        <td>
+                                            <Button onClick={() => setBooking(bookingHistory[idx])}>
+                                                View
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </Table>
                         </>
                     }
                 </>

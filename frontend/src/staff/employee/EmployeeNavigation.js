@@ -5,14 +5,10 @@ import {Link} from "react-router-dom";
 import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md";
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 
-const EmployeeNavigation = () => {
+export default function EmployeeNavigation() {
     return (
-        <Nav
-            defaultActiveKey="/dashboard"
-            variant="pills"
-            className="manager-vert-navbar flex-column"
-            style={{paddingLeft: "15px"}}
-        >
+        <Nav defaultActiveKey="/dashboard" variant="pills"
+             className="manager-vert-navbar flex-column medium-padding-left">
             <Nav.Link as={Link} to="/dashboard">
                 <MdDashboard/> Dashboard
             </Nav.Link>
@@ -48,5 +44,3 @@ const EmployeeNavigation = () => {
         </Nav>
     );
 }
-
-export default EmployeeNavigation;

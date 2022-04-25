@@ -82,11 +82,9 @@ export default function EmployeeBookingHistory() {
             <Container>
                 <Row xs={1}>
                     <Col xs={6}>
-                        <h5 style={{paddingBottom: "20px"}}>All Bookings</h5>
+                        <h5 className="large-padding-bottom">All Bookings</h5>
                         {(userBookings === '' || guestBookings === '') ?
                             <p>Loading bookings...</p> :
-                            <>
-                                <div className="scroll" style={{maxHeight: "40rem"}}>
                                     <Table striped bordered hover>
                                         <thead>
                                         <tr>
@@ -125,13 +123,11 @@ export default function EmployeeBookingHistory() {
                                         }
                                         </tbody>
                                     </Table>
-                                </div>
-                            </>
                         }
                     </Col>
                     <Col xs={1}/>
                     <Col xs={5}>
-                        <h5 style={{paddingBottom: "20px"}}>Booking Details</h5>
+                        <h5 className="large-padding-bottom">Booking Details</h5>
                         {(booking === '') ?
                             <>Select a booking to show booking details</> :
                             <Table>

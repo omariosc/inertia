@@ -31,12 +31,6 @@
     padding-top: 40px;
 }
 
-#search-overlay {
-    position: absolute;
-    top: 10px;
-    width: 100%;
-    z-index: 100000;
-}
 
 #top-bar {
     display: flex;
@@ -47,7 +41,7 @@
 }
 
 #top-navbar {
-    color: black;
+    color: black !important;
 }
 
 #underline {
@@ -57,12 +51,41 @@
     margin-left: 80px;
 }
 
+.navbar-style {
+    padding-left: 15px !important;
+    font-size: 35px !important;
+    color: white !important;
+}
+
+.black-bg {
+    background-color: black !important;
+}
+
+.half-width {
+    width: 47.5%;
+}
+.medium-padding-left {
+    padding-left: 15px !important;
+}
+.fixed-table {
+    table-layout: fixed !important;
+}
 #wrapper {
     display: flex;
     height: 100%;
     position: relative;
 }
 
+.black-bg {
+    background-color: black;
+}
+
+.text-white {
+    color: white !important;
+}
+.text-black {
+    color: black !important;
+}
 .account label {
     width: 300px !important;
 }
@@ -181,7 +204,6 @@
 .manager-vert-navbar {
     display: flex;
     flex-direction: column;
-    height: 100%;
     padding-top: 10px;
 }
 
@@ -205,6 +227,18 @@
 .minimap {
     max-height: 500px;
     min-width: 100%;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
 }
 
 .navbar-pad-left {
@@ -231,18 +265,6 @@
 
 .padding-down {
     padding-bottom: 10px;
-}
-
-.scroll {
-    max-height: 45rem;
-    overflow-y: scroll;
-}
-
-.search-results {
-    margin-top: 10px;
-    max-height: 90vh;
-    overflow: auto;
-    padding: 10px;
 }
 
 .text-links {
@@ -316,6 +338,17 @@
     }
 }
 
+.small-padding-top {
+    padding-top: 5px;
+}
+
+.large-padding-top {
+    padding-top: 20px;
+}
+
+.large-padding-bottom {
+    padding-bottom: 20px;
+}
 @media (min-width: 768px) and (max-width: 991px) {
     #account-page {
         border: none;

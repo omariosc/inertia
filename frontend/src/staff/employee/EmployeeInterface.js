@@ -17,23 +17,15 @@ export default function EmployeeInterface() {
     return (
         <div id="overlay">
             <div className="clickable">
-                <Navbar style={{backgroundColor: "black"}} expand="lg" className="clickable">
-                    <Navbar.Brand style={{
-                        paddingLeft: "15px",
-                        fontSize: "35px",
-                        color: "white"
-                    }} as={Link} to="/dashboard"><b>INERTIA</b></Navbar.Brand>
+                <Navbar expand="lg" className="clickable black-bg">
+                    <Navbar.Brand className="navbar-style" as={Link} to="/dashboard"><b>INERTIA</b></Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
-                        <Navbar.Text style={{color: "white"}} className="navbar-pad-right">
-                            Logged in as: <a style={{color: "white"}}>{cookies.get("accountName")}</a>
+                        <Navbar.Text className="navbar-pad-right text-white">
+                            Logged in as: <a className="text-white">{cookies.get("accountName")}</a>
                         </Navbar.Text>
                         <Nav.Item className="dropdown-toggle navbar-pad-right">
-                            <DropdownButton
-                                align="end"
-                                className="dropdown-basic-button"
-                                variant="dark"
-                                title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                            >
+                            <DropdownButton align="end" className="dropdown-basic-button" variant="dark"
+                                            title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}>
                                 <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
                             </DropdownButton>
                         </Nav.Item>
@@ -41,8 +33,8 @@ export default function EmployeeInterface() {
                 </Navbar>
                 <Row id="manager-row">
                     <Col xs="auto" className="staff-nav-column border-end border-dark">
-                        <EmployeeMobileNavigation/>
                         <EmployeeNavigation/>
+                        <EmployeeMobileNavigation/>
                     </Col>
                     <Col xs={9}>
                         <Outlet context={[signOut]}/>

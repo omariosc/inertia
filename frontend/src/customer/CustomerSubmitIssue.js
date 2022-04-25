@@ -58,7 +58,7 @@ export default function CustomerSubmitIssue() {
             </Form.Group>
             <br/>
             <Form.Group>
-                <Button onClick={submitIssue} style={{float: "right"}}>Create Issue</Button>
+                <Button onClick={submitIssue} className="float-right">Create Issue</Button>
             </Form.Group>
         </Form>
     );

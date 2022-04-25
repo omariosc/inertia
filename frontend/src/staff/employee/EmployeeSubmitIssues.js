@@ -89,7 +89,7 @@ export default function EmployeeSubmitIssue() {
                         <textarea rows={8} onInput={e => setContent(e.target.value)}/>
                     </Col>
                 </Row>
-                <div style={{paddingTop: "20px"}}>
+                <div className="large-padding-top">
                     <Button onClick={submitIssue}>Create Issue</Button>
                 </div>
             </Container>

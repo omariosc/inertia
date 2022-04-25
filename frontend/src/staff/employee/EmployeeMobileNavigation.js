@@ -7,7 +7,7 @@ import {FaExclamation, FaPercentage} from "react-icons/fa";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
 
-const EmployeeMobileNavigation = () => {
+export default function EmployeeMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35"
                                            onClick={() => setOpen(!open)}/>
@@ -18,8 +18,7 @@ const EmployeeMobileNavigation = () => {
             <Nav
                 defaultActiveKey="/dashboard"
                 variant="pills"
-                className="manager-vert-navbar-mobile flex-column"
-                style={{paddingLeft: "15px"}}
+                className="manager-vert-navbar-mobile flex-column medium-padding-left"
             >
                 <Nav.Link as={Link} to="/dashboard">
                     <MdDashboard/> Dashboard
@@ -63,5 +62,3 @@ const EmployeeMobileNavigation = () => {
         </div>
     );
 }
-
-export default EmployeeMobileNavigation;

@@ -56,7 +56,7 @@ export default function CustomerSettings() {
                     </tbody>
                 </Table>
             }
-            <h5 style={{paddingTop: "5px"}}>Change Password</h5>
+            <h5 className="small-padding-top">Change Password</h5>
             <br/>
             <Form>
                 <div className="input">
@@ -71,7 +71,7 @@ export default function CustomerSettings() {
                     <label>Confirm Password</label>
                     <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
                 </div>
-                <Form.Group style={{paddingTop: "20px"}}>
+                <Form.Group className="large-padding-top">
                     <Button onClick={onSubmit}>Change password</Button>
                 </Form.Group>
             </Form>

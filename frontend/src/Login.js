@@ -27,7 +27,6 @@ export default function LoginForm(props) {
             });
             let response = await request.json();
             if (response.accessToken) {
-                alert(`Logged in as ${response.account.name}.`);
                 cookies.set("accountID", response.account.accountId, {path: '/'});
                 cookies.set("accountName", response.account.name, {path: '/'});
                 cookies.set("accountRole", response.account.role, {path: '/'});
@@ -55,16 +54,18 @@ export default function LoginForm(props) {
             </Modal.Header>
             <Modal.Body>
                 <InputGroup>
-                    <input type="email" placeholder="Enter email address" onInput={e => setEmail(e.target.value)}/>
+                    <input className="max-width" type="email" placeholder="Enter email address"
+                           onInput={e => setEmail(e.target.value)}/>
                 </InputGroup>
                 <br/>
                 <InputGroup>
-                    <input type="password" placeholder="Enter password" onInput={e => setPassword(e.target.value)}/>
+                    <input className="max-width" type="password" placeholder="Enter password"
+                           onInput={e => setPassword(e.target.value)}/>
                 </InputGroup>
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="danger" onClick={props.onHide}>Cancel</Button>
-                <Button onClick={onSubmit}>Login</Button>
+            <Modal.Footer className="justify-content-center">
+                <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>
+                <Button className="float-right" onClick={onSubmit}>Login</Button>
             </Modal.Footer>
         </Modal>
     );

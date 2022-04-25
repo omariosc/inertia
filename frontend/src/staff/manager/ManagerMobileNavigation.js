@@ -9,7 +9,7 @@ import {CgClose} from "react-icons/cg";
 import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 
-const ManagerMobileNavigation = () => {
+export default function ManagerMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35"
                                            onClick={() => setOpen(!open)}/>
@@ -20,8 +20,7 @@ const ManagerMobileNavigation = () => {
             <Nav
                 defaultActiveKey="#/dashboard"
                 variant="pills"
-                className="manager-vert-navbar-mobile"
-                style={{paddingLeft: "15px", color: "black"}}
+                className="manager-vert-navbar-mobile medium-padding-left text-black"
             >
                 <Nav.Link as={Link} to="/dashboard">
                     <MdDashboard/> Dashboard
@@ -57,5 +56,3 @@ const ManagerMobileNavigation = () => {
         </div>
     );
 }
-
-export default ManagerMobileNavigation;

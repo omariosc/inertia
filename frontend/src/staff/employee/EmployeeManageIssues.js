@@ -77,7 +77,7 @@ export default function EmployeeManageIssues() {
                 {(issues.length === 0) ?
                     <p>There are no open issues</p> :
                     <>
-                        <div style={{float: "right"}}>
+                        <div className="float-right">
                             <Form.Select onChange={(e) => {
                                 fetchIssues(e.target.value);
                             }}>
@@ -89,51 +89,47 @@ export default function EmployeeManageIssues() {
                         </div>
                         <br/>
                         <br/>
-                        <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
-                            <Row xs={1} md={2} className="card-deck">
-                                {issues.map((issue, keyID) => (
-                                    <Col key={keyID}>
-                                        <Card className="mb-2">
-                                            <Card.Header><b>{issue.title}</b></Card.Header>
-                                            <Card.Body>
-                                                <Form>
-                                                    <Card.Text>
-                                                        <b>Description:</b> {issue.content}
-                                                        <br/>
-                                                        <b>Priority:</b> {priorities[issue.priority]}
-                                                        <br/>
-                                                        <br/>
-                                                        <FormSelect
-                                                            onChange={(e) => {
-                                                                setPriority(e.target.value)
-                                                            }}
-                                                        >
-                                                            <option value="none" key="none" selected disabled
-                                                                    hidden>
-                                                                Select priority
-                                                            </option>
-                                                            {priorities.map((priority, idx) => (
-                                                                <option value={idx} key={idx}>{priority}</option>
-                                                            ))}
-                                                        </FormSelect>
-                                                        <br/>
-                                                        <Button style={{float: "left"}}
-                                                                onClick={() => {
-                                                                    editIssue(issue.issueId, true)
-                                                                }}>Change Priority</Button>
-                                                        <Button style={{float: "right"}}
-                                                                onClick={() => {
-                                                                    editIssue(issue.issueId)
-                                                                }}>Mark as Resolved</Button>
-                                                    </Card.Text>
-                                                </Form>
-                                            </Card.Body>
-                                        </Card>
-                                        <br/>
-                                    </Col>
-                                ))}
-                            </Row>
-                        </div>
+                        <Row xs={1} md={2} className="card-deck">
+                            {issues.map((issue, keyID) => (
+                                <Col key={keyID}>
+                                    <Card className="mb-2">
+                                        <Card.Header><b>{issue.title}</b></Card.Header>
+                                        <Card.Body>
+                                            <Form>
+                                                <Card.Text>
+                                                    <b>Description:</b> {issue.content}
+                                                    <br/>
+                                                    <b>Priority:</b> {priorities[issue.priority]}
+                                                    <br/>
+                                                    <br/>
+                                                    <FormSelect
+                                                        onChange={(e) => {
+                                                            setPriority(e.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="none" key="none" selected disabled
+                                                                hidden>
+                                                            Select priority
+                                                        </option>
+                                                        {priorities.map((priority, idx) => (
+                                                            <option value={idx} key={idx}>{priority}</option>
+                                                        ))}
+                                                    </FormSelect>
+                                                    <br/>
+                                                    <Button className="float-left" onClick={() => {
+                                                        editIssue(issue.issueId, true)
+                                                    }}>Change Priority</Button>
+                                                    <Button className="float-right" onClick={() => {
+                                                        editIssue(issue.issueId)
+                                                    }}>Mark as Resolved</Button>
+                                                </Card.Text>
+                                            </Form>
+                                        </Card.Body>
+                                    </Card>
+                                    <br/>
+                                </Col>
+                            ))}
+                        </Row>
                     </>
                 }
             </Container>

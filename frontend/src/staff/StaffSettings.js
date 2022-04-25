@@ -37,7 +37,7 @@ export default function StaffSettings() {
                         <label>Confirm Password</label>
                         <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
                     </div>
-                    <Form.Group style={{paddingTop: "20px"}}>
+                    <Form.Group className="large-padding-top">
                         <Button onClick={onSubmit}>Change password</Button>
                     </Form.Group>
                 </Form>

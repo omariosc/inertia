@@ -82,49 +82,47 @@ export default function EmployeeScooterManagement() {
             <Container>
                 <h5>View Scooters</h5>
                 <br/>
-                <div className="scroll" style={{maxHeight: "40rem", overflowX: "hidden"}}>
-                    <Table striped bordered hover style={{tableLayout: 'fixed'}}>
-                        <thead>
-                        <tr>
-                            <th>Scooter ID</th>
-                            <th>Availability</th>
-                            <th>Status</th>
-                            <th>Location</th>
-                            <th>Change Availability</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {(scooters === '') ? null :
-                            scooters.map((scooter, idx) => (
-                                <tr key={idx}>
-                                    <td>{scooter.softScooterId}</td>
-                                    <td>{(scooter.available ? "Available" : "Unavailable")}</td>
-                                    <td>{scooterStatus[scooter.scooterStatus]}</td>
-                                    <td>
-                                        {(map_locations === "") ?
-                                            <h5>Loading map locations...</h5> :
-                                            <>
-                                                {String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}
-                                            </>
-                                        }
-                                    </td>
-                                    <td>
-                                        {(scooter.available ?
-                                                <Button variant="danger"
-                                                        onClick={() => editScooter(scooter.scooterId, scooter.available)}>
-                                                    Make Unavailable
-                                                </Button> :
-                                                <Button variant="success"
-                                                        onClick={() => editScooter(scooter.scooterId, scooter.available)}>
-                                                    Make Available
-                                                </Button>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </div>
+                <Table striped bordered hover className="fixed-table">
+                    <thead>
+                    <tr>
+                        <th>Scooter ID</th>
+                        <th>Availability</th>
+                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Change Availability</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {(scooters === '') ? null :
+                        scooters.map((scooter, idx) => (
+                            <tr key={idx}>
+                                <td>{scooter.softScooterId}</td>
+                                <td>{(scooter.available ? "Available" : "Unavailable")}</td>
+                                <td>{scooterStatus[scooter.scooterStatus]}</td>
+                                <td>
+                                    {(map_locations === "") ?
+                                        <h5>Loading map locations...</h5> :
+                                        <>
+                                            {String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}
+                                        </>
+                                    }
+                                </td>
+                                <td>
+                                    {(scooter.available ?
+                                            <Button variant="danger"
+                                                    onClick={() => editScooter(scooter.scooterId, scooter.available)}>
+                                                Make Unavailable
+                                            </Button> :
+                                            <Button variant="success"
+                                                    onClick={() => editScooter(scooter.scooterId, scooter.available)}>
+                                                Make Available
+                                            </Button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
             </Container>
         </>
     );

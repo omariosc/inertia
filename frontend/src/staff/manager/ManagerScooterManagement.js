@@ -175,120 +175,118 @@ export default function ManagerScooterManagement() {
                     <>
                         {(scooters.length === 0) ?
                             <p>There are no scooters.</p> :
-                            <div className="scroll" style={{maxHeight: "40rem"}}>
-                                <Table striped bordered hover>
-                                    <thead>
-                                    <tr>
-                                        <th>Scooter ID</th>
-                                        <th>Availability</th>
-                                        <th>Status</th>
-                                        <th>Location</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {scooters.map((scooter, idx) => (
-                                        <tr key={idx}>
-                                            <td>
-                                                {scooter.softScooterId}
-                                                <InputGroup>
-                                                    <input onInput={e => setScooterNewId(e.target.value)}/>
-                                                </InputGroup>
-                                                <Button onClick={() => {
-                                                    if (scooter.scooterId !== parseInt(newID)) {
-                                                        editScooter(scooter.scooterId, 2);
-                                                    } else {
-                                                        alert("Scooter ID cannot be the same");
-                                                    }
-                                                }}>
-                                                    Change Scooter ID
-                                                </Button>
-                                            </td>
-                                            <td>
-                                                {(scooter.available ?
-                                                        <Button variant="danger"
-                                                                onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
-                                                            Make Unavailable
-                                                        </Button> :
-                                                        <Button variant="success"
-                                                                onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
-                                                            Make Available
-                                                        </Button>
-                                                )}
-                                            </td>
-                                            <td>{scooterStatus[scooter.scooterStatus]}</td>
-                                            <td>
-                                                {(map_locations === "") ?
-                                                    <h5>Loading map locations...</h5> :
-                                                    <>
-                                                        <p>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</p>
-                                                        <Form>
-                                                            <Form.Select
-                                                                onChange={(e) => {
-                                                                    if (e.target.value !== scooter.depoId.toString()) {
-                                                                        editScooter(scooter.scooterId, 1, '', e.target.value);
-                                                                    }
-                                                                }}
-                                                            >
-                                                                <option value="none" key="none" selected disabled
-                                                                        hidden>
-                                                                    Select location
-                                                                </option>
-                                                                {map_locations.map((location, idx) => (
-                                                                    <option value={location.depoId} key={idx}>
-                                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                                    </option>
-                                                                ))}
-                                                            </Form.Select>
-                                                        </Form>
-                                                    </>
-                                                }
-                                            </td>
-                                            <td>
-                                                <Button
-                                                    onClick={() => deleteScooter(scooter.scooterId)} variant="danger">
-                                                    Delete
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    <tr key="create">
+                            <Table striped bordered hover>
+                                <thead>
+                                <tr>
+                                    <th>Scooter ID</th>
+                                    <th>Availability</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {scooters.map((scooter, idx) => (
+                                    <tr key={idx}>
                                         <td>
+                                            {scooter.softScooterId}
                                             <InputGroup>
-                                                <input type="text" placeholder="Enter ID"
-                                                       onInput={e => setCreateId(e.target.value)}/>
+                                                <input onInput={e => setScooterNewId(e.target.value)}/>
                                             </InputGroup>
+                                            <Button onClick={() => {
+                                                if (scooter.scooterId !== parseInt(newID)) {
+                                                    editScooter(scooter.scooterId, 2);
+                                                } else {
+                                                    alert("Scooter ID cannot be the same");
+                                                }
+                                            }}>
+                                                Change Scooter ID
+                                            </Button>
                                         </td>
-                                        <td>Available (by default)</td>
-                                        <td>In Depot (by default)</td>
+                                        <td>
+                                            {(scooter.available ?
+                                                    <Button variant="danger"
+                                                            onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
+                                                        Make Unavailable
+                                                    </Button> :
+                                                    <Button variant="success"
+                                                            onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
+                                                        Make Available
+                                                    </Button>
+                                            )}
+                                        </td>
+                                        <td>{scooterStatus[scooter.scooterStatus]}</td>
                                         <td>
                                             {(map_locations === "") ?
                                                 <h5>Loading map locations...</h5> :
-                                                <Form>
-                                                    <Form.Select
-                                                        onChange={(e) => {
-                                                            setCreateDepo(e.target.value);
-                                                        }}
-                                                    >
-                                                        <option value="none" key="none" selected disabled hidden>
-                                                            Select location
-                                                        </option>
-                                                        {map_locations.map((location, idx) => (
-                                                            <option value={location.depoId} key={idx}>
-                                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                <>
+                                                    <p>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</p>
+                                                    <Form>
+                                                        <Form.Select
+                                                            onChange={(e) => {
+                                                                if (e.target.value !== scooter.depoId.toString()) {
+                                                                    editScooter(scooter.scooterId, 1, '', e.target.value);
+                                                                }
+                                                            }}
+                                                        >
+                                                            <option value="none" key="none" selected disabled
+                                                                    hidden>
+                                                                Select location
                                                             </option>
-                                                        ))}
-                                                    </Form.Select>
-                                                </Form>
+                                                            {map_locations.map((location, idx) => (
+                                                                <option value={location.depoId} key={idx}>
+                                                                    {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                                </option>
+                                                            ))}
+                                                        </Form.Select>
+                                                    </Form>
+                                                </>
                                             }
                                         </td>
                                         <td>
-                                            <Button onClick={createScooter} variant="success">Create</Button>
+                                            <Button
+                                                onClick={() => deleteScooter(scooter.scooterId)} variant="danger">
+                                                Delete
+                                            </Button>
                                         </td>
                                     </tr>
-                                    </tbody>
-                                </Table>
-                            </div>
+                                ))}
+                                <tr key="create">
+                                    <td>
+                                        <InputGroup>
+                                            <input type="text" placeholder="Enter ID"
+                                                   onInput={e => setCreateId(e.target.value)}/>
+                                        </InputGroup>
+                                    </td>
+                                    <td>Available (by default)</td>
+                                    <td>In Depot (by default)</td>
+                                    <td>
+                                        {(map_locations === "") ?
+                                            <h5>Loading map locations...</h5> :
+                                            <Form>
+                                                <Form.Select
+                                                    onChange={(e) => {
+                                                        setCreateDepo(e.target.value);
+                                                    }}
+                                                >
+                                                    <option value="none" key="none" selected disabled hidden>
+                                                        Select location
+                                                    </option>
+                                                    {map_locations.map((location, idx) => (
+                                                        <option value={location.depoId} key={idx}>
+                                                            {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                        </option>
+                                                    ))}
+                                                </Form.Select>
+                                            </Form>
+                                        }
+                                    </td>
+                                    <td>
+                                        <Button onClick={createScooter} variant="success">Create</Button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </Table>
                         }
                     </>
                 }

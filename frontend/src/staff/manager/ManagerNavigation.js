@@ -7,13 +7,12 @@ import {FaExclamation} from "react-icons/fa";
 import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 
-const ManagerNavigation = () => {
+export default function ManagerNavigation() {
     return (
         <Nav
             defaultActiveKey="#/dashboard"
             variant="pills"
-            className="manager-vert-navbar"
-            style={{paddingLeft: "15px", color: "black"}}
+            className="manager-vert-navbar medium-padding-left text-black"
         >
             <Nav.Link as={Link} to="/dashboard">
                 <MdDashboard/> Dashboard
@@ -42,5 +41,3 @@ const ManagerNavigation = () => {
         </Nav>
     );
 }
-
-export default ManagerNavigation;

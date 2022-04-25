@@ -75,11 +75,10 @@ export default function ManagerDepotManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Modified depot");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not modify depot.");
             }
+
         } catch (error) {
             console.error(error);
         }
@@ -115,11 +114,10 @@ export default function ManagerDepotManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Created new depot.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not create depot.");
             }
+
         } catch (error) {
             console.error(error);
         }
@@ -138,11 +136,10 @@ export default function ManagerDepotManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Deleted depot.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not delete depot.");
             }
+
         } catch (error) {
             console.error(error);
         }

@@ -82,9 +82,7 @@ export default function ManagerHireOptionManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Modified hire option.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not modify hire option.");
             }
         } catch (error) {
@@ -128,9 +126,7 @@ export default function ManagerHireOptionManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Created new hire option.");
-            } else {
+            if (response.status !== 200) {
                 alert("Could not create hire option.");
             }
         } catch (error) {
@@ -151,10 +147,8 @@ export default function ManagerHireOptionManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status === 200) {
-                alert("Deleted hire option");
-            } else {
-                alert("Could not delete hire option.");
+            if (response.status !== 200) {
+                alert("Could not modify hire option.");
             }
         } catch (error) {
             console.error(error);

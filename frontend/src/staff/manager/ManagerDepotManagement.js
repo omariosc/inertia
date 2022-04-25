@@ -75,7 +75,9 @@ export default function ManagerDepotManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status !== 200) {
+            if (response.status === 200) {
+                alert("Modified depot");
+            } else {
                 alert("Could not modify depot.");
             }
         } catch (error) {
@@ -113,7 +115,9 @@ export default function ManagerDepotManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status !== 200) {
+            if (response.status === 200) {
+                alert("Created new depot.");
+            } else {
                 alert("Could not create depot.");
             }
         } catch (error) {
@@ -134,7 +138,9 @@ export default function ManagerDepotManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status !== 200) {
+            if (response.status === 200) {
+                alert("Deleted depot.");
+            } else {
                 alert("Could not delete depot.");
             }
         } catch (error) {
@@ -158,99 +164,107 @@ export default function ManagerDepotManagement() {
                     <>
                         {(depots.length === 0) ?
                             <p>There are no hire options.</p> :
-                            <Table striped bordered hover>
-                                <thead>
-                                <tr>
-                                    <th>Depot ID</th>
-                                    <th>Name</th>
-                                    <th>Latitude</th>
-                                    <th>Longitude</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {depots.map((depot, idx) => (
-                                    <tr key={idx}>
-                                        <td>{depot.depoId}</td>
+                            <div className="scroll" style={{maxHeight: "40rem"}}>
+                                <Table striped bordered hover>
+                                    <thead>
+                                    <tr>
+                                        <th>Depot ID</th>
+                                        <th>Name</th>
+                                        <th>Latitude</th>
+                                        <th>Longitude</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {depots.map((depot, idx) => (
+                                        <tr key={idx}>
+                                            <td>{depot.depoId}</td>
+                                            <td>
+                                                <div className="sameLine">
+                                                    <div className="maxWidthLongDep"> {depot.name} </div>
+                                                <InputGroup>
+                                                    <input type="text" onInput={e => setNewName(e.target.value)} size={12}/>
+                                                </InputGroup>
+                                                <Button className="buttonPaddinDepo" onClick={() => {
+                                                    if (depot.name !== newName) {
+                                                        editDepot(depot.depoId, 0);
+                                                    } else {
+                                                        alert("Name cannot be the same.");
+                                                    }
+                                                }}>
+                                                    Edit
+                                                </Button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="sameLine">
+                                                    <div className="maxWidthDepo">{depot.latitude} </div>
+                                                <InputGroup>
+                                                    <input type="text" onInput={e => setNewLatitude(e.target.value)} size={12}/>
+                                                </InputGroup>
+                                                <Button className="buttonPadding" onClick={() => {
+                                                    if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
+                                                        editDepot(depot.depoId, 1);
+                                                    } else {
+                                                        alert("Latitude cannot be the same.");
+                                                    }
+                                                }}>
+                                                    Edit
+                                                </Button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="sameLine">
+                                                    <div className="maxWidthDepo"> {depot.longitude} </div>
+                                                <InputGroup>
+                                                    <input type="text" onInput={e => setNewLongitude(e.target.value)} size={12}/>
+                                                </InputGroup>
+                                                <Button className="buttonPadding" onClick={() => {
+                                                    if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
+                                                        editDepot(depot.depoId, 2);
+                                                    } else {
+                                                        alert("Longitude cannot be the same.");
+                                                    }
+                                                }}>
+                                                    Edit
+                                                </Button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <Button
+                                                    onClick={() => deleteDepot(depot.depoId)} variant="danger">
+                                                    Delete
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    <tr key="create">
+                                        <td>{depots.length + 1}</td>
                                         <td>
-                                            {depot.name}
                                             <InputGroup>
-                                                <input type="text" onInput={e => setNewName(e.target.value)}/>
+                                                <input type="text" placeholder="Enter name"
+                                                       onInput={e => setCreateName(e.target.value)}/>
                                             </InputGroup>
-                                            <Button onClick={() => {
-                                                if (depot.name !== newName) {
-                                                    editDepot(depot.depoId, 0);
-                                                } else {
-                                                    alert("Name cannot be the same.");
-                                                }
-                                            }}>
-                                                Modify Name
-                                            </Button>
                                         </td>
                                         <td>
-                                            {depot.latitude}
                                             <InputGroup>
-                                                <input type="text" onInput={e => setNewLatitude(e.target.value)}/>
+                                                <input type="text" placeholder="Enter latitude value"
+                                                       onInput={e => setCreateLatitude(e.target.value)}/>
                                             </InputGroup>
-                                            <Button onClick={() => {
-                                                if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
-                                                    editDepot(depot.depoId, 1);
-                                                } else {
-                                                    alert("Latitude cannot be the same.");
-                                                }
-                                            }}>
-                                                Modify Latitude
-                                            </Button>
                                         </td>
                                         <td>
-                                            {depot.longitude}
                                             <InputGroup>
-                                                <input type="text" onInput={e => setNewLongitude(e.target.value)}/>
+                                                <input type="text" placeholder="Enter longitude value"
+                                                       onInput={e => setCreateLongitude(e.target.value)}/>
                                             </InputGroup>
-                                            <Button onClick={() => {
-                                                if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
-                                                    editDepot(depot.depoId, 2);
-                                                } else {
-                                                    alert("Longitude cannot be the same.");
-                                                }
-                                            }}>
-                                                Modify Longitude
-                                            </Button>
                                         </td>
                                         <td>
-                                            <Button
-                                                onClick={() => deleteDepot(depot.depoId)} variant="danger">
-                                                Delete
-                                            </Button>
+                                            <Button onClick={createDepot} variant="success">Create</Button>
                                         </td>
                                     </tr>
-                                ))}
-                                <tr key="create">
-                                    <td>{depots.length + 1}</td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="text" placeholder="Enter name"
-                                                   onInput={e => setCreateName(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="text" placeholder="Enter latitude value"
-                                                   onInput={e => setCreateLatitude(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="text" placeholder="Enter longitude value"
-                                                   onInput={e => setCreateLongitude(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <Button onClick={createDepot} variant="success">Create</Button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </Table>
+                                    </tbody>
+                                </Table>
+                            </div>
                         }
                     </>
                 }

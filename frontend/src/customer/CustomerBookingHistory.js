@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import orderState from "../staff/orderState";
 import host from '../host';
 import Cookies from 'universal-cookie';
+import showDate from "../showDate";
 
 export default function CustomerBookingHistory() {
     const cookies = new Cookies();
@@ -29,17 +30,6 @@ export default function CustomerBookingHistory() {
         } catch (e) {
             console.log(e);
         }
-    }
-
-    function showDate(date) {
-        return new Intl.DateTimeFormat('en', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-        }).format(new Date(date));
     }
 
     return (

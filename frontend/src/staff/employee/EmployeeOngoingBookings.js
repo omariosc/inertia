@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import orderState from "../orderState";
 import host from "../../host";
 import Cookies from "universal-cookie";
+import showDate from "../../showDate";
 
 export default function EmployeeOngoingBookings() {
     const cookies = new Cookies();
@@ -101,17 +102,6 @@ export default function EmployeeOngoingBookings() {
             console.log(e);
         }
         await fetchBookings();
-    }
-
-    function showDate(date) {
-        return new Intl.DateTimeFormat('en', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-        }).format(new Date(date));
     }
 
     return (

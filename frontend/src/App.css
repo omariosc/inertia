@@ -1,4 +1,4 @@
-#account-page {
+a#account-page {
     padding-left: 15%;
     padding-right: 25%;
     padding-top: 2%;
@@ -31,7 +31,6 @@
     padding-top: 40px;
 }
 
-
 #top-bar {
     display: flex;
     justify-content: right;
@@ -51,41 +50,12 @@
     margin-left: 80px;
 }
 
-.navbar-style {
-    padding-left: 15px !important;
-    font-size: 35px !important;
-    color: white !important;
-}
-
-.black-bg {
-    background-color: black !important;
-}
-
-.half-width {
-    width: 47.5%;
-}
-.medium-padding-left {
-    padding-left: 15px !important;
-}
-.fixed-table {
-    table-layout: fixed !important;
-}
 #wrapper {
     display: flex;
     height: 100%;
     position: relative;
 }
 
-.black-bg {
-    background-color: black;
-}
-
-.text-white {
-    color: white !important;
-}
-.text-black {
-    color: black !important;
-}
 .account label {
     width: 300px !important;
 }
@@ -94,6 +64,14 @@
     max-height: 90%;
     overflow-y: auto;
     padding-bottom: 65px;
+}
+
+.black-bg {
+    background-color: black !important;
+}
+
+.black-bg {
+    background-color: black;
 }
 
 .breadcrumb-current {
@@ -147,6 +125,22 @@
     float: right;
 }
 
+.fixed-table {
+    table-layout: fixed !important;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.half-width {
+    width: 47.5%;
+}
+
 .input {
     padding-bottom: 10px;
     padding-left: 40px;
@@ -187,6 +181,53 @@
     width: 1000px;
 }
 
+.issue-label-0 {
+    background-color: black;
+    border-radius: 25px;
+    color: white;
+    height: 25px;
+    justify-content: center;
+}
+
+.issue-label-1 {
+    background-color: green;
+    border-radius: 25px;
+    color: white;
+    height: 25px;
+    justify-content: center;
+}
+
+.issue-label-2 {
+    background-color: orange;
+    border-radius: 25px;
+    color: white;
+    height: 25px;
+    justify-content: center;
+}
+
+.issue-label-3 {
+    background-color: red;
+    border-radius: 25px;
+    color: white;
+    height: 25px;
+    justify-content: center;
+}
+
+.issue-text {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-right: 10%;
+}
+
+.large-padding-bottom {
+    padding-bottom: 20px;
+}
+
+.large-padding-top {
+    padding-top: 20px;
+}
+
 .leaflet-container {
     height: 100%;
     width: 100%;
@@ -224,21 +265,17 @@
     height: 100vh;
 }
 
-.minimap {
-    max-height: 500px;
-    min-width: 100%;
-}
-
 .max-width {
     width: 100%;
 }
 
-.float-left {
-    float: left;
+.medium-padding-left {
+    padding-left: 15px !important;
 }
 
-.float-right {
-    float: right;
+.minimap {
+    max-height: 500px;
+    min-width: 100%;
 }
 
 .navbar-pad-left {
@@ -247,6 +284,12 @@
 
 .navbar-pad-right {
     padding-right: 10px;
+}
+
+.navbar-style {
+    color: white !important;
+    font-size: 35px !important;
+    padding-left: 15px !important;
 }
 
 .nav-indented {
@@ -267,9 +310,21 @@
     padding-bottom: 10px;
 }
 
+.small-padding-top {
+    padding-top: 5px;
+}
+
+.text-black {
+    color: black !important;
+}
+
 .text-links {
     color: white;
     text-decoration: none;
+}
+
+.text-white {
+    color: white !important;
 }
 
 .wrapper, html, body {
@@ -338,17 +393,6 @@
     }
 }
 
-.small-padding-top {
-    padding-top: 5px;
-}
-
-.large-padding-top {
-    padding-top: 20px;
-}
-
-.large-padding-bottom {
-    padding-bottom: 20px;
-}
 @media (min-width: 768px) and (max-width: 991px) {
     #account-page {
         border: none;

@@ -50,6 +50,13 @@ a#account-page {
     margin-left: 80px;
 }
 
+.issue-divider {
+    background-color: black;
+    border: solid 1px black;
+    color: black;
+    margin-left: 80px;
+}
+
 #wrapper {
     display: flex;
     height: 100%;

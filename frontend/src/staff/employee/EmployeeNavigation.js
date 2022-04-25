@@ -12,7 +12,7 @@ export default function EmployeeNavigation() {
             <Nav.Link as={Link} to="/dashboard">
                 <MdDashboard/> Dashboard
             </Nav.Link>
-            <Nav.Link disabled>
+            <Nav.Link as={Link} to="/bookings" className="nav-indented">
                 <MdBook/> Bookings
             </Nav.Link>
             <Nav.Link as={Link} to="/create-guest-booking" className="nav-indented">
@@ -21,20 +21,15 @@ export default function EmployeeNavigation() {
             <Nav.Link as={Link} to="/booking-applications" className="nav-indented">
                 Booking Applications
             </Nav.Link>
-            <Nav.Link as={Link} to="/ongoing-bookings" className="nav-indented">
-                Ongoing Bookings
-            </Nav.Link>
             <Nav.Link as={Link} to="/booking-history" className="nav-indented">
                 Booking History</Nav.Link>
             <Nav.Link as={Link} to="/scooter-management">
                 <MdElectricScooter/> Scooter Management</Nav.Link>
-            <Nav.Link disabled>
+            <Nav.Link as={Link} to="/issues" className="nav-indented">
                 <FaExclamation/> Issues
             </Nav.Link>
             <Nav.Link as={Link} to="/submit-issue" className="nav-indented">
                 Submit Issue</Nav.Link>
-            <Nav.Link as={Link} to="/manage-issues" className="nav-indented">
-                Manage Issues</Nav.Link>
             <Nav.Link as={Link} to="/discount-applications">
                 <FaPercentage/> Discount Applications
             </Nav.Link>

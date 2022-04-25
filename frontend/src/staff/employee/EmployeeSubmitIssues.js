@@ -48,7 +48,7 @@ export default function EmployeeSubmitIssue() {
         <>
             <p id="breadcrumb">
                 <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/submit-issue">Issues</a> > <b>
+                </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
                 <a className="breadcrumb-current" href="/submit-issue">Submit Issue</a></b>
             </p>
             <h3 id="pageName">Submit Issue</h3>
@@ -70,12 +70,12 @@ export default function EmployeeSubmitIssue() {
                     </Col>
                     <Col xs={1}/>
                     <Col xs="auto">
-                        <select onChange={(e) => {
+                        <select defaultValue="none" onChange={(e) => {
                             setPriority(e.target.value)
                         }}>
-                            <option value="none" key="none" selected disabled hidden>Select priority</option>
+                            <option value="none" key="none" disabled hidden>Select priority</option>
                             {["None", "Low", "Medium", "High"].map((priority, idx) => (
-                                <option value={idx}>{priority}</option>
+                                <option value={idx} key={priority}>{priority}</option>
                             ))}
                         </select>
                     </Col>

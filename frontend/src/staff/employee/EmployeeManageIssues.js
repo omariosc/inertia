@@ -32,7 +32,6 @@ export default function EmployeeManageIssues() {
                 '4': (a, b) => b.priority - a.priority
             }
             setIssues(response.sort(sortFunctions[sortOption]));
-            console.log(issues)
         } catch (error) {
             console.error(error);
         }
@@ -41,16 +40,11 @@ export default function EmployeeManageIssues() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/submit-issue">Issues</a> > <b>
-                <a className="breadcrumb-current" href="/manage-issue">Manage Issues</a></b>
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/issues">Issues</a></b>
             </p>
-            <h3 id="pageName">Manage Issues</h3>
-            <hr id="underline"/>
-            <br/>
             <Container>
-                {(issues.length === 0) ?
-                    <p>There are no open issues</p> :
+                {(issues.length === 0) ? <p>There are no open issues.</p> :
                     <>
                         <div>
                             <div className="float-right">
@@ -67,21 +61,21 @@ export default function EmployeeManageIssues() {
                         <br/>
                         <br/>
                         <br/>
-                        {issues.map((issue) => (
-                            <a className="breadcrumb-current" href="/manage-issues">
+                        {issues.map((issue, idx) => (
+                            <a key={idx} className="breadcrumb-current" href={`issues/${issue.issueId}`}>
                                 <Row>
                                     <Col xs={3}>
                                         <b>{issue.title}</b>
                                     </Col>
-                                    <Col xs={6} xl={8} xg={7}/>
+                                    <Col xs={6} xg={7} xl={8}/>
                                     <Col className={`issue-label-${issue.priority}`}>
                                         <b className="issue-text">{priorities[issue.priority]}</b>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col>
-                                        [{(issue.account.role === 1) ? "Customer" : "Employee"}] {
-                                        issue.account.name} · created {
+                                        created by [{(issue.account.role === 1) ? "Customer" : "Employee"}] {
+                                        issue.account.name} · {
                                         parseInt((new Date(Date.now()).getTime() - new Date(issue.dateOpened).getTime()) / 86400000)
                                     } days ago
                                     </Col>

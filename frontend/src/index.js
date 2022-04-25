@@ -10,7 +10,6 @@ import CustomerBookingHistory from "./customer/CustomerBookingHistory";
 import CustomerSubmitIssue from "./customer/CustomerSubmitIssue";
 import CustomerDiscounts from "./customer/CustomerDiscounts";
 import CustomerSettings from "./customer/CustomerSettings";
-import Dashboard from "./staff/StaffDashboard";
 import EmployeeInterface from "./staff/employee/EmployeeInterface";
 import EmployeeCreateGuestBooking from "./staff/employee/EmployeeCreateBooking";
 import EmployeeBookingApplications from "./staff/employee/EmployeeBookingApplications";
@@ -20,6 +19,8 @@ import EmployeeScooterManagement from "./staff/employee/EmployeeScooterManagemen
 import EmployeeSubmitIssue from "./staff/employee/EmployeeSubmitIssues";
 import EmployeeManageIssues from "./staff/employee/EmployeeManageIssues";
 import EmployeeDiscountApplications from "./staff/employee/EmployeeDiscountApplications";
+import Dashboard from "./staff/StaffDashboard";
+import StaffViewIssue from "./staff/StaffViewIssue";
 import StaffSettings from "./staff/StaffSettings";
 import ManagerInterface from "./staff/manager/ManagerInterface";
 import ManagerScooterManagement from "./staff/manager/ManagerScooterManagement";
@@ -44,11 +45,12 @@ ReactDOM.render(
                             <Route path="dashboard" element={<Dashboard/>}/>
                             <Route path="create-guest-booking" element={<EmployeeCreateGuestBooking/>}/>
                             <Route path="booking-applications" element={<EmployeeBookingApplications/>}/>
-                            <Route path="ongoing-bookings" element={<EmployeeOngoingBookings/>}/>
+                            <Route path="bookings" element={<EmployeeOngoingBookings/>}/>
                             <Route path="booking-history" element={<EmployeeBookingHistory/>}/>
                             <Route path="scooter-management" element={<EmployeeScooterManagement/>}/>
                             <Route path="submit-issue" element={<EmployeeSubmitIssue/>}/>
-                            <Route path="manage-issues" element={<EmployeeManageIssues/>}/>
+                            <Route path="issues" element={<EmployeeManageIssues/>}/>
+                            <Route path="issues/:id" element={<StaffViewIssue/>}/>
                             <Route path="discount-applications" element={<EmployeeDiscountApplications/>}/>
                             <Route path="settings" element={<StaffSettings/>}/>
                             <Route path="*" element={<Dashboard/>}/>

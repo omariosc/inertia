@@ -85,7 +85,7 @@ export default function EmployeeBookingApplications() {
         <>
             <p id="breadcrumb">
                 <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/booking-applications">Booking Applications</a></b>
             </p>
             <h3 id="pageName">Booking Applications</h3>

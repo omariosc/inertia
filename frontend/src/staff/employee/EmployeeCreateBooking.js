@@ -135,9 +135,8 @@ export default function EmployeeCreateGuestBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
-                <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
+                <a className="breadcrumb-list" href="/dashboard">Home </a> > <b>
+                <a className="breadcrumb-current" href="/bookings">Bookings</a></b>
             </p>
             <h3 id="pageName">Create Booking</h3>
             <hr id="underline"/>

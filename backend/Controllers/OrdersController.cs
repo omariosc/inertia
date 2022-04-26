@@ -94,7 +94,7 @@ public class OrdersController : MyControllerBase
                 createOrder.StartTime
             );
 
-            await _email.SendBookingOrderConfirmation(account.Email, order);
+            await _email.SendOrderConfirmation(account.Email, order);
             
             return Ok(order);
         }

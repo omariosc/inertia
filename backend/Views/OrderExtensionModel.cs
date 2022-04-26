@@ -1,6 +1,6 @@
 namespace inertia.Views;
 
-public class OrderConfirmationModel
+public class OrderExtensionModel
 {
     public string Name { get; set; } = null!;
     public int ScooterId { get; set; }
@@ -9,5 +9,5 @@ public class OrderConfirmationModel
     public float PreDiscountCost { get; set; }
     public float Discount { get; set; }
     public float Cost { get; set; }
-    public string HireOptionName { get; set; } = null!;
+    public List<string> Extensions { get; set; } = null!;
 }

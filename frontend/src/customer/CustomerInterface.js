@@ -24,7 +24,7 @@ export default function CustomerInterface() {
                 <DropdownButton
                     align="end"
                     title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                    className="dropdown-basic-button clickable"
+                    className="float-right clickable"
                 >
                     <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
                 </DropdownButton>
@@ -43,7 +43,8 @@ export default function CustomerInterface() {
                     <Col lg={4} xs={12} className="customer-column border-end border-dark">
                         <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">
                             <Nav.Link as={Link} className="hover-black" to="/create-booking">Create Booking</Nav.Link>
-                            <Nav.Link as={Link} className="hover-black" to="/current-bookings">Current Bookings</Nav.Link>
+                            <Nav.Link as={Link} className="hover-black" to="/current-bookings">Current
+                                Bookings</Nav.Link>
                             <Nav.Link as={Link} className="hover-black" to="/booking-history">Booking History</Nav.Link>
                             <Nav.Link as={Link} className="hover-black" to="/submit-issue">Submit Issue</Nav.Link>
                             <Nav.Link as={Link} className="hover-black" to="/discounts">Discounts</Nav.Link>

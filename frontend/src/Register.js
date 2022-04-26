@@ -10,6 +10,7 @@ export default function RegisterForm(props) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    // Attempts to create customer account.
     async function onSubmit() {
         if (!validate(name, email, password, confirmPassword)) {
             return;

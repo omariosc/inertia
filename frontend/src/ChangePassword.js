@@ -1,6 +1,7 @@
 import host from './host';
 import Cookies from "universal-cookie";
 
+// Changes user password.
 export default async function changePassword(oldPassword, password, confirmPassword) {
     const cookies = new Cookies();
     if (oldPassword.length < 1) {

@@ -34,11 +34,13 @@ import './index.css';
 
 const cookies = new Cookies();
 
+// Creates all routes for the user.
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App/>}>
+                    {/* Employee Routes */}
                     {(cookies.get('accountRole') === "1") &&
                         <Route path="" element={<EmployeeInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
@@ -55,6 +57,7 @@ ReactDOM.render(
                             <Route path="*" element={<Dashboard/>}/>
                         </Route>
                     }
+                    {/* Manager Routes */}
                     {(cookies.get('accountRole') === "2") &&
                         <Route path="" element={<ManagerInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
@@ -69,6 +72,7 @@ ReactDOM.render(
                             <Route path="*" element={<Dashboard/>}/>
                         </Route>
                     }
+                    {/* Customer Routes */}
                     {(cookies.get('accountRole') === "0") &&
                         <Route path="" element={<CustomerInterface/>}>
                             <Route path="create-booking" element={<CustomerCreateBooking/>}/>
@@ -80,6 +84,7 @@ ReactDOM.render(
                             <Route path="*" element={<CustomerCreateBooking/>}/>
                         </Route>
                     }
+                    {/* Non-Logged In Users Routes */}
                     <Route index element={<LandingPage/>}/>
                     <Route path="*" element={<LandingPage/>}/>
                 </Route>

@@ -8,6 +8,7 @@ const App = () => {
     const cookies = new Cookies();
     let navigate = useNavigate();
 
+    // Signs out from application. Deletes cookies and navigates to landing page.
     async function signOut() {
         try {
             await fetch(host + 'api/Users/authorize', {
@@ -32,6 +33,7 @@ const App = () => {
         navigate('/');
     }
 
+    // Outlet with context (to pass signOut function) enclosed in wrapper.
     return (
         <div id="wrapper">
             <Outlet context={[signOut]}/>

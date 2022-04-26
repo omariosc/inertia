@@ -6,9 +6,8 @@ import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 
 export default function EmployeeNavigation() {
-
     return (
-                <Nav defaultActiveKey="/dashboard" variant="pills"
+        <Nav defaultActiveKey="/dashboard" variant="pills"
              className="manager-vert-navbar flex-column medium-padding-left">
             <Nav.Link as={Link} to="/dashboard">
                 <MdDashboard/> Dashboard

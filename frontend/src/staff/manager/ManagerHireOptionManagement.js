@@ -148,7 +148,7 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not modify hire option.");
+                alert("Could not delete hire option.");
             }
         } catch (error) {
             console.error(error);

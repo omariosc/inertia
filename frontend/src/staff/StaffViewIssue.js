@@ -20,6 +20,7 @@ export default function StaffViewIssue() {
         fetchIssueDetails();
     }, []);
 
+    // Gets the issue details.
     async function fetchIssueDetails() {
         try {
             let request = await fetch(host + `api/admin/Issues/${id}`, {
@@ -45,6 +46,7 @@ export default function StaffViewIssue() {
         }
     }
 
+    // Gets the account name and role for account which made issue.
     async function fetchAccount(accountId) {
         let accountRequest = await fetch(host + `api/admin/Users/${accountId}`, {
             method: 'GET',
@@ -60,6 +62,7 @@ export default function StaffViewIssue() {
         setAccountRole(accountResponse.role);
     }
 
+    // Marks issue as resolved.
     async function resolve() {
         try {
             await fetch(host + `api/admin/Issues/${id}`, {
@@ -80,6 +83,7 @@ export default function StaffViewIssue() {
         }
     }
 
+    // Changes issue priority.
     async function editPriority() {
         if (priority === '' || priority === 'none') {
             alert("You must select a priority.");

@@ -1,3 +1,4 @@
+// Validators for registration.
 export default function validate(name, email, password, confirmPassword) {
     const validateName = (str) => {
         return (str.length > 0)

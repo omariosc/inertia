@@ -22,7 +22,7 @@ export default function ManagerInterface() {
                             Logged in as: {cookies.get("accountName")}
                         </Navbar.Text>
                         <Nav.Item className="navbar-pad-right">
-                            <DropdownButton align="end" className="dropdown-basic-button" variant="dark"
+                            <DropdownButton align="end" className="float-right" variant="dark"
                                             title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}>
                                 <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
                             </DropdownButton>

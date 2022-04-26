@@ -11,6 +11,7 @@ export default function LoginForm(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    // Attempts to authorize user.
     async function onSubmit() {
         try {
             let request = await fetch(host + 'api/Users/authorize', {
@@ -27,10 +28,12 @@ export default function LoginForm(props) {
             });
             let response = await request.json();
             if (response.accessToken) {
+                // Sets user cookies.
                 cookies.set("accountID", response.account.accountId, {path: '/'});
                 cookies.set("accountName", response.account.name, {path: '/'});
                 cookies.set("accountRole", response.account.role, {path: '/'});
                 cookies.set("accessToken", response.accessToken, {path: '/'});
+                // If staff account navigates to dashboard.
                 if (response.account.role === 2 || response.account.role === 1) {
                     navigate('/dashboard');
                 } else if (response.account.role === 0) {
@@ -38,6 +41,7 @@ export default function LoginForm(props) {
                 } else {
                     console.log(response);
                 }
+                // Refreshes page.
                 window.location = window.location
             } else {
                 alert("Login credentials invalid.");

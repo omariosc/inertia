@@ -1,3 +1,4 @@
+/* for customer interface container */
 #account-page {
     padding-left: 15%;
     padding-right: 25%;
@@ -6,19 +7,23 @@
     position: relative;
 }
 
+/* for breadcrumb links */
 #breadcrumb {
     padding-left: 10px;
     padding-top: 15px;
 }
 
+/* for customer interface navigation links */
 #customer-row {
     height: 75vh;
 }
 
+/* for manager interface navigation links */
 #manager-row {
     height: 100vh;
 }
 
+/* for landing page map overlay */
 #overlay {
     position: absolute;
     top: 0;
@@ -26,11 +31,13 @@
     z-index: 100000;
 }
 
+/* format page name heading */
 #pageName {
     padding-left: 80px;
     padding-top: 40px;
 }
 
+/* used to position drop down menu */
 #top-bar {
     display: flex;
     justify-content: right;
@@ -39,10 +46,7 @@
     margin-top: 0.5%;
 }
 
-#top-navbar {
-    color: black !important;
-}
-
+/* for <hr/> attributes */
 #underline {
     background-color: black;
     border: solid 1px black;
@@ -50,60 +54,53 @@
     margin-left: 80px;
 }
 
+/* main wrapper container */
 #wrapper {
     display: flex;
     height: 100%;
     position: relative;
 }
 
+/* to format account management labels */
 .account label {
     width: 300px !important;
 }
 
+/* for overflow on main containers */
 .autoScroll {
     max-height: 90%;
     overflow-y: auto;
     padding-bottom: 65px;
 }
 
-.black-bg {
-    background-color: black;
-}
-
+/* sets important black background*/
 .black-bg {
     background-color: black !important;
 }
 
+/* current page for breadcrumb list */
 .breadcrumb-current {
     color: black;
     text-decoration: none;
 }
 
+/* other pages in breadcrumb list */
 .breadcrumb-list {
     color: grey;
     text-decoration: none;
 }
 
-.buttonPadding {
-    margin-left: -20px;
-}
-.buttonPaddinDepo {
-    margin-left: -100px;
-}
-
-
-.buttonPaddingScooter {
-    margin-left: 5px;
-}
-
+/* hide canvasjs watermark */
 .canvasjs-chart-credit {
     display: none;
 }
 
+/* allow mouse clicks */
 .clickable {
     pointer-events: all;
 }
 
+/* for customer navbar */
 .customer-column {
     border: black;
     border-block-end: black;
@@ -119,37 +116,40 @@
     padding-right: 15px;
 }
 
+/* for customer submit issue input fields */
 .customer-issue input {
     width: 500px !important;
 }
 
+/* for customer submit issue label fields */
 .customer-issue label {
     width: 100px !important;
 }
 
+/* for customer submit issue text area fields */
 .customer-issue textarea {
     width: 500px;
 }
 
+/* for customer navigation links */
 .customer-navigation {
     align-items: center;
     display: flex;
     flex-direction: column;
 }
 
+/* for staff dashboard text (value) */
 .dashboard-text {
     font-size: xx-large !important;
     text-align: center !important;
 }
 
+/* for staff dashboard title (key) */
 .dashboard-title {
     text-align: center !important;
 }
 
-.dropdown-basic-button {
-    float: right;
-}
-
+/* fixed table layout */
 .fixed-table {
     table-layout: fixed !important;
 }
@@ -305,8 +305,40 @@
     height: 100vh;
 }
 
+.marginRight {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
 .max-width {
     width: 100%;
+}
+
+.maxWidth {
+    clear: both;
+    white-space: nowrap;
+    width: 90px;
+}
+
+.maxWidthDepo {
+    clear: both;
+    white-space: nowrap;
+    width: 110px;
+}
+
+.maxWidthLong {
+    clear: both;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100px;
+}
+
+.maxWidthLongDep {
+    clear: both;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 300px;
 }
 
 .medium-padding-left {
@@ -349,51 +381,12 @@
 .padding-down {
     padding-bottom: 10px;
 }
-.sameLine {
 
+.sameLine {
+    align-items: center;
     display: inline-flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-
-}
-.maxWidth {
-
-    width:90px;
-    clear: both;
-    white-space: nowrap;
-}
-
-.maxWidthDepo {
-
-    width:110px;
-    clear: both;
-    white-space: nowrap;
-}
-
-
-.maxWidthLong {
-
-    width:100px;
-    clear: both;
-    white-space: nowrap;
-    overflow: hidden;
-
-}
-
-.maxWidthLongDep {
-
-    width:300px;
-    clear: both;
-    white-space: nowrap;
-    overflow: hidden;
-
-}
-
-.marginRight {
-    margin-right: 10px;
-    display: flex;
-    flex-direction: column;
 }
 
 .scroll {
@@ -408,15 +401,16 @@
     padding: 10px;
 }
 
-.table-formatting {
-
-    border-collapse: collapse;
-
-
-}
-
 .small-padding-top {
     padding-top: 5px;
+}
+
+.solid-border {
+    border-right: 1px solid black !important;
+}
+
+.table-formatting {
+    border-collapse: collapse;
 }
 
 .text-black {
@@ -437,6 +431,7 @@
     margin: 0;
 }
 
+/* for phone size screens */
 @media (max-width: 480px) {
     #account-page {
         border: none;
@@ -463,10 +458,7 @@
     }
 }
 
-.solid-border {
-    border-right: 1px solid black !important;
-}
-
+/* for small size screens */
 @media (max-width: 767px) {
     #account-page {
         border: none;
@@ -493,6 +485,51 @@
     }
 }
 
+/* for small to medium size screens */
+@media (max-width: 991px) {
+    #manager-row {
+        background-color: transparent;
+        height: 100%;
+    }
+
+    .border-end {
+        border-right: transparent !important;
+    }
+
+    .hamburger-menu {
+        cursor: pointer;
+        display: flex;
+        position: absolute;
+        right: 15px;
+        top: 18px;
+    }
+
+    .manager-vert-navbar {
+        display: none !important;
+    }
+
+    .manager-vert-navbar-mobile {
+        background: rgba(0, 0, 0, 0.92);
+        display: flex !important;
+        flex-direction: column;
+        padding-bottom: 10px;
+        position: absolute;
+        right: 0;
+        width: 100vw;
+        z-index: 9002;
+    }
+
+    .manager-vert-navbar-mobile a {
+        color: white;
+    }
+
+    .staff-nav-column {
+        background-color: transparent;
+        border-right: none !important;
+    }
+}
+
+/* for large size screens */
 @media (min-width: 1200px) {
     #account-page {
         border: none;
@@ -506,6 +543,7 @@
     }
 }
 
+/* for medium size screens */
 @media (min-width: 768px) and (max-width: 991px) {
     #account-page {
         border: none;
@@ -533,52 +571,6 @@
     }
 }
 
+/* for medium to large size screens */
 @media (min-width: 992px) and (max-width: 1199px) {
-}
-
-/*SPECIFICALLY FOR THE RESPONSIVE MOBILE NAVIGATION FOR STAFF*/
-@media (max-width: 991px) {
-    .manager-vert-navbar {
-        display: none !important;
-    }
-
-    .manager-vert-navbar-mobile {
-        display: flex !important;
-        flex-direction: column;
-        position: absolute;
-        right: 0;
-        background: rgba(0,0,0,0.92);
-        z-index: 9002;
-        width: 100vw;
-        padding-bottom: 10px;
-    }
-
-    .manager-vert-navbar-mobile a {
-        color: white;
-    }
-
-    #manager-row {
-        height: 100%;
-        background-color: transparent;
-    }
-
-    .staff-nav-column {
-        background-color: transparent;
-        border-right: none !important;
-    }
-
-    .border-end {
-        border-right: transparent !important;
-    }
-
-    /*styling for the hamburger menu icon*/
-    .hamburger-menu {
-        display: flex;
-        position: absolute;
-        /*how far in from the right it is*/
-        right: 15px;
-        top: 18px;
-        cursor: pointer;
-    }
-
 }

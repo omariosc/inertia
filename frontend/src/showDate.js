@@ -1,3 +1,4 @@
+// Formats date and returns in readable format.
 export default function showDate(date) {
     return new Intl.DateTimeFormat('en', {
         year: 'numeric',

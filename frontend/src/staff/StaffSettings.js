@@ -20,7 +20,6 @@ export default function StaffSettings() {
             </p>
             <h3 id="pageName">Settings</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 <h5>Change Password</h5>
                 <br/>

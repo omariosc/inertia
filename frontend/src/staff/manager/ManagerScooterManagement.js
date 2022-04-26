@@ -176,7 +176,6 @@ export default function ManagerScooterManagement() {
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 {(scooters === '') ?
                     <p>Loading scooters...</p> :
@@ -258,8 +257,6 @@ export default function ManagerScooterManagement() {
                                 <Form.Control type="text" placeholder="Enter ID"
                                               onInput={e => setCreateId(e.target.value)}/>
                             </td>
-                            <td></td>
-                            <td></td>
                             <td>
                                 {(map_locations === "") ?
                                     <h5>Loading map locations...</h5> :

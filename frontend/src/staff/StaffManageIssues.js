@@ -56,6 +56,24 @@ export default function StaffManageIssues({manager}) {
         }
     }
 
+    function toggleAdvancedFilters() {
+        if (showAdvancedFilters) {
+            setSearchIssueID("");
+            setSearchPriority("All");
+            setSearchContent("");
+            setSearchAccountID("");
+            setSearchAccountName("");
+            setSearchAccountEmail("");
+            setSearchAccountRole("All");
+            setSearchAccountType("All");
+            setSearchBefore("");
+            setSearchAfter("");
+            setShowAdvancedFilters(false);
+        } else {
+            setShowAdvancedFilters(true);
+        }
+    }
+
     return (
         <>
             {(manager) ?
@@ -69,6 +87,9 @@ export default function StaffManageIssues({manager}) {
                     <a className="breadcrumb-current" href="/issues">Issues</a></b>
                 </p>
             }
+            <h3 id="pageName">Issues</h3>
+            <hr id="underline"/>
+
             <Container className={"p-3"}>
                 <Row className="p-2">
                     <Col className="col-8">
@@ -81,9 +102,7 @@ export default function StaffManageIssues({manager}) {
                     <Col className="col-2">
                         <Button type="button"
                                 className={showAdvancedFilters ? "btn-danger" : "btn-primary"}
-                                onClick={() => {
-                                    setShowAdvancedFilters(!showAdvancedFilters)
-                                }}>
+                                onClick={() => {toggleAdvancedFilters()}}>
                             {showAdvancedFilters ? "Hide Filters" : "Show Filters"}
 
                         </Button>
@@ -136,7 +155,6 @@ export default function StaffManageIssues({manager}) {
                             </Col>
                         </Row>
                         <Row className="p-2">
-
                             <Col className="col-2">
                                 Issue ID
                             </Col>

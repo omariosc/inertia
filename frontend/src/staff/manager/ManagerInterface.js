@@ -30,7 +30,7 @@ export default function ManagerInterface() {
                     </Navbar.Collapse>
                 </Navbar>
                 <Row id="manager-row">
-                    <Col xs="auto" className="staff-nav-column border-end border-dark">
+                    <Col xs="auto" className="staff-nav-column border-dark" style={{borderRight: "1px solid black"}}>
                         <ManagerNavigation/>
                         <ManagerMobileNavigation/>
                     </Col>

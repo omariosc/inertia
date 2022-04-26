@@ -1,5 +1,3 @@
-import {NotificationManager} from "react-notifications";
-
 export default function validate(name, email, password, confirmPassword) {
     const validateName = (str) => {
         return (str.length > 0)
@@ -18,20 +16,20 @@ export default function validate(name, email, password, confirmPassword) {
     };
 
     if (!validateName(name)) {
-        NotificationManager.error("Please enter your full name", "Empty name field")
+        alert("Please enter your full name.");
         return 0;
     }
     if (!validateEmail(email)) {
-        NotificationManager.error("Please enter a valid email address", "Invalid email");
+        alert("Please enter a valid email address.");
         return 0;
     }
     if (password !== confirmPassword) {
-        NotificationManager.error("Passwords do not match", "Password mismatch");
+        alert("Passwords do not match.");
         return 0;
     }
     if (!validatePassword(password)) {
-        NotificationManager.error("Please enter a valid password. Passwords should contain minimum eight characters, " +
-            "at least one uppercase letter, one lowercase letter, one number and one special character.", "Invalid password");
+        alert("Please enter a valid password. Passwords should contain minimum eight characters, " +
+            "at least one uppercase letter, one lowercase letter, one number and one special character.");
         return 0;
     }
     return 1;

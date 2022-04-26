@@ -2,8 +2,6 @@ import React from "react";
 import {Outlet, useNavigate} from 'react-router-dom';
 import host from './host';
 import Cookies from 'universal-cookie';
-import 'react-notifications/lib/notifications.css';
-import {NotificationContainer} from 'react-notifications';
 import './App.css';
 
 const App = () => {
@@ -37,7 +35,6 @@ const App = () => {
     return (
         <div id="wrapper">
             <Outlet context={[signOut]}/>
-            <NotificationContainer className="custom-notification"/>
         </div>
     );
 };

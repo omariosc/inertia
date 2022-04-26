@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import {NotificationManager} from "react-notifications";
 import {Button, InputGroup, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
@@ -41,7 +40,7 @@ export default function LoginForm(props) {
                 }
                 window.location = window.location
             } else {
-                NotificationManager.error("Your credentials are invalid", "Invalid credentials");
+                alert("Login credentials invalid.");
             }
         } catch (error) {
             console.error(error);

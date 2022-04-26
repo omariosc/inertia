@@ -1,24 +1,23 @@
 import host from './host';
 import Cookies from "universal-cookie";
-import {NotificationManager} from "react-notifications";
 
 export default async function changePassword(oldPassword, password, confirmPassword) {
     const cookies = new Cookies();
     if (oldPassword.length < 1) {
-        NotificationManager.error("Please enter your old password.", "Empty old password field");
+        alert("Please enter your old password.");
         return;
     }
     if (!(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/))) {
-        NotificationManager.error("Please enter a valid password. Passwords should contain minimum eight characters, " +
-            "at least one uppercase letter, one lowercase letter, one number and one special character.", "Invalid password");
+        alert("Please enter a valid password. Passwords should contain minimum eight characters, " +
+            "at least one uppercase letter, one lowercase letter, one number and one special character.");
         return;
     }
     if (password !== confirmPassword) {
-        NotificationManager.error("Passwords do not match", "Password mismatch");
+        alert("Passwords do not match.");
         return;
     }
     if (oldPassword === password) {
-        NotificationManager.error("Passwords must be different", "Same password");
+        alert("Passwords must be different.");
         return;
     }
     try {
@@ -37,9 +36,9 @@ export default async function changePassword(oldPassword, password, confirmPassw
         });
         let response = await request;
         if (response.status === 200) {
-            NotificationManager.success("Password changed successfully", "Changed password");
+            alert("Changed password.");
         } else {
-            NotificationManager.error("Old password entered was incorrect", "Incorrect password");
+            alert("Incorrect password.");
         }
     } catch (error) {
         console.error(error);

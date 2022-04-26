@@ -5,7 +5,6 @@ import orderState from "../orderState";
 import host from "../../host";
 import Cookies from "universal-cookie";
 import showDate from "../../showDate";
-import {NotificationManager} from "react-notifications";
 
 export default function EmployeeOngoingBookings() {
     const cookies = new Cookies();
@@ -76,10 +75,7 @@ export default function EmployeeOngoingBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not extend booking", "Extension unsuccessful");
-            }
-            else {
-                NotificationManager.success("Extension successful");
+                alert("Could not extend booking.");
             }
         } catch (e) {
             console.log(e);
@@ -100,7 +96,7 @@ export default function EmployeeOngoingBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not cancel booking", "Cancellation unsuccessful");
+                alert("Could not cancel booking.");
             }
         } catch (e) {
             console.log(e);

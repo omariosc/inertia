@@ -8,7 +8,6 @@ import moment from "moment";
 import center from "../center";
 import host from "../host";
 import Cookies from 'universal-cookie';
-import {NotificationManager} from "react-notifications";
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -137,11 +136,11 @@ export default function CustomerCreateBooking() {
 
     async function createBooking() {
         if (scooterChoiceId === '' || scooterChoiceId === 'none') {
-            NotificationManager.warning("Select a scooter");
+            alert("Select a scooter.");
             return;
         }
         if (hireChoiceId === '' || hireChoiceId === 'none') {
-            NotificationManager.warning("Select a hire option");
+            alert("Select a hire option.");
             return;
         }
         if (checkCardExists()) {
@@ -167,11 +166,11 @@ export default function CustomerCreateBooking() {
             });
             let response = await request;
             if (response.status === 422) {
-                NotificationManager.error("Scooter is currently unavailable", "Booking unsuccessful");
+                alert("Scooter is currently unavailable.");
             } else if (response.status !== 200) {
-                NotificationManager.error("Could not create booking", "Booking unsuccessful");
+                alert("Could not create booking.");
             } else {
-                NotificationManager.success("Created booking", "Booking successful");
+                alert("Created booking.");
                 if (checkCardExists()) {
                     cookies.set('cardNumber', cardNo, {path: '/'});
                     cookies.set('expiryDate', expiry, {path: '/'});

@@ -3,7 +3,6 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
-import {NotificationManager} from "react-notifications";
 
 export default function EmployeeSubmitIssue() {
     const cookies = new Cookies();
@@ -13,15 +12,15 @@ export default function EmployeeSubmitIssue() {
 
     async function submitIssue() {
         if (title.length === 0) {
-            NotificationManager.error("Issue must have a title");
+            alert("Issue must have a title");
             return;
         }
         if (priority === '' || priority === 'none') {
-            NotificationManager.error("Issue must have a priority");
+            alert("Issue must have a priority");
             return;
         }
         if (content.length === 0) {
-            NotificationManager.error("Issue must have a description");
+            alert("Issue must have a description");
             return;
         }
         try {
@@ -39,7 +38,7 @@ export default function EmployeeSubmitIssue() {
                 }),
                 mode: "cors"
             });
-            NotificationManager.success("Created issue");
+            alert("Created issue.");
         } catch (e) {
             console.log(e);
         }

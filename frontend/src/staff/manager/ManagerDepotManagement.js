@@ -3,7 +3,6 @@ import {Button, Container, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from 'universal-cookie';
-import {NotificationManager} from "react-notifications";
 
 export default function ManagerDepotManagement() {
     const cookies = new Cookies();
@@ -41,7 +40,7 @@ export default function ManagerDepotManagement() {
         switch (mode) {
             case 1:
                 if (newLatitude === '') {
-                    NotificationManager.error("Enter a valid latitude value");
+                    alert("Enter a valid latitude value.");
                     return;
                 } else {
                     json["latitude"] = parseFloat(newLatitude);
@@ -49,7 +48,7 @@ export default function ManagerDepotManagement() {
                 break;
             case 2:
                 if (newLongitude === '') {
-                    NotificationManager.error("Enter a valid longitude value");
+                    alert("Enter a valid longitude value.");
                     return;
                 } else {
                     json["longitude"] = parseFloat(newLongitude);
@@ -57,7 +56,7 @@ export default function ManagerDepotManagement() {
                 break;
             default:
                 if (newName === '') {
-                    NotificationManager.error("Depot name cannot be empty")
+                    alert("Depot name cannot be empty.")
                     return;
                 } else {
                     json["name"] = newName;
@@ -77,7 +76,7 @@ export default function ManagerDepotManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not modify depot");
+                alert("Could not modify depot.");
             }
         } catch (error) {
             console.error(error);
@@ -87,15 +86,15 @@ export default function ManagerDepotManagement() {
 
     async function createDepot() {
         if (createName === '') {
-            NotificationManager.error("Depot name cannot be empty")
+            alert("Depot name cannot be empty.")
             return;
         }
         if (createLatitude === '') {
-            NotificationManager.error("Enter a valid latitude value");
+            alert("Enter a valid latitude value.");
             return;
         }
         if (createLongitude === '') {
-            NotificationManager.error("Enter a valid longitude value");
+            alert("Enter a valid longitude value.");
             return;
         }
         try {
@@ -115,10 +114,7 @@ export default function ManagerDepotManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not create depot");
-            }
-            else {
-                NotificationManager.success("Scooter created successfully");
+                alert("Could not create depot.");
             }
         } catch (error) {
             console.error(error);
@@ -139,7 +135,7 @@ export default function ManagerDepotManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not delete depot");
+                alert("Could not delete depot.");
             }
         } catch (error) {
             console.error(error);
@@ -185,7 +181,7 @@ export default function ManagerDepotManagement() {
                                                 if (depot.name !== newName) {
                                                     editDepot(depot.depoId, 0);
                                                 } else {
-                                                    NotificationManager.error("Name cannot be the same");
+                                                    alert("Name cannot be the same.");
                                                 }
                                             }}>
                                                 Modify Name
@@ -200,7 +196,7 @@ export default function ManagerDepotManagement() {
                                                 if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
                                                     editDepot(depot.depoId, 1);
                                                 } else {
-                                                    NotificationManager.error("Latitude cannot be the same");
+                                                    alert("Latitude cannot be the same.");
                                                 }
                                             }}>
                                                 Modify Latitude
@@ -215,7 +211,7 @@ export default function ManagerDepotManagement() {
                                                 if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
                                                     editDepot(depot.depoId, 2);
                                                 } else {
-                                                    NotificationManager.error("Longitude cannot be the same");
+                                                    alert("Longitude cannot be the same.");
                                                 }
                                             }}>
                                                 Modify Longitude

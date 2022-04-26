@@ -8,14 +8,11 @@ import host from "./host";
 import center from "./center";
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
-import Cookies from 'universal-cookie';
-import {NotificationManager} from "react-notifications";
 
 export default function LandingPage() {
     const [map_locations, setMapLocations] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
-    const cookies = new Cookies();
 
     useEffect(() => {
         fetchLocations();

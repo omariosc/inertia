@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import scooterStatus from "../../scooterStatus";
 import host from '../../host';
 import Cookies from 'universal-cookie';
-import {NotificationManager} from "react-notifications";
 
 export default function ManagerScooterManagement() {
     const cookies = new Cookies();
@@ -65,7 +64,7 @@ export default function ManagerScooterManagement() {
                 break;
             case 2:
                 if (!(newID.match(/^\d+$/))) {
-                    NotificationManager.error("Scooter ID must be an integer");
+                    alert("Scooter ID must be an integer.");
                     return;
                 } else {
                     json["softScooterId"] = newID;
@@ -89,9 +88,9 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status === 422) {
-                NotificationManager.error("Scooter ID is already taken");
+                alert("Scooter ID is already taken.");
             } else if (response.status !== 200) {
-                NotificationManager.error("Could not modify scooter");
+                alert("Could not modify scooter.");
             }
         } catch (error) {
             console.error(error);
@@ -101,17 +100,17 @@ export default function ManagerScooterManagement() {
 
     async function createScooter() {
         if (!(createID.match(/^\d+$/))) {
-            NotificationManager.error("Scooter ID must be an integer");
+            alert("Scooter ID must be an integer.");
             return;
         }
         for (let scooter in scooters) {
             if (createID === scooter.softScooterId) {
-                NotificationManager.error("Scooter ID already exists")
+                alert("Scooter ID already exists.")
                 return;
             }
         }
         if (createDepo === '' || createDepo === 'none') {
-            NotificationManager.error("Depot selection cannot be empty")
+            alert("Depot selection cannot be empty.")
             return;
         }
         try {
@@ -132,10 +131,7 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not create scooter");
-            }
-            else {
-                NotificationManager.success("Scooter successfully created");
+                alert("Could not create scooter.");
             }
         } catch (error) {
             console.error(error);
@@ -156,7 +152,7 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not delete scooter");
+                alert("Could not delete scooter.");
             }
         } catch (error) {
             console.error(error);
@@ -201,7 +197,7 @@ export default function ManagerScooterManagement() {
                                                 if (scooter.scooterId !== parseInt(newID)) {
                                                     editScooter(scooter.scooterId, 2);
                                                 } else {
-                                                    NotificationManager.error("Scooter ID cannot be the same");
+                                                    alert("Scooter ID cannot be the same");
                                                 }
                                             }}>
                                                 Change Scooter ID

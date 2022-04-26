@@ -3,7 +3,6 @@ import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../host";
 import Cookies from "universal-cookie";
-import {NotificationManager} from "react-notifications";
 
 export default function CustomerSubmitIssue() {
     const cookies = new Cookies();
@@ -32,7 +31,7 @@ export default function CustomerSubmitIssue() {
                 }),
                 mode: "cors"
             });
-            NotificationManager.success("Issue submitted successfully", "Created issue");
+            alert("Created issue.");
         } catch (e) {
             console.log(e);
         }

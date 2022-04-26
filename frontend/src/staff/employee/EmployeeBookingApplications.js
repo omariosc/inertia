@@ -5,7 +5,6 @@ import orderState from "../orderState";
 import host from "../../host";
 import Cookies from "universal-cookie";
 import showDate from "../../showDate";
-import {NotificationManager} from "react-notifications";
 
 export default function EmployeeBookingApplications() {
     const cookies = new Cookies();
@@ -53,10 +52,7 @@ export default function EmployeeBookingApplications() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not approve booking", "Approval unsuccessful");
-            }
-            else {
-                NotificationManager.success("Booking approved successfully");
+                alert("Could not approve booking.");
             }
         } catch (e) {
             console.log(e);
@@ -77,10 +73,7 @@ export default function EmployeeBookingApplications() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not deny booking", "Denial unsuccessful");
-            }
-            else {
-                NotificationManager.success("Booking denied successfully");
+                alert("Could not deny booking.");
             }
         } catch (e) {
             console.log(e);

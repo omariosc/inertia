@@ -4,5 +4,6 @@ public enum UserType
 {
     Student,
     Senior,
-    Regular
+    Regular,
+    Frequent
 }

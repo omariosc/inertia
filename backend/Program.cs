@@ -10,9 +10,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Math.EC;
 using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 builder.Services.AddDbContext<inertia.InertiaContext>(
     options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!)
@@ -55,7 +59,11 @@ builder.Services.AddScoped<IAuthorizationHandler, EmployeeAuthorizationHandler>(
 builder.Services.AddScoped<InertiaService, InertiaService>();
 builder.Services.AddScoped<UsersService, UsersService>();
 builder.Services.AddScoped<EmailService, EmailService>();
-
+builder.Services.AddCronJob<FrequentUsersService>(config =>
+{
+    config.TimeZoneInfo = TimeZoneInfo.Local;
+    config.CronExpression = builder.Configuration["FrequentUsersService:CronExpression"];
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

@@ -365,4 +365,45 @@ public class InertiaService
 
         await _db.SaveChangesAsync();
     }
+
+    public async Task UpdateFrequentCustomers()
+    {
+        var users = await _db.Accounts
+            .Where(a => a.UserType == UserType.Frequent)
+            .ToListAsync();
+
+        foreach (var u in users)
+        {
+            u.UserType = UserType.Regular;
+        }
+        
+        
+        DateTime end = DateTime.Now;
+        DateTime start = DateTime.Now - TimeSpan.FromDays(7);
+
+        var frequentUsers = await _db.Orders
+            .Where(o =>
+                o.Account.UserType == UserType.Regular &&
+                o.CreatedAt >= start &&
+                o.CreatedAt <= end &&
+                o.OrderState != OrderState.Cancelled &&
+                o.OrderState != OrderState.Denied)
+            .GroupBy(o => o.AccountId)
+            .Select(g => new
+            {
+                AccountId = g.Key,
+                BookTime = g.Sum(e => e.BookTime)
+            })
+            .Where(e => e.BookTime > 8)
+            .Select(e => e.AccountId)
+            .ToListAsync();
+
+        foreach (var accountId in frequentUsers)
+        {
+            var account = await _db.Accounts
+                .Where(a => a.AccountId == accountId)
+                .FirstAsync();
+            account.UserType = UserType.Frequent;
+        }
+    }
 }

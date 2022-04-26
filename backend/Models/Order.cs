@@ -16,6 +16,9 @@ public class Order
     [Required] public DateTime CreatedAt { get; set; }
     [Required] public DateTime StartTime { get; set; }
     [Required] public DateTime EndTime { get; set; }
+    [Required] public double BookTime {
+        get => (EndTime - StartTime).TotalHours;
+        set{} }
     [Required] public long WeekNumber {
         get
         {

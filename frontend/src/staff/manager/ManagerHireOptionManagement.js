@@ -148,7 +148,7 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not delete hire option.");
+                alert("Could not modify hire option.");
             }
         } catch (error) {
             console.error(error);
@@ -171,100 +171,114 @@ export default function ManagerHireOptionManagement() {
                     <>
                         {(hireOptions.length === 0) ?
                             <p>There are no hire options.</p> :
-                            <Table striped bordered hover>
-                                <thead>
-                                <tr>
-                                    <th>Hire Option ID</th>
-                                    <th>Duration (hours)</th>
-                                    <th>Name</th>
-                                    <th>Cost (£)</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {hireOptions.map((hireOption, idx) => (
-                                    <tr key={idx}>
-                                        <td>{hireOption.hireOptionId}</td>
+                            <div className="scroll" style={{maxHeight: "40rem"}}>
+                                <Table striped bordered hover>
+                                    <thead>
+                                    <tr>
+                                        <th>Hire Option ID</th>
+                                        <th>Duration (hours)</th>
+                                        <th>Name</th>
+                                        <th>Cost (£)</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {hireOptions.map((hireOption, idx) => (
+                                        <tr key={idx}>
+
+                                            <td>{hireOption.hireOptionId}</td>
+                                            <td>
+                                                <div className="sameLine">
+                                                <div className="maxWidth"> {hireOption.durationInHours}
+                                                </div>
+
+                                                    <InputGroup >
+                                                        <input  type="number" onInput={e => setNewDuration(e.target.value)} size={12}/>
+                                                    </InputGroup>
+                                                    <Button className="buttonPadding" onClick={() => {
+                                                        if (hireOption.durationInHours !== parseInt(newDuration)) {
+                                                            editHireOption(hireOption.hireOptionId, 0);
+                                                        } else {
+                                                            alert("Duration cannot be the same.");
+                                                        }
+                                                    }}>
+                                                        Edit
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="sameLine">
+                                                <div className="maxWidthLong"> {hireOption.name} </div>
+                                                    <InputGroup>
+                                                        <input type="text" onInput={e => setNewName(e.target.value)} size={12}/>
+                                                    </InputGroup>
+                                                    <Button className="buttonPadding" onClick={() => {
+                                                        if (hireOption.name !== newName) {
+                                                            editHireOption(hireOption.hireOptionId, 1);
+                                                        } else {
+                                                            alert("Name cannot be the same.");
+                                                        }
+                                                    }}>
+                                                        Edit
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="sameLine">
+                                                <div className="maxWidthLong">
+                                                {hireOption.cost}
+                                                </div>
+
+                                                <InputGroup>
+                                                    <input type="price" onInput={e => setNewCost(e.target.value)} size={12}/>
+                                                </InputGroup>
+                                                <Button className="buttonPadding" onClick={() => {
+                                                    if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
+                                                        editHireOption(hireOption.hireOptionId, 2);
+                                                    } else {
+                                                        alert("Cost cannot be the same.");
+                                                    }
+                                                }}>
+                                                    Edit
+                                                </Button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <Button className=""
+                                                    onClick={() => deleteHireOption(hireOption.hireOptionId)}
+                                                    variant="danger">
+                                                    Delete
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    <tr key="create">
+                                        <td>{hireOptions.length + 1}</td>
                                         <td>
-                                            {hireOption.durationInHours}
                                             <InputGroup>
-                                                <input type="number" onInput={e => setNewDuration(e.target.value)}/>
+                                                <input type="number" placeholder="Enter duration value"
+                                                       onInput={e => setCreateDuration(e.target.value)}/>
                                             </InputGroup>
-                                            <Button onClick={() => {
-                                                if (hireOption.durationInHours !== parseInt(newDuration)) {
-                                                    editHireOption(hireOption.hireOptionId, 0);
-                                                } else {
-                                                    alert("Duration cannot be the same.");
-                                                }
-                                            }}>
-                                                Modify Duration
-                                            </Button>
                                         </td>
                                         <td>
-                                            {hireOption.name}
                                             <InputGroup>
-                                                <input type="text" onInput={e => setNewName(e.target.value)}/>
+                                                <input type="text" placeholder="Enter name"
+                                                       onInput={e => setCreateName(e.target.value)}/>
                                             </InputGroup>
-                                            <Button onClick={() => {
-                                                if (hireOption.name !== newName) {
-                                                    editHireOption(hireOption.hireOptionId, 1);
-                                                } else {
-                                                    alert("Name cannot be the same.");
-                                                }
-                                            }}>
-                                                Modify Name
-                                            </Button>
                                         </td>
                                         <td>
-                                            {hireOption.cost}
                                             <InputGroup>
-                                                <input type="price" onInput={e => setNewCost(e.target.value)}/>
+                                                <input type="price" placeholder="Enter cost"
+                                                       onInput={e => setCreateCost(e.target.value)}/>
                                             </InputGroup>
-                                            <Button onClick={() => {
-                                                if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
-                                                    editHireOption(hireOption.hireOptionId, 2);
-                                                } else {
-                                                    alert("Cost cannot be the same.");
-                                                }
-                                            }}>
-                                                Modify Cost
-                                            </Button>
                                         </td>
                                         <td>
-                                            <Button
-                                                onClick={() => deleteHireOption(hireOption.hireOptionId)}
-                                                variant="danger">
-                                                Delete
-                                            </Button>
+                                            <Button onClick={createHireOption} variant="success">Create</Button>
                                         </td>
                                     </tr>
-                                ))}
-                                <tr key="create">
-                                    <td>{hireOptions.length + 1}</td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="number" placeholder="Enter duration value"
-                                                   onInput={e => setCreateDuration(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="text" placeholder="Enter name"
-                                                   onInput={e => setCreateName(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="price" placeholder="Enter cost"
-                                                   onInput={e => setCreateCost(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <Button onClick={createHireOption} variant="success">Create</Button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </Table>
+                                    </tbody>
+                                </Table>
+                            </div>
                         }
                     </>
                 }

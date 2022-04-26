@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace inertia.Models;
 
-public class Depo
+public class Depo: ISoftDelete
 {
     [Key] 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
@@ -15,4 +15,6 @@ public class Depo
     [Required] public float Longitude { get; set; }
 
     [Required] public string Address { get; set; } = null!;
+    
+    [Required] public bool SoftDeleted { get; set; }
 }

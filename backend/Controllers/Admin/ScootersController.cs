@@ -98,8 +98,9 @@ public class ScootersController : MyControllerBase
         if (scooter == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
-        _db.Scooters.Remove(scooter);
+        scooter.SoftDeleted = true;
         await _db.SaveChangesAsync();
+        
         return Ok();
     }
 
@@ -108,19 +109,19 @@ public class ScootersController : MyControllerBase
     [ProducesResponseType(typeof(Scooter), 200)]
     public async Task<ActionResult<Scooter>> UpdateItem(int scooterId, [FromBody] PatchScooterRequest scooterRequest)
     {
-        var scooter = await _db.Scooters
+        var oldScooter = await _db.Scooters
             .Where(s => s.ScooterId == scooterId)
             .FirstOrDefaultAsync();
 
-        if (scooter == null)
+        if (oldScooter == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
         try
         {
-            scooter.Available = scooterRequest.Available ?? scooter.Available;
-            scooter.DepoId = scooterRequest.DepoId ?? scooter.DepoId;
-            scooter.Name = scooterRequest.Name ?? scooter.Name;
-            scooter.SoftScooterId = scooterRequest.SoftScooterId ?? scooter.SoftScooterId;
+            oldScooter.Available = scooterRequest.Available ?? oldScooter.Available;
+            oldScooter.DepoId = scooterRequest.DepoId ?? oldScooter.DepoId;
+            oldScooter.Name = scooterRequest.Name ?? oldScooter.Name;
+            oldScooter.SoftScooterId = scooterRequest.SoftScooterId ?? oldScooter.SoftScooterId;
 
             await _db.SaveChangesAsync();
         }
@@ -129,6 +130,6 @@ public class ScootersController : MyControllerBase
             return ApplicationError(ApplicationErrorCode.ScooterIdTaken, "scooter id taken");
         }
         
-        return Ok(scooter);
+        return Ok(oldScooter);
     }
 }

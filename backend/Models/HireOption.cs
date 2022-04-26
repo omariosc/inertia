@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace inertia.Models;
 
-public class HireOption
+public class HireOption: ISoftDelete
 {
     [Key, Required] public int HireOptionId { get; set; }
 
@@ -11,4 +11,6 @@ public class HireOption
     [Required] public string Name { get; set; } = null!;
     
     [Required] public float Cost { get; set; }
+    
+    [Required] public bool SoftDeleted { get; set; }
 }

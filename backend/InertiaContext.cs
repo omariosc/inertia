@@ -1,6 +1,7 @@
 using EntityFramework.Exceptions.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using inertia.Models;
+using inertia.Util;
 
 namespace inertia;
 
@@ -29,5 +30,14 @@ public class InertiaContext : DbContext
     {
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.UseExceptionProcessor();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
+                entityType.AddSoftDeleteQueryFilter();
+        }
     }
 }

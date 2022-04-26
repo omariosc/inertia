@@ -39,7 +39,7 @@ export default function CustomerBookingHistory() {
                 <>
                     {(bookingHistory.length === 0) ?
                         <p>You have no bookings.</p> :
-                        <>
+                        <div className="customer-container">
                             {(booking === '') ?
                                 <p>Select a booking to show booking details</p> :
                                 <>
@@ -132,7 +132,7 @@ export default function CustomerBookingHistory() {
                                 ))}
                                 </tbody>
                             </Table>
-                        </>
+                        </div>
                     }
                 </>
             }

@@ -105,7 +105,7 @@ export default function CustomerCurrentBookings() {
     }
 
     return (
-        <>
+        <div className="customer-container">
             {(bookingHistory === '') ?
                 <p>Loading booking history...</p> :
                 <>
@@ -238,6 +238,6 @@ export default function CustomerCurrentBookings() {
                     }
                 </>
             }
-        </>
+        </div>
     );
 };

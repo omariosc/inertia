@@ -1,2 +1,2 @@
-const accountRole = ["User", "Employee", "Manager"];
+const accountRole = ["User", "Employee"];
 export default accountRole;

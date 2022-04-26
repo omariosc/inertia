@@ -21,7 +21,7 @@ export default function EmployeeInterface() {
                     <Navbar.Brand className="navbar-style" as={Link} to="/dashboard"><b>INERTIA</b></Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text className="navbar-pad-right text-white">
-                            Logged in as: <a className="text-white">{cookies.get("accountName")}</a>
+                            Logged in as: {cookies.get("accountName")}
                         </Navbar.Text>
                         <Nav.Item className="dropdown-toggle navbar-pad-right">
                             <DropdownButton align="end" className="dropdown-basic-button" variant="dark"

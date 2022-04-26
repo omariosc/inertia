@@ -27,7 +27,7 @@ export default function StaffSettings() {
                 <Form>
                     <div className="input">
                         <label>Old Password</label>
-                        <input type="password" onInput={e => setOldPassword(e.target.value)}/>
+                        <input autoFocus type="password" onInput={e => setOldPassword(e.target.value)}/>
                     </div>
                     <div className="input">
                         <label>New Password</label>

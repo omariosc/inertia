@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import host from '../host';
 import priorities from "./priorities";
 import Cookies from "universal-cookie";
+import getAge from "./getAge";
 
 export default function StaffViewIssue() {
     let navigate = useNavigate();
@@ -97,7 +98,7 @@ export default function StaffViewIssue() {
                 }),
                 mode: "cors"
             });
-            await fetchIssueDetails();
+            navigate('/issues');
         } catch (error) {
             console.error(error);
         }
@@ -108,18 +109,17 @@ export default function StaffViewIssue() {
             <p id="breadcrumb">
                 <a className="breadcrumb-list" href="/dashboard">Home
                 </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
-                <a className="breadcrumb-current" href={`/issues/${id}`}>Issue #{id}</a></b>
+                <a className="breadcrumb-current" href={`/issues/${id}`}>#{id}</a></b>
             </p>
             {(issue === "") ? <p>Loading issue details...</p> :
                 <>
-                    <h5 id="pageName">Issue #{id} {issue.title}</h5>
+                    <h5 id="pageName">Issue #{id}: {issue.title}</h5>
                     <hr className="issue-divider"/>
                     <Container>
                         <Row>
                             <Col xs={6} xg={7} xl={8}>
-                                [{(accountRole === "1") ? "Customer" : "Employee"}] {accountName} · created {
-                                parseInt((new Date(Date.now()).getTime() - new Date(issue.dateOpened).getTime()) / 86400000)
-                            } days ago
+                                [{(accountRole === "1") ? "Employee" : "Customer"}] {accountName} ·
+                                created {getAge(issue.dateOpened + "+00:00")} ago
                             </Col>
                             <Col xs={3}/>
                             <Col className={`issue-label-${issue.priority}`}>
@@ -145,14 +145,16 @@ export default function StaffViewIssue() {
                                                 Select priority
                                             </option>
                                             {priorities.map((priority, idx) => (
-                                                (issue.priority !== idx) ?
+                                                (issue.priority !== idx && priority !== "None") ?
                                                     <option value={idx} key={idx}>{priority}</option> : null
                                             ))}
                                         </Form.Select>
                                     </Col>
                                     <Col xs={'auto'}>
                                         <Button onClick={editPriority}>
-                                            {(issue.priority > parseInt(priority)) ? "Descalate" : "Escalate"}
+                                            {(priority === "" || priority === "none") ? "Change" : <>
+                                                {(issue.priority > parseInt(priority)) ? "Resolve" : "Escalate"} </>
+                                            }
                                         </Button>
                                     </Col>
                                 </Row>

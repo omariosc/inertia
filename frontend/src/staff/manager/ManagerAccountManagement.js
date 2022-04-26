@@ -95,7 +95,7 @@ export default function ManagerAccountManagement() {
                 <Form>
                     <div className="input account">
                         <label>Employee Name</label>
-                        <input type="name" onInput={e => setName(e.target.value)}/>
+                        <input autoFocus type="name" onInput={e => setName(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Employee Email</label>

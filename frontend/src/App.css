@@ -1,4 +1,4 @@
-a#account-page {
+#account-page {
     padding-left: 15%;
     padding-right: 25%;
     padding-top: 2%;
@@ -50,13 +50,6 @@ a#account-page {
     margin-left: 80px;
 }
 
-.issue-divider {
-    background-color: black;
-    border: solid 1px black;
-    color: black;
-    margin-left: 80px;
-}
-
 #wrapper {
     display: flex;
     height: 100%;
@@ -74,11 +67,11 @@ a#account-page {
 }
 
 .black-bg {
-    background-color: black !important;
+    background-color: black;
 }
 
 .black-bg {
-    background-color: black;
+    background-color: black !important;
 }
 
 .breadcrumb-current {
@@ -106,6 +99,10 @@ a#account-page {
     justify-content: flex-end;
 }
 
+.customer-container {
+    max-width: 60%;
+}
+
 .customer-create-booking-padding {
     padding-right: 15px;
 }
@@ -128,6 +125,15 @@ a#account-page {
     flex-direction: column;
 }
 
+.dashboard-text {
+    font-size: xx-large !important;
+    text-align: center !important;
+}
+
+.dashboard-title {
+    text-align: center !important;
+}
+
 .dropdown-basic-button {
     float: right;
 }
@@ -146,6 +152,14 @@ a#account-page {
 
 .half-width {
     width: 47.5%;
+}
+
+.hover-black {
+    color: black !important;
+}
+
+.hover-black:hover {
+    color: #0D6EFD !important;
 }
 
 .input {
@@ -186,6 +200,13 @@ a#account-page {
 
 .issue textarea {
     width: 1000px;
+}
+
+.issue-divider {
+    background-color: black;
+    border: solid 1px black;
+    color: black;
+    margin-left: 80px;
 }
 
 .issue-label-0 {

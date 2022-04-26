@@ -3,9 +3,11 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function EmployeeSubmitIssue() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [priority, setPriority] = useState('');
@@ -38,7 +40,7 @@ export default function EmployeeSubmitIssue() {
                 }),
                 mode: "cors"
             });
-            alert("Created issue.");
+            navigate('/issues');
         } catch (e) {
             console.log(e);
         }
@@ -61,7 +63,7 @@ export default function EmployeeSubmitIssue() {
                     </Col>
                     <Col xs={1}/>
                     <Col xs="auto">
-                        <input onInput={e => setTitle(e.target.value)}/>
+                        <input autoFocus onInput={e => setTitle(e.target.value)}/>
                     </Col>
                 </Row>
                 <Row className="input issue">

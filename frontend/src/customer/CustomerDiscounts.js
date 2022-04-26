@@ -124,7 +124,7 @@ export default function CustomerDiscounts() {
         <>
             {(loading === '') ?
                 <p>Loading discount status...</p> :
-                <>
+                <div className="customer-container">
                     {(!frequentUser && !studentUser && !seniorUser) ?
                         <div className="autoScroll">
                             <h5>Frequent User Discount</h5>
@@ -200,7 +200,7 @@ export default function CustomerDiscounts() {
                             }
                         </>
                     }
-                </>
+                </div>
             }
         </>
     );

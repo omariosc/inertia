@@ -95,7 +95,7 @@ export default function ManagerAccountManagement() {
                 <Form>
                     <div className="input account">
                         <label>Employee Name</label>
-                        <input type="name" onInput={e => setName(e.target.value)}/>
+                        <input autoFocus type="name" onInput={e => setName(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Employee Email</label>
@@ -110,7 +110,7 @@ export default function ManagerAccountManagement() {
                         <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
                     </div>
                     <Form.Group className="large-padding-top">
-                        <Button onClick={onSubmit}>Change password</Button>
+                        <Button onClick={onSubmit}>Create Employee Account</Button>
                     </Form.Group>
                 </Form>
             </Container>

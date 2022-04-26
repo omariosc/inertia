@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import orderState from "../orderState";
 import host from "../../host";
 import Cookies from "universal-cookie";
+import showDate from "../../showDate";
 
 export default function EmployeeBookingApplications() {
     const cookies = new Cookies();
@@ -80,22 +81,11 @@ export default function EmployeeBookingApplications() {
         await fetchBookings();
     }
 
-    function showDate(date) {
-        return new Intl.DateTimeFormat('en', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-        }).format(new Date(date));
-    }
-
     return (
         <>
             <p id="breadcrumb">
                 <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
+                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/booking-applications">Booking Applications</a></b>
             </p>
             <h3 id="pageName">Booking Applications</h3>

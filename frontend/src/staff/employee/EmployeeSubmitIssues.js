@@ -3,9 +3,11 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from "universal-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function EmployeeSubmitIssue() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [priority, setPriority] = useState('');
@@ -38,7 +40,7 @@ export default function EmployeeSubmitIssue() {
                 }),
                 mode: "cors"
             });
-            alert("Created issue.");
+            navigate('/issues');
         } catch (e) {
             console.log(e);
         }
@@ -48,7 +50,7 @@ export default function EmployeeSubmitIssue() {
         <>
             <p id="breadcrumb">
                 <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/submit-issue">Issues</a> > <b>
+                </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
                 <a className="breadcrumb-current" href="/submit-issue">Submit Issue</a></b>
             </p>
             <h3 id="pageName">Submit Issue</h3>
@@ -61,7 +63,7 @@ export default function EmployeeSubmitIssue() {
                     </Col>
                     <Col xs={1}/>
                     <Col xs="auto">
-                        <input onInput={e => setTitle(e.target.value)}/>
+                        <input autoFocus onInput={e => setTitle(e.target.value)}/>
                     </Col>
                 </Row>
                 <Row className="input issue">
@@ -70,12 +72,12 @@ export default function EmployeeSubmitIssue() {
                     </Col>
                     <Col xs={1}/>
                     <Col xs="auto">
-                        <select onChange={(e) => {
+                        <select defaultValue="none" onChange={(e) => {
                             setPriority(e.target.value)
                         }}>
-                            <option value="none" key="none" selected disabled hidden>Select priority</option>
+                            <option value="none" key="none" disabled hidden>Select priority</option>
                             {["None", "Low", "Medium", "High"].map((priority, idx) => (
-                                <option value={idx}>{priority}</option>
+                                <option value={idx} key={priority}>{priority}</option>
                             ))}
                         </select>
                     </Col>

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import orderState from "../staff/orderState";
 import host from "../host";
 import Cookies from "universal-cookie";
+import showDate from "../showDate";
 
 export default function CustomerCurrentBookings() {
     const cookies = new Cookies();
@@ -103,19 +104,8 @@ export default function CustomerCurrentBookings() {
         await fetchBookings();
     }
 
-    function showDate(date) {
-        return new Intl.DateTimeFormat('en', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-        }).format(new Date(date));
-    }
-
     return (
-        <>
+        <div className="customer-container">
             {(bookingHistory === '') ?
                 <p>Loading booking history...</p> :
                 <>
@@ -248,6 +238,6 @@ export default function CustomerCurrentBookings() {
                     }
                 </>
             }
-        </>
+        </div>
     );
 };

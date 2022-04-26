@@ -38,10 +38,10 @@ export default function CustomerSubmitIssue() {
     }
 
     return (
-        <Form>
+        <Form className="customer-container">
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                 <Form.Label><h5>Enter Issue Title</h5></Form.Label>
-                <Form.Control type="text" placeholder="Enter issue title here..."
+                <Form.Control autoFocus type="text" placeholder="Enter issue title here..."
                               isInvalid={!validTitle} onInput={e => setTitle(e.target.value)}/>
                 <Form.Control.Feedback type="invalid">
                     Please enter issue title
@@ -57,9 +57,7 @@ export default function CustomerSubmitIssue() {
                 </Form.Control.Feedback>
             </Form.Group>
             <br/>
-            <Form.Group>
-                <Button onClick={submitIssue} className="float-right">Create Issue</Button>
-            </Form.Group>
+            <Button onClick={submitIssue} className="float-right">Create Issue</Button>
         </Form>
     );
 };

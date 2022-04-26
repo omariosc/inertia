@@ -13,7 +13,6 @@ export default function EmployeeInterface() {
     const cookies = new Cookies();
     const [signOut] = useOutletContext();
 
-
     return (
         <div id="overlay">
             <div className="clickable">
@@ -21,7 +20,7 @@ export default function EmployeeInterface() {
                     <Navbar.Brand className="navbar-style" as={Link} to="/dashboard"><b>INERTIA</b></Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text className="navbar-pad-right text-white">
-                            Logged in as: <a className="text-white">{cookies.get("accountName")}</a>
+                            Logged in as: {cookies.get("accountName")}
                         </Navbar.Text>
                         <Nav.Item className="navbar-pad-right">
                             <DropdownButton align="end" className="dropdown-basic-button" variant="dark"
@@ -32,7 +31,7 @@ export default function EmployeeInterface() {
                     </Navbar.Collapse>
                 </Navbar>
                 <Row id="manager-row">
-                    <Col xs="auto" className="staff-nav-column border-dark" style={{borderRight: "1px solid black"}}>
+                    <Col xs="auto" className="staff-nav-column solid-border border-dark">
                         <EmployeeNavigation/>
                         <EmployeeMobileNavigation/>
                     </Col>

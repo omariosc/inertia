@@ -110,7 +110,7 @@ export default function ManagerAccountManagement() {
                         <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
                     </div>
                     <Form.Group className="large-padding-top">
-                        <Button onClick={onSubmit}>Change password</Button>
+                        <Button onClick={onSubmit}>Create Employee Account</Button>
                     </Form.Group>
                 </Form>
             </Container>

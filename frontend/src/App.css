@@ -268,7 +268,7 @@
 }
 
 .nav-indented {
-    padding-left: 37px;
+    padding-left: 37px !important;
 }
 
 .nav-link {
@@ -462,3 +462,52 @@
 
 @media (min-width: 992px) and (max-width: 1199px) {
 }
+
+/*SPECIFICALLY FOR THE RESPONSIVE MOBILE NAVIGATION FOR STAFF*/
+@media (max-width: 991px) {
+    .manager-vert-navbar {
+        display: none !important;
+    }
+
+    .manager-vert-navbar-mobile {
+        display: flex !important;
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+        background: rgba(0,0,0,0.92);
+        z-index: 9002;
+        width: 100vw;
+        padding-bottom: 10px;
+    }
+
+    .manager-vert-navbar-mobile a {
+        color: white;
+    }
+
+    #manager-row {
+        height: 100%;
+        background-color: transparent;
+    }
+
+    .staff-nav-column {
+        background-color: transparent;
+        border-right: none !important;
+    }
+
+    .border-end {
+        border-right: transparent !important;
+    }
+
+    /*styling for the hamburger menu icon*/
+    .hamburger-menu {
+        display: flex;
+        position: absolute;
+        /*how far in from the right it is*/
+        right: 15px;
+        top: 18px;
+        cursor: pointer;
+    }
+
+}
+
+

@@ -9,5 +9,5 @@ public class OrderExtensionModel
     public float PreDiscountCost { get; set; }
     public float Discount { get; set; }
     public float Cost { get; set; }
-    public List<string> Extensions { get; set; } = null!;
+    public List<Tuple<string, DateTime>> Extensions { get; set; } = null!;
 }

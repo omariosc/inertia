@@ -84,6 +84,18 @@
     text-decoration: none;
 }
 
+.buttonPadding {
+    margin-left: -20px;
+}
+.buttonPaddinDepo {
+    margin-left: -100px;
+}
+
+
+.buttonPaddingScooter {
+    margin-left: 5px;
+}
+
 .canvasjs-chart-credit {
     display: none;
 }
@@ -336,6 +348,71 @@
 
 .padding-down {
     padding-bottom: 10px;
+}
+.sameLine {
+
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+.maxWidth {
+
+    width:90px;
+    clear: both;
+    white-space: nowrap;
+}
+
+.maxWidthDepo {
+
+    width:110px;
+    clear: both;
+    white-space: nowrap;
+}
+
+
+.maxWidthLong {
+
+    width:100px;
+    clear: both;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.maxWidthLongDep {
+
+    width:300px;
+    clear: both;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.marginRight {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.scroll {
+    max-height: 45rem;
+    overflow-y: scroll;
+}
+
+.search-results {
+    margin-top: 10px;
+    max-height: 90vh;
+    overflow: auto;
+    padding: 10px;
+}
+
+.table-formatting {
+
+    border-collapse: collapse;
+
+
 }
 
 .small-padding-top {

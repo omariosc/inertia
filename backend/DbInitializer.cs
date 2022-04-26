@@ -356,5 +356,15 @@ public class DbInitializer
             Console.Out.WriteLine($"email: {customerAccounts[i]!.Email}; password: {passwordAccounts[i + 1]}");
         }
 
+
+        using StreamWriter file = new(env.IsProduction() ? "data/login.txt" : "login.txt");
+
+        file.WriteLine("Staff Login:");
+        file.WriteLine($"email: {staff!.Email}; password: {passwordAccounts[0]}");
+        file.WriteLine("Customer Login: ");
+        for (int i = 0; i < customerAccounts.Length; i++)
+        {
+            file.WriteLine($"email: {customerAccounts[i]!.Email}; password: {passwordAccounts[i + 1]}");
+        }
     }
 }

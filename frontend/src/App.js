@@ -34,6 +34,7 @@ const App = () => {
         cookies.remove('accountName');
         NotificationManager.success("Signed Out.", "Success");
         navigate('/');
+        window.location.reload(true);
     }
 
     // Outlet with context (to pass signOut function) enclosed in wrapper.

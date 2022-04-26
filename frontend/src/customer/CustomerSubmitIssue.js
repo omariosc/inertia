@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import host from "../host";
 import Cookies from "universal-cookie";
 
@@ -31,14 +32,14 @@ export default function CustomerSubmitIssue() {
                 }),
                 mode: "cors"
             });
-            alert("Created issue.");
+            NotificationManager.success("Created issue.", "Success");
         } catch (e) {
             console.log(e);
         }
     }
 
     return (
-        <Form className="customer-container">
+        <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                 <Form.Label><h5>Enter Issue Title</h5></Form.Label>
                 <Form.Control autoFocus type="text" placeholder="Enter issue title here..."

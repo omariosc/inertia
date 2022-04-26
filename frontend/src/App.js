@@ -2,6 +2,8 @@ import React from "react";
 import {Outlet, useNavigate} from 'react-router-dom';
 import host from './host';
 import Cookies from 'universal-cookie';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 import './App.css';
 
 const App = () => {
@@ -30,6 +32,7 @@ const App = () => {
         cookies.remove('accountID');
         cookies.remove('accountRole');
         cookies.remove('accountName');
+        NotificationManager.success("Signed Out.", "Success");
         navigate('/');
     }
 
@@ -37,6 +40,7 @@ const App = () => {
     return (
         <div id="wrapper">
             <Outlet context={[signOut]}/>
+            <NotificationContainer className="custom-notification"/>
         </div>
     );
 };

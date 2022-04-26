@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
+import getAge from "./getAge";
 import host from '../host';
 import priorities from "./priorities";
 import Cookies from "universal-cookie";
-import getAge from "./getAge";
 
 export default function StaffViewIssue() {
     let navigate = useNavigate();
@@ -35,12 +36,14 @@ export default function StaffViewIssue() {
             let response = await request.json();
             console.log(response)
             if (response.errorCode) {
+                NotificationManager.error("Could not load issue.", "Error");
                 navigate('/issues');
             } else {
                 setIssue(response);
                 await fetchAccount(response.accountId);
             }
         } catch (error) {
+            NotificationManager.error("Could not load issue.", "Error");
             navigate('/issues');
             console.error(error);
         }
@@ -77,6 +80,7 @@ export default function StaffViewIssue() {
                 }),
                 mode: "cors"
             });
+            NotificationManager.success("Resolved issue.", "Success");
             navigate('/issues');
         } catch (error) {
             console.error(error);
@@ -86,7 +90,7 @@ export default function StaffViewIssue() {
     // Changes issue priority.
     async function editPriority() {
         if (priority === '' || priority === 'none') {
-            alert("You must select a priority.");
+            NotificationManager.error("You must select a priority.", "Error");
             return;
         }
         try {
@@ -102,6 +106,7 @@ export default function StaffViewIssue() {
                 }),
                 mode: "cors"
             });
+            NotificationManager.success("Modified issue priority.", "Success");
             navigate('/issues');
         } catch (error) {
             console.error(error);

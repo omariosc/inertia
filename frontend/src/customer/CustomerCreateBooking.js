@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import moment from "moment";
+import getScooterName from "../getScooterName";
 import center from "../center";
 import host from "../host";
+import moment from "moment";
 import Cookies from 'universal-cookie';
-import {useNavigate} from "react-router-dom";
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -156,7 +158,7 @@ export default function CustomerCreateBooking() {
     async function createBooking() {
         setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
         setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
-        if (!validChoice) {
+        if (!validChoice()) {
             return;
         }
         if (!checkCardExists()) {
@@ -184,19 +186,20 @@ export default function CustomerCreateBooking() {
             });
             let response = await request;
             if (response.status === 422) {
-                alert("Scooter is currently unavailable.");
+                NotificationManager.error("Scooter is currently unavailable.", "Error");
             } else if (response.status === 200) {
+                NotificationManager.success("Created Booking.", "Success");
                 if (!checkCardExists()) {
                     cookies.set('cardNumber', cardNo, {path: '/'});
                     cookies.set('expiryDate', expiry, {path: '/'});
                     cookies.set('cvv', cvv, {path: '/'});
+                    NotificationManager.success("Stored credit card details.", "Success");
                 }
                 navigate('/current-bookings');
             }
         } catch (error) {
             console.error(error);
         }
-        await fetchAvailableScooters();
     }
 
     function checkCardExists() {
@@ -215,73 +218,70 @@ export default function CustomerCreateBooking() {
                                     `£${(0.9 * parseFloat(price)).toFixed(2)} (10% ${discountType} Discount applied)`
                                 }
                             </Col>
-                        </Row> : <>
+                        </Row> :
+                        <Row className="pb-2 input">
                             <label>Cost</label>
                             <Col>
                                 {(hireChoiceId === '') ? null :
                                     `£${parseFloat(price).toFixed(2)}`
                                 }
                             </Col>
-                        </>
+                        </Row>
         )
     }
 
     return (
-        <Container className="customer-container">
+        <Container>
             <h5>Booking Details</h5>
             <br/>
             <Row className="pb-2 input">
                 <label>Scooter</label>
-                {map_locations === "" || scooters === "" ?
-                    <Form.Control type="plaintext" value="Loading Scooters..."/> : <>
-                        <Form.Select isInvalid={!validScooter} onChange={(e) => {
-                            setScooterChoiceId(e.target.value);
-                        }}>
-                            <option value="none" key="none" selected disabled hidden>Select scooter</option>
-                            {scooters.map((scooter, idx) => (
-                                <option value={scooter.scooterId} key={idx}>
-                                    Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
-                            ))}
-                        </Form.Select>
-                    </>
+                {(map_locations === "" || scooters === "") ? <label>Loading scooters...</label> :
+                    <Form.Select defaultValue="none" isInvalid={!validScooter} onChange={(e) => {
+                        setScooterChoiceId(e.target.value);
+                    }}>
+                        <option value="none" key="none" disabled hidden>Select scooter</option>
+                        {scooters.map((scooter, idx) => (
+                            <option value={scooters[idx].scooterId}
+                                    key={idx}>{getScooterName(id, scooters, map_locations)}</option>
+                        ))}
+                    </Form.Select>
                 }
             </Row>
             <Row className="pb-2 input">
                 <label>Hire Period</label>
-                {hireOptions === "" ?
-                    <Form.Control type="plaintext" value="Loading Hire Options..."/> : <>
-                        <Form.Select onChange={(e) => {
-                            let value = e.target.value.split(',')
-                            setHireChoiceId(value[0]);
-                            setPrice(value[1])
-                        }}
-                                     isInvalid={!validHireSlot}>
+                {(hireOptions === "") ? <label>Loading hire periods...</label> : <>
+                    <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
+                        let value = e.target.value.split(',')
+                        setHireChoiceId(value[0]);
+                        setPrice(value[1])
+                    }}>
 
-                            <option value="none" key="none" selected disabled hidden>Select hire period</option>
-                            {hireOptions.map((option, idx) => (
-                                <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
-                                    £{option.cost}</option>
-                            ))}
-                        </Form.Select>
-                    </>
+                        <option value="none" key="none" disabled hidden>Select hire period</option>
+                        {hireOptions.map((option, idx) => (
+                            <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
+                                £{option.cost}</option>
+                        ))}
+                    </Form.Select>
+                </>
                 }
             </Row>
             <br/>
             <Row>
                 {(map_locations === "") ? <h5>Loading map locations...</h5> :
-                    <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
+                    <MapContainer center={center} zoom={15} zoomControl={false} className="minimap-customer">
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                         {map_locations.map((map_location, index) => (
-                            <Marker key={index}
-                                    position={[map_location.latitude, map_location.longitude]}>
+                            <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
                                 <Popup>{map_location.name}</Popup>
                             </Marker>
                         ))}
                     </MapContainer>
                 }
             </Row>
+            <br/>
             {!checkCardExists() ?
                 <>
                     <h5>Payment details</h5>
@@ -339,7 +339,8 @@ export default function CustomerCreateBooking() {
                             cookies.remove('cardNumber');
                             cookies.remove('expiryDate');
                             cookies.remove('cvv');
-                            window.location = window.location;
+                            navigate('/create-booking');
+                            NotificationManager.success("Deleted credit card details.", "Sucess");
                         }}>Delete card</Button> : null
                     }
                     <br/>

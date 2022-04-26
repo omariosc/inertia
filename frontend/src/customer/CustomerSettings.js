@@ -38,7 +38,7 @@ export default function CustomerSettings() {
     }
 
     return (
-        <div className="customer-container">
+        <>
             <h5>Account Information</h5>
             {(accountInfo === '') ?
                 <p>Loading account information...</p> :
@@ -74,6 +74,6 @@ export default function CustomerSettings() {
                     <Button onClick={onSubmit}>Change password</Button>
                 </Form.Group>
             </Form>
-        </div>
+        </>
     );
 };

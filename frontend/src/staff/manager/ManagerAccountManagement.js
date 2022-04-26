@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Button, Container, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import validate from '../../Validators';
 import host from '../../host';
 import Cookies from "universal-cookie";
@@ -33,7 +34,7 @@ export default function ManagerAccountManagement() {
             });
             let signupResponse = await signupRequest;
             if (signupResponse.status === 422) {
-                alert("Email address already exists.");
+                NotificationManager.error("Email address already exists.", "Error");
                 return;
             }
             let getRequest = await fetch(host + 'api/admin/Users', {
@@ -55,7 +56,7 @@ export default function ManagerAccountManagement() {
                 }
             }
             if (!accountId) {
-                alert("Could not patch account to employee role.");
+                NotificationManager.error("Could not patch account to employee role.", "Error");
                 return;
             }
             let patchRequest = await fetch(host + `api/admin/Users/${accountId}`, {
@@ -72,9 +73,9 @@ export default function ManagerAccountManagement() {
             });
             let patchResponse = await patchRequest;
             if (patchResponse.status === 200) {
-                alert(`Created employee account for ${name}.`)
+                NotificationManager.success(`Created employee account for ${name}.`, "Success");
             } else {
-                alert(patchResponse.description)
+                NotificationManager.error(patchResponse.description, "Error");
             }
         } catch (error) {
             console.error(error);

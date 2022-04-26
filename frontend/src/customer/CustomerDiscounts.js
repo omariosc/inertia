@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import moment from "moment";
+import {NotificationManager} from "react-notifications";
 import host from "../host";
+import moment from "moment";
 import Cookies from "universal-cookie";
 
 export default function CustomerDiscounts() {
@@ -79,7 +80,7 @@ export default function CustomerDiscounts() {
 
     async function onSubmit(type) {
         if ((type === 'student' && !studentImage) || (type === 'senior' && !seniorImage)) {
-            alert("You must upload an image.");
+            NotificationManager.error("You must upload an image.", "Error");
             return;
         }
         try {
@@ -97,7 +98,7 @@ export default function CustomerDiscounts() {
             });
             let discountResponse = await discountRequest;
             if (discountResponse.status === 422) {
-                alert("Already applied for discount.");
+                NotificationManager.error("Already applied for discount.", "Error");
                 return;
             }
             let imageRequest = await fetch(host + `api/Users/${cookies.get('accountID')}/ApplyDiscountUploadImage`, {
@@ -111,9 +112,9 @@ export default function CustomerDiscounts() {
             });
             let imageResponse = await imageRequest;
             if (imageResponse.status === 422) {
-                alert("Already applied for discount.");
+                NotificationManager.error("Already applied for discount.", "Error");
             } else {
-                alert("Submitted application.");
+                NotificationManager.success("Submitted application.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -124,7 +125,7 @@ export default function CustomerDiscounts() {
         <>
             {(loading === '') ?
                 <p>Loading discount status...</p> :
-                <div className="customer-container">
+                <>
                     {(!frequentUser && !studentUser && !seniorUser) ?
                         <div className="autoScroll">
                             <h5>Frequent User Discount</h5>
@@ -200,7 +201,7 @@ export default function CustomerDiscounts() {
                             }
                         </>
                     }
-                </div>
+                </>
             }
         </>
     );

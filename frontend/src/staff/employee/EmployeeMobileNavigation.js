@@ -1,7 +1,7 @@
 import React, {useState} from "react";
+import {Link, useOutletContext} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Link, useOutletContext} from "react-router-dom";
 import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md";
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 import {GiHamburgerMenu} from "react-icons/gi";

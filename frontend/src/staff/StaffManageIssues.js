@@ -7,6 +7,7 @@ import accountRole from "./accountRole";
 import userType from "./userType";
 import host from "../host";
 import Cookies from "universal-cookie";
+import {NotificationManager} from "react-notifications";
 
 export default function StaffManageIssues({manager}) {
     const cookies = new Cookies();
@@ -47,6 +48,9 @@ export default function StaffManageIssues({manager}) {
                 '4': (a, b) => b.priority - a.priority
             }
             setIssues(response.sort(sortFunctions[sortOption]));
+            if (sortOption) {
+                NotificationManager.success("Sorted Issues.", "Success");
+            }
         } catch (error) {
             console.error(error);
         }

@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import scooterStatus from "../../scooterStatus";
+import {NotificationManager} from "react-notifications";
+import getMapName from "../../getMapName";
 import host from '../../host';
+import scooterStatus from "../../scooterStatus";
 import Cookies from 'universal-cookie';
 
 export default function ManagerScooterManagement() {
@@ -64,7 +66,7 @@ export default function ManagerScooterManagement() {
                 break;
             case 2:
                 if (!(newID.match(/^\d+$/))) {
-                    alert("Scooter ID must be an integer.");
+                    NotificationManager.error("Scooter ID must be an integer.", "Error");
                     return;
                 } else {
                     json["softScooterId"] = newID;
@@ -88,9 +90,11 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status === 422) {
-                alert("Scooter ID is already taken.");
+                NotificationManager.error("Scooter ID is already taken.", "Error");
             } else if (response.status !== 200) {
-                alert("Could not modify scooter.");
+                NotificationManager.error("Could not modify scooter.", "Error");
+            } else {
+                NotificationManager.success("Modified scooter.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -100,17 +104,17 @@ export default function ManagerScooterManagement() {
 
     async function createScooter() {
         if (!(createID.match(/^\d+$/))) {
-            alert("Scooter ID must be an integer.");
+            NotificationManager.error("Scooter ID must be an integer.", "Error");
             return;
         }
         for (let scooter in scooters) {
             if (createID === scooter.softScooterId) {
-                alert("Scooter ID already exists.")
+                NotificationManager.error("Scooter ID already exists.", "Error");
                 return;
             }
         }
         if (createDepo === '' || createDepo === 'none') {
-            alert("Depot selection cannot be empty.")
+            NotificationManager.error("Depot selection cannot be empty.", "Error");
             return;
         }
         try {
@@ -131,7 +135,9 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not create scooter.");
+                NotificationManager.error("Could not create scooter.", "Error");
+            } else {
+                NotificationManager.success("Created scooter.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -152,7 +158,9 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not delete scooter.");
+                NotificationManager.error("Could not delete scooter.", "Error");
+            } else {
+                NotificationManager.success("Deleted scooter.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -191,10 +199,10 @@ export default function ManagerScooterManagement() {
                                         <input onInput={e => setScooterNewId(e.target.value)}/>
                                     </InputGroup>
                                     <Button onClick={() => {
-                                        if (scooter.scooterId !== parseInt(newID)) {
+                                        if (scooter.softScooterId !== parseInt(newID)) {
                                             editScooter(scooter.scooterId, 2);
                                         } else {
-                                            alert("Scooter ID cannot be the same");
+                                            NotificationManager.error("Scooter ID cannot be the same", "Error");
                                         }
                                     }}>
                                         Change Scooter ID
@@ -217,17 +225,14 @@ export default function ManagerScooterManagement() {
                                     {(map_locations === "") ?
                                         <h5>Loading map locations...</h5> :
                                         <>
-                                            <p>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</p>
+                                            <p>{getMapName(idx, scooters, map_locations)}</p>
                                             <Form>
-                                                <Form.Select
-                                                    onChange={(e) => {
-                                                        if (e.target.value !== scooter.depoId.toString()) {
-                                                            editScooter(scooter.scooterId, 1, '', e.target.value);
-                                                        }
-                                                    }}
-                                                >
-                                                    <option value="none" key="none" selected disabled
-                                                            hidden>
+                                                <Form.Select defaultValue="none" onChange={(e) => {
+                                                    if (e.target.value !== scooter.depoId.toString()) {
+                                                        editScooter(scooter.scooterId, 1, '', e.target.value);
+                                                    }
+                                                }}>
+                                                    <option value="none" key="none" disabled hidden>
                                                         Select location
                                                     </option>
                                                     {map_locations.map((location, idx) => (
@@ -261,12 +266,10 @@ export default function ManagerScooterManagement() {
                                 {(map_locations === "") ?
                                     <h5>Loading map locations...</h5> :
                                     <Form>
-                                        <Form.Select
-                                            onChange={(e) => {
-                                                setCreateDepo(e.target.value);
-                                            }}
-                                        >
-                                            <option value="none" key="none" selected disabled hidden>
+                                        <Form.Select defaultValue="none" onChange={(e) => {
+                                            setCreateDepo(e.target.value);
+                                        }}>
+                                            <option value="none" key="none" disabled hidden>
                                                 Select location
                                             </option>
                                             {map_locations.map((location, idx) => (

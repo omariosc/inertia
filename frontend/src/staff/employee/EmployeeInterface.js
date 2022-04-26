@@ -3,10 +3,10 @@ import {Outlet, useOutletContext, Link} from 'react-router-dom';
 import {Col, Dropdown, DropdownButton, Nav, Navbar, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js"
-import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
-import EmployeeNavigation from "./EmployeeNavigation";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
+import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
+import EmployeeNavigation from "./EmployeeNavigation";
 import Cookies from 'universal-cookie';
 
 export default function EmployeeInterface() {

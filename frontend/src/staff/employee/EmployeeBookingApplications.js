@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import orderState from "../orderState";
-import host from "../../host";
-import Cookies from "universal-cookie";
+import {NotificationManager} from "react-notifications";
 import showDate from "../../showDate";
+import host from "../../host";
+import orderState from "../orderState";
+import Cookies from "universal-cookie";
 
 export default function EmployeeBookingApplications() {
     const cookies = new Cookies();
@@ -52,7 +53,9 @@ export default function EmployeeBookingApplications() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not approve booking.");
+                NotificationManager.error("Could not approve booking.", "Error");
+            } else {
+                NotificationManager.success("Approved booking.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -73,7 +76,9 @@ export default function EmployeeBookingApplications() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not deny booking.");
+                NotificationManager.error("Could not deny booking.", "Error");
+            } else {
+                NotificationManager.success("Denied booking.", "Success");
             }
         } catch (e) {
             console.log(e);

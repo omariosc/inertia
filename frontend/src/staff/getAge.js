@@ -18,12 +18,12 @@ export default function getAge(dateString) {
             return hours.toString() + " hours";
         }
     }
-    let mins = Math.floor(difference / 60000);
-    if (mins >= 1) {
-        if (mins === 1) {
+    let minutes = Math.floor(difference / 60000);
+    if (minutes >= 1) {
+        if (minutes === 1) {
             return "1 minute";
         } else {
-            return mins.toString() + " minutes";
+            return minutes.toString() + " minutes";
         }
     } else {
         return "less than a minute"

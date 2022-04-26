@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {Button, InputGroup, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import {NotificationManager} from "react-notifications";
 import host from './host';
 import Cookies from 'universal-cookie';
 
@@ -35,16 +36,19 @@ export default function LoginForm(props) {
                 cookies.set("accessToken", response.accessToken, {path: '/'});
                 // If staff account navigates to dashboard.
                 if (response.account.role === 2 || response.account.role === 1) {
+                    NotificationManager.success("Logged in.", "Success");
                     navigate('/dashboard');
                 } else if (response.account.role === 0) {
+                    NotificationManager.success("Logged in.", "Success");
                     navigate('/create-booking');
                 } else {
+                    NotificationManager.error("Could not log in.", "Error");
                     console.log(response);
                 }
                 // Refreshes page.
                 window.location = window.location
             } else {
-                alert("Login credentials invalid.");
+                NotificationManager.error("Login credentials invalid.", "Error");
             }
         } catch (error) {
             console.error(error);

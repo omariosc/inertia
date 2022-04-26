@@ -1,11 +1,11 @@
 import React from "react";
+import {Link, Outlet, useOutletContext} from "react-router-dom";
 import {Nav, Row, Col, Navbar, DropdownButton, Dropdown} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Link, Outlet, useOutletContext} from "react-router-dom";
-import ManagerMobileNavigation from "./ManagerMobileNavigation"
-import ManagerNavigation from "./ManagerNavigation"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
+import ManagerMobileNavigation from "./ManagerMobileNavigation"
+import ManagerNavigation from "./ManagerNavigation"
 import Cookies from 'universal-cookie';
 
 export default function ManagerInterface() {
@@ -36,6 +36,8 @@ export default function ManagerInterface() {
                     </Col>
                     <Col xs={9}>
                         <Outlet context={[signOut]}/>
+                        <br/>
+                        <br/>
                     </Col>
                 </Row>
             </div>

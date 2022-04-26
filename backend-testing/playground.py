@@ -6,13 +6,13 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 customer = client.Client('https://localhost:7220')
-customer.login('inertiateam420+test@gmail.com', 'test_password')
+customer.login('inertiateam+test@outlook.com', 'test_password')
 print(customer.customer_orders())
 print(customer.hire_options())
 
 
 staff = client.Client('https://localhost:7220')
-staff.login('inertiateam420+test2@gmail.com', 'test_password')
+staff.login('inertiateam+test2@outlook.com', 'test_password')
 
 t = datetime.now()
 
@@ -24,7 +24,7 @@ scooter = staff.get_available_scooters(
 hire_option = staff.hire_options()[0]
 
 order = staff.admin_create_guest_order(
-    email='emilianachubosky@gmail.com',
+    email='emilianachubosky@outlook.com',
     name='Emiliana Chubosky',
     hire_option=hire_option.hire_option_id,
     scooter=scooter.scooter_id,
@@ -34,4 +34,4 @@ order = staff.admin_create_guest_order(
 orders = staff.admin_order_list()
 
 staff.debug_remove_order(order.order_id)
-staff.debug_remove_account('emilianachubosky@gmail.com')
+staff.debug_remove_account('emilianachubosky@outlook.com')

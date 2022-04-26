@@ -12,9 +12,9 @@ class BookingSystem(unittest.TestCase):
 
     def test_order_creation(self):
         self.customer = api.client.Client(self.host)
-        self.customer.login('inertiateam420+test@gmail.com', 'test_password')
+        self.customer.login('inertiateam+test@outlook.com', 'test_password')
         self.staff = api.client.Client(self.host)
-        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
+        self.staff.login('inertiateam+test2@outlook.com', 'test_password')
 
         t = datetime.now() + timedelta(days=1)
 
@@ -55,9 +55,9 @@ class BookingSystem(unittest.TestCase):
 
     def test_scooter_availability_service(self):
         self.customer = api.client.Client(self.host)
-        self.customer.login('inertiateam420+test@gmail.com', 'test_password')
+        self.customer.login('inertiateam+test@outlook.com', 'test_password')
         self.staff = api.client.Client(self.host)
-        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
+        self.staff.login('inertiateam+test2@outlook.com', 'test_password')
 
         t = datetime.now()
 
@@ -90,9 +90,9 @@ class BookingSystem(unittest.TestCase):
 
     def test_staff_scooter_return(self):
         self.customer = api.client.Client(self.host)
-        self.customer.login('inertiateam420+test@gmail.com', 'test_password')
+        self.customer.login('inertiateam+test@outlook.com', 'test_password')
         self.staff = api.client.Client(self.host)
-        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
+        self.staff.login('inertiateam+test2@outlook.com', 'test_password')
 
         t = datetime.now()
 
@@ -128,7 +128,7 @@ class BookingSystem(unittest.TestCase):
 
     def test_guest_order(self):
         self.staff = api.client.Client(self.host)
-        self.staff.login('inertiateam420+test2@gmail.com', 'test_password')
+        self.staff.login('inertiateam+test2@outlook.com', 'test_password')
 
         t = datetime.now()
 
@@ -140,7 +140,7 @@ class BookingSystem(unittest.TestCase):
         hire_option = self.staff.hire_options()[0]
 
         order = self.staff.admin_create_guest_order(
-            email='inertiateam420+emilianachubosky@gmail.com',
+            email='inertiateam+emilianachubosky@outlook.com',
             name='Emiliana Chubosky',
             hire_option=hire_option.hire_option_id,
             scooter=scooter.scooter_id,
@@ -152,4 +152,4 @@ class BookingSystem(unittest.TestCase):
         self.assertEqual(order.order_id, order_renewed.order_id)
 
         self.staff.debug_remove_order(order.order_id)
-        self.staff.debug_remove_account('emilianachubosky@gmail.com')
+        self.staff.debug_remove_account('emilianachubosky@outlook.com')

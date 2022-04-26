@@ -24,15 +24,17 @@ public class EmailService
     private readonly string _senderPassword;
     private readonly int _port;
     private readonly string _server;
-    private readonly bool _ssl;
     private readonly InertiaContext _db;
-
+    private readonly SecureSocketOptions _sslOption;
+    private readonly ILogger<EmailService> _logger;
+    
     public EmailService(
         IRazorViewEngine razorViewEngine,
         ITempDataProvider tempDataProvider,
         IServiceProvider serviceProvider,
         IConfiguration configuration,
-        InertiaContext db)
+        InertiaContext db,
+        ILogger<EmailService> logger)
     {
         _razorViewEngine = razorViewEngine;
         _tempDataProvider = tempDataProvider;
@@ -42,8 +44,23 @@ public class EmailService
         _senderPassword = configuration["SmtpSettings:Password"];
         _port = int.Parse(configuration["SmtpSettings:Port"]);
         _server = configuration["SmtpSettings:Server"];
-        _ssl = bool.Parse(configuration["SmtpSettings:SSL"]);
         _db = db;
+        _logger = logger;
+        
+        var ssl = configuration["SmtpSettings:SSL"];
+
+        switch (ssl)
+        {
+            case "Yes":
+                _sslOption = SecureSocketOptions.Auto;
+                break;
+            case "No":
+                _sslOption = SecureSocketOptions.None;
+                break;    
+            case "StartTls":
+                _sslOption = SecureSocketOptions.StartTls;
+                break;
+        }
     }
 
     public async Task SendOrderConfirmation(string email, Order order)
@@ -194,13 +211,20 @@ public class EmailService
         body.HtmlBody = htmlBody;
 
         message.Body = body.ToMessageBody();
-        
-        using (var client = new MailKit.Net.Smtp.SmtpClient())
+
+        try
         {
-            await client.ConnectAsync(_server, _port, _ssl);
-            await client.AuthenticateAsync(_senderEmail, _senderPassword);
-            await client.SendAsync(message);
-            await client.DisconnectAsync(true);
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                await client.ConnectAsync(_server, _port, _sslOption);
+                await client.AuthenticateAsync(_senderEmail, _senderPassword);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogWarning(e.Message);
         }
     }
 

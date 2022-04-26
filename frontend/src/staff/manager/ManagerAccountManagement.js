@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import validate from '../../Validators';
 import host from '../../host';
 import Cookies from "universal-cookie";
+import {NotificationManager} from "react-notifications";
 
 export default function ManagerAccountManagement() {
     const cookies = new Cookies();
@@ -33,7 +34,7 @@ export default function ManagerAccountManagement() {
             });
             let signupResponse = await signupRequest;
             if (signupResponse.status === 422) {
-                alert("Email address already exists.");
+                NotificationManager.error("Email address already exists", "Account creation failed");
                 return;
             }
             let getRequest = await fetch(host + 'api/admin/Users', {
@@ -55,7 +56,7 @@ export default function ManagerAccountManagement() {
                 }
             }
             if (!accountId) {
-                alert("Could not patch account to employee role.");
+                NotificationManager.error("Could not patch account to employee role", "Account creation failed");
                 return;
             }
             let patchRequest = await fetch(host + `api/admin/Users/${accountId}`, {
@@ -72,9 +73,9 @@ export default function ManagerAccountManagement() {
             });
             let patchResponse = await patchRequest;
             if (patchResponse.status === 200) {
-                alert(`Created employee account for ${name}.`)
+                NotificationManager.success(`Created employee account for ${name}`, "Account creation successful")
             } else {
-                alert(patchResponse.description)
+                NotificationManager.error(patchResponse.description)
             }
         } catch (error) {
             console.error(error);

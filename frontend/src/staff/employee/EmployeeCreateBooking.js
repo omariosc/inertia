@@ -5,6 +5,7 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import center from "../../center";
 import host from "../../host";
 import Cookies from "universal-cookie";
+import {NotificationManager} from "react-notifications";
 
 export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();
@@ -120,11 +121,11 @@ export default function EmployeeCreateGuestBooking() {
             });
             let response = await request;
             if (response.status === 200) {
-                alert("Created guest booking.");
+                NotificationManager.success("Created guest booking", "Booking created");
             } else if (response.status === 422) {
-                alert("Scooter is currently unavailable.");
+                NotificationManager.error("Scooter is currently unavailable", "Booking unsuccessful");
             } else {
-                alert("Could not create booking.");
+                NotificationManager.error("Could not create booking", "Booking unsuccessful");
             }
         } catch (e) {
             console.log(e);

@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import host from '../host';
 import priorities from "./priorities";
 import Cookies from "universal-cookie";
+import {NotificationManager} from "react-notifications";
 
 export default function StaffViewIssue() {
     let navigate = useNavigate();
@@ -81,7 +82,7 @@ export default function StaffViewIssue() {
 
     async function editPriority() {
         if (priority === '' || priority === 'none') {
-            alert("You must select a priority.");
+            NotificationManager.warning("You must select a priority");
             return;
         }
         try {

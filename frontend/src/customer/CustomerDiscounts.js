@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import moment from "moment";
 import host from "../host";
 import Cookies from "universal-cookie";
+import {NotificationManager} from "react-notifications";
 
 export default function CustomerDiscounts() {
     const cookies = new Cookies();
@@ -79,7 +80,7 @@ export default function CustomerDiscounts() {
 
     async function onSubmit(type) {
         if ((type === 'student' && !studentImage) || (type === 'senior' && !seniorImage)) {
-            alert("You must upload an image.");
+            NotificationManager.error("You must upload an image");
             return;
         }
         try {
@@ -97,7 +98,7 @@ export default function CustomerDiscounts() {
             });
             let discountResponse = await discountRequest;
             if (discountResponse.status === 422) {
-                alert("Already applied for discount.");
+                NotificationManager.error("Already applied for discount");
                 return;
             }
             let imageRequest = await fetch(host + `api/Users/${cookies.get('accountID')}/ApplyDiscountUploadImage`, {
@@ -111,9 +112,9 @@ export default function CustomerDiscounts() {
             });
             let imageResponse = await imageRequest;
             if (imageResponse.status === 422) {
-                alert("Already applied for discount.");
+                NotificationManager.error("Already applied for discount");
             } else {
-                alert("Submitted application.");
+                NotificationManager.success("Submitted application");
             }
         } catch (e) {
             console.log(e);

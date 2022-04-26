@@ -3,6 +3,7 @@ import {Button, InputGroup, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import host from './host';
 import validate from './Validators';
+import {NotificationManager} from "react-notifications";
 
 export default function RegisterForm(props) {
     const [name, setName] = useState('');
@@ -30,9 +31,10 @@ export default function RegisterForm(props) {
             });
             let response = await request;
             if (response.status === 200) {
+                NotificationManager.success("Account successfully created", "Registered");
                 props.onHide();
             } else {
-                alert("Email address already in use.");
+                NotificationManager.error("Email address already in use", "Account already exists");
             }
         } catch (error) {
             console.error(error);

@@ -38,10 +38,12 @@ export default function CustomerDiscounts() {
             let recentBookings = response.filter(e => e.createdAt >= thresholdDate);
             let recentHours = 0;
             for (let i = 0; i < recentBookings.length; i++) {
-                recentHours += recentBookings[i].hireOption.durationInHours;
-                if (recentBookings[i]["extensions"] != null) {
-                    for (let j = 0; j < recentBookings[i]["extensions"].length; j++) {
-                        recentHours += recentBookings[i]["extensions"][j].hireOption.durationInHours;
+                if (recentBookings[i].orderState !== 0 && recentBookings[i].orderState !== 6) {
+                    recentHours += recentBookings[i].hireOption.durationInHours;
+                    if (recentBookings[i]["extensions"] != null) {
+                        for (let j = 0; j < recentBookings[i]["extensions"].length; j++) {
+                            recentHours += recentBookings[i]["extensions"][j].hireOption.durationInHours;
+                        }
                     }
                 }
             }

@@ -195,9 +195,9 @@ export default function ManagerScooterManagement() {
                             <tr key={idx}>
                                 <td>
                                     <Row className="sameLine">
-                                        <Col className="marginRight">{scooter.softScooterId}</Col>
+                                        <Col className="">{scooter.softScooterId}</Col>
                                         <Col>
-                                            <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)}/>
+                                            <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)} size={20}/>
                                         </Col>
                                         <Col>
                                             <Button className="buttonPaddingScooter" onClick={() => {

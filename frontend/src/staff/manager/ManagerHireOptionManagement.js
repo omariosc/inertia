@@ -3,6 +3,7 @@ import {Button, Container, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import host from "../../host";
 import Cookies from 'universal-cookie';
+import {NotificationManager} from "react-notifications";
 
 export default function ManagerHireOptionManagement() {
     const cookies = new Cookies();
@@ -41,7 +42,7 @@ export default function ManagerHireOptionManagement() {
         switch (mode) {
             case 1:
                 if (newName === '') {
-                    alert("Hire option name cannot be empty.")
+                    NotificationManager.error("Hire option name cannot be empty")
                     return;
                 } else {
                     json["name"] = newName;
@@ -49,10 +50,10 @@ export default function ManagerHireOptionManagement() {
                 break;
             case 2:
                 if (!(newCost.match(/^\d+(\.\d{0,2})?$/))) {
-                    alert("Cost must be an integer.");
+                    NotificationManager.error("Cost must be an integer");
                     return;
                 } else if (parseFloat(newCost) <= 0) {
-                    alert("Cost must be greater than 0.");
+                    NotificationManager.error("Cost must be greater than 0");
                     return;
                 } else {
                     json["cost"] = parseFloat(newCost);
@@ -60,10 +61,10 @@ export default function ManagerHireOptionManagement() {
                 break;
             default:
                 if (!(newDuration.match(/^\d+$/))) {
-                    alert("Duration must be an integer.");
+                    NotificationManager.error("Duration must be an integer");
                     return;
                 } else if (parseFloat(createDuration) <= 0) {
-                    alert("Duration must be at least 1.");
+                    NotificationManager.error("Duration must be at least 1");
                     return;
                 } else {
                     json["durationInHours"] = parseInt(newDuration);
@@ -83,7 +84,10 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not modify hire option.");
+                NotificationManager.error("Could not modify hire option");
+            }
+            else {
+                NotificationManager.success("Modified hire option successfully");
             }
         } catch (error) {
             console.error(error);
@@ -93,21 +97,21 @@ export default function ManagerHireOptionManagement() {
 
     async function createHireOption() {
         if (!(createDuration.match(/^\d+$/))) {
-            alert("Duration must be an integer.");
+            NotificationManager.error("Duration must be an integer");
             return;
         } else if (parseFloat(createDuration) <= 0) {
-            alert("Duration must be at least 1.");
+            NotificationManager.error("Duration must be at least 1");
             return;
         }
         if (createName === '') {
-            alert("Hire option name cannot be empty.")
+            NotificationManager.error("Hire option name cannot be empty")
             return;
         }
         if (!(createCost.match(/^\d+(\.\d{0,2})?$/))) {
-            alert("Cost must be a number.");
+            NotificationManager.error("Cost must be a number");
             return;
         } else if (parseFloat(newCost) <= 0) {
-            alert("Cost must be greater than 0.");
+            NotificationManager.error("Cost must be greater than 0");
             return;
         }
         try {
@@ -127,7 +131,10 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not create hire option.");
+                NotificationManager.error("Could not create hire option");
+            }
+            else {
+                NotificationManager.success("Hire option created successfully");
             }
         } catch (error) {
             console.error(error);
@@ -148,7 +155,7 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not delete hire option.");
+                NotificationManager.error("Could not delete hire option");
             }
         } catch (error) {
             console.error(error);
@@ -194,7 +201,7 @@ export default function ManagerHireOptionManagement() {
                                                 if (hireOption.durationInHours !== parseInt(newDuration)) {
                                                     editHireOption(hireOption.hireOptionId, 0);
                                                 } else {
-                                                    alert("Duration cannot be the same.");
+                                                    NotificationManager.error("Duration cannot be the same");
                                                 }
                                             }}>
                                                 Modify Duration
@@ -209,7 +216,7 @@ export default function ManagerHireOptionManagement() {
                                                 if (hireOption.name !== newName) {
                                                     editHireOption(hireOption.hireOptionId, 1);
                                                 } else {
-                                                    alert("Name cannot be the same.");
+                                                    NotificationManager.error("Name cannot be the same");
                                                 }
                                             }}>
                                                 Modify Name
@@ -224,7 +231,7 @@ export default function ManagerHireOptionManagement() {
                                                 if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
                                                     editHireOption(hireOption.hireOptionId, 2);
                                                 } else {
-                                                    alert("Cost cannot be the same.");
+                                                    NotificationManager.error("Cost cannot be the same");
                                                 }
                                             }}>
                                                 Modify Cost

@@ -313,6 +313,11 @@ a#account-page {
     font-weight: bold;
 }
 
+.notification-container {
+    bottom: 15px !important;
+    top: auto !important;
+}
+
 .padding-down {
     padding-bottom: 10px;
 }

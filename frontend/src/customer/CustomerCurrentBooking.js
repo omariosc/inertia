@@ -5,6 +5,7 @@ import orderState from "../staff/orderState";
 import host from "../host";
 import Cookies from "universal-cookie";
 import showDate from "../showDate";
+import {NotificationManager} from "react-notifications";
 
 export default function CustomerCurrentBookings() {
     const cookies = new Cookies();
@@ -75,7 +76,7 @@ export default function CustomerCurrentBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not extend booking.");
+                NotificationManager.error("Could not extend booking", "Extension unsuccessful");
             }
         } catch (e) {
             console.log(e);
@@ -96,7 +97,7 @@ export default function CustomerCurrentBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                alert("Could not cancel booking.");
+                NotificationManager.error("Could not cancel booking", "Cancellation unsuccessful");
             }
         } catch (e) {
             console.log(e);

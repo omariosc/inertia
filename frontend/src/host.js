@@ -1,2 +1,2 @@
-let host = "https://localhost:7220/";
+let host = "";
 export default host;

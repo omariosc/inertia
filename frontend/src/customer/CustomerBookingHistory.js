@@ -43,7 +43,7 @@ export default function CustomerBookingHistory() {
                             {(booking === '') ?
                                 <p>Select a booking to show booking details</p> :
                                 <>
-                                    <Table>
+                                    <Table className="table-formatting">
                                         <tbody>
                                         <tr>
                                             <td><b>Booking ID:</b></td>
@@ -112,7 +112,7 @@ export default function CustomerBookingHistory() {
                                 </>
                             }
                             <br/>
-                            <Table>
+                            <Table className="table-formatting">
                                 <thead>
                                 <tr>
                                     <th>Booking ID</th>

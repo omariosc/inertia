@@ -75,7 +75,7 @@ export default function EmployeeBookingHistory() {
                         <h5 className="large-padding-bottom">All Bookings</h5>
                         {(userBookings === '' || guestBookings === '') ?
                             <p>Loading bookings...</p> :
-                            <Table striped bordered hover>
+                            <Table className="table-formatting">
                                 <thead>
                                 <tr>
                                     <th>Booking ID</th>

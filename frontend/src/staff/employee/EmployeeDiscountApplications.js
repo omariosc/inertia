@@ -85,14 +85,14 @@ export default function EmployeeDiscountApplications() {
                             <>
                                 {image ?
                                     <>
-                                        <b>Image Preview</b>
+                                        <p><b>Image Preview</b></p>
                                         <img alt="Image Preview" src={URL.createObjectURL(image)} height="300px"/>
                                         <br/>
                                         <br/>
                                     </>
                                     : null
                                 }
-                                <Table striped bordered hover>
+                                <Table className="table-formatting">
                                     <thead>
                                     <tr>
                                         <th>Customer Name</th>

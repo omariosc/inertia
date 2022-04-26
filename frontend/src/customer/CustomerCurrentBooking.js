@@ -120,7 +120,7 @@ export default function CustomerCurrentBookings() {
                             {(booking === '') ?
                                 <p>Select a booking to show booking details</p> :
                                 <>
-                                    <Table>
+                                    <Table className="table-formatting">
                                         <tbody>
                                         <tr>
                                             <td><b>Booking ID:</b></td>
@@ -184,7 +184,7 @@ export default function CustomerCurrentBookings() {
                                             variant="danger">Close</Button>
                                 </>
                             }
-                            <Table>
+                            <Table className="table-formatting">
                                 <thead>
                                 <tr>
                                     <th>Hire Length</th>

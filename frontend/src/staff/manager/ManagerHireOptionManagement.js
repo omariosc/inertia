@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Container, InputGroup, Table} from "react-bootstrap";
+import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import host from "../../host";
@@ -175,7 +175,7 @@ export default function ManagerHireOptionManagement() {
             <Container>
                 {(hireOptions === '') ?
                     <p>Loading hire options...</p> :
-                    <Table striped bordered hover>
+                    <Table className="table-formatting">
                         <thead>
                         <tr>
                             <th>Hire Option ID</th>
@@ -245,27 +245,13 @@ export default function ManagerHireOptionManagement() {
                         ))}
                         <tr key="create">
                             <td>{hireOptions.length + 1}</td>
-                            <td>
-                                <InputGroup>
-                                    <input type="number" placeholder="Enter duration value"
-                                           onInput={e => setCreateDuration(e.target.value)}/>
-                                </InputGroup>
-                            </td>
-                            <td>
-                                <InputGroup>
-                                    <input type="text" placeholder="Enter name"
-                                           onInput={e => setCreateName(e.target.value)}/>
-                                </InputGroup>
-                            </td>
-                            <td>
-                                <InputGroup>
-                                    <input type="price" placeholder="Enter cost"
-                                           onInput={e => setCreateCost(e.target.value)}/>
-                                </InputGroup>
-                            </td>
-                            <td>
-                                <Button onClick={createHireOption} variant="success">Create</Button>
-                            </td>
+                            <td><Form.Control type="number" placeholder="Enter duration value"
+                                              onInput={e => setCreateDuration(e.target.value)}/></td>
+                            <td><Form.Control type="text" placeholder="Enter name"
+                                              onInput={e => setCreateName(e.target.value)}/></td>
+                            <td><Form.Control type="price" placeholder="Enter cost"
+                                              onInput={e => setCreateCost(e.target.value)}/></td>
+                            <td><Button onClick={createHireOption} variant="success">Create</Button></td>
                         </tr>
                         </tbody>
                     </Table>

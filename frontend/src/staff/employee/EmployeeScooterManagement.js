@@ -85,7 +85,7 @@ export default function EmployeeScooterManagement() {
             <Container>
                 {(scooters === '') ? <p>Loading scooters</p> :
                     (scooters.length !== 0) ?
-                        <Table bordered hover className="fixed-table">
+                        <Table className="table-formatting">
                             <thead>
                             <tr>
                                 <th>Scooter ID</th>

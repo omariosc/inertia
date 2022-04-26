@@ -243,7 +243,7 @@ export default function CustomerCreateBooking() {
                         <option value="none" key="none" disabled hidden>Select scooter</option>
                         {scooters.map((scooter, idx) => (
                             <option value={scooters[idx].scooterId}
-                                    key={idx}>{getScooterName(id, scooters, map_locations)}</option>
+                                    key={idx}>{getScooterName(idx, scooters, map_locations)}</option>
                         ))}
                     </Form.Select>
                 }

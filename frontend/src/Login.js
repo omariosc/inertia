@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import {Button, InputGroup, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import {NotificationManager} from "react-notifications";
 import host from './host';
@@ -61,15 +61,11 @@ export default function LoginForm(props) {
                 <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <InputGroup>
-                    <input className="max-width" type="email" placeholder="Enter email address"
-                           onInput={e => setEmail(e.target.value)}/>
-                </InputGroup>
+                <Form.Control className="max-width" type="email" placeholder="Enter email address"
+                              onInput={e => setEmail(e.target.value)}/>
                 <br/>
-                <InputGroup>
-                    <input className="max-width" type="password" placeholder="Enter password"
-                           onInput={e => setPassword(e.target.value)}/>
-                </InputGroup>
+                <Form.Control className="max-width" type="password" placeholder="Enter password"
+                              onInput={e => setPassword(e.target.value)}/>
             </Modal.Body>
             <Modal.Footer className="justify-content-center">
                 <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>

@@ -5,9 +5,11 @@ import {NotificationManager} from "react-notifications";
 import host from "../host";
 import moment from "moment";
 import Cookies from "universal-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function CustomerDiscounts() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [loading, setLoading] = useState('');
     const [frequentUser, setFrequent] = useState(false);
     const [studentUser, setStudentStatus] = useState(false);
@@ -115,6 +117,7 @@ export default function CustomerDiscounts() {
                 NotificationManager.error("Already applied for discount.", "Error");
             } else {
                 NotificationManager.success("Submitted application.", "Success");
+                navigate('/create-booking');
             }
         } catch (e) {
             console.log(e);
@@ -127,7 +130,7 @@ export default function CustomerDiscounts() {
                 <p>Loading discount status...</p> :
                 <>
                     {(!frequentUser && !studentUser && !seniorUser) ?
-                        <div className="autoScroll">
+                        <>
                             <h5>Frequent User Discount</h5>
                             <p>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent
                                 user discount!</p>
@@ -138,7 +141,7 @@ export default function CustomerDiscounts() {
                                 <>
                                     {studentImage ?
                                         <>
-                                            <b>Image Preview</b>
+                                            <p><b>Image Preview</b></p>
                                             <img alt="Uploaded Student Image"
                                                  src={URL.createObjectURL(studentImage)} height="300px"/>
                                             <br/>
@@ -164,7 +167,7 @@ export default function CustomerDiscounts() {
                                 <>
                                     {seniorImage ?
                                         <>
-                                            <b>Image Preview</b>
+                                            <p><b>Image Preview</b></p>
                                             <img alt="Uploaded Senior Image"
                                                  src={URL.createObjectURL(seniorImage)} height="300px"/>
                                             <br/>
@@ -182,7 +185,7 @@ export default function CustomerDiscounts() {
                                 <p>Your browser does not support file reader. Use another browser to upload
                                     image.</p>
                             }
-                        </div>
+                        </>
                         :
                         <>
                             {frequentUser ?

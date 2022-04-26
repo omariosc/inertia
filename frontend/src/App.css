@@ -13,6 +13,18 @@
     padding-top: 15px;
 }
 
+.buttonPadding {
+    margin-left: -20px;
+}
+
+.buttonPaddingDepot {
+    margin-left: -100px;
+}
+
+.buttonPaddingScooter {
+    margin-left: 5px;
+}
+
 /* for customer interface navigation links */
 #customer-row {
     height: 75vh;
@@ -317,7 +329,7 @@
     width: 90px;
 }
 
-.maxWidthDepo {
+.maxWidthDepot {
     clear: both;
     white-space: nowrap;
     width: 110px;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Container, InputGroup, Table} from "react-bootstrap";
+import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import host from "../../host";
@@ -162,7 +162,7 @@ export default function ManagerDepotManagement() {
             <Container>
                 {(depots === '') ?
                     <p>Loading depots...</p> :
-                    <Table striped bordered hover>
+                    <Table className="table-formatting">
                         <thead>
                         <tr>
                             <th>Depot ID</th>
@@ -230,27 +230,13 @@ export default function ManagerDepotManagement() {
                         ))}
                         <tr key="create">
                             <td>{depots.length + 1}</td>
-                            <td>
-                                <InputGroup>
-                                    <input type="text" placeholder="Enter name"
-                                           onInput={e => setCreateName(e.target.value)}/>
-                                </InputGroup>
-                            </td>
-                            <td>
-                                <InputGroup>
-                                    <input type="text" placeholder="Enter latitude value"
-                                           onInput={e => setCreateLatitude(e.target.value)}/>
-                                </InputGroup>
-                            </td>
-                            <td>
-                                <InputGroup>
-                                    <input type="text" placeholder="Enter longitude value"
-                                           onInput={e => setCreateLongitude(e.target.value)}/>
-                                </InputGroup>
-                            </td>
-                            <td>
-                                <Button onClick={createDepot} variant="success">Create</Button>
-                            </td>
+                            <td><Form.Control type="text" placeholder="Enter name"
+                                              onInput={e => setCreateName(e.target.value)}/></td>
+                            <td><Form.Control type="text" placeholder="Enter latitude value"
+                                              onInput={e => setCreateLatitude(e.target.value)}/></td>
+                            <td><Form.Control type="text" placeholder="Enter longitude value"
+                                              onInput={e => setCreateLongitude(e.target.value)}/></td>
+                            <td><Button onClick={createDepot} variant="success">Create</Button></td>
                         </tr>
                         </tbody>
                     </Table>

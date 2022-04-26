@@ -106,7 +106,7 @@ export default function EmployeeBookingApplications() {
                                 {(booking === '') ?
                                     <p>Select a booking to show booking details</p> :
                                     <>
-                                        <Table>
+                                        <Table className="table-formatting">
                                             <tbody>
                                             <tr>
                                                 <td><b>Booking ID:</b></td>
@@ -163,7 +163,7 @@ export default function EmployeeBookingApplications() {
                                     </>
                                 }
                                 <br/>
-                                <Table>
+                                <Table className="table-formatting">
                                     <thead>
                                     <tr>
                                         <th>Customer ID</th>

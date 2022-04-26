@@ -21,11 +21,11 @@ public class DbInitializer
         foreach (var depo in
                  new Depo[]
                  {
-                    new Depo{Latitude = 53.798351f, Longitude = -1.545100f, Name = "Trinity Centre"},
-                    new Depo{Latitude = 53.796770f, Longitude = -1.540510f, Name = "Train Station"},
-                    new Depo{Latitude = 53.801270f, Longitude = -1.543190f, Name = "Merrion Centre"},
-                    new Depo{Latitude = 53.802509f, Longitude = -1.552887f, Name = "Leeds General Infirmary"},
-                    new Depo{Latitude = 53.804167f, Longitude = -1.553208f, Name = "UoL Edge Sports Centre"}
+                    new Depo{Latitude = 53.798351f, Longitude = -1.545100f, Name = "Trinity Centre", Address = "27 Albion St, Leeds LS1 5AT"},
+                    new Depo{Latitude = 53.796770f, Longitude = -1.540510f, Name = "Train Station", Address = "New Station St, Leeds LS1 4DY"},
+                    new Depo{Latitude = 53.801270f, Longitude = -1.543190f, Name = "Merrion Centre", Address = "Merrion Way, Leeds LS2 8NG"},
+                    new Depo{Latitude = 53.802509f, Longitude = -1.552887f, Name = "Leeds General Infirmary", Address = "Great George St, Leeds LS1 3EX"},
+                    new Depo{Latitude = 53.804167f, Longitude = -1.553208f, Name = "UoL Edge Sports Centre", Address = "University of Leeds, Willow Terrace Road, Leeds LS2 9JT"}
                  })
         {
             context.Depos.Add(depo);

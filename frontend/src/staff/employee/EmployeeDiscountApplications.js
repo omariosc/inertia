@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import host from "../../host";
 import Cookies from "universal-cookie";
 
@@ -42,6 +43,7 @@ export default function EmployeeDiscountApplications() {
                 },
                 mode: "cors"
             });
+            NotificationManager.success(`${(choice === "Deny") ? "Denied" : "Approved"} application.`, "Success");
             await fetchApplications();
         } catch (e) {
             console.log(e);
@@ -83,14 +85,14 @@ export default function EmployeeDiscountApplications() {
                             <>
                                 {image ?
                                     <>
-                                        <b>Image Preview</b>
+                                        <p><b>Image Preview</b></p>
                                         <img alt="Image Preview" src={URL.createObjectURL(image)} height="300px"/>
                                         <br/>
                                         <br/>
                                     </>
                                     : null
                                 }
-                                <Table striped bordered hover>
+                                <Table className="table-formatting">
                                     <thead>
                                     <tr>
                                         <th>Customer Name</th>

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Button, Container, InputGroup, Table} from "react-bootstrap";
+import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import host from "../../host";
 import Cookies from 'universal-cookie';
-import {NotificationManager} from "react-notifications";
 
 export default function ManagerHireOptionManagement() {
     const cookies = new Cookies();
@@ -42,7 +42,7 @@ export default function ManagerHireOptionManagement() {
         switch (mode) {
             case 1:
                 if (newName === '') {
-                    NotificationManager.error("Hire option name cannot be empty")
+                    NotificationManager.error("Hire option name cannot be empty.", "Error");
                     return;
                 } else {
                     json["name"] = newName;
@@ -50,10 +50,10 @@ export default function ManagerHireOptionManagement() {
                 break;
             case 2:
                 if (!(newCost.match(/^\d+(\.\d{0,2})?$/))) {
-                    NotificationManager.error("Cost must be an integer");
+                    NotificationManager.error("Cost must be an integer.", "Error");
                     return;
                 } else if (parseFloat(newCost) <= 0) {
-                    NotificationManager.error("Cost must be greater than 0");
+                    NotificationManager.error("Cost must be greater than 0.", "Error");
                     return;
                 } else {
                     json["cost"] = parseFloat(newCost);
@@ -61,10 +61,10 @@ export default function ManagerHireOptionManagement() {
                 break;
             default:
                 if (!(newDuration.match(/^\d+$/))) {
-                    NotificationManager.error("Duration must be an integer");
+                    NotificationManager.error("Duration must be an integer.", "Error");
                     return;
                 } else if (parseFloat(createDuration) <= 0) {
-                    NotificationManager.error("Duration must be at least 1");
+                    NotificationManager.error("Duration must be at least 1.", "Error");
                     return;
                 } else {
                     json["durationInHours"] = parseInt(newDuration);
@@ -84,10 +84,9 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not modify hire option");
-            }
-            else {
-                NotificationManager.success("Modified hire option successfully");
+                NotificationManager.error("Could not modify hire option.", "Error");
+            } else {
+                NotificationManager.success("Modified hire option.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -97,21 +96,21 @@ export default function ManagerHireOptionManagement() {
 
     async function createHireOption() {
         if (!(createDuration.match(/^\d+$/))) {
-            NotificationManager.error("Duration must be an integer");
+            NotificationManager.error("Duration must be an integer.", "Error");
             return;
         } else if (parseFloat(createDuration) <= 0) {
-            NotificationManager.error("Duration must be at least 1");
+            NotificationManager.error("Duration must be at least 1.", "Error");
             return;
         }
         if (createName === '') {
-            NotificationManager.error("Hire option name cannot be empty")
+            NotificationManager.error("Hire option name cannot be empty.", "Error");
             return;
         }
         if (!(createCost.match(/^\d+(\.\d{0,2})?$/))) {
-            NotificationManager.error("Cost must be a number");
+            NotificationManager.error("Cost must be a number.", "Error");
             return;
         } else if (parseFloat(newCost) <= 0) {
-            NotificationManager.error("Cost must be greater than 0");
+            NotificationManager.error("Cost must be greater than 0.", "Error");
             return;
         }
         try {
@@ -131,10 +130,9 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not create hire option");
-            }
-            else {
-                NotificationManager.success("Hire option created successfully");
+                NotificationManager.error("Could not create hire option.", "Error");
+            } else {
+                NotificationManager.success("Created hire option.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -155,7 +153,9 @@ export default function ManagerHireOptionManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not delete hire option");
+                NotificationManager.error("Could not delete hire option.", "Error");
+            } else {
+                NotificationManager.success("Deleted hire option.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -175,105 +175,86 @@ export default function ManagerHireOptionManagement() {
             <Container>
                 {(hireOptions === '') ?
                     <p>Loading hire options...</p> :
-                    <>
-                        {(hireOptions.length === 0) ?
-                            <p>There are no hire options.</p> :
-                            <Table striped bordered hover>
-                                <thead>
-                                <tr>
-                                    <th>Hire Option ID</th>
-                                    <th>Duration (hours)</th>
-                                    <th>Name</th>
-                                    <th>Cost (£)</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {hireOptions.map((hireOption, idx) => (
-                                    <tr key={idx}>
-                                        <td>{hireOption.hireOptionId}</td>
-                                        <td>
-                                            {hireOption.durationInHours}
-                                            <InputGroup>
-                                                <input type="number" onInput={e => setNewDuration(e.target.value)}/>
-                                            </InputGroup>
-                                            <Button onClick={() => {
-                                                if (hireOption.durationInHours !== parseInt(newDuration)) {
-                                                    editHireOption(hireOption.hireOptionId, 0);
-                                                } else {
-                                                    NotificationManager.error("Duration cannot be the same");
-                                                }
-                                            }}>
-                                                Modify Duration
-                                            </Button>
-                                        </td>
-                                        <td>
-                                            {hireOption.name}
-                                            <InputGroup>
-                                                <input type="text" onInput={e => setNewName(e.target.value)}/>
-                                            </InputGroup>
-                                            <Button onClick={() => {
-                                                if (hireOption.name !== newName) {
-                                                    editHireOption(hireOption.hireOptionId, 1);
-                                                } else {
-                                                    NotificationManager.error("Name cannot be the same");
-                                                }
-                                            }}>
-                                                Modify Name
-                                            </Button>
-                                        </td>
-                                        <td>
-                                            {hireOption.cost}
-                                            <InputGroup>
-                                                <input type="price" onInput={e => setNewCost(e.target.value)}/>
-                                            </InputGroup>
-                                            <Button onClick={() => {
-                                                if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
-                                                    editHireOption(hireOption.hireOptionId, 2);
-                                                } else {
-                                                    NotificationManager.error("Cost cannot be the same");
-                                                }
-                                            }}>
-                                                Modify Cost
-                                            </Button>
-                                        </td>
-                                        <td>
-                                            <Button
-                                                onClick={() => deleteHireOption(hireOption.hireOptionId)}
-                                                variant="danger">
-                                                Delete
-                                            </Button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                <tr key="create">
-                                    <td>{hireOptions.length + 1}</td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="number" placeholder="Enter duration value"
-                                                   onInput={e => setCreateDuration(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="text" placeholder="Enter name"
-                                                   onInput={e => setCreateName(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <InputGroup>
-                                            <input type="price" placeholder="Enter cost"
-                                                   onInput={e => setCreateCost(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>
-                                        <Button onClick={createHireOption} variant="success">Create</Button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </Table>
-                        }
-                    </>
+                    <Table className="table-formatting">
+                        <thead>
+                        <tr>
+                            <th>Hire Option ID</th>
+                            <th>Duration (hours)</th>
+                            <th>Name</th>
+                            <th>Cost (£)</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {hireOptions.map((hireOption, idx) => (
+                            <tr key={idx}>
+                                <td>{hireOption.hireOptionId}</td>
+                                <td>
+                                    {hireOption.durationInHours}
+                                    <InputGroup>
+                                        <input type="number" onInput={e => setNewDuration(e.target.value)}/>
+                                    </InputGroup>
+                                    <Button onClick={() => {
+                                        if (hireOption.durationInHours !== parseInt(newDuration)) {
+                                            editHireOption(hireOption.hireOptionId, 0);
+                                        } else {
+                                            NotificationManager.error("Duration cannot be the same.", "Error");
+                                        }
+                                    }}>
+                                        Modify Duration
+                                    </Button>
+                                </td>
+                                <td>
+                                    {hireOption.name}
+                                    <InputGroup>
+                                        <input type="text" onInput={e => setNewName(e.target.value)}/>
+                                    </InputGroup>
+                                    <Button onClick={() => {
+                                        if (hireOption.name !== newName) {
+                                            editHireOption(hireOption.hireOptionId, 1);
+                                        } else {
+                                            NotificationManager.error("Name cannot be the same.", "Error");
+                                        }
+                                    }}>
+                                        Modify Name
+                                    </Button>
+                                </td>
+                                <td>
+                                    {hireOption.cost}
+                                    <InputGroup>
+                                        <input type="price" onInput={e => setNewCost(e.target.value)}/>
+                                    </InputGroup>
+                                    <Button onClick={() => {
+                                        if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
+                                            editHireOption(hireOption.hireOptionId, 2);
+                                        } else {
+                                            NotificationManager.error("Cost cannot be the same.", "Error");
+                                        }
+                                    }}>
+                                        Modify Cost
+                                    </Button>
+                                </td>
+                                <td>
+                                    <Button
+                                        onClick={() => deleteHireOption(hireOption.hireOptionId)}
+                                        variant="danger">
+                                        Delete
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                        <tr key="create">
+                            <td>{hireOptions.length + 1}</td>
+                            <td><Form.Control type="number" placeholder="Enter duration value"
+                                              onInput={e => setCreateDuration(e.target.value)}/></td>
+                            <td><Form.Control type="text" placeholder="Enter name"
+                                              onInput={e => setCreateName(e.target.value)}/></td>
+                            <td><Form.Control type="price" placeholder="Enter cost"
+                                              onInput={e => setCreateCost(e.target.value)}/></td>
+                            <td><Button onClick={createHireOption} variant="success">Create</Button></td>
+                        </tr>
+                        </tbody>
+                    </Table>
                 }
             </Container>
         </>

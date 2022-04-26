@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import host from "../host";
 import Cookies from "universal-cookie";
-import {NotificationManager} from "react-notifications";
 
 export default function CustomerSubmitIssue() {
     const cookies = new Cookies();
@@ -32,7 +32,7 @@ export default function CustomerSubmitIssue() {
                 }),
                 mode: "cors"
             });
-            NotificationManager.success("Issue submitted successfully", "Created issue");
+            NotificationManager.success("Created issue.", "Success");
         } catch (e) {
             console.log(e);
         }
@@ -42,7 +42,7 @@ export default function CustomerSubmitIssue() {
         <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                 <Form.Label><h5>Enter Issue Title</h5></Form.Label>
-                <Form.Control type="text" placeholder="Enter issue title here..."
+                <Form.Control autoFocus type="text" placeholder="Enter issue title here..."
                               isInvalid={!validTitle} onInput={e => setTitle(e.target.value)}/>
                 <Form.Control.Feedback type="invalid">
                     Please enter issue title
@@ -58,9 +58,7 @@ export default function CustomerSubmitIssue() {
                 </Form.Control.Feedback>
             </Form.Group>
             <br/>
-            <Form.Group>
-                <Button onClick={submitIssue} className="float-right">Create Issue</Button>
-            </Form.Group>
+            <Button onClick={submitIssue} className="float-right">Create Issue</Button>
         </Form>
     );
 };

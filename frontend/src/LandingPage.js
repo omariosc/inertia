@@ -4,8 +4,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import host from "./host";
 import center from "./center";
+import host from "./host";
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
 import Cookies from 'universal-cookie';
@@ -21,6 +21,7 @@ export default function LandingPage() {
         fetchLocations();
     }, []);
 
+    // Fetches the depots.
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -40,11 +41,12 @@ export default function LandingPage() {
     return (
         <>
             <div id="overlay">
+                {/* sign out button */}
                 <div id="top-bar">
                     <DropdownButton
                         align="end"
                         title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                        className="dropdown-basic-button clickable"
+                        className="float-right clickable"
                     >
                         <Dropdown.Item
                             onClick={() => {
@@ -58,9 +60,11 @@ export default function LandingPage() {
                             }}>Register</Dropdown.Item>
                     </DropdownButton>
                 </div>
+                {/* login and register modals */}
                 <LoginForm show={showLogin} onHide={() => setShowLogin(false)}/>
                 <RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>
             </div>
+            {/* displaying visual map */}
             {(map_locations === "") ?
                 <h5>Loading map locations...</h5> :
                 <MapContainer center={center} zoom={15} zoomControl={false} className="map-container">

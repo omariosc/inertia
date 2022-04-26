@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import orderState from "../staff/orderState";
-import host from "../host";
-import Cookies from "universal-cookie";
-import showDate from "../showDate";
 import {NotificationManager} from "react-notifications";
+import showDate from "../showDate";
+import host from "../host";
+import orderState from "../staff/orderState";
+import Cookies from "universal-cookie";
 
 export default function CustomerCurrentBookings() {
     const cookies = new Cookies();
@@ -76,7 +76,9 @@ export default function CustomerCurrentBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not extend booking", "Extension unsuccessful");
+                NotificationManager.error("Could not extend booking.", "Error");
+            } else {
+                NotificationManager.success("Extended booking.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -97,7 +99,9 @@ export default function CustomerCurrentBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not cancel booking", "Cancellation unsuccessful");
+                NotificationManager.error("Could not cancel booking.", "Error");
+            } else {
+                NotificationManager.success("Cancelled booking.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -116,7 +120,7 @@ export default function CustomerCurrentBookings() {
                             {(booking === '') ?
                                 <p>Select a booking to show booking details</p> :
                                 <>
-                                    <Table>
+                                    <Table className="table-formatting">
                                         <tbody>
                                         <tr>
                                             <td><b>Booking ID:</b></td>
@@ -180,7 +184,7 @@ export default function CustomerCurrentBookings() {
                                             variant="danger">Close</Button>
                                 </>
                             }
-                            <Table>
+                            <Table className="table-formatting">
                                 <thead>
                                 <tr>
                                     <th>Hire Length</th>
@@ -201,13 +205,12 @@ export default function CustomerCurrentBookings() {
                                                 <td>
                                                     {(hireOptions === '') ?
                                                         <p>Loading hire options...</p> :
-                                                        <Form.Select
-                                                            onChange={(e) => {
-                                                                setHireChoiceId(e.target.value);
-                                                            }}
+                                                        <Form.Select defaultValue="none"
+                                                                     onChange={(e) => {
+                                                                         setHireChoiceId(e.target.value);
+                                                                     }}
                                                         >
-                                                            <option value="none" key="none" selected
-                                                                    disabled hidden>
+                                                            <option value="none" key="none" disabled hidden>
                                                                 Select hire period
                                                             </option>
                                                             {hireOptions.map((option, idx) => (

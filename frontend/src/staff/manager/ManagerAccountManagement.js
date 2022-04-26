@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {Button, Container, Form} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import validate from '../../Validators';
 import host from '../../host';
 import Cookies from "universal-cookie";
-import {NotificationManager} from "react-notifications";
 
 export default function ManagerAccountManagement() {
     const cookies = new Cookies();
@@ -34,7 +34,7 @@ export default function ManagerAccountManagement() {
             });
             let signupResponse = await signupRequest;
             if (signupResponse.status === 422) {
-                NotificationManager.error("Email address already exists", "Account creation failed");
+                NotificationManager.error("Email address already exists.", "Error");
                 return;
             }
             let getRequest = await fetch(host + 'api/admin/Users', {
@@ -56,7 +56,7 @@ export default function ManagerAccountManagement() {
                 }
             }
             if (!accountId) {
-                NotificationManager.error("Could not patch account to employee role", "Account creation failed");
+                NotificationManager.error("Could not patch account to employee role.", "Error");
                 return;
             }
             let patchRequest = await fetch(host + `api/admin/Users/${accountId}`, {
@@ -73,9 +73,9 @@ export default function ManagerAccountManagement() {
             });
             let patchResponse = await patchRequest;
             if (patchResponse.status === 200) {
-                NotificationManager.success(`Created employee account for ${name}`, "Account creation successful")
+                NotificationManager.success(`Created employee account for ${name}.`, "Success");
             } else {
-                NotificationManager.error(patchResponse.description)
+                NotificationManager.error(patchResponse.description, "Error");
             }
         } catch (error) {
             console.error(error);
@@ -96,7 +96,7 @@ export default function ManagerAccountManagement() {
                 <Form>
                     <div className="input account">
                         <label>Employee Name</label>
-                        <input type="name" onInput={e => setName(e.target.value)}/>
+                        <input autoFocus type="name" onInput={e => setName(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Employee Email</label>
@@ -111,7 +111,7 @@ export default function ManagerAccountManagement() {
                         <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
                     </div>
                     <Form.Group className="large-padding-top">
-                        <Button onClick={onSubmit}>Change password</Button>
+                        <Button onClick={onSubmit}>Create Employee Account</Button>
                     </Form.Group>
                 </Form>
             </Container>

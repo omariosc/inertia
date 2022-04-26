@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import orderState from "../orderState";
-import host from '../../host';
-import Cookies from 'universal-cookie';
 import showDate from "../../showDate";
+import host from '../../host';
+import orderState from "../orderState";
+import Cookies from 'universal-cookie';
 
 export default function EmployeeBookingHistory() {
     const cookies = new Cookies();
@@ -75,44 +75,44 @@ export default function EmployeeBookingHistory() {
                         <h5 className="large-padding-bottom">All Bookings</h5>
                         {(userBookings === '' || guestBookings === '') ?
                             <p>Loading bookings...</p> :
-                                    <Table striped bordered hover>
-                                        <thead>
-                                        <tr>
-                                            <th>Booking ID</th>
-                                            <th>Booking Details</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {(userBookings === '') ? null :
-                                            <>
-                                                {userBookings.map((booking, idx) => (
-                                                    <tr key={idx}>
-                                                        <td>{booking.orderId}</td>
-                                                        <td>
-                                                            <Button onClick={() => displayBooking(idx, "user")}>
-                                                                View
-                                                            </Button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </>
-                                        }
-                                        {(guestBookings === '') ? null :
-                                            <>
-                                                {guestBookings.map((booking, idx) => (
-                                                    <tr key={idx}>
-                                                        <td>{booking.orderId}</td>
-                                                        <td>
-                                                            <Button onClick={() => displayBooking(idx, "guest")}>
-                                                                View
-                                                            </Button>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </>
-                                        }
-                                        </tbody>
-                                    </Table>
+                            <Table className="table-formatting">
+                                <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Booking Details</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {(userBookings === '') ? null :
+                                    <>
+                                        {userBookings.map((booking, idx) => (
+                                            <tr key={idx}>
+                                                <td>{booking.orderId}</td>
+                                                <td>
+                                                    <Button onClick={() => displayBooking(idx, "user")}>
+                                                        View
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                }
+                                {(guestBookings === '') ? null :
+                                    <>
+                                        {guestBookings.map((booking, idx) => (
+                                            <tr key={idx}>
+                                                <td>{booking.orderId}</td>
+                                                <td>
+                                                    <Button onClick={() => displayBooking(idx, "guest")}>
+                                                        View
+                                                    </Button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                }
+                                </tbody>
+                            </Table>
                         }
                     </Col>
                     <Col xs={1}/>

@@ -35,7 +35,6 @@ public class OrdersController : MyControllerBase
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
         var order = await _db.Orders
-            .OfType<Order>()
             .Include(o => o.Extensions)
             .Include(o => o.HireOption)
             .Where(o => o.OrderId == orderId)
@@ -53,7 +52,7 @@ public class OrdersController : MyControllerBase
     [HttpPost]
     [Authorize(Policy = Policies.Authenticated)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
-    [ProducesResponseType(typeof(AbstractOrder), 200)]
+    [ProducesResponseType(typeof(Order), 200)]
     public async Task<ActionResult> CreateOrder([FromBody] CreateOrderRequest createOrder)
     {
         var scooter = await _db.Scooters
@@ -95,7 +94,7 @@ public class OrdersController : MyControllerBase
                 createOrder.StartTime
             );
 
-            await _email.SendBookingOrderConfirmation(account.Email, order);
+            await _email.SendOrderConfirmation(account.Email, order);
             
             return Ok(order);
         }
@@ -114,7 +113,7 @@ public class OrdersController : MyControllerBase
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
 
         var order = await _db.Orders
-            .OfType<Order>()
+            .Include(e => e.Account)
             .Include(e => e.Extensions)   
             .Where(e => e.OrderId == orderId && e.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -139,6 +138,8 @@ public class OrdersController : MyControllerBase
                 "The order cannot be canceled at this point"
             );
         }
+        
+        await _email.SendOrderCancellation(order.Account.Email, order);
 
         return Ok();
     }
@@ -146,7 +147,7 @@ public class OrdersController : MyControllerBase
     [HttpPost("{orderId}/extend")]
     [Authorize(Policy = Policies.Authenticated)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
-    [ProducesResponseType(typeof(AbstractOrder), 200)]
+    [ProducesResponseType(typeof(Order), 200)]
     public async Task<ActionResult> ExtendOrder(string orderId, [FromBody] ExtendOrderRequest extendOrder)
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
@@ -186,6 +187,15 @@ public class OrdersController : MyControllerBase
                 order,
                 hireOption
             );
+            
+            var extension_ = await _db.Orders
+                .Include(o => o.Account)
+                .Include(o => o.Extends)
+                .Where(o => o.OrderId == extension.OrderId)
+                .FirstAsync();
+
+            await _email.SendOrderExtension(extension_.Account.Email, extension_.Extends!);
+            
             return Ok(extension);
         }
         catch (OrderCannotBeExtendException)

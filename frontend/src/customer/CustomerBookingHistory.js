@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import orderState from "../staff/orderState";
-import host from '../host';
-import Cookies from 'universal-cookie';
 import showDate from "../showDate";
+import host from '../host';
+import orderState from "../staff/orderState";
+import Cookies from 'universal-cookie';
 
 export default function CustomerBookingHistory() {
     const cookies = new Cookies();
@@ -43,7 +43,7 @@ export default function CustomerBookingHistory() {
                             {(booking === '') ?
                                 <p>Select a booking to show booking details</p> :
                                 <>
-                                    <Table>
+                                    <Table className="table-formatting">
                                         <tbody>
                                         <tr>
                                             <td><b>Booking ID:</b></td>
@@ -112,7 +112,7 @@ export default function CustomerBookingHistory() {
                                 </>
                             }
                             <br/>
-                            <Table>
+                            <Table className="table-formatting">
                                 <thead>
                                 <tr>
                                     <th>Booking ID</th>

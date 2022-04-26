@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
+import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import scooterStatus from "../../scooterStatus";
-import host from '../../host';
-import Cookies from 'universal-cookie';
 import {NotificationManager} from "react-notifications";
+import getMapName from "../../getMapName";
+import host from '../../host';
+import scooterStatus from "../../scooterStatus";
+import Cookies from 'universal-cookie';
 
 export default function ManagerScooterManagement() {
     const cookies = new Cookies();
@@ -65,7 +66,7 @@ export default function ManagerScooterManagement() {
                 break;
             case 2:
                 if (!(newID.match(/^\d+$/))) {
-                    NotificationManager.error("Scooter ID must be an integer");
+                    NotificationManager.error("Scooter ID must be an integer.", "Error");
                     return;
                 } else {
                     json["softScooterId"] = newID;
@@ -89,9 +90,11 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status === 422) {
-                NotificationManager.error("Scooter ID is already taken");
+                NotificationManager.error("Scooter ID is already taken.", "Error");
             } else if (response.status !== 200) {
-                NotificationManager.error("Could not modify scooter");
+                NotificationManager.error("Could not modify scooter.", "Error");
+            } else {
+                NotificationManager.success("Modified scooter.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -101,17 +104,17 @@ export default function ManagerScooterManagement() {
 
     async function createScooter() {
         if (!(createID.match(/^\d+$/))) {
-            NotificationManager.error("Scooter ID must be an integer");
+            NotificationManager.error("Scooter ID must be an integer.", "Error");
             return;
         }
         for (let scooter in scooters) {
             if (createID === scooter.softScooterId) {
-                NotificationManager.error("Scooter ID already exists")
+                NotificationManager.error("Scooter ID already exists.", "Error");
                 return;
             }
         }
         if (createDepo === '' || createDepo === 'none') {
-            NotificationManager.error("Depot selection cannot be empty")
+            NotificationManager.error("Depot selection cannot be empty.", "Error");
             return;
         }
         try {
@@ -132,10 +135,9 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not create scooter");
-            }
-            else {
-                NotificationManager.success("Scooter successfully created");
+                NotificationManager.error("Could not create scooter.", "Error");
+            } else {
+                NotificationManager.success("Created scooter.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -156,7 +158,9 @@ export default function ManagerScooterManagement() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not delete scooter");
+                NotificationManager.error("Could not delete scooter.", "Error");
+            } else {
+                NotificationManager.success("Deleted scooter.", "Success");
             }
         } catch (error) {
             console.error(error);
@@ -176,123 +180,111 @@ export default function ManagerScooterManagement() {
             <Container>
                 {(scooters === '') ?
                     <p>Loading scooters...</p> :
-                    <>
-                        {(scooters.length === 0) ?
-                            <p>There are no scooters.</p> :
-                            <Table striped bordered hover>
-                                <thead>
-                                <tr>
-                                    <th>Scooter ID</th>
-                                    <th>Availability</th>
-                                    <th>Status</th>
-                                    <th>Location</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {scooters.map((scooter, idx) => (
-                                    <tr key={idx}>
-                                        <td>
-                                            {scooter.softScooterId}
-                                            <InputGroup>
-                                                <input onInput={e => setScooterNewId(e.target.value)}/>
-                                            </InputGroup>
-                                            <Button onClick={() => {
+                    <Table className="table-formatting">
+                        <thead>
+                        <tr>
+                            <th>Scooter ID</th>
+                            <th>Availability</th>
+                            <th>Status</th>
+                            <th>Location</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {scooters.map((scooter, idx) => (
+                            <tr key={idx}>
+                                <td>
+                                    <Row className="sameLine">
+                                        <Col className="marginRight">{scooter.softScooterId}</Col>
+                                        <Col>
+                                            <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)}/>
+                                        </Col>
+                                        <Col>
+                                            <Button className="buttonPaddingScooter" onClick={() => {
                                                 if (scooter.scooterId !== parseInt(newID)) {
                                                     editScooter(scooter.scooterId, 2);
                                                 } else {
-                                                    NotificationManager.error("Scooter ID cannot be the same");
+                                                    NotificationManager.error("Scooter ID cannot be the same", "Error");
                                                 }
                                             }}>
-                                                Change Scooter ID
+                                                Edit
                                             </Button>
-                                        </td>
-                                        <td>
-                                            {(scooter.available ?
-                                                    <Button variant="danger"
-                                                            onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
-                                                        Make Unavailable
-                                                    </Button> :
-                                                    <Button variant="success"
-                                                            onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
-                                                        Make Available
-                                                    </Button>
-                                            )}
-                                        </td>
-                                        <td>{scooterStatus[scooter.scooterStatus]}</td>
-                                        <td>
-                                            {(map_locations === "") ?
-                                                <h5>Loading map locations...</h5> :
-                                                <>
-                                                    <p>{String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}</p>
-                                                    <Form>
-                                                        <Form.Select
-                                                            onChange={(e) => {
-                                                                if (e.target.value !== scooter.depoId.toString()) {
-                                                                    editScooter(scooter.scooterId, 1, '', e.target.value);
-                                                                }
-                                                            }}
-                                                        >
-                                                            <option value="none" key="none" selected disabled
-                                                                    hidden>
-                                                                Select location
-                                                            </option>
-                                                            {map_locations.map((location, idx) => (
-                                                                <option value={location.depoId} key={idx}>
-                                                                    {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                                </option>
-                                                            ))}
-                                                        </Form.Select>
-                                                    </Form>
-                                                </>
-                                            }
-                                        </td>
-                                        <td>
-                                            <Button
-                                                onClick={() => deleteScooter(scooter.scooterId)} variant="danger">
-                                                Delete
+                                        </Col>
+                                    </Row>
+                                </td>
+                                <td>
+                                    {(scooter.available ?
+                                            <Button variant="danger"
+                                                    onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
+                                                Make Unavailable
+                                            </Button> :
+                                            <Button variant="success"
+                                                    onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
+                                                Make Available
                                             </Button>
-                                        </td>
-                                    </tr>
-                                ))}
-                                <tr key="create">
-                                    <td>
-                                        <InputGroup>
-                                            <input type="text" placeholder="Enter ID"
-                                                   onInput={e => setCreateId(e.target.value)}/>
-                                        </InputGroup>
-                                    </td>
-                                    <td>Available (by default)</td>
-                                    <td>In Depot (by default)</td>
-                                    <td>
-                                        {(map_locations === "") ?
-                                            <h5>Loading map locations...</h5> :
-                                            <Form>
-                                                <Form.Select
-                                                    onChange={(e) => {
-                                                        setCreateDepo(e.target.value);
-                                                    }}
-                                                >
-                                                    <option value="none" key="none" selected disabled hidden>
-                                                        Select location
+                                    )}
+                                </td>
+                                <td>{scooterStatus[scooter.scooterStatus]}</td>
+                                <td>
+                                    {(map_locations === "") ?
+                                        <h5>Loading map locations...</h5> :
+                                        <>
+                                            <Form.Select defaultValue="none" onChange={(e) => {
+                                                if (e.target.value !== scooter.depoId.toString()) {
+                                                    editScooter(scooter.scooterId, 1, '', e.target.value);
+                                                }
+                                            }}>
+                                                <option value="none" key="none" disabled hidden>
+                                                    {getMapName(idx, scooters, map_locations)}
+                                                </option>
+                                                {map_locations.map((location, idx) => (
+                                                    <option value={location.depoId} key={idx}>
+                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
                                                     </option>
-                                                    {map_locations.map((location, idx) => (
-                                                        <option value={location.depoId} key={idx}>
-                                                            {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                        </option>
-                                                    ))}
-                                                </Form.Select>
-                                            </Form>
-                                        }
-                                    </td>
-                                    <td>
-                                        <Button onClick={createScooter} variant="success">Create</Button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </Table>
-                        }
-                    </>
+                                                ))}
+                                            </Form.Select>
+                                        </>
+                                    }
+                                </td>
+                                <td>
+                                    <Button onClick={() => deleteScooter(scooter.scooterId)} variant="danger">
+                                        Delete
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))}
+                        <tr key="create">
+                            <td>
+                                <Form.Control type="text" placeholder="Enter ID"
+                                              onInput={e => setCreateId(e.target.value)}/>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                {(map_locations === "") ?
+                                    <h5>Loading map locations...</h5> :
+                                    <Form>
+                                        <Form.Select defaultValue="none" onChange={(e) => {
+                                            setCreateDepo(e.target.value);
+                                        }}>
+                                            <option value="none" key="none" disabled hidden>
+                                                Select location
+                                            </option>
+                                            {map_locations.map((location, idx) => (
+                                                <option value={location.depoId} key={idx}>
+                                                    {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+                                    </Form>
+                                }
+                            </td>
+                            <td>
+                                <Button onClick={createScooter} variant="success">Create</Button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </Table>
                 }
             </Container>
         </>

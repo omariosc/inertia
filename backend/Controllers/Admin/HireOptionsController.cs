@@ -59,23 +59,29 @@ public class HireOptionsController: MyControllerBase
 
     [HttpPatch("{hireOptionId}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
-    [ProducesResponseType(typeof(void), 200)]
+    [ProducesResponseType(typeof(HireOption), 200)]
     public async Task<ActionResult> Edit(int hireOptionId, [FromBody] PatchHireOptionRequest request)
     {
-        var hireOption = await _db.HireOptions
+        var oldHireOption = await _db.HireOptions
             .Where(h => h.HireOptionId == hireOptionId)
             .FirstOrDefaultAsync();
 
-        if (hireOption is null)
+        if (oldHireOption is null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid hire option", "hireOption");
 
-        hireOption.Cost = request.Cost ?? hireOption.Cost;
-        hireOption.Name = request.Name ?? hireOption.Name;
-        hireOption.DurationInHours = request.DurationInHours ?? hireOption.DurationInHours;
+        oldHireOption.SoftDeleted = true;
+        
+        var hireOption = new HireOption
+        {
+            Cost = request.Cost ?? oldHireOption.Cost,
+            Name = request.Name ?? oldHireOption.Name,
+            DurationInHours = request.DurationInHours ?? oldHireOption.DurationInHours
+        };
 
+        await _db.HireOptions.AddAsync(hireOption);
         await _db.SaveChangesAsync();
         
-        return Ok();
+        return Ok(hireOption);
     }
 
     [HttpDelete("{hireOptionId}")]
@@ -90,7 +96,7 @@ public class HireOptionsController: MyControllerBase
         if (hireOption is null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid hire option", "hireOption");
 
-        _db.HireOptions.Remove(hireOption);
+        hireOption.SoftDeleted = true;
         await _db.SaveChangesAsync();
         
         return Ok();

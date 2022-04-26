@@ -4,6 +4,8 @@ services:
   backend:
     build: backend/
     restart: always
+    volumes:
+      - backend_data:/app/data
   frontend:
     build: frontend/
     restart: always
@@ -12,3 +14,5 @@ services:
     restart: always
     ports:
       - "42069:80"
+volumes:
+    backend_data: {}

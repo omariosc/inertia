@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-import moment from "moment";
-import host from "../host";
-import Cookies from "universal-cookie";
 import {NotificationManager} from "react-notifications";
+import host from "../host";
+import moment from "moment";
+import Cookies from "universal-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function CustomerDiscounts() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [loading, setLoading] = useState('');
     const [frequentUser, setFrequent] = useState(false);
     const [studentUser, setStudentStatus] = useState(false);
@@ -36,10 +38,12 @@ export default function CustomerDiscounts() {
             let recentBookings = response.filter(e => e.createdAt >= thresholdDate);
             let recentHours = 0;
             for (let i = 0; i < recentBookings.length; i++) {
-                recentHours += recentBookings[i].hireOption.durationInHours;
-                if (recentBookings[i]["extensions"] != null) {
-                    for (let j = 0; j < recentBookings[i]["extensions"].length; j++) {
-                        recentHours += recentBookings[i]["extensions"][j].hireOption.durationInHours;
+                if (recentBookings[i].orderState !== 0 && recentBookings[i].orderState !== 6) {
+                    recentHours += recentBookings[i].hireOption.durationInHours;
+                    if (recentBookings[i]["extensions"] != null) {
+                        for (let j = 0; j < recentBookings[i]["extensions"].length; j++) {
+                            recentHours += recentBookings[i]["extensions"][j].hireOption.durationInHours;
+                        }
                     }
                 }
             }
@@ -80,7 +84,7 @@ export default function CustomerDiscounts() {
 
     async function onSubmit(type) {
         if ((type === 'student' && !studentImage) || (type === 'senior' && !seniorImage)) {
-            NotificationManager.error("You must upload an image");
+            NotificationManager.error("You must upload an image.", "Error");
             return;
         }
         try {
@@ -98,7 +102,7 @@ export default function CustomerDiscounts() {
             });
             let discountResponse = await discountRequest;
             if (discountResponse.status === 422) {
-                NotificationManager.error("Already applied for discount");
+                NotificationManager.error("Already applied for discount.", "Error");
                 return;
             }
             let imageRequest = await fetch(host + `api/Users/${cookies.get('accountID')}/ApplyDiscountUploadImage`, {
@@ -112,9 +116,10 @@ export default function CustomerDiscounts() {
             });
             let imageResponse = await imageRequest;
             if (imageResponse.status === 422) {
-                NotificationManager.error("Already applied for discount");
+                NotificationManager.error("Already applied for discount.", "Error");
             } else {
-                NotificationManager.success("Submitted application");
+                NotificationManager.success("Submitted application.", "Success");
+                navigate('/create-booking');
             }
         } catch (e) {
             console.log(e);
@@ -127,7 +132,7 @@ export default function CustomerDiscounts() {
                 <p>Loading discount status...</p> :
                 <>
                     {(!frequentUser && !studentUser && !seniorUser) ?
-                        <div className="autoScroll">
+                        <>
                             <h5>Frequent User Discount</h5>
                             <p>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent
                                 user discount!</p>
@@ -138,7 +143,7 @@ export default function CustomerDiscounts() {
                                 <>
                                     {studentImage ?
                                         <>
-                                            <b>Image Preview</b>
+                                            <p><b>Image Preview</b></p>
                                             <img alt="Uploaded Student Image"
                                                  src={URL.createObjectURL(studentImage)} height="300px"/>
                                             <br/>
@@ -164,7 +169,7 @@ export default function CustomerDiscounts() {
                                 <>
                                     {seniorImage ?
                                         <>
-                                            <b>Image Preview</b>
+                                            <p><b>Image Preview</b></p>
                                             <img alt="Uploaded Senior Image"
                                                  src={URL.createObjectURL(seniorImage)} height="300px"/>
                                             <br/>
@@ -182,7 +187,7 @@ export default function CustomerDiscounts() {
                                 <p>Your browser does not support file reader. Use another browser to upload
                                     image.</p>
                             }
-                        </div>
+                        </>
                         :
                         <>
                             {frequentUser ?

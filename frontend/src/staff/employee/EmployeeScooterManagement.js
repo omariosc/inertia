@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import scooterStatus from "../../scooterStatus";
+import getMapName from "../../getMapName";
+import {NotificationManager} from "react-notifications";
 import host from '../../host';
+import scooterStatus from "../../scooterStatus";
 import Cookies from 'universal-cookie';
 
 export default function EmployeeScooterManagement() {
@@ -63,6 +65,7 @@ export default function EmployeeScooterManagement() {
                 }),
                 mode: "cors"
             });
+            NotificationManager.success("Modified scooter.", "Success");
             await fetchScooters();
         } catch (error) {
             console.error(error);
@@ -82,7 +85,7 @@ export default function EmployeeScooterManagement() {
             <Container>
                 {(scooters === '') ? <p>Loading scooters</p> :
                     (scooters.length !== 0) ?
-                        <Table bordered hover className="fixed-table">
+                        <Table className="table-formatting">
                             <thead>
                             <tr>
                                 <th>Scooter ID</th>
@@ -101,9 +104,7 @@ export default function EmployeeScooterManagement() {
                                     <td>
                                         {(map_locations === "") ?
                                             <h5>Loading map locations...</h5> :
-                                            <>
-                                                {String.fromCharCode(scooter.depoId + 64)} - {map_locations[scooter.depoId - 1].name}
-                                            </>
+                                            getMapName(idx, scooters, map_locations)
                                         }
                                     </td>
                                     <td>

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import orderState from "../orderState";
-import host from "../../host";
-import Cookies from "universal-cookie";
-import showDate from "../../showDate";
 import {NotificationManager} from "react-notifications";
+import showDate from "../../showDate";
+import host from "../../host";
+import orderState from "../orderState";
+import Cookies from "universal-cookie";
 
 export default function EmployeeBookingApplications() {
     const cookies = new Cookies();
@@ -53,10 +53,9 @@ export default function EmployeeBookingApplications() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not approve booking", "Approval unsuccessful");
-            }
-            else {
-                NotificationManager.success("Booking approved successfully");
+                NotificationManager.error("Could not approve booking.", "Error");
+            } else {
+                NotificationManager.success("Approved booking.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -77,10 +76,9 @@ export default function EmployeeBookingApplications() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not deny booking", "Denial unsuccessful");
-            }
-            else {
-                NotificationManager.success("Booking denied successfully");
+                NotificationManager.error("Could not deny booking.", "Error");
+            } else {
+                NotificationManager.success("Denied booking.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -108,7 +106,7 @@ export default function EmployeeBookingApplications() {
                                 {(booking === '') ?
                                     <p>Select a booking to show booking details</p> :
                                     <>
-                                        <Table>
+                                        <Table className="table-formatting">
                                             <tbody>
                                             <tr>
                                                 <td><b>Booking ID:</b></td>
@@ -165,7 +163,7 @@ export default function EmployeeBookingApplications() {
                                     </>
                                 }
                                 <br/>
-                                <Table>
+                                <Table className="table-formatting">
                                     <thead>
                                     <tr>
                                         <th>Customer ID</th>

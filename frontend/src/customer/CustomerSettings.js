@@ -40,7 +40,6 @@ export default function CustomerSettings() {
     return (
         <>
             <h5>Account Information</h5>
-            <br/>
             {(accountInfo === '') ?
                 <p>Loading account information...</p> :
                 <Table>
@@ -61,7 +60,7 @@ export default function CustomerSettings() {
             <Form>
                 <div className="input">
                     <label>Old Password</label>
-                    <input type="password" onInput={e => setOldPassword(e.target.value)}/>
+                    <input autoFocus type="password" onInput={e => setOldPassword(e.target.value)}/>
                 </div>
                 <div className="input">
                     <label>New Password</label>

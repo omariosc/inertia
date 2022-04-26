@@ -1,27 +1,29 @@
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {NotificationManager} from "react-notifications";
 import host from "../../host";
 import Cookies from "universal-cookie";
-import {NotificationManager} from "react-notifications";
 
 export default function EmployeeSubmitIssue() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [priority, setPriority] = useState('');
 
     async function submitIssue() {
         if (title.length === 0) {
-            NotificationManager.error("Issue must have a title");
+            NotificationManager.error("Issue must have a title", "Error");
             return;
         }
         if (priority === '' || priority === 'none') {
-            NotificationManager.error("Issue must have a priority");
+            NotificationManager.error("Issue must have a priority", "Error");
             return;
         }
         if (content.length === 0) {
-            NotificationManager.error("Issue must have a description");
+            NotificationManager.error("Issue must have a description", "Error");
             return;
         }
         try {
@@ -39,7 +41,8 @@ export default function EmployeeSubmitIssue() {
                 }),
                 mode: "cors"
             });
-            NotificationManager.success("Created issue");
+            navigate('/issues');
+            NotificationManager.success("Created issue.", "Success");
         } catch (e) {
             console.log(e);
         }
@@ -62,7 +65,7 @@ export default function EmployeeSubmitIssue() {
                     </Col>
                     <Col xs={1}/>
                     <Col xs="auto">
-                        <input onInput={e => setTitle(e.target.value)}/>
+                        <input autoFocus onInput={e => setTitle(e.target.value)}/>
                     </Col>
                 </Row>
                 <Row className="input issue">

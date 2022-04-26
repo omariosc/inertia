@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import {NotificationManager} from "react-notifications";
-import {Button, InputGroup, Modal} from "react-bootstrap";
+import {Button, Form, Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import {NotificationManager} from "react-notifications";
 import host from './host';
 import Cookies from 'universal-cookie';
 
@@ -12,6 +12,7 @@ export default function LoginForm(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    // Attempts to authorize user.
     async function onSubmit() {
         try {
             let request = await fetch(host + 'api/Users/authorize', {
@@ -28,20 +29,26 @@ export default function LoginForm(props) {
             });
             let response = await request.json();
             if (response.accessToken) {
+                // Sets user cookies.
                 cookies.set("accountID", response.account.accountId, {path: '/'});
                 cookies.set("accountName", response.account.name, {path: '/'});
                 cookies.set("accountRole", response.account.role, {path: '/'});
                 cookies.set("accessToken", response.accessToken, {path: '/'});
+                // If staff account navigates to dashboard.
                 if (response.account.role === 2 || response.account.role === 1) {
+                    NotificationManager.success("Logged in.", "Success");
                     navigate('/dashboard');
                 } else if (response.account.role === 0) {
+                    NotificationManager.success("Logged in.", "Success");
                     navigate('/create-booking');
                 } else {
+                    NotificationManager.error("Could not log in.", "Error");
                     console.log(response);
                 }
+                // Refreshes page.
                 window.location = window.location
             } else {
-                NotificationManager.error("Your credentials are invalid", "Invalid credentials");
+                NotificationManager.error("Login credentials invalid.", "Error");
             }
         } catch (error) {
             console.error(error);
@@ -54,15 +61,11 @@ export default function LoginForm(props) {
                 <Modal.Title>Login</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <InputGroup>
-                    <input className="max-width" type="email" placeholder="Enter email address"
-                           onInput={e => setEmail(e.target.value)}/>
-                </InputGroup>
+                <Form.Control className="max-width" type="email" placeholder="Enter email address"
+                              onInput={e => setEmail(e.target.value)}/>
                 <br/>
-                <InputGroup>
-                    <input className="max-width" type="password" placeholder="Enter password"
-                           onInput={e => setPassword(e.target.value)}/>
-                </InputGroup>
+                <Form.Control className="max-width" type="password" placeholder="Enter password"
+                              onInput={e => setPassword(e.target.value)}/>
             </Modal.Body>
             <Modal.Footer className="justify-content-center">
                 <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>

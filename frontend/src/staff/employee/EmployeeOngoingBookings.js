@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import orderState from "../orderState";
-import host from "../../host";
-import Cookies from "universal-cookie";
-import showDate from "../../showDate";
 import {NotificationManager} from "react-notifications";
+import showDate from "../../showDate";
+import host from "../../host";
+import orderState from "../orderState";
+import Cookies from "universal-cookie";
 
 export default function EmployeeOngoingBookings() {
     const cookies = new Cookies();
@@ -76,10 +76,9 @@ export default function EmployeeOngoingBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not extend booking", "Extension unsuccessful");
-            }
-            else {
-                NotificationManager.success("Extension successful");
+                NotificationManager.error("Could not extend booking.", "Error");
+            } else {
+                NotificationManager.success("Extended booking.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -100,7 +99,9 @@ export default function EmployeeOngoingBookings() {
             });
             let response = await request;
             if (response.status !== 200) {
-                NotificationManager.error("Could not cancel booking", "Cancellation unsuccessful");
+                NotificationManager.error("Could not cancel booking.", "Error");
+            } else {
+                NotificationManager.success("Cancelled booking.", "Success");
             }
         } catch (e) {
             console.log(e);
@@ -111,9 +112,8 @@ export default function EmployeeOngoingBookings() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/create-guest-booking">Bookings</a> > <b>
-                <a className="breadcrumb-current" href="/ongoing-bookings">Ongoing Bookings</a></b>
+                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-current" href="/bookings">Bookings</a></b>
             </p>
             <h3 id="pageName">Ongoing Bookings</h3>
             <hr id="underline"/>
@@ -123,7 +123,7 @@ export default function EmployeeOngoingBookings() {
                     <p>Loading booking history...</p> :
                     <>
                         {(bookingHistory.length === 0) ?
-                            <p>You have no bookings.</p> :
+                            <p>There are currently no ongoing bookings.</p> :
                             <>
                                 {(booking === '') ?
                                     <p>Select a booking to show booking details</p> :
@@ -208,13 +208,12 @@ export default function EmployeeOngoingBookings() {
                                                     <td>
                                                         {(hireOptions === '') ?
                                                             <p>Loading hire options...</p> :
-                                                            <Form.Select
-                                                                onChange={(e) => {
-                                                                    setHireChoiceId(e.target.value);
-                                                                }}
+                                                            <Form.Select defaultValue="none"
+                                                                         onChange={(e) => {
+                                                                             setHireChoiceId(e.target.value);
+                                                                         }}
                                                             >
-                                                                <option value="none" key="none" selected
-                                                                        disabled hidden>
+                                                                <option value="none" key="none" disabled hidden>
                                                                     Select hire period
                                                                 </option>
                                                                 {hireOptions.map((option, idx) => (

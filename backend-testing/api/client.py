@@ -97,6 +97,24 @@ class Client:
     def admin_scooter_return(self, scooter: int):
         self._request('post', f'/admin/scooters/{scooter}/return')
 
+    def admin_order_list(self):
+        r = self._request('get', f'/admin/Orders')
+        return [from_json_order(x) for x in r.json()]
+
+    def admin_create_guest_order(self, email: str, name: str, hire_option: int, scooter: int, start_time: datetime):
+        r = self._request('post', '/admin/Orders/CreateGuestOrder', json={
+            'email': email,
+            'name': name,
+            'hireOptionId': hire_option,
+            'scooterId': scooter,
+            'startTime': str(start_time).replace(' ', 'T')
+        })
+        return from_json_order(r.json())
+
+    def admin_get_order(self, order):
+        r = self._request('get', f'/admin/orders/{order}')
+        return from_json_order(r.json())
+
     def admin_order_approve(self, order: str):
         self._request('post', f'/admin/orders/{order}/approve')
 

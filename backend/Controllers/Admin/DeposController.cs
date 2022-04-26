@@ -48,7 +48,7 @@ public class DeposController : MyControllerBase
         if (depo == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "depo id invalid", "depo");
 
-        db.Depos.Remove(depo);
+        depo.SoftDeleted = true;
         await db.SaveChangesAsync();
         return Ok();
     }
@@ -58,16 +58,23 @@ public class DeposController : MyControllerBase
     [ProducesResponseType(typeof(Depo), 200)]
     public async Task<ActionResult> UpdateItem(int id, [FromBody] PatchDepoRequest depoRequest)
     {
-        var depo = await db.Depos.FindAsync(id);
+        var oldDepo = await db.Depos.FindAsync(id);
 
-        if (depo == null)
+        if (oldDepo == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "depo id invalid", "depo");
 
-        depo.Name = depoRequest.Name ?? depo.Name;
-        depo.Latitude = depoRequest.Latitude ?? depo.Latitude;
-        depo.Longitude = depoRequest.Longitude ?? depo.Longitude;
+        oldDepo.SoftDeleted = true;
 
+        var depo = new Depo
+        {
+            Latitude = depoRequest.Latitude ?? oldDepo.Latitude,
+            Longitude = depoRequest.Longitude ?? oldDepo.Longitude,
+            Name = depoRequest.Name ?? oldDepo.Name
+        };
+        
+        await db.Depos.AddAsync(depo);
         await db.SaveChangesAsync();
+        
         return Ok(depo);
     }
 }

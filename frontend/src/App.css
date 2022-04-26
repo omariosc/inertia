@@ -1,4 +1,5 @@
-a#account-page {
+/* for customer interface container */
+#account-page {
     padding-left: 15%;
     padding-right: 25%;
     padding-top: 2%;
@@ -6,19 +7,35 @@ a#account-page {
     position: relative;
 }
 
+/* for breadcrumb links */
 #breadcrumb {
     padding-left: 10px;
     padding-top: 15px;
 }
 
+.buttonPadding {
+    margin-left: -20px;
+}
+
+.buttonPaddingDepot {
+    margin-left: -100px;
+}
+
+.buttonPaddingScooter {
+    margin-left: 5px;
+}
+
+/* for customer interface navigation links */
 #customer-row {
     height: 75vh;
 }
 
+/* for manager interface navigation links */
 #manager-row {
     height: 100vh;
 }
 
+/* for landing page map overlay */
 #overlay {
     position: absolute;
     top: 0;
@@ -26,11 +43,13 @@ a#account-page {
     z-index: 100000;
 }
 
+/* format page name heading */
 #pageName {
     padding-left: 80px;
     padding-top: 40px;
 }
 
+/* used to position drop down menu */
 #top-bar {
     display: flex;
     justify-content: right;
@@ -39,10 +58,7 @@ a#account-page {
     margin-top: 0.5%;
 }
 
-#top-navbar {
-    color: black !important;
-}
-
+/* for <hr/> attributes */
 #underline {
     background-color: black;
     border: solid 1px black;
@@ -50,55 +66,53 @@ a#account-page {
     margin-left: 80px;
 }
 
-.issue-divider {
-    background-color: black;
-    border: solid 1px black;
-    color: black;
-    margin-left: 80px;
-}
-
+/* main wrapper container */
 #wrapper {
     display: flex;
     height: 100%;
     position: relative;
 }
 
+/* to format account management labels */
 .account label {
     width: 300px !important;
 }
 
+/* for overflow on main containers */
 .autoScroll {
     max-height: 90%;
     overflow-y: auto;
     padding-bottom: 65px;
 }
 
+/* sets important black background*/
 .black-bg {
     background-color: black !important;
 }
 
-.black-bg {
-    background-color: black;
-}
-
+/* current page for breadcrumb list */
 .breadcrumb-current {
     color: black;
     text-decoration: none;
 }
 
+/* other pages in breadcrumb list */
 .breadcrumb-list {
     color: grey;
     text-decoration: none;
 }
 
+/* hide canvasjs watermark */
 .canvasjs-chart-credit {
     display: none;
 }
 
+/* allow mouse clicks */
 .clickable {
     pointer-events: all;
 }
 
+/* for customer navbar */
 .customer-column {
     border: black;
     border-block-end: black;
@@ -110,28 +124,40 @@ a#account-page {
     padding-right: 15px;
 }
 
+/* for customer submit issue input fields */
 .customer-issue input {
     width: 500px !important;
 }
 
+/* for customer submit issue label fields */
 .customer-issue label {
     width: 100px !important;
 }
 
+/* for customer submit issue text area fields */
 .customer-issue textarea {
     width: 500px;
 }
 
+/* for customer navigation links */
 .customer-navigation {
     align-items: center;
     display: flex;
     flex-direction: column;
 }
 
-.dropdown-basic-button {
-    float: right;
+/* for staff dashboard text (value) */
+.dashboard-text {
+    font-size: xx-large !important;
+    text-align: center !important;
 }
 
+/* for staff dashboard title (key) */
+.dashboard-title {
+    text-align: center !important;
+}
+
+/* fixed table layout */
 .fixed-table {
     table-layout: fixed !important;
 }
@@ -146,6 +172,14 @@ a#account-page {
 
 .half-width {
     width: 47.5%;
+}
+
+.hover-black {
+    color: black !important;
+}
+
+.hover-black:hover {
+    color: #0D6EFD !important;
 }
 
 .input {
@@ -186,6 +220,13 @@ a#account-page {
 
 .issue textarea {
     width: 1000px;
+}
+
+.issue-divider {
+    background-color: black;
+    border: solid 1px black;
+    color: black;
+    margin-left: 80px;
 }
 
 .issue-label-0 {
@@ -272,8 +313,40 @@ a#account-page {
     height: 100vh;
 }
 
+.marginRight {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
 .max-width {
     width: 100%;
+}
+
+.maxWidth {
+    clear: both;
+    white-space: nowrap;
+    width: 90px;
+}
+
+.maxWidthDepot {
+    clear: both;
+    white-space: nowrap;
+    width: 110px;
+}
+
+.maxWidthLong {
+    clear: both;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100px;
+}
+
+.maxWidthLongDep {
+    clear: both;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 300px;
 }
 
 .medium-padding-left {
@@ -283,6 +356,11 @@ a#account-page {
 .minimap {
     max-height: 500px;
     min-width: 100%;
+}
+
+.minimap-customer {
+    height: 400px !important;
+    width: 80% !important;
 }
 
 .navbar-pad-left {
@@ -300,7 +378,7 @@ a#account-page {
 }
 
 .nav-indented {
-    padding-left: 37px;
+    padding-left: 37px !important;
 }
 
 .nav-link {
@@ -322,8 +400,35 @@ a#account-page {
     padding-bottom: 10px;
 }
 
+.sameLine {
+    align-items: center;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.scroll {
+    max-height: 45rem;
+    overflow-y: scroll;
+}
+
+.search-results {
+    margin-top: 10px;
+    max-height: 90vh;
+    overflow: auto;
+    padding: 10px;
+}
+
 .small-padding-top {
     padding-top: 5px;
+}
+
+.solid-border {
+    border-right: 1px solid black !important;
+}
+
+.table-formatting {
+    border-collapse: collapse;
 }
 
 .text-black {
@@ -344,6 +449,7 @@ a#account-page {
     margin: 0;
 }
 
+/* for phone size screens */
 @media (max-width: 480px) {
     #account-page {
         border: none;
@@ -370,6 +476,7 @@ a#account-page {
     }
 }
 
+/* for small size screens */
 @media (max-width: 767px) {
     #account-page {
         border: none;
@@ -396,6 +503,51 @@ a#account-page {
     }
 }
 
+/* for small to medium size screens */
+@media (max-width: 991px) {
+    #manager-row {
+        background-color: transparent;
+        height: 100%;
+    }
+
+    .border-end {
+        border-right: transparent !important;
+    }
+
+    .hamburger-menu {
+        cursor: pointer;
+        display: flex;
+        position: absolute;
+        right: 15px;
+        top: 18px;
+    }
+
+    .manager-vert-navbar {
+        display: none !important;
+    }
+
+    .manager-vert-navbar-mobile {
+        background: rgba(0, 0, 0, 0.92);
+        display: flex !important;
+        flex-direction: column;
+        padding-bottom: 10px;
+        position: absolute;
+        right: 0;
+        width: 100vw;
+        z-index: 9002;
+    }
+
+    .manager-vert-navbar-mobile a {
+        color: white;
+    }
+
+    .staff-nav-column {
+        background-color: transparent;
+        border-right: none !important;
+    }
+}
+
+/* for large size screens */
 @media (min-width: 1200px) {
     #account-page {
         border: none;
@@ -403,8 +555,13 @@ a#account-page {
         pointer-events: all;
         position: relative;
     }
+
+    .manager-vert-navbar-mobile {
+        display: none !important;
+    }
 }
 
+/* for medium size screens */
 @media (min-width: 768px) and (max-width: 991px) {
     #account-page {
         border: none;
@@ -432,5 +589,6 @@ a#account-page {
     }
 }
 
+/* for medium to large size screens */
 @media (min-width: 992px) and (max-width: 1199px) {
 }

@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import {NotificationManager} from "react-notifications";
+import getScooterName from "../../getScooterName";
 import center from "../../center";
 import host from "../../host";
 import Cookies from "universal-cookie";
-import {NotificationManager} from "react-notifications";
 
 export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();
@@ -99,7 +100,7 @@ export default function EmployeeCreateGuestBooking() {
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
         setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
         setValidCVV(cvv.match(/^[0-9]{3,4}$/));
-        if (!validForm) {
+        if (!validForm()) {
             return;
         }
         try {
@@ -121,11 +122,11 @@ export default function EmployeeCreateGuestBooking() {
             });
             let response = await request;
             if (response.status === 200) {
-                NotificationManager.success("Created guest booking", "Booking created");
+                NotificationManager.success("Created guest booking.", "Success");
             } else if (response.status === 422) {
-                NotificationManager.error("Scooter is currently unavailable", "Booking unsuccessful");
+                NotificationManager.error("Scooter is currently unavailable.", "Error");
             } else {
-                NotificationManager.error("Could not create booking", "Booking unsuccessful");
+                NotificationManager.error("Could not create booking.", "Error");
             }
         } catch (e) {
             console.log(e);
@@ -136,8 +137,9 @@ export default function EmployeeCreateGuestBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home </a> > <b>
-                <a className="breadcrumb-current" href="/bookings">Bookings</a></b>
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
+                <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
             </p>
             <h3 id="pageName">Create Booking</h3>
             <hr id="underline"/>
@@ -194,19 +196,19 @@ export default function EmployeeCreateGuestBooking() {
                                             <Row className="pb-2">
                                                 <Col className="text-end align-self-center">Scooter</Col>
                                                 <Col>
-                                                    {map_locations === "" || scooters === "" ?
-                                                        <Form.Control type="plaintext" value="Loading Scooters..."/> :
+                                                    {(map_locations === "" || scooters === "") ?
+                                                        <label>Loading scooters...</label> :
                                                         <>
-                                                            <Form.Select onChange={(e) => {
+                                                            <Form.Select defaultValue="none" onChange={(e) => {
                                                                 setScooterChoiceId(e.target.value);
                                                             }}
                                                                          isInvalid={!validScooter}>
-                                                                <option value="none" key="none" selected disabled
-                                                                        hidden>Select scooter
+                                                                <option value="none" key="none" disabled hidden>
+                                                                    Select scooter
                                                                 </option>
                                                                 {scooters.map((scooter, idx) => (
-                                                                    <option value={scooter.scooterId} key={idx}>
-                                                                        Scooter {scooter.softScooterId} ({String.fromCharCode(parseInt(scooter.depoId + 64))} - {map_locations[scooter.depoId - 1].name})</option>
+                                                                    <option value={scooter.scooterId}
+                                                                            key={idx}>{getScooterName(idx, scooters, map_locations)}</option>
                                                                 ))}
                                                             </Form.Select>
                                                             <div className="invalid-feedback">Please select option</div>
@@ -218,18 +220,17 @@ export default function EmployeeCreateGuestBooking() {
                                                 <Col className="text-end align-self-center">Hire Period</Col>
                                                 <Col>
                                                     {hireOptions === "" ?
-                                                        <Form.Control type="plaintext"
-                                                                      value="Loading Hire Options..."/> :
+                                                        <label>Loading hire periods...</label> :
                                                         <>
-                                                            <Form.Select onChange={(e) => {
+                                                            <Form.Select defaultValue="none" onChange={(e) => {
                                                                 let value = e.target.value.split(',')
                                                                 setHireChoiceId(value[0]);
                                                                 setPrice(value[1])
                                                             }}
                                                                          isInvalid={!validHireSlot}>
 
-                                                                <option value="none" key="none" selected disabled
-                                                                        hidden>Select hire period
+                                                                <option value="none" key="none" disabled hidden>
+                                                                    Select hire period
                                                                 </option>
                                                                 {hireOptions.map((option, idx) => (
                                                                     <option key={idx}
@@ -264,7 +265,7 @@ export default function EmployeeCreateGuestBooking() {
                                                 <Col>
                                                     <Form.Control type="text" placeholder="4000-1234-5678-9010"
                                                                   isInvalid={!validCardNo}
-                                                                  onInput={e => setCardNo(e.target.value)}/>
+                                                                  onInput={(e) => setCardNo(e.target.value)}/>
                                                     <Form.Control.Feedback type="invalid">
                                                         Invalid Card Number
                                                     </Form.Control.Feedback>
@@ -275,7 +276,7 @@ export default function EmployeeCreateGuestBooking() {
                                                 <Col>
                                                     <Form.Control type="text" placeholder="MM/YY"
                                                                   isInvalid={!validExpDate}
-                                                                  onInput={e => setExpiry(e.target.value)}/>
+                                                                  onInput={(e) => setExpiry(e.target.value)}/>
                                                     <Form.Control.Feedback type="invalid">
                                                         Invalid Expiry Date
                                                     </Form.Control.Feedback>
@@ -287,7 +288,7 @@ export default function EmployeeCreateGuestBooking() {
                                                 </Col>
                                                 <Col>
                                                     <Form.Control type="text" placeholder="123" isInvalid={!validCVV}
-                                                                  onInput={e => setCVV(e.target.value)}/>
+                                                                  onInput={(e) => setCVV(e.target.value)}/>
                                                     <Form.Control.Feedback type="invalid">
                                                         Invalid CVV
                                                     </Form.Control.Feedback>

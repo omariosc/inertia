@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Nav} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Link} from "react-router-dom";
+import {Link, useOutletContext} from "react-router-dom";
 import {MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
 import {FaExclamation} from "react-icons/fa";
 import {GiHamburgerMenu} from "react-icons/gi";
@@ -14,6 +14,7 @@ export default function ManagerMobileNavigation() {
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35"
                                            onClick={() => setOpen(!open)}/>
     const closeIcon = <CgClose className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
+    const [signOut] = useOutletContext();
 
     function Links() {
         return (
@@ -46,6 +47,8 @@ export default function ManagerMobileNavigation() {
                 <Nav.Link as={Link} to="/settings">
                     <MdSettings/> Settings
                 </Nav.Link>
+                <Nav.Link as={Link} to="/" onClick={signOut}>
+                    Sign Out</Nav.Link>
             </Nav>);
     }
 

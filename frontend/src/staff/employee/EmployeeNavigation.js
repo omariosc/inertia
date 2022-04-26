@@ -1,18 +1,19 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Link} from "react-router-dom";
 import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md";
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 
 export default function EmployeeNavigation() {
+
     return (
         <Nav defaultActiveKey="/dashboard" variant="pills"
              className="manager-vert-navbar flex-column medium-padding-left">
             <Nav.Link as={Link} to="/dashboard">
                 <MdDashboard/> Dashboard
             </Nav.Link>
-            <Nav.Link as={Link} to="/bookings" className="nav-indented">
+            <Nav.Link as={Link} to="/bookings">
                 <MdBook/> Bookings
             </Nav.Link>
             <Nav.Link as={Link} to="/create-guest-booking" className="nav-indented">
@@ -25,7 +26,7 @@ export default function EmployeeNavigation() {
                 Booking History</Nav.Link>
             <Nav.Link as={Link} to="/scooter-management">
                 <MdElectricScooter/> Scooter Management</Nav.Link>
-            <Nav.Link as={Link} to="/issues" className="nav-indented">
+            <Nav.Link as={Link} to="/issues">
                 <FaExclamation/> Issues
             </Nav.Link>
             <Nav.Link as={Link} to="/submit-issue" className="nav-indented">

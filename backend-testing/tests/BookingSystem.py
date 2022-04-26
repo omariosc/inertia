@@ -140,7 +140,7 @@ class BookingSystem(unittest.TestCase):
         hire_option = self.staff.hire_options()[0]
 
         order = self.staff.admin_create_guest_order(
-            email='emilianachubosky@gmail.com',
+            email='inertiateam420+emilianachubosky@gmail.com',
             name='Emiliana Chubosky',
             hire_option=hire_option.hire_option_id,
             scooter=scooter.scooter_id,

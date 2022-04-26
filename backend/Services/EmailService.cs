@@ -51,11 +51,12 @@ public class EmailService
         _db.Entry(order).Reference(o => o.Scooter).Load();
         _db.Entry(order).Reference(o => o.HireOption).Load();
         _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
 
         var model = new OrderConfirmationModel
         {
-            ScooterId = order.ScooterId,
-            DepoId = order.Scooter.DepoId,
+            ScooterId = order.Scooter.SoftScooterId,
+            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
             OrderId = order.OrderId,
             HireOptionName = order.HireOption.Name,
             Cost = order.Cost,
@@ -72,6 +73,7 @@ public class EmailService
         _db.Entry(order).Reference(o => o.Scooter).Load();
         _db.Entry(order).Reference(o => o.HireOption).Load();
         _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
 
         var model = new OrderApprovalModel
         {
@@ -79,8 +81,25 @@ public class EmailService
             OrderId = order.OrderId,
         };
         
-        string data = await RenderToStringAsync("Order Approval", model);
+        string data = await RenderToStringAsync("OrderApproval", model);
         await SendEmail(email, $"Booking no. {order.OrderId} has been approved", data);
+    }
+
+    public async Task SendOrderDenied(string email, Order order)
+    {
+        _db.Entry(order).Reference(o => o.Scooter).Load();
+        _db.Entry(order).Reference(o => o.HireOption).Load();
+        _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
+
+        var model = new OrderDeniedModel
+        {
+            Name = order.Account.Name,
+            OrderId = order.OrderId,
+        };
+        
+        string data = await RenderToStringAsync("OrderDenied", model);
+        await SendEmail(email, $"Booking no. {order.OrderId} has been denied", data);
     }
 
     public async Task SendOrderCancellation(string email, Order order)
@@ -88,11 +107,12 @@ public class EmailService
         _db.Entry(order).Reference(o => o.Scooter).Load();
         _db.Entry(order).Reference(o => o.HireOption).Load();
         _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
 
         var model = new OrderCancellationModel
         {
-            ScooterId = order.ScooterId,
-            DepoId = order.Scooter.DepoId,
+            ScooterId = order.Scooter.SoftScooterId,
+            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
             OrderId = order.OrderId,
             HireOptionName = order.HireOption.Name,
             Cost = order.Cost,
@@ -109,22 +129,30 @@ public class EmailService
         _db.Entry(order).Reference(o => o.Scooter).Load();
         _db.Entry(order).Reference(o => o.HireOption).Load();
         _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
+        
         var extensions = await _db.Orders
             .Where(o => o.OrderId == order.OrderId || o.ExtendsId == order.OrderId)
             .OrderBy(o => o.CreatedAt)
-            .Select(o => o.HireOption.Name)
+            .Select(o => new
+            {
+                o.HireOption.Name,
+                o.CreatedAt
+            })
             .ToListAsync();
 
         var model = new OrderExtensionModel
         {
             ScooterId = order.ScooterId,
-            DepoId = order.Scooter.DepoId,
+            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
             OrderId = order.OrderId,
             Cost = order.Cost,
             Discount = order.Discount,
             Name = order.Account.Name,
             PreDiscountCost = order.PreDiscountCost,
             Extensions = extensions
+                .Select(e => new Tuple<string, DateTime>(e.Name, e.CreatedAt))
+                .ToList()
         };
         
         string data = await RenderToStringAsync("OrderExtension", model);

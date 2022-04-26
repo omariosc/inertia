@@ -113,7 +113,7 @@ public class OrdersController : MyControllerBase
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
 
         var order = await _db.Orders
-            .OfType<Order>()
+            .Include(e => e.Account)
             .Include(e => e.Extensions)   
             .Where(e => e.OrderId == orderId && e.AccountId == accountId)
             .FirstOrDefaultAsync();
@@ -138,6 +138,8 @@ public class OrdersController : MyControllerBase
                 "The order cannot be canceled at this point"
             );
         }
+        
+        await _email.SendOrderCancellation(order.Account.Email, order);
 
         return Ok();
     }
@@ -185,6 +187,15 @@ public class OrdersController : MyControllerBase
                 order,
                 hireOption
             );
+            
+            var extension_ = await _db.Orders
+                .Include(o => o.Account)
+                .Include(o => o.Extends)
+                .Where(o => o.OrderId == extension.OrderId)
+                .FirstAsync();
+
+            await _email.SendOrderExtension(extension_.Account.Email, extension_.Extends!);
+            
             return Ok(extension);
         }
         catch (OrderCannotBeExtendException)

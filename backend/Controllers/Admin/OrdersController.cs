@@ -143,7 +143,7 @@ public class OrdersController : MyControllerBase
     public async Task<ActionResult> CancelOrder(string orderId)
     {
         var order = await _db.Orders
-            .OfType<Order>()
+            .Include(e => e.Account)
             .Include(e => e.Extensions)   
             .Where(e => e.OrderId == orderId)
             .FirstOrDefaultAsync();
@@ -168,6 +168,8 @@ public class OrdersController : MyControllerBase
                 "The order cannot be canceled at this point"
             );
         }
+        
+        await _email.SendOrderCancellation(order.Account.Email, order);
 
         return Ok();
     }
@@ -212,6 +214,15 @@ public class OrdersController : MyControllerBase
                 order,
                 hireOption
             );
+
+            var extension_ = await _db.Orders
+                .Include(o => o.Account)
+                .Include(o => o.Extends)
+                .Where(o => o.OrderId == extension.OrderId)
+                .FirstAsync();
+
+            await _email.SendOrderExtension(extension_.Account.Email, extension_.Extends!);
+            
             return Ok(extension);
         }
         catch (OrderCannotBeExtendException)
@@ -234,6 +245,7 @@ public class OrdersController : MyControllerBase
     public async Task<ActionResult> ApproveOrder(string orderId)
     {
         var order = await _db.Orders
+            .Include(o => o.Account)
             .Where(o => o.OrderId == orderId)
             .FirstOrDefaultAsync();
 
@@ -242,6 +254,8 @@ public class OrdersController : MyControllerBase
 
         order.OrderState = OrderState.Upcoming;
         await _db.SaveChangesAsync();
+
+        await _email.SendOrderApproval(order.Account.Email, order);
         
         return Ok();
     }
@@ -252,6 +266,7 @@ public class OrdersController : MyControllerBase
     public async Task<ActionResult> DenyOrder(string orderId)
     {
         var order = await _db.Orders
+            .Include(o => o.Account)
             .Where(o => o.OrderId == orderId)
             .FirstOrDefaultAsync();
 
@@ -260,6 +275,8 @@ public class OrdersController : MyControllerBase
         
         order.OrderState = OrderState.Denied;
         await _db.SaveChangesAsync();
+
+        await _email.SendOrderDenied(order.Account.Email, order);
         
         return Ok();
     }

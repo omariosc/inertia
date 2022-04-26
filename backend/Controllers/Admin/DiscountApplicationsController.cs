@@ -1,6 +1,7 @@
 using inertia.Dtos;
 using inertia.Enums;
 using inertia.Models;
+using inertia.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MimeKit;
@@ -14,10 +15,12 @@ namespace inertia.Controllers.Admin;
 public class DiscountApplicationsController : MyControllerBase
 {
     private readonly InertiaContext _db;
+    private readonly EmailService _email;
 
-    public DiscountApplicationsController(InertiaContext db)
+    public DiscountApplicationsController(InertiaContext db, EmailService email)
     {
         _db = db;
+        _email = email;
     }
 
     [HttpGet]
@@ -63,6 +66,8 @@ public class DiscountApplicationsController : MyControllerBase
         application.State = DiscountApplicationState.Approved;
         application.Account.UserType = application.DisccountType;
         await _db.SaveChangesAsync();
+
+        await _email.SendDiscountApplication(application.Account.Email, application.Account);
 
         return Ok();
     }

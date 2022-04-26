@@ -11,5 +11,6 @@ public enum ApplicationErrorCode
     AttemptingToCloseAlreadyClosedIssue,
     ScooterIdTaken,
     AlreadyAppliedForDiscount,
-    DiscountApplicationNotAwaitingImageForUser
+    DiscountApplicationNotAwaitingImageForUser,
+    CannotCreateGuestBookingForRegisteredUser
 }

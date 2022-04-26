@@ -1,6 +1,7 @@
 using EntityFramework.Exceptions.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using inertia.Models;
+using inertia.Util;
 
 namespace inertia;
 
@@ -13,7 +14,7 @@ public class InertiaContext : DbContext
 
     public DbSet<LoginInstance> LoginInstances { get; set; } = null!;
 
-    public DbSet<AbstractOrder> Orders { get; set; } = null!;
+    public DbSet<Order> Orders { get; set; } = null!;
 
     public DbSet<HireOption> HireOptions { get; set; } = null!;
 
@@ -33,7 +34,10 @@ public class InertiaContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Order>();
-        modelBuilder.Entity<GuestOrder>();
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
+                entityType.AddSoftDeleteQueryFilter();
+        }
     }
 }

@@ -22,18 +22,21 @@ public class UsersController : MyControllerBase
     private readonly InertiaService _inertia;
     private readonly UsersService _users;
     private readonly AuthenticationTokenService _tokenService;
+    private readonly EmailService _email;
 
     public UsersController(
         InertiaContext db, 
         AuthenticationTokenService tokenService,
         InertiaService inertia,
-        UsersService users
+        UsersService users,
+        EmailService email
     )
     {
         _db = db;
         _tokenService = tokenService;
         _inertia = inertia;
         _users = users;
+        _email = email;
     }
 
     [HttpPost("signup")]
@@ -50,6 +53,8 @@ public class UsersController : MyControllerBase
                 UserType.Regular,
                 AccountRole.User
             );
+
+            await _email.SendSignup(account.Email, account);
         }
         catch (EmailAlreadyExistsException)
         {
@@ -137,7 +142,6 @@ public class UsersController : MyControllerBase
         await _inertia.UpdateOrderStatus();
         
         var orders = await _db.Orders
-            .OfType<Order>()
             .Include(e => e.HireOption)
             .Where(e => e.AccountId == accountId)
             .ToListAsync();

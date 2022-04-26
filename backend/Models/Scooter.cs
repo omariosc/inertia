@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace inertia.Models;
 
 [Index(nameof(SoftScooterId), IsUnique = true)]
-public class Scooter
+public class Scooter: ISoftDelete
 {
     [Key] 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
@@ -26,4 +26,6 @@ public class Scooter
     
     [NotMapped]
     public ScooterStatus ScooterStatus { get; set; }
+    
+    [Required] public bool SoftDeleted { get; set; }
 }

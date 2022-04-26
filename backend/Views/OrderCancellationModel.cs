@@ -1,6 +1,6 @@
 namespace inertia.Views;
 
-public class OrderConfirmationModel
+public class OrderCancellationModel
 {
     public string Name { get; set; } = null!;
     public int ScooterId { get; set; }

@@ -15,6 +15,8 @@ public class Account
     [Required] public string Name { get; set; } = null!;
 
     [Required, EmailAddress] public string Email { get; set; } = null!;
+
+    // [Required, DataType(DataType.PhoneNumber)] public string PhoneNumber { get; set; } = null!;
     
     [Required, JsonIgnore] public string Password { get; set; } = null!;
 

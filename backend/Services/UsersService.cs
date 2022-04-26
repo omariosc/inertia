@@ -24,7 +24,7 @@ public class UsersService
         string name,
         UserType userType,
         AccountRole role
-        )
+    )
     {
         try
         {
@@ -66,10 +66,10 @@ public class UsersService
             account.Email = email ?? account.Email;
             account.Name = name ?? account.Name;
             account.Role = accountRole ?? account.Role;
-            
-            if(password != null)
+
+            if (password != null)
                 account.Password = Argon2.Hash(account.Salt + password);
-            
+
             await _db.SaveChangesAsync();
             return account;
         }
@@ -78,10 +78,12 @@ public class UsersService
             throw new EmailAlreadyExistsException();
         }
     }
-
+    
     public async Task<Account?> MatchAccount(string email, string password)
     {
-        var account = await _db.Accounts.Where(a => a.Email == email).FirstOrDefaultAsync();
+        var account = await _db.Accounts
+            .Where(a => a.Email == email && a.Role != AccountRole.Guest)
+            .FirstOrDefaultAsync();
 
         if (account == null)
             return null;

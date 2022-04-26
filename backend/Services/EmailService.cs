@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 
 namespace inertia.Services;
@@ -45,23 +46,143 @@ public class EmailService
         _db = db;
     }
 
-    public async Task SendBookingOrderConfirmation(string email, AbstractOrder order)
+    public async Task SendOrderConfirmation(string email, Order order)
     {
         _db.Entry(order).Reference(o => o.Scooter).Load();
         _db.Entry(order).Reference(o => o.HireOption).Load();
+        _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
 
         var model = new OrderConfirmationModel
         {
-            ScooterId = order.ScooterId,
-            DepoId = order.Scooter.DepoId,
+            ScooterId = order.Scooter.SoftScooterId,
+            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
             OrderId = order.OrderId,
             HireOptionName = order.HireOption.Name,
             Cost = order.Cost,
+            Discount = order.Discount,
+            Name = order.Account.Name,
+            PreDiscountCost = order.PreDiscountCost
         };
         string data = await RenderToStringAsync("OrderConfirmation", model);
         await SendEmail(email, $"Booking no. {order.OrderId} confirmation", data);
     }
 
+    public async Task SendOrderApproval(string email, Order order)
+    {
+        _db.Entry(order).Reference(o => o.Scooter).Load();
+        _db.Entry(order).Reference(o => o.HireOption).Load();
+        _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
+
+        var model = new OrderApprovalModel
+        {
+            Name = order.Account.Name,
+            OrderId = order.OrderId,
+        };
+        
+        string data = await RenderToStringAsync("OrderApproval", model);
+        await SendEmail(email, $"Booking no. {order.OrderId} has been approved", data);
+    }
+
+    public async Task SendOrderDenied(string email, Order order)
+    {
+        _db.Entry(order).Reference(o => o.Scooter).Load();
+        _db.Entry(order).Reference(o => o.HireOption).Load();
+        _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
+
+        var model = new OrderDeniedModel
+        {
+            Name = order.Account.Name,
+            OrderId = order.OrderId,
+        };
+        
+        string data = await RenderToStringAsync("OrderDenied", model);
+        await SendEmail(email, $"Booking no. {order.OrderId} has been denied", data);
+    }
+
+    public async Task SendOrderCancellation(string email, Order order)
+    {
+        _db.Entry(order).Reference(o => o.Scooter).Load();
+        _db.Entry(order).Reference(o => o.HireOption).Load();
+        _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
+
+        var model = new OrderCancellationModel
+        {
+            ScooterId = order.Scooter.SoftScooterId,
+            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            OrderId = order.OrderId,
+            HireOptionName = order.HireOption.Name,
+            Cost = order.Cost,
+            Discount = order.Discount,
+            Name = order.Account.Name,
+            PreDiscountCost = order.PreDiscountCost
+        };
+        string data = await RenderToStringAsync("OrderCancellation", model);
+        await SendEmail(email, $"Booking no. {order.OrderId} has been cancelled", data);
+    }
+
+    public async Task SendOrderExtension(string email, Order order)
+    {
+        _db.Entry(order).Reference(o => o.Scooter).Load();
+        _db.Entry(order).Reference(o => o.HireOption).Load();
+        _db.Entry(order).Reference(o => o.Account).Load();
+        _db.Entry(order.Scooter).Reference(s => s.Depo).Load();
+        
+        var extensions = await _db.Orders
+            .Where(o => o.OrderId == order.OrderId || o.ExtendsId == order.OrderId)
+            .OrderBy(o => o.CreatedAt)
+            .Select(o => new
+            {
+                o.HireOption.Name,
+                o.CreatedAt
+            })
+            .ToListAsync();
+
+        var model = new OrderExtensionModel
+        {
+            ScooterId = order.ScooterId,
+            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            OrderId = order.OrderId,
+            Cost = order.Cost,
+            Discount = order.Discount,
+            Name = order.Account.Name,
+            PreDiscountCost = order.PreDiscountCost,
+            Extensions = extensions
+                .Select(e => new Tuple<string, DateTime>(e.Name, e.CreatedAt))
+                .ToList()
+        };
+        
+        string data = await RenderToStringAsync("OrderExtension", model);
+        await SendEmail(email, $"Booking no. {order.OrderId} has been updated", data);
+    }
+    
+    public async Task SendDiscountApplication(string email, Account account)
+    {
+        var model = new DiscountApplicationModel
+        {
+            Name = account.Name,
+            DiscountType = account.UserType.ToString()
+        };
+        
+        string data = await RenderToStringAsync("Signup", model);
+        await SendEmail(email, $"Your discount application has been approved!", data);
+    }
+
+    public async Task SendSignup(string email, Account account)
+    {
+        var model = new SignupModel
+        {
+            Name = account.Name,
+            AccountId = account.AccountId
+        };
+        
+        string data = await RenderToStringAsync("Signup", model);
+        await SendEmail(email, $"Welcome to Inertia!", data);
+    }
+    
     private async Task SendEmail(string recipientEmail, string subject, string htmlBody)
     {
         var message = new MimeMessage();

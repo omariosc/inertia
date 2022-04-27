@@ -98,6 +98,9 @@
     border-block-end: black;
     display: flex;
     justify-content: flex-end;
+    position: sticky;
+    top: 0;
+
 }
 
 .customer-create-booking-padding {

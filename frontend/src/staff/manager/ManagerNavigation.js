@@ -1,7 +1,6 @@
 import React from "react";
-import {Nav} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {Link} from "react-router-dom";
+import {Nav} from "react-bootstrap";
 import {MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
 import {FaExclamation} from "react-icons/fa";
 import {RiBuilding3Fill} from "react-icons/ri";
@@ -10,7 +9,7 @@ import {IoIosStats} from "react-icons/io";
 export default function ManagerNavigation() {
     return (
         <Nav
-            defaultActiveKey="#/dashboard"
+            defaultActiveKey="/dashboard"
             variant="pills"
             className="manager-vert-navbar medium-padding-left text-black"
         >

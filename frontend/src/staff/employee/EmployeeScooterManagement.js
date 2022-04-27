@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import getMapName from "../../getMapName";
 import {NotificationManager} from "react-notifications";
+import Cookies from 'universal-cookie';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
-import Cookies from 'universal-cookie';
 
 export default function EmployeeScooterManagement() {
     const cookies = new Cookies();
@@ -44,7 +43,14 @@ export default function EmployeeScooterManagement() {
                 },
                 mode: "cors"
             });
-            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
+            let response = await request.json();
+            let availableScooters = [];
+            {response.map((scooter, idx) => {
+                if (getMapName(idx, scooters, map_locations) !== 'Depot longer exists') {
+                    availableScooters.push(scooter)
+                }
+            })}
+            setScooters(availableScooters.sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -75,7 +81,7 @@ export default function EmployeeScooterManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-list" href="/home">Home</a> > <b>
                 <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
             </p>
             <h3 id="pageName">Scooter Management</h3>

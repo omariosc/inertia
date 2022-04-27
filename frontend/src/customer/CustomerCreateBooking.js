@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import Cookies from 'universal-cookie';
 import getScooterName from "../getScooterName";
 import host from "../host";
 import moment from "moment";
-import Cookies from 'universal-cookie';
+import getMapName from "../getMapName";
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -186,6 +186,7 @@ export default function CustomerCreateBooking() {
                 mode: "cors"
             });
             let response = await request;
+            console.log(await response.json())
             if (response.status === 422) {
                 NotificationManager.error("Scooter is currently unavailable.", "Error");
             } else if (response.status === 200) {
@@ -242,10 +243,12 @@ export default function CustomerCreateBooking() {
                         setScooterChoiceId(e.target.value);
                     }}>
                         <option value="none" key="none" disabled hidden>Select scooter</option>
-                        {scooters.map((scooter, idx) => (
-                            <option value={scooters[idx].scooterId}
-                                    key={idx}>{getScooterName(idx, scooters, map_locations)}</option>
-                        ))}
+                        {scooters.map((scooter, idx) => {
+                            if (getMapName(idx, scooters, map_locations) !== 'Depot longer exists') {
+                                return (<option value={scooters[idx].scooterId}
+                                                key={idx}>{getScooterName(idx, scooters, map_locations)}</option>)
+                            }
+                        })}
                     </Form.Select>
                 }
             </Row>
@@ -257,7 +260,6 @@ export default function CustomerCreateBooking() {
                         setHireChoiceId(value[0]);
                         setPrice(value[1])
                     }}>
-
                         <option value="none" key="none" disabled hidden>Select hire period</option>
                         {hireOptions.map((option, idx) => (
                             <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -

@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import {default as CanvasJSReact} from "../../canvasjs.react.js";
-import host from "../../host";
 import Cookies from "universal-cookie";
+import host from "../../host";
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Card, Col, Container, Row} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import host from '../host';
 import Cookies from 'universal-cookie';
+import host from '../host';
 
 export default function Dashboard() {
     const cookies = new Cookies();
@@ -51,8 +50,10 @@ export default function Dashboard() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/dashboard">Dashboard</a></b>
+                <a className="breadcrumb-list"
+                   href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
+                <a className="breadcrumb-current"
+                   href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Dashboard</a></b>
             </p>
             <h3 id="pageName">Dashboard</h3>
             <hr id="underline"/>

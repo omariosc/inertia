@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import host from "../../host";
 import Cookies from 'universal-cookie';
+import host from "../../host";
 
 export default function ManagerDepotManagement() {
     const cookies = new Cookies();
@@ -40,28 +39,33 @@ export default function ManagerDepotManagement() {
         const json = {};
         switch (mode) {
             case 1:
-                if (newLatitude === '') {
+                if (newLatitude === '' || isNaN(parseFloat(newLatitude))) {
                     NotificationManager.error("Enter a valid latitude value.", "Error");
                     return;
-                } else {
-                    json["latitude"] = parseFloat(newLatitude);
                 }
+                if (parseFloat(newLatitude) >= 90 || parseFloat(newLatitude) <= -90) {
+                    NotificationManager.error("Enter a valid latitude value.", "Error");
+                    return;
+                }
+                json["latitude"] = newLatitude;
                 break;
             case 2:
-                if (newLongitude === '') {
+                if (newLongitude === '' || isNaN(parseFloat(newLongitude))) {
                     NotificationManager.error("Enter a valid longitude value.", "Error");
                     return;
-                } else {
-                    json["longitude"] = parseFloat(newLongitude);
                 }
+                if (parseFloat(newLongitude) >= 180 || parseFloat(newLongitude) <= -180) {
+                    NotificationManager.error("Enter a valid longitude value.", "Error");
+                    return;
+                }
+                json["longitude"] = newLongitude;
                 break;
             default:
                 if (newName === '') {
                     NotificationManager.error("Depot name cannot be empty.", "Error");
                     return;
-                } else {
-                    json["name"] = newName;
                 }
+                json["name"] = newName;
                 break;
         }
         try {
@@ -92,11 +96,19 @@ export default function ManagerDepotManagement() {
             NotificationManager.error("Depot name cannot be empty.", "Error");
             return;
         }
-        if (createLatitude === '') {
+        if (createLatitude === '' || isNaN(parseFloat(createLatitude))) {
             NotificationManager.error("Enter a valid latitude value.", "Error");
             return;
         }
-        if (createLongitude === '') {
+        if (parseFloat(createLatitude) >= 180 || parseFloat(createLatitude) <= -180) {
+            NotificationManager.error("Enter a valid latitude value.", "Error");
+            return;
+        }
+        if (createLongitude === '' || isNaN(parseFloat(createLongitude))) {
+            NotificationManager.error("Enter a valid longitude value.", "Error");
+            return;
+        }
+        if (parseFloat(createLongitude) >= 180 || parseFloat(createLongitude) <= -180) {
             NotificationManager.error("Enter a valid longitude value.", "Error");
             return;
         }
@@ -110,8 +122,9 @@ export default function ManagerDepotManagement() {
                 },
                 body: JSON.stringify({
                     "name": createName,
-                    "latitude": createLatitude,
-                    "longitude": createLongitude
+                    "address": "",
+                    "latitude": parseFloat(createLatitude),
+                    "longitude": parseFloat(createLongitude)
                 }),
                 mode: "cors"
             });
@@ -176,52 +189,54 @@ export default function ManagerDepotManagement() {
                                 <td>
                                     <div className="sameLine">
                                         <div className="maxWidthLongDep"> {depot.name} </div>
-                                        <InputGroup>
-                                            <input type="text" onInput={e => setNewName(e.target.value)} size={12}/>
-                                        </InputGroup>
-                                        <Button className="buttonPaddingDepot" onClick={() => {
-                                            if (depot.name !== newName) {
-                                                editDepot(depot.depoId, 0);
-                                            } else {
-                                                NotificationManager.error("Name cannot be the same.", "Error");
-                                            }
-                                        }}>
-                                            Edit
-                                        </Button>
+                                        <Form.Control type="text" onInput={e => setNewName(e.target.value)} size={12}/>
+                                        <div className="buttonPadding">
+                                            <Button onClick={() => {
+                                                if (depot.name !== newName) {
+                                                    editDepot(depot.depoId, 0);
+                                                } else {
+                                                    NotificationManager.error("Name cannot be the same.", "Error");
+                                                }
+                                            }}>
+                                                Edit
+                                            </Button>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div className="sameLine">
                                         <div className="maxWidthDepot">{depot.latitude} </div>
-                                        <InputGroup>
-                                            <input type="text" onInput={e => setNewLatitude(e.target.value)} size={12}/>
-                                        </InputGroup>
-                                        <Button className="buttonPaddingDepotLat" onClick={() => {
-                                            if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
-                                                editDepot(depot.depoId, 1);
-                                            } else {
-                                                NotificationManager.error("Latitude cannot be the same.", "Error");
-                                            }
-                                        }}>
-                                            Edit
-                                        </Button>
+                                        <Form.Control type="text" onInput={e => setNewLatitude(e.target.value)}
+                                                      size={12}/>
+                                        <div className="buttonPadding">
+                                            <Button onClick={() => {
+                                                if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
+                                                    editDepot(depot.depoId, 1);
+                                                } else {
+                                                    NotificationManager.error("Latitude cannot be the same.", "Error");
+                                                }
+                                            }}>
+                                                Edit
+                                            </Button>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div className="sameLine">
                                         <div className="maxWidthDepot"> {depot.longitude} </div>
-                                        <InputGroup>
-                                            <input type="text" onInput={e => setNewLongitude(e.target.value)} size={12}/>
-                                        </InputGroup>
-                                        <Button className="buttonPaddingDepotLat" onClick={() => {
-                                            if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
-                                                editDepot(depot.depoId, 2);
-                                            } else {
-                                                NotificationManager.error("Longitude cannot be the same.", "Error");
-                                            }
-                                        }}>
-                                            Edit
-                                        </Button>
+                                        <Form.Control type="text" onInput={e => setNewLongitude(e.target.value)}
+                                                      size={12}/>
+                                        <div className="buttonPadding">
+                                            <Button onClick={() => {
+                                                if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
+                                                    editDepot(depot.depoId, 2);
+                                                } else {
+                                                    NotificationManager.error("Longitude cannot be the same.", "Error");
+                                                }
+                                            }}>
+                                                Edit
+                                            </Button>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
@@ -231,18 +246,22 @@ export default function ManagerDepotManagement() {
                                 </td>
                             </tr>
                         ))}
-                        <tr key="create">
-                            <td><Form.Control type="text" placeholder="Enter name"
-                                              onInput={e => setCreateName(e.target.value)}/></td>
-                            <td><Form.Control type="text" placeholder="Enter latitude value"
-                                              onInput={e => setCreateLatitude(e.target.value)}/></td>
-                            <td><Form.Control type="text" placeholder="Enter longitude value"
-                                              onInput={e => setCreateLongitude(e.target.value)}/></td>
-                            <td><Button onClick={createDepot} variant="success">Create</Button></td>
-                        </tr>
                         </tbody>
                     </Table>
                 }
+                <Table>
+                    <tbody>
+                    <tr>
+                        <td><Form.Control type="text" placeholder="Enter name"
+                                          onInput={e => setCreateName(e.target.value)}/></td>
+                        <td><Form.Control type="text" placeholder="Enter latitude value"
+                                          onInput={e => setCreateLatitude(e.target.value)}/></td>
+                        <td><Form.Control type="text" placeholder="Enter longitude value"
+                                          onInput={e => setCreateLongitude(e.target.value)}/></td>
+                        <td><Button onClick={createDepot} variant="success">Create</Button></td>
+                    </tr>
+                    </tbody>
+                </Table>
             </Container>
         </>
     );

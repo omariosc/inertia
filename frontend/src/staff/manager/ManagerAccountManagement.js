@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import {Button, Container, Form} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
 import validate from '../../Validators';
 import host from '../../host';
-import Cookies from "universal-cookie";
 
 export default function ManagerAccountManagement() {
     const cookies = new Cookies();
@@ -85,9 +84,8 @@ export default function ManagerAccountManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
-                </a> > <a className="breadcrumb-list" href="/account-management">Account Management</a> > <b>
-                <a className="breadcrumb-current" href="/account-management">Create Employee Account</a></b>
+                <a className="breadcrumb-list" href="/dashboard">Home </a> > <b>
+                <a className="breadcrumb-current" href="/account-management">Account Management</a></b>
             </p>
             <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>

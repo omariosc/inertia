@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Button} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
 import host from "../host";
 import moment from "moment";
-import Cookies from "universal-cookie";
-import {useNavigate} from "react-router-dom";
 
 export default function CustomerDiscounts() {
     const cookies = new Cookies();
@@ -134,8 +133,9 @@ export default function CustomerDiscounts() {
                     {(!frequentUser && !studentUser && !seniorUser) ?
                         <>
                             <h5>Frequent User Discount</h5>
-                            <p>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent
-                                user discount!</p>
+                            <>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent
+                                user discount!</>
+                            <br/>
                             <br/>
                             <h5>Student Discount</h5>
                             <p>To apply for our 10% student discount, upload student ID below.</p>
@@ -155,7 +155,7 @@ export default function CustomerDiscounts() {
                                                setStudentImage(event.target.files[0]);
                                            }}
                                     />
-                                    <Button onClick={() => onSubmit("student")}>Submit</Button>
+                                    <Button className="float-right" onClick={() => onSubmit("student")}>Submit</Button>
                                 </>
                                 :
                                 <p>Your browser does not support file reader. Use another browser to upload
@@ -181,7 +181,7 @@ export default function CustomerDiscounts() {
                                                setSeniorImage(event.target.files[0]);
                                            }}
                                     />
-                                    <Button onClick={() => onSubmit("senior")}>Submit</Button>
+                                    <Button className="float-right" onClick={() => onSubmit("senior")}>Submit</Button>
                                 </>
                                 :
                                 <p>Your browser does not support file reader. Use another browser to upload

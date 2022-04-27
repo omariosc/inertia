@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
 import {NotificationManager} from "react-notifications";
 import validate from './Validators';
 import host from './host';

@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import getAge from "./getAge";
-import priorities from "./priorities";
-import accountRole from "./accountRole";
-import userType from "./userType";
-import host from "../host";
-import Cookies from "universal-cookie";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
+import getAge from "./getAge";
+import accountRole from "./accountRole";
+import host from "../host";
+import priorities from "./priorities";
+import userType from "./userType";
 
 export default function StaffManageIssues({manager}) {
     const cookies = new Cookies();
@@ -78,19 +77,20 @@ export default function StaffManageIssues({manager}) {
         <>
             {(manager) ?
                 <p id="breadcrumb">
-                    <a className="breadcrumb-list" href="/dashboard">Home
+                    <a className="breadcrumb-list" href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home
                     </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
                     <a className="breadcrumb-current" href="/issues">High Priority Issues</a></b>
                 </p> :
                 <p id="breadcrumb">
-                    <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                    <a className="breadcrumb-list"
+                       href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
                     <a className="breadcrumb-current" href="/issues">Issues</a></b>
                 </p>
             }
             <h3 id="pageName">Issues</h3>
             <hr id="underline"/>
 
-            <Container className={"p-3"}>
+            <Container className="p-3">
                 <Row className="p-2">
                     <Col className="col-8">
                         <Form.Control type="text"
@@ -102,7 +102,9 @@ export default function StaffManageIssues({manager}) {
                     <Col className="col-2">
                         <Button type="button"
                                 className={showAdvancedFilters ? "btn-danger" : "btn-primary"}
-                                onClick={() => {toggleAdvancedFilters()}}>
+                                onClick={() => {
+                                    toggleAdvancedFilters()
+                                }}>
                             {showAdvancedFilters ? "Hide Filters" : "Show Filters"}
 
                         </Button>

@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {Link, useOutletContext} from "react-router-dom";
 import {Nav} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md";
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 import {GiHamburgerMenu} from "react-icons/gi";
@@ -17,11 +16,11 @@ export default function EmployeeMobileNavigation() {
     function Links() {
         return (
             <Nav
-                defaultActiveKey="/dashboard"
+                defaultActiveKey="/home"
                 variant="pills"
                 className="manager-vert-navbar-mobile flex-column medium-padding-left"
             >
-                <Nav.Link as={Link} to="/dashboard">
+                <Nav.Link as={Link} to="/home">
                     <MdDashboard/> Dashboard
                 </Nav.Link>
                 <Nav.Link as={Link} to="/bookings">

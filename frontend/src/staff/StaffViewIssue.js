@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
 import getAge from "./getAge";
 import host from '../host';
 import priorities from "./priorities";
-import Cookies from "universal-cookie";
 
 export default function StaffViewIssue() {
     let navigate = useNavigate();
@@ -115,7 +114,7 @@ export default function StaffViewIssue() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
+                <a className="breadcrumb-list" href={(cookies.get("accountRole") === "2") ? "/dashboard" : "/home"}>Home
                 </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
                 <a className="breadcrumb-current" href={`/issues/${id}`}>#{id}</a></b>
             </p>

@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Dropdown, DropdownButton} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import host from "./host";
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
+import host from "./host";
 
 export default function LandingPage() {
     const [map_locations, setMapLocations] = useState('');

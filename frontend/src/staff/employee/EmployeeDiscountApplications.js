@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
-import host from "../../host";
 import Cookies from "universal-cookie";
+import host from "../../host";
 
 export default function EmployeeDiscountApplications() {
     const cookies = new Cookies();
@@ -70,7 +69,7 @@ export default function EmployeeDiscountApplications() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-list" href="/home">Home</a> > <b>
                 <a className="breadcrumb-current" href="/discount-applications">Discount Applications</a></b>
             </p>
             <h3 id="pageName">Manage Discount Applications</h3>

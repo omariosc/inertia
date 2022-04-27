@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {Button, Form, Modal} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
 import {NotificationManager} from "react-notifications";
-import host from './host';
 import Cookies from 'universal-cookie';
+import host from './host';
 
 export default function LoginForm(props) {
     let navigate = useNavigate();
@@ -34,15 +33,16 @@ export default function LoginForm(props) {
                 cookies.set("accountName", response.account.name, {path: '/'});
                 cookies.set("accountRole", response.account.role, {path: '/'});
                 cookies.set("accessToken", response.accessToken, {path: '/'});
-                // If staff account navigates to dashboard.
-                if (response.account.role === 2 || response.account.role === 1) {
-                    NotificationManager.success("Logged in.", "Success");
+                // If manager account.
+                if (response.account.role === 2) {
                     navigate('/dashboard');
+                    // If employee account.
+                } else if (response.account.role === 1) {
+                    navigate('/home');
+                    // If customer account.
                 } else if (response.account.role === 0) {
-                    NotificationManager.success("Logged in.", "Success");
                     navigate('/create-booking');
                 } else {
-                    NotificationManager.error("Could not log in.", "Error");
                     console.log(response);
                 }
                 // Refreshes page.

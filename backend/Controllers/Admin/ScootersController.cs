@@ -116,7 +116,11 @@ public class ScootersController : MyControllerBase
         if (oldScooter == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "scooter id invalid", "scooter");
 
-        try
+        var clash = scooterRequest.SoftScooterId != null ? 
+            await _db.Scooters.Where(s => s.SoftScooterId == scooterRequest.SoftScooterId).FirstOrDefaultAsync() 
+            : null;
+
+        if (clash == null || clash.ScooterId == oldScooter.ScooterId)
         {
             oldScooter.Available = scooterRequest.Available ?? oldScooter.Available;
             oldScooter.DepoId = scooterRequest.DepoId ?? oldScooter.DepoId;
@@ -125,11 +129,11 @@ public class ScootersController : MyControllerBase
 
             await _db.SaveChangesAsync();
         }
-        catch (UniqueConstraintException)
+        else
         {
             return ApplicationError(ApplicationErrorCode.ScooterIdTaken, "scooter id taken");
         }
-        
+
         return Ok(oldScooter);
     }
 }

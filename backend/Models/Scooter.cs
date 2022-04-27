@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Models;
 
-[Index(nameof(SoftScooterId), IsUnique = true)]
 public class Scooter: ISoftDelete
 {
     [Key] 

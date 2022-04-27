@@ -34,8 +34,9 @@ public class InertiaService
 
         
         var scooters = depo is null ?
-            await _db.Scooters.ToListAsync():
-            await _db.Scooters.Where(s => s.DepoId == depo.DepoId).ToListAsync();
+            await _db.Scooters.Include(s => s.Depo).ToListAsync():
+            await _db.Scooters.Include(s => s.Depo)
+                .Where(s => s.DepoId == depo.DepoId).ToListAsync();
 
         foreach (var s in scooters)
         {
@@ -83,7 +84,9 @@ public class InertiaService
                 e => e.ScooterId
             );
 
-        var availableScooters = await _db.Scooters.Where(
+        var availableScooters = await _db.Scooters
+            .Include(s => s.Depo)
+            .Where(
             scooter =>
                 !unavailableScooters.Contains(scooter.ScooterId) &&
                 scooter.Available

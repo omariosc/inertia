@@ -69,6 +69,8 @@ export default function RegisterForm(props) {
                         NotificationManager.error("Could not log in.", "Error");
                         console.log(response);
                     }
+                    // Refreshes page.
+                    window.location = window.location
                 } else {
                     NotificationManager.error("Unable to Log in.", "Error");
                 }

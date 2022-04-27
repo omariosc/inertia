@@ -30,7 +30,8 @@ public class DeposController : MyControllerBase
         var e = await db.Depos.AddAsync(new Depo {
             Latitude = depo.Latitude,
             Longitude = depo.Longitude,
-            Name = depo.Name
+            Name = depo.Name,
+            Address = depo.Address
         });
 
         await db.SaveChangesAsync();
@@ -69,7 +70,8 @@ public class DeposController : MyControllerBase
         {
             Latitude = depoRequest.Latitude ?? oldDepo.Latitude,
             Longitude = depoRequest.Longitude ?? oldDepo.Longitude,
-            Name = depoRequest.Name ?? oldDepo.Name
+            Name = depoRequest.Name ?? oldDepo.Name,
+            Address = depoRequest.Address ?? oldDepo.Address
         };
         
         await db.Depos.AddAsync(depo);

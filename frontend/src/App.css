@@ -375,6 +375,19 @@
     width: 80% !important;
 }
 
+.box {
+    position: relative;
+    width: 50%;
+}
+.box:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
+}
+
+.minimap-box{
+    float:left;
+}
 .navbar-pad-left {
     padding-left: 10px;
 }

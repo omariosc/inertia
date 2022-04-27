@@ -86,7 +86,7 @@ export default function EmployeeCreateGuestBooking() {
         }
     }
 
-    // Done like this because it setState is asynchronus
+    // Done like this because it setState is asynchronous
     function validate(){
         setValidName(name.length > 0);
         setValidEmail((email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)));

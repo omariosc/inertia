@@ -426,7 +426,7 @@ export default function CustomerCreateBooking() {
                                     cookies.remove('expiryDate');
                                     cookies.remove('cvv');
                                     navigate('/create-booking');
-                                    NotificationManager.success("Deleted credit card details.", "Sucess");
+                                    NotificationManager.success("Deleted credit card details.", "Success");
                                 }}>
                                 Delete Card Details
                             </Button>

@@ -1,6 +1,6 @@
-import host from './host';
-import Cookies from "universal-cookie";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
+import host from './host';
 
 // Changes user password.
 export default async function changePassword(oldPassword, password, confirmPassword) {

@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Button, Container, Form, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
 import showDate from "../../showDate";
 import host from "../../host";
-import Cookies from "universal-cookie";
-import {useNavigate} from "react-router-dom";
 
 export default function EmployeeOngoingBookings() {
     const cookies = new Cookies();
@@ -31,13 +30,16 @@ export default function EmployeeOngoingBookings() {
                 mode: "cors"
             });
             let allBookings = await request.json();
-            setBookingHistory(allBookings.filter((booking) => {
-                    if (booking.orderState >= 1 && booking.orderState <= 3) {
-                        return booking;
+            let ongoingBookings = [];
+            for (let i = 0; i < allBookings.length; i++) {
+                if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
+                    if (allBookings[i]['extensions'] != null) {
+                        allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
                     }
-                    return null;
+                    ongoingBookings.push(allBookings[i]);
                 }
-            ));
+            }
+            setBookingHistory(ongoingBookings);
         } catch (e) {
             console.log(e);
         }
@@ -112,7 +114,7 @@ export default function EmployeeOngoingBookings() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
+                <a className="breadcrumb-list" href="/home">Home</a> > <b>
                 <a className="breadcrumb-current" href="/bookings">Bookings</a></b>
             </p>
             <h3 id="pageName">Ongoing Bookings</h3>
@@ -171,7 +173,8 @@ export default function EmployeeOngoingBookings() {
                                                                 variant="danger">Cancel</Button>
                                                     </td>
                                                     <td>
-                                                        <Button onClick={() => navigate("../bookings/" + booking.orderId)}>
+                                                        <Button
+                                                            onClick={() => navigate("../bookings/" + booking.orderId)}>
                                                             View
                                                         </Button>
                                                     </td>

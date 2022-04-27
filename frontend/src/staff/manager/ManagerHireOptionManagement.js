@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Button, Container, Form, InputGroup, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import host from "../../host";
 import Cookies from 'universal-cookie';
+import host from "../../host";
 
 export default function ManagerHireOptionManagement() {
     const cookies = new Cookies();
@@ -30,7 +29,7 @@ export default function ManagerHireOptionManagement() {
                 },
                 mode: "cors"
             });
-            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
+            setHireOptions((await request.json()).sort((a, b) => a.durationInHours - b.durationInHours));
         } catch (error) {
             console.error(error);
         }
@@ -187,58 +186,54 @@ export default function ManagerHireOptionManagement() {
                             <tr key={idx}>
                                 <td>
                                     <div className="sameLine">
-                                        <div className="maxWidth"> {hireOption.durationInHours}
+                                        <div className="maxWidth"> {hireOption.durationInHours}</div>
+                                        <Form.Control type="number" onInput={e => setNewDuration(e.target.value)}
+                                                      size={12}/>
+                                        <div className="buttonPadding">
+                                            <Button onClick={() => {
+                                                if (hireOption.durationInHours !== parseInt(newDuration)) {
+                                                    editHireOption(hireOption.hireOptionId, 0);
+                                                } else {
+                                                    NotificationManager.error("Duration cannot be the same.", "Error");
+                                                }
+                                            }}>
+                                                Edit
+                                            </Button>
                                         </div>
-
-                                        <InputGroup >
-                                            <input  type="number" onInput={e => setNewDuration(e.target.value)} size={12}/>
-                                        </InputGroup>
-                                        <Button className="buttonPaddingDuration" onClick={() => {
-                                            if (hireOption.durationInHours !== parseInt(newDuration)) {
-                                                editHireOption(hireOption.hireOptionId, 0);
-                                            } else {
-                                                NotificationManager.error("Duration cannot be the same.", "Error");
-                                            }
-                                        }}>
-                                            Edit
-                                        </Button>
                                     </div>
                                 </td>
                                 <td>
                                     <div className="sameLine">
                                         <div className="maxWidthLong"> {hireOption.name} </div>
-                                        <InputGroup>
-                                            <input type="text" onInput={e => setNewName(e.target.value)} size={12}/>
-                                        </InputGroup>
-                                        <Button className="buttonPadding" onClick={() => {
-                                            if (hireOption.name !== newName) {
-                                                editHireOption(hireOption.hireOptionId, 1);
-                                            } else {
-                                                NotificationManager.error("Name cannot be the same.", "Error");
-                                            }
-                                        }}>
-                                            Edit
-                                        </Button>
+                                        <Form.Control type="text" onInput={e => setNewName(e.target.value)} size={12}/>
+                                        <div className="buttonPadding">
+                                            <Button onClick={() => {
+                                                if (hireOption.name !== newName) {
+                                                    editHireOption(hireOption.hireOptionId, 1);
+                                                } else {
+                                                    NotificationManager.error("Name cannot be the same.", "Error");
+                                                }
+                                            }}>
+                                                Edit
+                                            </Button>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div className="sameLine">
-                                        <div className="maxWidthLong">
-                                            {hireOption.cost}
+                                        <div className="maxWidthLong">{hireOption.cost}</div>
+                                        <Form.Control type="price" onInput={e => setNewCost(e.target.value)} size={12}/>
+                                        <div className="buttonPadding">
+                                            <Button onClick={() => {
+                                                if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
+                                                    editHireOption(hireOption.hireOptionId, 2);
+                                                } else {
+                                                    NotificationManager.error("Cost cannot be the same.", "Error");
+                                                }
+                                            }}>
+                                                Edit
+                                            </Button>
                                         </div>
-
-                                        <InputGroup>
-                                            <input type="price" onInput={e => setNewCost(e.target.value)} size={12}/>
-                                        </InputGroup>
-                                        <Button className="buttonPadding" onClick={() => {
-                                            if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
-                                                editHireOption(hireOption.hireOptionId, 2);
-                                            } else {
-                                                NotificationManager.error("Cost cannot be the same.", "Error");
-                                            }
-                                        }}>
-                                            Edit
-                                        </Button>
                                     </div>
                                 </td>
                                 <td>
@@ -250,18 +245,22 @@ export default function ManagerHireOptionManagement() {
                                 </td>
                             </tr>
                         ))}
-                        <tr key="create">
-                            <td><Form.Control type="number" placeholder="Enter duration value"
-                                              onInput={e => setCreateDuration(e.target.value)}/></td>
-                            <td><Form.Control type="text" placeholder="Enter name"
-                                              onInput={e => setCreateName(e.target.value)}/></td>
-                            <td><Form.Control type="price" placeholder="Enter cost"
-                                              onInput={e => setCreateCost(e.target.value)}/></td>
-                            <td><Button onClick={createHireOption} variant="success">Create</Button></td>
-                        </tr>
                         </tbody>
                     </Table>
                 }
+                <Table>
+                    <tbody>
+                    <tr>
+                        <td><Form.Control type="number" placeholder="Enter duration value"
+                                          onInput={e => setCreateDuration(e.target.value)}/></td>
+                        <td><Form.Control type="text" placeholder="Enter name"
+                                          onInput={e => setCreateName(e.target.value)}/></td>
+                        <td><Form.Control type="price" placeholder="Enter cost"
+                                          onInput={e => setCreateCost(e.target.value)}/></td>
+                        <td><Button onClick={createHireOption} variant="success">Create</Button></td>
+                    </tr>
+                    </tbody>
+                </Table>
             </Container>
         </>
     );

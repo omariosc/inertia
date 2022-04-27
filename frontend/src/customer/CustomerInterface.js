@@ -1,10 +1,8 @@
 import React from "react";
 import {useLocation, useOutletContext, Outlet, Link} from 'react-router-dom';
 import {Row, Col, Nav, DropdownButton, Dropdown} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import '../App.css';
 
 export default function CustomerInterface() {
     let location = useLocation();

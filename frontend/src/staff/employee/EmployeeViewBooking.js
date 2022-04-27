@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import Cookies from "universal-cookie";
-import host from "../../host";
+import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
 import showDate from "../../showDate";
+import host from "../../host";
 import orderState from "../orderState";
-import {Container, Table} from "react-bootstrap";
 
 export default function staffViewBooking() {
     let navigate = useNavigate();
@@ -32,9 +32,12 @@ export default function staffViewBooking() {
             });
             let response = await request.json();
             if (response.errorCode) {
-                NotificationManager.error("Invalid ID.", "Error");
+                NotificationManager.error("Invalid Booking ID.", "Error");
                 navigate('/bookings');
             } else {
+                if (response['extensions'].length > 0) {
+                    response.endTime = response['extensions'][response['extensions'].length - 1].endTime;
+                }
                 setBooking(response);
             }
         } catch (error) {
@@ -47,7 +50,7 @@ export default function staffViewBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
+                <a className="breadcrumb-list" href="/home">Home
                 </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
                 <a className="breadcrumb-current" href={`/bookings/${orderId}`}>#{orderId}</a></b>
             </p>
@@ -96,13 +99,6 @@ export default function staffViewBooking() {
                             </>
                             : null
                         }
-                        {(booking.hireOption) ?
-                            <tr>
-                                <td><b>Hire Option:</b></td>
-                                <td>{booking.hireOption.name}</td>
-                            </tr>
-                            : null
-                        }
                         <tr>
                             <td><b>Cost:</b></td>
                             <td>£{booking.cost.toFixed(2)}</td>
@@ -132,6 +128,7 @@ export default function staffViewBooking() {
                         </tbody>
                     </Table>
                 }
+                <a href="/bookings"><Button className="float-right" variant="danger">Close</Button></a>
             </Container>
         </>
     );

@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import Cookies from 'universal-cookie';
+import getScooterName from "../getScooterName";
 import host from "../host";
 import moment from "moment";
-import Cookies from 'universal-cookie';
-
+import getMapName from "../getMapName";
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -315,7 +315,6 @@ export default function CustomerCreateBooking() {
                                 ))}
                                 </>
                             }
-
                         </Form.Select>
                     }
                 </Col>

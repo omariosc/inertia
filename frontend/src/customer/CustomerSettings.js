@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import Cookies from "universal-cookie";
 import changePassword from "../ChangePassword";
 import host from "../host";
-import Cookies from "universal-cookie";
 
 export default function CustomerSettings() {
     const cookies = new Cookies();

@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
 import showDate from "../showDate";
 import host from "../host";
 import orderState from "../staff/orderState";
-import Cookies from "universal-cookie";
 
 export default function CustomerCurrentBookings() {
     const cookies = new Cookies();
@@ -34,6 +33,9 @@ export default function CustomerCurrentBookings() {
             let ongoingBookings = [];
             for (let i = 0; i < allBookings.length; i++) {
                 if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
+                    if (allBookings[i]['extensions'].length > 0) {
+                        allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+                    }
                     ongoingBookings.push(allBookings[i]);
                 }
             }
@@ -149,10 +151,6 @@ export default function CustomerCurrentBookings() {
                                             : null
                                         }
                                         <tr>
-                                            <td><b>Hire Option:</b></td>
-                                            <td>{booking.hireOption.name}</td>
-                                        </tr>
-                                        <tr>
                                             <td><b>Cost:</b></td>
                                             <td>£{booking.cost.toFixed(2)}</td>
                                         </tr>
@@ -187,7 +185,6 @@ export default function CustomerCurrentBookings() {
                             <Table className="table-formatting">
                                 <thead>
                                 <tr>
-                                    <th>Hire Length</th>
                                     <th>Time Expiring</th>
                                     <th>Extend</th>
                                     <th>Cancel</th>
@@ -200,7 +197,6 @@ export default function CustomerCurrentBookings() {
                                     <>
                                         {bookingHistory.map((booking, idx) => (
                                             <tr key={idx}>
-                                                <td>{booking.hireOption.name}</td>
                                                 <td>{showDate(booking.endTime)}</td>
                                                 <td>
                                                     {(hireOptions === '') ?

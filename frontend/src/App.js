@@ -11,6 +11,10 @@ const App = () => {
 
     // Signs out from application. Deletes cookies and navigates to landing page.
     async function signOut() {
+        cookies.remove('accountRole');
+        cookies.remove('accessToken');
+        cookies.remove('accountID');
+        cookies.remove('accountName');
         try {
             await fetch(host + 'api/Users/authorize', {
                 method: 'DELETE',
@@ -27,10 +31,6 @@ const App = () => {
         } catch (error) {
             console.error(error);
         }
-        cookies.remove('accessToken');
-        cookies.remove('accountID');
-        cookies.remove('accountRole');
-        cookies.remove('accountName');
         window.location.reload(true);
     }
 

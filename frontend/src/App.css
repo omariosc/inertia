@@ -116,7 +116,16 @@
     text-decoration: none;
 }
 
-/* hide canvasjs watermark */
+.buttonPadding {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.buttonPaddingScooter {
+    margin-left: 5px;
+}
+
+/* hide canvajs credit */
 .canvasjs-chart-credit {
     display: none;
 }
@@ -132,6 +141,9 @@
     border-block-end: black;
     display: flex;
     justify-content: flex-end;
+    position: sticky;
+    top: 0;
+
 }
 
 .customer-create-booking-padding {
@@ -342,28 +354,32 @@
 
 .maxWidth {
     clear: both;
+    min-width: 50px;
     white-space: nowrap;
-    width: 90px;
+    width: auto;
 }
 
 .maxWidthDepot {
     clear: both;
+    min-width: 90px;
     white-space: nowrap;
-    width: 120px;
+    width: auto;
 }
 
 .maxWidthLong {
     clear: both;
+    min-width: 90px;
     overflow: hidden;
     white-space: nowrap;
-    width: 100px;
+    width: auto;
 }
 
 .maxWidthLongDep {
     clear: both;
+    min-width: 200px;
     overflow: hidden;
     white-space: nowrap;
-    width: 300px;
+    width: auto;
 }
 
 .medium-padding-left {

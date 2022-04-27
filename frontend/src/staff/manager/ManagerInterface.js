@@ -1,7 +1,6 @@
 import React from "react";
 import {Link, Outlet, useOutletContext} from "react-router-dom";
 import {Nav, Row, Col, Navbar, DropdownButton, Dropdown} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import ManagerMobileNavigation from "./ManagerMobileNavigation"

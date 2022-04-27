@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
+import Cookies from 'universal-cookie';
 import showDate from "../showDate";
 import host from '../host';
 import orderState from "../staff/orderState";
-import Cookies from 'universal-cookie';
 
 export default function CustomerBookingHistory() {
     const cookies = new Cookies();
@@ -26,7 +25,15 @@ export default function CustomerBookingHistory() {
                 },
                 mode: "cors"
             });
-            setBookingHistory(await request.json());
+            let allBookings = await request.json();
+            let ongoingBookings = [];
+            for (let i = 0; i < allBookings.length; i++) {
+                if (allBookings[i]['extensions'].length > 0) {
+                    allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+                }
+                ongoingBookings.push(allBookings[i]);
+            }
+            setBookingHistory(ongoingBookings);
         } catch (e) {
             console.log(e);
         }
@@ -75,10 +82,6 @@ export default function CustomerBookingHistory() {
                                             </>
                                             : null
                                         }
-                                        <tr>
-                                            <td><b>Hire Option:</b></td>
-                                            <td>{booking.hireOption.name}</td>
-                                        </tr>
                                         <tr>
                                             <td><b>Cost:</b></td>
                                             <td>£{booking.cost.toFixed(2)}</td>

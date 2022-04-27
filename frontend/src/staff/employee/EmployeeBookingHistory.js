@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Container, Row, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import host from '../../host';
-import Cookies from 'universal-cookie';
 import {useNavigate} from "react-router-dom";
+import {Button, Col, Container, Row, Table} from "react-bootstrap";
+import Cookies from 'universal-cookie';
+import host from '../../host';
 
 export default function EmployeeBookingHistory() {
     const cookies = new Cookies();
@@ -25,7 +24,15 @@ export default function EmployeeBookingHistory() {
                 },
                 mode: "cors"
             });
-            setBookings(await request.json());
+            let allBookings = await request.json();
+            let ongoingBookings = [];
+            for (let i = 0; i < allBookings.length; i++) {
+                if (allBookings[i]['extensions'] != null) {
+                    allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+                }
+                ongoingBookings.push(allBookings[i]);
+            }
+            setBookings(ongoingBookings);
         } catch (e) {
             console.log(e);
         }
@@ -34,7 +41,7 @@ export default function EmployeeBookingHistory() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
+                <a className="breadcrumb-list" href="/home">Home
                 </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/booking-history">Booking History</a></b>
             </p>
@@ -50,7 +57,7 @@ export default function EmployeeBookingHistory() {
                                     {bookings.map((booking, idx) => (
                                         <tr key={idx}>
                                             <td>{booking.orderId}</td>
-                                            <td className={"float-end"}>
+                                            <td className="float-end">
                                                 <Button onClick={() => navigate("../bookings/" + booking.orderId)}>
                                                     View
                                                 </Button>

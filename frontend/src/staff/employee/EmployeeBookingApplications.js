@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
+import Cookies from "universal-cookie";
 import showDate from "../../showDate";
 import host from "../../host";
-import Cookies from "universal-cookie";
-import {useNavigate} from "react-router-dom";
-
 
 export default function EmployeeBookingApplications() {
     const cookies = new Cookies();
@@ -30,12 +28,16 @@ export default function EmployeeBookingApplications() {
                 mode: "cors"
             });
             let allBookings = await request.json();
-            setBookingHistory(allBookings.filter((booking) => {
-                if (booking.orderState === 1) {
-                    return booking;
+            let ongoingBookings = [];
+            for (let i = 0; i < allBookings.length; i++) {
+                if (allBookings[i].orderState === 1) {
+                    if (allBookings[i]['extensions'] != null) {
+                        allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+                    }
+                    ongoingBookings.push(allBookings[i]);
                 }
-                return null
-            }))
+            }
+            setBookingHistory(ongoingBookings);
         } catch (e) {
             console.log(e);
         }
@@ -90,7 +92,7 @@ export default function EmployeeBookingApplications() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
+                <a className="breadcrumb-list" href="/home">Home
                 </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/booking-applications">Booking Applications</a></b>
             </p>
@@ -132,7 +134,8 @@ export default function EmployeeBookingApplications() {
                                                                 variant="danger">Deny</Button>
                                                     </td>
                                                     <td>
-                                                        <Button onClick={() => navigate("../bookings/" + booking.orderId)}>
+                                                        <Button
+                                                            onClick={() => navigate("../bookings/" + booking.orderId)}>
                                                             View
                                                         </Button>
                                                     </td>

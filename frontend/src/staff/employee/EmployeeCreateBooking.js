@@ -1,18 +1,19 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
-import host from "../../host";
 import Cookies from "universal-cookie";
+import getScooterName from "../../getScooterName";
+import host from "../../host";
+import getMapName from "../../getMapName";
 
 export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
-    const [name, setName] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [hireChoiceId, setHireChoiceId] = useState('');
     const [price, setPrice] = useState('');
@@ -21,9 +22,9 @@ export default function EmployeeCreateGuestBooking() {
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
+    const [validName, setValidName] = useState(true);
     const [validEmail, setValidEmail] = useState(true);
     const [validConfirm, setValidConfirm] = useState(true);
-    const [validName, setValidName] = useState(true);
     const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
     const [validCardNo, setValidCardNo] = useState(true);
@@ -150,7 +151,7 @@ export default function EmployeeCreateGuestBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
+                <a className="breadcrumb-list" href="/home">Home
                 </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
                 <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
             </p>

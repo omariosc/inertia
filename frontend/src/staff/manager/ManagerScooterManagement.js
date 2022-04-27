@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
+import Cookies from 'universal-cookie';
 import getMapName from "../../getMapName";
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
-import Cookies from 'universal-cookie';
 
 export default function ManagerScooterManagement() {
     const cookies = new Cookies();
@@ -133,7 +132,10 @@ export default function ManagerScooterManagement() {
                 mode: "cors"
             });
             let response = await request;
-            if (response.status !== 200) {
+            if (response.status === 422) {
+                NotificationManager.error("Scooter ID is already taken.", "Error");
+            }
+            else if (response.status !== 200) {
                 NotificationManager.error("Could not create scooter.", "Error");
             } else {
                 NotificationManager.success("Created scooter.", "Success");
@@ -195,7 +197,8 @@ export default function ManagerScooterManagement() {
                                     <Row className="sameLine">
                                         <Col className="">{scooter.softScooterId}</Col>
                                         <Col>
-                                            <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)} size={20}/>
+                                            <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)}
+                                                          size={20}/>
                                         </Col>
                                         <Col>
                                             <Button className="buttonPaddingScooter" onClick={() => {
@@ -251,37 +254,41 @@ export default function ManagerScooterManagement() {
                                 </td>
                             </tr>
                         ))}
-                        <tr key="create">
-                            <td>
-                                <Form.Control type="text" placeholder="Enter ID"
-                                              onInput={e => setCreateId(e.target.value)}/>
-                            </td>
-                            <td>
-                                {(map_locations === "") ?
-                                    <p>Loading map locations...</p> :
-                                    <Form>
-                                        <Form.Select defaultValue="none" onChange={(e) => {
-                                            setCreateDepo(e.target.value);
-                                        }}>
-                                            <option value="none" key="none" disabled hidden>
-                                                Select location
-                                            </option>
-                                            {map_locations.map((location, idx) => (
-                                                <option value={location.depoId} key={idx}>
-                                                    {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
-                                                </option>
-                                            ))}
-                                        </Form.Select>
-                                    </Form>
-                                }
-                            </td>
-                            <td>
-                                <Button onClick={createScooter} variant="success">Create</Button>
-                            </td>
-                        </tr>
                         </tbody>
                     </Table>
                 }
+                <Table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <Form.Control type="text" placeholder="Enter ID"
+                                          onInput={e => setCreateId(e.target.value)}/>
+                        </td>
+                        <td>
+                            {(map_locations === "") ?
+                                <p>Loading map locations...</p> :
+                                <Form>
+                                    <Form.Select defaultValue="none" onChange={(e) => {
+                                        setCreateDepo(e.target.value);
+                                    }}>
+                                        <option value="none" key="none" disabled hidden>
+                                            Select location
+                                        </option>
+                                        {map_locations.map((location, idx) => (
+                                            <option value={location.depoId} key={idx}>
+                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form>
+                            }
+                        </td>
+                        <td>
+                            <Button onClick={createScooter} variant="success">Create</Button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </Table>
             </Container>
         </>
     );

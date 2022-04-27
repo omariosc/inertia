@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Row} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
-import host from "../../host";
 import Cookies from "universal-cookie";
+import host from "../../host";
 
 export default function EmployeeSubmitIssue() {
     const cookies = new Cookies();
@@ -51,7 +50,7 @@ export default function EmployeeSubmitIssue() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home
+                <a className="breadcrumb-list" href="/home">Home
                 </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
                 <a className="breadcrumb-current" href="/submit-issue">Submit Issue</a></b>
             </p>

@@ -1,15 +1,14 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {Nav} from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md";
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 
 export default function EmployeeNavigation() {
     return (
-        <Nav defaultActiveKey="/dashboard" variant="pills"
+        <Nav defaultActiveKey="/home" variant="pills"
              className="manager-vert-navbar flex-column medium-padding-left">
-            <Nav.Link as={Link} to="/dashboard">
+            <Nav.Link as={Link} to="/home">
                 <MdDashboard/> Dashboard
             </Nav.Link>
             <Nav.Link as={Link} to="/bookings">

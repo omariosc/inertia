@@ -186,7 +186,6 @@ export default function CustomerCreateBooking() {
                 mode: "cors"
             });
             let response = await request;
-            console.log(await response.json())
             if (response.status === 422) {
                 NotificationManager.error("Scooter is currently unavailable.", "Error");
             } else if (response.status === 200) {

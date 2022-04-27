@@ -150,27 +150,19 @@ export default function CustomerCreateBooking() {
         }
     }
 
-    function validChoice() {
-        return validScooter && validHireSlot;
-    }
-
-    function validCard() {
-        return validCardNo && validExpDate && validCVV;
-    }
-
     async function createBooking() {
         setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
         setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
-        if (!validChoice()) {
+        setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
+        setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
+        setValidCVV(cvv.match(/^[0-9]{3,4}$/));
+        if (! (scooterChoiceId !== '' && scooterChoiceId !== 'none'
+            && hireChoiceId !== '' && hireChoiceId !== 'none')
+            && cardNo.length > 9 && cardNo.length < 20
+            && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
+            && cvv.match(/^[0-9]{3,4}$/)) {
+            NotificationManager.error("Invalid Details Provided", "Error");
             return;
-        }
-        if (!checkCardExists()) {
-            setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
-            setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
-            setValidCVV(cvv.match(/^[0-9]{3,4}$/));
-            if (!validCard()) {
-                return;
-            }
         }
         try {
             let request = await fetch(host + "api/Orders", {
@@ -259,10 +251,11 @@ export default function CustomerCreateBooking() {
                                         position={[map_location.latitude, map_location.longitude]}
                                         eventHandlers = {{
                                             click: () => {
-                                                setDepotChoiceId(map_location.depoId)
+                                                setDepotChoiceId(map_location.depoId);
+                                                setScooterChoiceId("");
                                             }}}>
                                     <Popup>
-                                        <Button className="badge-primary disabled">
+                                        <Button className="disabled">
                                             {map_location.name}
                                         </Button>
 
@@ -281,8 +274,9 @@ export default function CustomerCreateBooking() {
                 </Col>
                 <Col>
                     {(map_locations === "" ) ? <> Loading depots... </> :
-                        <Form.Select value={depotChoiceId} defaultValue="" isInvalid={!validScooter} onChange={(e) => {
+                        <Form.Select value={depotChoiceId} isInvalid={!validScooter} onChange={(e) => {
                             setDepotChoiceId(e.target.value);
+                            setScooterChoiceId("");
                         }}>
                             <option value="" key="none" disabled hidden>Select Depot</option>
                             {map_locations.map((depot, idx) => (
@@ -299,7 +293,8 @@ export default function CustomerCreateBooking() {
                 </Col>
                 <Col>
                     {(scooters === "") ? <> Loading scooters... </> :
-                        <Form.Select defaultValue=""
+                        <Form.Select
+                                     value={scooterChoiceId}
                                      isInvalid={!validScooter}
                                      disabled={depotChoiceId === ""}
                                      onChange={(e) => {

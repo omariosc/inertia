@@ -45,8 +45,6 @@ export default function LoginForm(props) {
                     NotificationManager.error("Could not log in.", "Error");
                     console.log(response);
                 }
-                // Refreshes page.
-                window.location = window.location
             } else {
                 NotificationManager.error("Login credentials invalid.", "Error");
             }

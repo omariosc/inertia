@@ -303,6 +303,9 @@
     display: flex;
     flex-direction: column;
     padding-top: 10px;
+    position: sticky;
+    top: 0;
+
 }
 
 .manager-vert-navbar a {
@@ -533,6 +536,7 @@
 
     .manager-vert-navbar {
         display: none !important;
+
     }
 
     .manager-vert-navbar-mobile {

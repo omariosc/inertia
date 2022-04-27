@@ -94,6 +94,11 @@
     padding-bottom: 65px;
 }
 
+/* for overflow on sub containers */
+.autoScrollSub {
+    overflow-y: auto;
+}
+
 /* sets important black background*/
 .black-bg {
     background-color: black !important;

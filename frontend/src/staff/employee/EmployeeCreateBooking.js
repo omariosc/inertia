@@ -159,7 +159,7 @@ export default function EmployeeCreateGuestBooking() {
             <Container className="pb-4">
                 <Row>
                     <Col className="col-6">
-                        <Container className="autoScroll">
+                        <Container className="autoScrollSub">
                             <h5>Customer Details</h5>
                             <Row className="pb-2 small-padding-top">
                                 <Col className="text-end col-6 align-self-center">
@@ -198,7 +198,6 @@ export default function EmployeeCreateGuestBooking() {
                                     </Form.Control.Feedback>
                                 </Col>
                             </Row>
-
                             <h5>Booking Details</h5>
                             <Row className="pb-2">
                                 <Col className="text-end col-6 align-self-center">
@@ -279,6 +278,11 @@ export default function EmployeeCreateGuestBooking() {
                                     }
                                 </Col>
                             </Row>
+                            {price === "" ?
+                                <h5>Cost: Unknown</h5>:
+                                <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>
+                            }
+
                             <h5>Payment details</h5>
                             <Row className="pb-2 small-padding-top">
                                 <Col className="text-end col-6 align-self-center">

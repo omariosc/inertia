@@ -15,7 +15,7 @@ export default function ManagerInterface() {
     return (
         <div id="overlay">
             <div id="manager-wrapper" className="clickable">
-                <Navbar expand="lg" className="clickable black-bg">
+                <Navbar expand="lg" className="topnavbar">
                     <Navbar.Brand className="navbar-style" as={Link} to="/dashboard"><b>INERTIA</b></Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text className="navbar-pad-right text-white">
@@ -29,7 +29,7 @@ export default function ManagerInterface() {
                         </Nav.Item>
                     </Navbar.Collapse>
                 </Navbar>
-                <Row id="manager-row">
+                <Row className="manager-rows">
                     <Col xs="auto" className="staff-nav-column solid-border border-dark">
                         <ManagerNavigation/>
                         <ManagerMobileNavigation/>

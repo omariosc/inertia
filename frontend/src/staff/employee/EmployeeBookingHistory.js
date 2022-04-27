@@ -40,36 +40,28 @@ export default function EmployeeBookingHistory() {
             </p>
             <h3 id="pageName">Booking History</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
-                <Row xs={1}>
-                    <Col>
-                            <Table className="table-formatting">
-                                <thead>
-                                <tr>
-                                    <th>Booking ID</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {(bookings === '') ? <p>Loading bookings...</p> :
-                                    <>
-                                        {bookings.map((booking, idx) => (
-                                            <tr key={idx}>
-                                                <td>{booking.orderId}</td>
-                                                <td className={"float-end"}>
-                                                    <Button onClick={() => navigate("../bookings/" + booking.orderId)}>
+                {(bookings === '') ? <p>Loading bookings...</p> :
+                    (bookings.length === 0) ? <p>There are no bookings.</p> :
+                        <Row xs={1}>
+                            <Col>
+                                <Table className="table-formatting">
+                                    <tbody>
+                                    {bookings.map((booking, idx) => (
+                                        <tr key={idx}>
+                                            <td>{booking.orderId}</td>
+                                            <td className={"float-end"}>
+                                                <Button onClick={() => navigate("../bookings/" + booking.orderId)}>
                                                     View
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </>
-                                }
-                                </tbody>
-                            </Table>
-                        }
-                    </Col>
-                </Row>
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </Table>
+                            </Col>
+                        </Row>
+                }
             </Container>
         </>
     );

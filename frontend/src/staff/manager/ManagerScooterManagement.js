@@ -47,8 +47,7 @@ export default function ManagerScooterManagement() {
                 },
                 mode: "cors"
             });
-            let response = await request.json();
-            setScooters(response.sort((a, b) => a.softScooterId - b.softScooterId));
+            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -182,7 +181,7 @@ export default function ManagerScooterManagement() {
                     <Table className="table-formatting">
                         <thead>
                         <tr>
-                            <th>Scooter ID</th>
+                            <th>ID</th>
                             <th>Availability</th>
                             <th>Status</th>
                             <th>Location</th>
@@ -226,7 +225,7 @@ export default function ManagerScooterManagement() {
                                 <td>{scooterStatus[scooter.scooterStatus]}</td>
                                 <td>
                                     {(map_locations === "") ?
-                                        <h5>Loading map locations...</h5> :
+                                        <p>Loading map locations...</p> :
                                         <>
                                             <Form.Select defaultValue="none" onChange={(e) => {
                                                 if (e.target.value !== scooter.depoId.toString()) {
@@ -259,7 +258,7 @@ export default function ManagerScooterManagement() {
                             </td>
                             <td>
                                 {(map_locations === "") ?
-                                    <h5>Loading map locations...</h5> :
+                                    <p>Loading map locations...</p> :
                                     <Form>
                                         <Form.Select defaultValue="none" onChange={(e) => {
                                             setCreateDepo(e.target.value);

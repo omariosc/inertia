@@ -44,8 +44,7 @@ export default function EmployeeScooterManagement() {
                 },
                 mode: "cors"
             });
-            let response = await request.json();
-            setScooters(response.sort((a, b) => a.softScooterId - b.softScooterId));
+            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -81,14 +80,13 @@ export default function EmployeeScooterManagement() {
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
-                {(scooters === '') ? <p>Loading scooters</p> :
+                {(scooters === '') ? <p>Loading scooters...</p> :
                     (scooters.length !== 0) ?
                         <Table className="table-formatting">
                             <thead>
                             <tr>
-                                <th>Scooter ID</th>
+                                <th>ID</th>
                                 <th>Availability</th>
                                 <th>Status</th>
                                 <th>Location</th>
@@ -103,7 +101,7 @@ export default function EmployeeScooterManagement() {
                                     <td>{scooterStatus[scooter.scooterStatus]}</td>
                                     <td>
                                         {(map_locations === "") ?
-                                            <h5>Loading map locations...</h5> :
+                                            <p>Loading map locations...</p> :
                                             getMapName(idx, scooters, map_locations)
                                         }
                                     </td>

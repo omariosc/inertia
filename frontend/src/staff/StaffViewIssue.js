@@ -34,7 +34,6 @@ export default function StaffViewIssue() {
                 mode: "cors"
             });
             let response = await request.json();
-            console.log(response)
             if (response.errorCode) {
                 NotificationManager.error("Could not load issue.", "Error");
                 navigate('/issues');
@@ -147,10 +146,10 @@ export default function StaffViewIssue() {
                             <Col xs={'auto'}>
                                 <Row>
                                     <Col xs={'auto'}>
-                                        <Form.Select onChange={(e) => {
+                                        <Form.Select defaultValue="none" onChange={(e) => {
                                             setPriority(e.target.value)
                                         }}>
-                                            <option value="none" key="none" selected disabled hidden>
+                                            <option value="none" key="none" disabled hidden>
                                                 Select priority
                                             </option>
                                             {priorities.map((priority, idx) => (

@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
 import getScooterName from "../../getScooterName";
-import center from "../../center";
 import host from "../../host";
 import Cookies from "universal-cookie";
 
@@ -14,7 +13,7 @@ export default function EmployeeCreateGuestBooking() {
     const [scooters, setScooters] = useState('');
     const [email, setEmail] = useState('');
     const [confirmEmail, setConfirmEmail] = useState('');
-    const [phoneNo, setPhoneNo] = useState('');
+    const [name, setName] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [hireChoiceId, setHireChoiceId] = useState('');
     const [price, setPrice] = useState('');
@@ -24,7 +23,7 @@ export default function EmployeeCreateGuestBooking() {
     const [cvv, setCVV] = useState('');
     const [validEmail, setValidEmail] = useState(true);
     const [validConfirm, setValidConfirm] = useState(true);
-    const [validPhoneNo, setValidPhoneNo] = useState(true);
+    const [validName, setValidName] = useState(true);
     const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
     const [validCardNo, setValidCardNo] = useState(true);
@@ -64,7 +63,7 @@ export default function EmployeeCreateGuestBooking() {
                 },
                 mode: "cors"
             });
-            setScooters(await request.json());
+            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -81,20 +80,20 @@ export default function EmployeeCreateGuestBooking() {
                 },
                 mode: "cors"
             });
-            setHireOptions(await request.json());
+            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
         } catch (error) {
             console.error(error);
         }
     }
 
     function validForm() {
-        return validEmail && validConfirm && validPhoneNo && validScooter && validHireSlot && validCardNo && validExpDate && validCVV;
+        return validEmail && validConfirm && validName && validScooter && validHireSlot && validCardNo && validExpDate && validCVV;
     }
 
     async function createGuestBooking() {
+        setValidName(name.length > 0);
         setValidEmail((email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)));
         setValidConfirm(email === confirmEmail);
-        setValidPhoneNo(phoneNo.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/));
         setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
         setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
@@ -113,7 +112,7 @@ export default function EmployeeCreateGuestBooking() {
                 },
                 body: JSON.stringify({
                     "email": email,
-                    "phoneNumber": phoneNo,
+                    "name": name,
                     "hireOptionId": parseInt(hireChoiceId),
                     "scooterId": parseInt(scooterChoiceId),
                     "startTime": new Date(Date.now()).toISOString()
@@ -124,7 +123,12 @@ export default function EmployeeCreateGuestBooking() {
             if (response.status === 200) {
                 NotificationManager.success("Created guest booking.", "Success");
             } else if (response.status === 422) {
-                NotificationManager.error("Scooter is currently unavailable.", "Error");
+                let message = await response.json();
+                if (message.errorCode === 10) {
+                    NotificationManager.error("Email provided is already associated with an account.", "Error");
+                } else {
+                    NotificationManager.error("Scooter is currently unavailable.", "Error");
+                }
             } else {
                 NotificationManager.error("Could not create booking.", "Error");
             }
@@ -143,7 +147,6 @@ export default function EmployeeCreateGuestBooking() {
             </p>
             <h3 id="pageName">Create Booking</h3>
             <hr id="underline"/>
-            <br/>
             <div className="autoScroll">
                 <Container className="pb-4">
                     <Row>
@@ -153,6 +156,17 @@ export default function EmployeeCreateGuestBooking() {
                                     <Col>
                                         <h5>Customer Details</h5>
                                         <Container>
+                                            <Row className="pb-2">
+                                                <Col className="text-end align-self-center">Phone Number</Col>
+                                                <Col>
+                                                    <Form.Control type="text" placeholder="01234567890"
+                                                                  isInvalid={!validName}
+                                                                  onInput={e => setName(e.target.value)}/>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        Enter Customer name
+                                                    </Form.Control.Feedback>
+                                                </Col>
+                                            </Row>
                                             <Row className="pb-2">
                                                 <Col className="text-end align-self-center">Email Address</Col>
                                                 <Col>
@@ -172,17 +186,6 @@ export default function EmployeeCreateGuestBooking() {
                                                                   onInput={e => setConfirmEmail(e.target.value)}/>
                                                     <Form.Control.Feedback type="invalid">
                                                         Email Address Does Not Match
-                                                    </Form.Control.Feedback>
-                                                </Col>
-                                            </Row>
-                                            <Row className="pb-2">
-                                                <Col className="text-end align-self-center">Phone Number</Col>
-                                                <Col>
-                                                    <Form.Control type="text" placeholder="01234567890"
-                                                                  isInvalid={!validPhoneNo}
-                                                                  onInput={e => setPhoneNo(e.target.value)}/>
-                                                    <Form.Control.Feedback type="invalid">
-                                                        Invalid Phone Number
                                                     </Form.Control.Feedback>
                                                 </Col>
                                             </Row>
@@ -207,8 +210,9 @@ export default function EmployeeCreateGuestBooking() {
                                                                     Select scooter
                                                                 </option>
                                                                 {scooters.map((scooter, idx) => (
-                                                                    <option value={scooter.scooterId}
-                                                                            key={idx}>{getScooterName(idx, scooters, map_locations)}</option>
+                                                                    <option value={scooter.scooterId} key={idx}>
+                                                                        {getScooterName(idx, scooters, map_locations)}
+                                                                    </option>
                                                                 ))}
                                                             </Form.Select>
                                                             <div className="invalid-feedback">Please select option</div>
@@ -300,8 +304,9 @@ export default function EmployeeCreateGuestBooking() {
                             </Container>
                         </Col>
                         <Col className="col-5">
-                            {(map_locations === "") ? <h5>Loading map locations...</h5> :
-                                <MapContainer center={center} zoom={15} zoomControl={false} className="minimap">
+                            {(map_locations === "") ? <p>Loading map locations...</p> :
+                                <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
+                                              zoomControl={false} className="minimap">
                                     <TileLayer
                                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>

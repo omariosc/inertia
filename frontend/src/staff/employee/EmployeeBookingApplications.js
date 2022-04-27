@@ -96,13 +96,12 @@ export default function EmployeeBookingApplications() {
             </p>
             <h3 id="pageName">Booking Applications</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 {(bookingHistory === '') ?
                     <p>Loading booking applications...</p> :
                     <>
                         {(bookingHistory.length === 0) ?
-                            <p>There are no bookings pending for approval.</p> :
+                            <p>There are no booking applications.</p> :
                             <>
                                 <Table className="table-formatting">
                                     <thead>
@@ -119,8 +118,8 @@ export default function EmployeeBookingApplications() {
                                     {(bookingHistory === '') ?
                                         <p>Loading bookings...</p> :
                                         <>
-                                            {bookingHistory.map((booking) => (
-                                                <tr>
+                                            {bookingHistory.map((booking, idx) => (
+                                                <tr key={idx}>
                                                     <td>{booking.accountId}</td>
                                                     <td>{booking.scooterId}</td>
                                                     <td>{showDate(booking.endTime)}</td>

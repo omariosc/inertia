@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import getScooterName from "../getScooterName";
-import center from "../center";
 import host from "../host";
 import moment from "moment";
 import Cookies from 'universal-cookie';
@@ -126,7 +125,7 @@ export default function CustomerCreateBooking() {
                 },
                 mode: "cors"
             });
-            setHireOptions(await request.json());
+            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
         } catch (error) {
             console.error(error);
         }
@@ -143,7 +142,7 @@ export default function CustomerCreateBooking() {
                 },
                 mode: "cors"
             });
-            setScooters(await request.json());
+            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -270,8 +269,9 @@ export default function CustomerCreateBooking() {
             </Row>
             <br/>
             <Row>
-                {(map_locations === "") ? <h5>Loading map locations...</h5> :
-                    <MapContainer center={center} zoom={15} zoomControl={false} className="minimap-customer">
+                {(map_locations === "") ? <p>Loading map locations...</p> :
+                    <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
+                                  zoomControl={false} className="minimap-customer">
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>

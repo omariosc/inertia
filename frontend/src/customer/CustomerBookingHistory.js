@@ -41,7 +41,7 @@ export default function CustomerBookingHistory() {
                         <p>You have no bookings.</p> :
                         <>
                             {(booking === '') ?
-                                <p>Select a booking to show booking details</p> :
+                                <p>Select a booking to show booking details.</p> :
                                 <>
                                     <Table className="table-formatting">
                                         <tbody>

@@ -4,18 +4,14 @@ import "bootstrap/dist/css/bootstrap.css";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import center from "./center";
 import host from "./host";
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
-import Cookies from 'universal-cookie';
-import {NotificationManager} from "react-notifications";
 
 export default function LandingPage() {
     const [map_locations, setMapLocations] = useState('');
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
-    const cookies = new Cookies();
 
     useEffect(() => {
         fetchLocations();
@@ -66,8 +62,9 @@ export default function LandingPage() {
             </div>
             {/* displaying visual map */}
             {(map_locations === "") ?
-                <h5>Loading map locations...</h5> :
-                <MapContainer center={center} zoom={15} zoomControl={false} className="map-container">
+                <p>Loading map locations...</p> :
+                <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
+                              zoomControl={false} className="map-container">
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>

@@ -30,8 +30,7 @@ export default function ManagerHireOptionManagement() {
                 },
                 mode: "cors"
             });
-            let response = await request.json();
-            setHireOptions(response.sort((a, b) => a.durationInHours - b.durationInHours));
+            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
         } catch (error) {
             console.error(error);
         }
@@ -50,7 +49,7 @@ export default function ManagerHireOptionManagement() {
                 break;
             case 2:
                 if (!(newCost.match(/^\d+(\.\d{0,2})?$/))) {
-                    NotificationManager.error("Cost must be an integer.", "Error");
+                    NotificationManager.error("Cost must be a valid price.", "Error");
                     return;
                 } else if (parseFloat(newCost) <= 0) {
                     NotificationManager.error("Cost must be greater than 0.", "Error");
@@ -107,7 +106,7 @@ export default function ManagerHireOptionManagement() {
             return;
         }
         if (!(createCost.match(/^\d+(\.\d{0,2})?$/))) {
-            NotificationManager.error("Cost must be a number.", "Error");
+            NotificationManager.error("Cost must be a valid price.", "Error");
             return;
         } else if (parseFloat(newCost) <= 0) {
             NotificationManager.error("Cost must be greater than 0.", "Error");
@@ -177,7 +176,6 @@ export default function ManagerHireOptionManagement() {
                     <Table className="table-formatting">
                         <thead>
                         <tr>
-                            <th>Hire Option ID</th>
                             <th>Duration (hours)</th>
                             <th>Name</th>
                             <th>Cost (£)</th>
@@ -187,7 +185,6 @@ export default function ManagerHireOptionManagement() {
                         <tbody>
                         {hireOptions.map((hireOption, idx) => (
                             <tr key={idx}>
-                                <td>{hireOption.hireOptionId}</td>
                                 <td>
                                     <div className="sameLine">
                                         <div className="maxWidth"> {hireOption.durationInHours}
@@ -200,7 +197,7 @@ export default function ManagerHireOptionManagement() {
                                             if (hireOption.durationInHours !== parseInt(newDuration)) {
                                                 editHireOption(hireOption.hireOptionId, 0);
                                             } else {
-                                                alert("Duration cannot be the same.");
+                                                NotificationManager.error("Duration cannot be the same.", "Error");
                                             }
                                         }}>
                                             Edit
@@ -217,7 +214,7 @@ export default function ManagerHireOptionManagement() {
                                             if (hireOption.name !== newName) {
                                                 editHireOption(hireOption.hireOptionId, 1);
                                             } else {
-                                                alert("Name cannot be the same.");
+                                                NotificationManager.error("Name cannot be the same.", "Error");
                                             }
                                         }}>
                                             Edit
@@ -237,7 +234,7 @@ export default function ManagerHireOptionManagement() {
                                             if (parseFloat(hireOption.cost) !== parseFloat(newCost)) {
                                                 editHireOption(hireOption.hireOptionId, 2);
                                             } else {
-                                                alert("Cost cannot be the same.");
+                                                NotificationManager.error("Cost cannot be the same.", "Error");
                                             }
                                         }}>
                                             Edit
@@ -254,7 +251,6 @@ export default function ManagerHireOptionManagement() {
                             </tr>
                         ))}
                         <tr key="create">
-                            <td>{hireOptions.length + 1}</td>
                             <td><Form.Control type="number" placeholder="Enter duration value"
                                               onInput={e => setCreateDuration(e.target.value)}/></td>
                             <td><Form.Control type="text" placeholder="Enter name"

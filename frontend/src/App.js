@@ -1,14 +1,13 @@
 import React from "react";
-import {Outlet, useNavigate} from 'react-router-dom';
+import {Outlet} from 'react-router-dom';
 import host from './host';
 import Cookies from 'universal-cookie';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {NotificationContainer} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import './App.css';
 
 const App = () => {
     const cookies = new Cookies();
-    let navigate = useNavigate();
 
     // Signs out from application. Deletes cookies and navigates to landing page.
     async function signOut() {
@@ -32,8 +31,6 @@ const App = () => {
         cookies.remove('accountID');
         cookies.remove('accountRole');
         cookies.remove('accountName');
-        NotificationManager.success("Signed Out.", "Success");
-        navigate('/');
         window.location.reload(true);
     }
 

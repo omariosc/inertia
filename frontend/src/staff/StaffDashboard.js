@@ -56,7 +56,6 @@ export default function Dashboard() {
             </p>
             <h3 id="pageName">Dashboard</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 {(data === "") ? <p>Loading...</p> :
                     <Row>

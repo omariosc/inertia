@@ -91,7 +91,6 @@ export default function ManagerAccountManagement() {
             </p>
             <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 <Form>
                     <div className="input account">

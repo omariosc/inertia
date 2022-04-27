@@ -54,7 +54,7 @@ export default function EmployeeOngoingBookings() {
                 },
                 mode: "cors"
             });
-            setHireOptions(await request.json());
+            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
         } catch (error) {
             console.error(error);
         }
@@ -117,7 +117,6 @@ export default function EmployeeOngoingBookings() {
             </p>
             <h3 id="pageName">Ongoing Bookings</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 {(bookingHistory === '') ?
                     <p>Loading booking history...</p> :

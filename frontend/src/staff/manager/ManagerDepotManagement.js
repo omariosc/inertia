@@ -164,7 +164,6 @@ export default function ManagerDepotManagement() {
                     <Table className="table-formatting">
                         <thead>
                         <tr>
-                            <th>Depot ID</th>
                             <th>Name</th>
                             <th>Latitude</th>
                             <th>Longitude</th>
@@ -174,7 +173,6 @@ export default function ManagerDepotManagement() {
                         <tbody>
                         {depots.map((depot, idx) => (
                             <tr key={idx}>
-                                <td>{depot.depoId}</td>
                                 <td>
                                     <div className="sameLine">
                                         <div className="maxWidthLongDep"> {depot.name} </div>
@@ -185,7 +183,7 @@ export default function ManagerDepotManagement() {
                                             if (depot.name !== newName) {
                                                 editDepot(depot.depoId, 0);
                                             } else {
-                                                alert("Name cannot be the same.");
+                                                NotificationManager.error("Name cannot be the same.", "Error");
                                             }
                                         }}>
                                             Edit
@@ -202,7 +200,7 @@ export default function ManagerDepotManagement() {
                                             if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
                                                 editDepot(depot.depoId, 1);
                                             } else {
-                                                alert("Latitude cannot be the same.");
+                                                NotificationManager.error("Latitude cannot be the same.", "Error");
                                             }
                                         }}>
                                             Edit
@@ -219,7 +217,7 @@ export default function ManagerDepotManagement() {
                                             if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
                                                 editDepot(depot.depoId, 2);
                                             } else {
-                                                alert("Longitude cannot be the same.");
+                                                NotificationManager.error("Longitude cannot be the same.", "Error");
                                             }
                                         }}>
                                             Edit
@@ -234,7 +232,6 @@ export default function ManagerDepotManagement() {
                             </tr>
                         ))}
                         <tr key="create">
-                            <td>{depots.length + 1}</td>
                             <td><Form.Control type="text" placeholder="Enter name"
                                               onInput={e => setCreateName(e.target.value)}/></td>
                             <td><Form.Control type="text" placeholder="Enter latitude value"

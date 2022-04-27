@@ -75,7 +75,6 @@ export default function EmployeeDiscountApplications() {
             </p>
             <h3 id="pageName">Manage Discount Applications</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 {(applications === '') ?
                     <p>Loading discount applications...</p> :

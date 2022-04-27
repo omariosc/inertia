@@ -54,7 +54,7 @@ export default function CustomerCurrentBookings() {
                 },
                 mode: "cors"
             });
-            setHireOptions(await request.json());
+            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
         } catch (error) {
             console.error(error);
         }
@@ -118,7 +118,7 @@ export default function CustomerCurrentBookings() {
                         <p>You have no bookings.</p> :
                         <>
                             {(booking === '') ?
-                                <p>Select a booking to show booking details</p> :
+                                <p>Select a booking to show booking details.</p> :
                                 <>
                                     <Table className="table-formatting">
                                         <tbody>
@@ -207,7 +207,7 @@ export default function CustomerCurrentBookings() {
                                                         <p>Loading hire options...</p> :
                                                         <Form.Select defaultValue="none"
                                                                      onChange={(e) => {
-                                                                         setHireChoiceId(e.target.value);
+                                                                         setHireChoiceId(parseInt(e.target.value));
                                                                      }}
                                                         >
                                                             <option value="none" key="none" disabled hidden>

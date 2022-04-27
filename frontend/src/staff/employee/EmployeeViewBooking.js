@@ -5,7 +5,7 @@ import host from "../../host";
 import {NotificationManager} from "react-notifications";
 import showDate from "../../showDate";
 import orderState from "../orderState";
-import {Table} from "react-bootstrap";
+import {Container, Table} from "react-bootstrap";
 
 export default function staffViewBooking() {
     let navigate = useNavigate();
@@ -47,91 +47,92 @@ export default function staffViewBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a>
-                >
-                <a className="breadcrumb-list" href="/bookings">Bookings</a>
-                >
-                <b><a className="breadcrumb-current" href={`/bookings/${orderId}`}>#{orderId}</a></b>
+                <a className="breadcrumb-list" href="/dashboard">Home
+                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
+                <a className="breadcrumb-current" href={`/bookings/${orderId}`}>#{orderId}</a></b>
             </p>
-            {(booking === "") ? <p>Loading booking details...</p> :
-                <Table>
-                    <tbody>
-                    <tr>
-                        <td><b>Booking ID:</b></td>
-                        <td>{booking.orderId}</td>
-                    </tr>
-                    {(booking.scooter) ?
-                        <>
-                            <tr>
-                                <td><b>Scooter ID:</b></td>
-                                <td>{booking.scooter.softScooterId}</td>
-                            </tr>
-                            {(booking.scooter.depo) ?
-                                <tr>
-                                    <td><b>Depot:</b></td>
-                                    <td>{booking.scooter.depo.name}</td>
-                                </tr> : null
-                            }
-                        </>
-                        :
+            <Container>
+                {(booking === "") ? <p>Loading booking details...</p> :
+                    <Table>
+                        <tbody>
                         <tr>
-                            <td><b>Scooter:</b></td>
-                            <td>{booking.scooterId}</td>
+                            <td><b>Booking ID:</b></td>
+                            <td>{booking.orderId}</td>
                         </tr>
-                    }
-                    {(booking.accountId) ?
-                        <tr>
-                            <td><b>Customer ID:</b></td>
-                            <td>{booking.accountId}</td>
-                        </tr> : null
-                    }
-                    {(booking.account) ?
-                        <>
-                            {(booking.account.name) ?
+                        {(booking.scooter) ?
+                            <>
                                 <tr>
-                                    <td><b>Customer Name:</b></td>
-                                    <td>{booking.account.name}</td>
+                                    <td><b>Scooter ID:</b></td>
+                                    <td>{booking.scooter.softScooterId}</td>
                                 </tr>
-                                : null
-                            }
-                        </>
-                        : null
-                    }
-                    {(booking.hireOption) ?
+                                {(booking.scooter.depo) ?
+                                    <tr>
+                                        <td><b>Depot:</b></td>
+                                        <td>{booking.scooter.depo.name}</td>
+                                    </tr> : null
+                                }
+                            </>
+                            :
+                            <tr>
+                                <td><b>Scooter:</b></td>
+                                <td>{booking.scooterId}</td>
+                            </tr>
+                        }
+                        {(booking.accountId) ?
+                            <tr>
+                                <td><b>Customer ID:</b></td>
+                                <td>{booking.accountId}</td>
+                            </tr> : null
+                        }
+                        {(booking.account) ?
+                            <>
+                                {(booking.account.name) ?
+                                    <tr>
+                                        <td><b>Customer Name:</b></td>
+                                        <td>{booking.account.name}</td>
+                                    </tr>
+                                    : null
+                                }
+                            </>
+                            : null
+                        }
+                        {(booking.hireOption) ?
+                            <tr>
+                                <td><b>Hire Option:</b></td>
+                                <td>{booking.hireOption.name}</td>
+                            </tr>
+                            : null
+                        }
                         <tr>
-                            <td><b>Hire Option:</b></td>
-                            <td>{booking.hireOption.name}</td>
+                            <td><b>Cost:</b></td>
+                            <td>£{booking.cost.toFixed(2)}</td>
                         </tr>
-                        : null
-                    }
-                    <tr>
-                        <td><b>Cost:</b></td>
-                        <td>£{booking.cost.toFixed(2)}</td>
-                    </tr>
-                    {(booking.discount > 0) ?
+                        {(booking.discount > 0) ?
+                            <tr>
+                                <td><b>Discount:</b></td>
+                                <td>{booking.discount * 100}%</td>
+                            </tr> : null
+                        }
                         <tr>
-                            <td><b>Discount:</b></td>
-                            <td>{booking.discount * 100}%</td>
-                        </tr> : null
-                    }
-                    <tr>
-                        <td><b>Created At:</b></td>
-                        <td>{showDate(booking.createdAt)}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Start Time:</b></td>
-                        <td>{showDate(booking.startTime)}</td>
-                    </tr>
-                    <tr>
-                        <td><b>End Time:</b></td>
-                        <td>{showDate(booking.endTime)}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Order Status:</b></td>
-                        <td>{orderState[booking.orderState]}</td>
-                    </tr>
-                    </tbody>
-                </Table>}
+                            <td><b>Created At:</b></td>
+                            <td>{showDate(booking.createdAt)}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Start Time:</b></td>
+                            <td>{showDate(booking.startTime)}</td>
+                        </tr>
+                        <tr>
+                            <td><b>End Time:</b></td>
+                            <td>{showDate(booking.endTime)}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Order Status:</b></td>
+                            <td>{orderState[booking.orderState]}</td>
+                        </tr>
+                        </tbody>
+                    </Table>
+                }
+            </Container>
         </>
     );
 }

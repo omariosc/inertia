@@ -12,7 +12,7 @@ import Cookies from 'universal-cookie';
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');

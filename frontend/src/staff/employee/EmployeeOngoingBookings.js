@@ -4,13 +4,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import showDate from "../../showDate";
 import host from "../../host";
-import orderState from "../orderState";
 import Cookies from "universal-cookie";
+import {useNavigate} from "react-router-dom";
 
 export default function EmployeeOngoingBookings() {
     const cookies = new Cookies();
+    const navigate = useNavigate();
     const [bookingHistory, setBookingHistory] = useState('');
-    const [booking, setBooking] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [hireChoiceId, setHireChoiceId] = useState('');
 
@@ -21,7 +21,7 @@ export default function EmployeeOngoingBookings() {
 
     async function fetchBookings() {
         try {
-            let request = await fetch(host + `api/admin/Orders/AccountOrders`, {
+            let request = await fetch(host + `api/admin/Orders/`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -31,13 +31,13 @@ export default function EmployeeOngoingBookings() {
                 mode: "cors"
             });
             let allBookings = await request.json();
-            let ongoingBookings = [];
-            for (let i = 0; i < allBookings.length; i++) {
-                if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
-                    ongoingBookings.push(allBookings[i]);
+            setBookingHistory(allBookings.filter((booking) => {
+                    if (booking.orderState >= 1 && booking.orderState <= 3) {
+                        return booking;
+                    }
+                    return null;
                 }
-            }
-            setBookingHistory(ongoingBookings);
+            ));
         } catch (e) {
             console.log(e);
         }
@@ -125,66 +125,6 @@ export default function EmployeeOngoingBookings() {
                         {(bookingHistory.length === 0) ?
                             <p>There are currently no ongoing bookings.</p> :
                             <>
-                                {(booking === '') ?
-                                    <p>Select a booking to show booking details</p> :
-                                    <>
-                                        <Table>
-                                            <tbody>
-                                            <tr>
-                                                <td><b>Booking ID:</b></td>
-                                                <td>{booking.orderId}</td>
-                                            </tr>
-                                            {(booking.accountId) ?
-                                                <tr>
-                                                    <td><b>Customer ID:</b></td>
-                                                    <td>{booking.accountId}</td>
-                                                </tr> : null
-                                            }
-                                            {(booking.account) ?
-                                                <>
-                                                    {(booking.account.name) ?
-                                                        <tr>
-                                                            <td><b>Customer Name:</b></td>
-                                                            <td>{booking.account.name}</td>
-                                                        </tr>
-                                                        : null
-                                                    }
-                                                </>
-                                                : null
-                                            }
-                                            <tr>
-                                                <td><b>Cost:</b></td>
-                                                <td>£{booking.cost.toFixed(2)}</td>
-                                            </tr>
-                                            {(booking.discount > 0) ?
-                                                <tr>
-                                                    <td><b>Discount:</b></td>
-                                                    <td>{booking.discount * 100}%</td>
-                                                </tr> : null
-                                            }
-                                            <tr>
-                                                <td><b>Created At:</b></td>
-                                                <td>{showDate(booking.createdAt)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Start Time:</b></td>
-                                                <td>{showDate(booking.startTime)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>End Time:</b></td>
-                                                <td>{showDate(booking.endTime)}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Order Status:</b></td>
-                                                <td>{orderState[booking.orderState]}</td>
-                                            </tr>
-                                            </tbody>
-                                        </Table>
-                                        <Button className="float-right" onClick={() => setBooking("")}
-                                                variant="danger">Close</Button>
-                                    </>
-                                }
-                                <br/>
                                 <Table>
                                     <thead>
                                     <tr>
@@ -232,7 +172,7 @@ export default function EmployeeOngoingBookings() {
                                                                 variant="danger">Cancel</Button>
                                                     </td>
                                                     <td>
-                                                        <Button onClick={() => setBooking(bookingHistory[idx])}>
+                                                        <Button onClick={() => navigate("../bookings/" + booking.orderId)}>
                                                             View
                                                         </Button>
                                                     </td>

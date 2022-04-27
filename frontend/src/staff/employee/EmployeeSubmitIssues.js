@@ -57,7 +57,6 @@ export default function EmployeeSubmitIssue() {
             </p>
             <h3 id="pageName">Submit Issue</h3>
             <hr id="underline"/>
-            <br/>
             <Container>
                 <Row className="input issue">
                     <Col xs={1}>

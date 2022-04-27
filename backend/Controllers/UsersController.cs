@@ -143,7 +143,8 @@ public class UsersController : MyControllerBase
         
         var orders = await _db.Orders
             .Include(e => e.HireOption)
-            .Where(e => e.AccountId == accountId)
+            .Include(e => e.Extensions)
+            .Where(e => e.AccountId == accountId && e.Extends == null)
             .ToListAsync();
 
         return Ok(orders);

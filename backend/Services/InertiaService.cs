@@ -301,7 +301,7 @@ public class InertiaService
                 .FirstOrDefaultAsync())!;
         }
         
-        await _db.Entry(order).Collection(o => o.Extensions ?? new List<Order>()).LoadAsync();
+        await _db.Entry(order).Collection(o => o.Extensions!).LoadAsync();
 
         DateTime startTime;
         DateTime endTime;

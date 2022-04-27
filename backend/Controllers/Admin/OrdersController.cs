@@ -32,6 +32,8 @@ public class OrdersController : MyControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Order>>> ListOrders()
     {
+        await _inertia.UpdateOrderStatus();
+
         var list = await _db.Orders
             .Include(e => e.Scooter)
             .Include(e => e.HireOption)
@@ -45,6 +47,8 @@ public class OrdersController : MyControllerBase
     [ProducesResponseType(typeof(Order), 200)]
     public async Task<ActionResult> ListOrders(string orderId)
     {
+        await _inertia.UpdateOrderStatus();
+
         var order = await _db.Orders
             .Include(e => e.Scooter)
             .Include(e => e.HireOption)

@@ -177,49 +177,55 @@ export default function ManagerDepotManagement() {
                             <tr key={idx}>
                                 <td>{depot.depoId}</td>
                                 <td>
-                                    {depot.name}
-                                    <InputGroup>
-                                        <input type="text" onInput={e => setNewName(e.target.value)}/>
-                                    </InputGroup>
-                                    <Button onClick={() => {
-                                        if (depot.name !== newName) {
-                                            editDepot(depot.depoId, 0);
-                                        } else {
-                                            NotificationManager.error("Name cannot be the same.", "Error");
-                                        }
-                                    }}>
-                                        Modify Name
-                                    </Button>
+                                    <div className="sameLine">
+                                        <div className="maxWidthLongDep"> {depot.name} </div>
+                                        <InputGroup>
+                                            <input type="text" onInput={e => setNewName(e.target.value)} size={12}/>
+                                        </InputGroup>
+                                        <Button className="buttonPaddingDepot" onClick={() => {
+                                            if (depot.name !== newName) {
+                                                editDepot(depot.depoId, 0);
+                                            } else {
+                                                alert("Name cannot be the same.");
+                                            }
+                                        }}>
+                                            Edit
+                                        </Button>
+                                    </div>
                                 </td>
                                 <td>
-                                    {depot.latitude}
-                                    <InputGroup>
-                                        <input type="text" onInput={e => setNewLatitude(e.target.value)}/>
-                                    </InputGroup>
-                                    <Button onClick={() => {
-                                        if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
-                                            editDepot(depot.depoId, 1);
-                                        } else {
-                                            NotificationManager.error("Latitude cannot be the same.", "Error");
-                                        }
-                                    }}>
-                                        Modify Latitude
-                                    </Button>
+                                    <div className="sameLine">
+                                        <div className="maxWidthDepot">{depot.latitude} </div>
+                                        <InputGroup>
+                                            <input type="text" onInput={e => setNewLatitude(e.target.value)} size={12}/>
+                                        </InputGroup>
+                                        <Button className="buttonPaddingDepotLat" onClick={() => {
+                                            if (parseFloat(depot.latitude) !== parseFloat(newLatitude)) {
+                                                editDepot(depot.depoId, 1);
+                                            } else {
+                                                alert("Latitude cannot be the same.");
+                                            }
+                                        }}>
+                                            Edit
+                                        </Button>
+                                    </div>
                                 </td>
                                 <td>
-                                    {depot.longitude}
-                                    <InputGroup>
-                                        <input type="text" onInput={e => setNewLongitude(e.target.value)}/>
-                                    </InputGroup>
-                                    <Button onClick={() => {
-                                        if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
-                                            editDepot(depot.depoId, 2);
-                                        } else {
-                                            NotificationManager.error("Longitude cannot be the same.", "Error");
-                                        }
-                                    }}>
-                                        Modify Longitude
-                                    </Button>
+                                    <div className="sameLine">
+                                        <div className="maxWidthDepot"> {depot.longitude} </div>
+                                        <InputGroup>
+                                            <input type="text" onInput={e => setNewLongitude(e.target.value)} size={12}/>
+                                        </InputGroup>
+                                        <Button className="buttonPaddingDepotLat" onClick={() => {
+                                            if (parseFloat(depot.longitude) !== parseFloat(newLongitude)) {
+                                                editDepot(depot.depoId, 2);
+                                            } else {
+                                                alert("Longitude cannot be the same.");
+                                            }
+                                        }}>
+                                            Edit
+                                        </Button>
+                                    </div>
                                 </td>
                                 <td>
                                     <Button onClick={() => deleteDepot(depot.depoId)} variant="danger">

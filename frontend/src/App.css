@@ -17,6 +17,15 @@
     margin-left: -20px;
 }
 
+.buttonPaddingDepotLat {
+    margin-left: -32px;
+}
+
+.buttonPaddingDuration {
+    margin-left: -12px;
+
+}
+
 .buttonPaddingDepot {
     margin-left: -100px;
 }
@@ -332,7 +341,7 @@
 .maxWidthDepot {
     clear: both;
     white-space: nowrap;
-    width: 110px;
+    width: 120px;
 }
 
 .maxWidthLong {
@@ -401,10 +410,10 @@
 }
 
 .sameLine {
-    align-items: center;
+
     display: inline-flex;
     flex-direction: row;
-    justify-content: center;
+
 }
 
 .scroll {

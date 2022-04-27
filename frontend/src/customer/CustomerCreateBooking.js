@@ -4,7 +4,6 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {NotificationManager} from "react-notifications";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import getScooterName from "../getScooterName";
 import host from "../host";
 import moment from "moment";
 import Cookies from 'universal-cookie';
@@ -16,6 +15,7 @@ export default function CustomerCreateBooking() {
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');
+    const [depotChoiceId, setDepotChoiceId] = useState('');
     const [scooterChoiceId, setScooterChoiceId] = useState('');
     const [hireChoiceId, setHireChoiceId] = useState('');
     const [price, setPrice] = useState('');
@@ -222,7 +222,7 @@ export default function CustomerCreateBooking() {
                                     <>
                                         <h5>Cost: £{(0.9 * parseFloat(price)).toFixed(2)}</h5>
                                         <Row className="pb-2">
-                                            <Col className="text-end col-3">
+                                            <Col className="text-end col-3 align-self-center">
                                                 Discount:
                                             </Col>
                                             <Col>
@@ -244,47 +244,6 @@ export default function CustomerCreateBooking() {
 
     return (
         <Container>
-            <h5>Booking Details</h5>
-            <Row className="pb-2">
-                <Col className="text-end col-3">
-                    Scooter
-                </Col>
-                <Col>
-                    {(map_locations === "" || scooters === "") ? <> Loading scooters... </> :
-                        <Form.Select defaultValue="none" isInvalid={!validScooter} onChange={(e) => {
-                            setScooterChoiceId(e.target.value);
-                        }}>
-                            <option value="none" key="none" disabled hidden>Select scooter</option>
-                            {scooters.map((scooter, idx) => (
-                                <option value={scooters[idx].scooterId}
-                                        key={idx}>{getScooterName(idx, scooters, map_locations)}</option>
-                            ))}
-                        </Form.Select>
-                    }
-                </Col>
-            </Row>
-            <Row className="pb-2">
-                <Col className="text-end col-3">
-                    Hire Period
-                </Col>
-                <Col>
-                    {(hireOptions === "") ? <>Loading hire periods...</> : <>
-                        <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
-                            let value = e.target.value.split(',')
-                            setHireChoiceId(value[0]);
-                            setPrice(value[1])
-                        }}>
-
-                            <option value="none" key="none" disabled hidden>Select hire period</option>
-                            {hireOptions.map((option, idx) => (
-                                <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
-                                    £{option.cost}</option>
-                            ))}
-                        </Form.Select>
-                    </>
-                    }
-                </Col>
-            </Row>
             <h5>Map</h5>
             <Row>
 
@@ -296,14 +255,97 @@ export default function CustomerCreateBooking() {
                                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                             {map_locations.map((map_location, index) => (
-                                <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
-                                    <Popup>{map_location.name}</Popup>
+                                <Marker key={index}
+                                        position={[map_location.latitude, map_location.longitude]}
+                                        eventHandlers = {{
+                                            click: () => {
+                                                setDepotChoiceId(map_location.depoId)
+                                            }}}>
+                                    <Popup>
+                                        <Button className="badge-primary disabled">
+                                            {map_location.name}
+                                        </Button>
+
+                                    </Popup>
                                 </Marker>
                             ))}
                         </MapContainer>
                     </Col>
                 }
+            </Row>
+            <br/>
+            <h5>Booking Details</h5>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Depot:
+                </Col>
+                <Col>
+                    {(map_locations === "" ) ? <> Loading depots... </> :
+                        <Form.Select value={depotChoiceId} defaultValue="" isInvalid={!validScooter} onChange={(e) => {
+                            setDepotChoiceId(e.target.value);
+                        }}>
+                            <option value="" key="none" disabled hidden>Select Depot</option>
+                            {map_locations.map((depot, idx) => (
+                                <option value={depot.depoId}
+                                        key={idx}>{depot.name}</option>
+                            ))}
+                        </Form.Select>
+                        }
+                </Col>
+            </Row>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Scooter:
+                </Col>
+                <Col>
+                    {(scooters === "") ? <> Loading scooters... </> :
+                        <Form.Select defaultValue=""
+                                     isInvalid={!validScooter}
+                                     disabled={depotChoiceId === ""}
+                                     onChange={(e) => {
+                            setScooterChoiceId(e.target.value);
+                        }}>
+                            {depotChoiceId === "" ?
+                                <option value="" key="none" disabled hidden>Select Depot First</option> : <>
+                                <option value="" key="none" disabled hidden>Select Scooter</option>
+                            {scooters.filter((scooter)=>{
+                                if(scooter.depoId.toString() === depotChoiceId.toString()){
+                                    return scooter;
+                                } else{
+                                    return null;
+                                }
+                            }).map((scooter, idx) => (
+                                <option value={scooter.scooterId}
+                                key={idx}>{scooter.softScooterId}</option>
+                                ))}
+                                </>
+                            }
 
+                        </Form.Select>
+                    }
+                </Col>
+            </Row>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Hire Period:
+                </Col>
+                <Col>
+                    {(hireOptions === "") ? <>Loading hire periods...</> : <>
+                        <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
+                            let value = e.target.value.split(',')
+                            setHireChoiceId(value[0]);
+                            setPrice(value[1])
+                        }}>
+
+                            <option value="none" key="none" disabled hidden>Select Hire Period</option>
+                            {hireOptions.map((option, idx) => (
+                                <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
+                                    £{option.cost}</option>
+                            ))}
+                        </Form.Select>
+                    </>
+                    }
+                </Col>
             </Row>
             <br/>
             <DisplayCost/>
@@ -311,7 +353,7 @@ export default function CustomerCreateBooking() {
                 <>
                     <h5>Payment details</h5>
                     <Row className="pb-2 small-padding-top">
-                        <Col className="text-end col-3">
+                        <Col className="text-end col-3 align-self-center">
                             Save Card Details:
                         </Col>
                         <Col>
@@ -320,7 +362,7 @@ export default function CustomerCreateBooking() {
                         </Col>
                     </Row>
                     <Row className="pb-2 small-padding-top">
-                        <Col className="text-end col-3">
+                        <Col className="text-end col-3 align-self-center">
                             Card Number:
                         </Col>
                         <Col className="text-end">
@@ -333,7 +375,7 @@ export default function CustomerCreateBooking() {
                         </Col>
                     </Row>
                     <Row className="pb-2">
-                        <Col className="text-end col-3">
+                        <Col className="text-end col-3 align-self-center">
                             Expiry Date:
                         </Col>
                         <Col>
@@ -346,7 +388,7 @@ export default function CustomerCreateBooking() {
                         </Col>
                     </Row>
                     <Row className="pb-2">
-                        <Col className="text-end col-3">
+                        <Col className="text-end col-3 align-self-center">
                             CVV:
                         </Col>
                         <Col>
@@ -363,7 +405,7 @@ export default function CustomerCreateBooking() {
 
                     <Row>
 
-                        <Col className="text-end col-3">
+                        <Col className="text-end col-3 align-self-center">
                             Card Number:
                         </Col>
                         <Col>
@@ -372,7 +414,7 @@ export default function CustomerCreateBooking() {
                         </Col>
                     </Row>
                     <Row className="pb-2 ">
-                        <Col className="text-end col-3">
+                        <Col className="text-end col-3 align-self-center">
                             Expiry Date:
                         </Col>
                         <Col>

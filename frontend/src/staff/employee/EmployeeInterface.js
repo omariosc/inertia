@@ -14,7 +14,7 @@ export default function EmployeeInterface() {
     return (
         <div id="overlay">
             <div className="clickable">
-                <Navbar expand="lg" className="clickable black-bg">
+                <Navbar expand="lg" className="topnavbar">
                     <Navbar.Brand className="navbar-style" as={Link} to="/home"><b>INERTIA</b></Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text className="navbar-pad-right text-white">
@@ -28,7 +28,7 @@ export default function EmployeeInterface() {
                         </Nav.Item>
                     </Navbar.Collapse>
                 </Navbar>
-                <Row id="manager-row">
+                <Row className="manager-rows">
                     <Col xs="auto" className="staff-nav-column solid-border border-dark">
                         <EmployeeNavigation/>
                         <EmployeeMobileNavigation/>

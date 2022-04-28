@@ -54,6 +54,7 @@ public class IssuesController : MyControllerBase
     {
         var issue = await _db.Issues
             .Where(i => i.IssueId == issueId)
+            .Include(i=>i.Account)
             .FirstOrDefaultAsync();
 
         if (issue == null)

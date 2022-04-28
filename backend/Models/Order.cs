@@ -60,7 +60,7 @@ public class Order
     public ICollection<Order>? Extensions { get; set; } = null;
 
     [Required] public string AccountId { get; set; } = null!;
-    [JsonIgnore][ForeignKey("AccountId")] public virtual Account Account { get; set; } = null!;
+    [ForeignKey("AccountId")] public virtual Account Account { get; set; } = null!;
     
     [NotMapped]
     private const long _secondsInWeek = 604800;

@@ -4,10 +4,8 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import Cookies from 'universal-cookie';
-import getScooterName from "../getScooterName";
 import host from "../host";
 import moment from "moment";
-import getMapName from "../getMapName";
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -396,9 +394,7 @@ export default function CustomerCreateBooking() {
                     </Row>
                 </> : <>
                     <h5>Using stored payment details</h5>
-
                     <Row>
-
                         <Col className="text-end col-3 align-self-center">
                             Card Number:
                         </Col>

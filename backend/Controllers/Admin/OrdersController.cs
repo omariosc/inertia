@@ -36,7 +36,10 @@ public class OrdersController : MyControllerBase
 
         var list = await _db.Orders
             .Include(e => e.Scooter)
+            .ThenInclude(s=>s.Depo)
             .Include(e => e.HireOption)
+            .Include(e => e.Extensions)
+            .Include(e=> e.Account)
             .Where(e => e.ExtendsId == null)
             .ToListAsync();
         return Ok(list);
@@ -51,8 +54,10 @@ public class OrdersController : MyControllerBase
 
         var order = await _db.Orders
             .Include(e => e.Scooter)
+            .ThenInclude(s=>s.Depo)
             .Include(e => e.HireOption)
             .Include(e => e.Extensions)
+            .Include(e=> e.Account)
             .Where(e => e.ExtendsId == null && e.OrderId == orderId)
             .FirstOrDefaultAsync();
 

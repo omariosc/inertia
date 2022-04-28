@@ -524,7 +524,6 @@
 }
 
 .topnavbar {
-
     display: block;
     background: black;
     width: 100%;
@@ -535,6 +534,10 @@
 .wrapper, html, body {
     height: 100%;
     margin: 0;
+}
+
+.hamburger-menu {
+    display: none;
 }
 
 /* for phone size screens */
@@ -591,8 +594,8 @@
     }
 }
 
-/* for small to medium size screens */
-@media (max-width: 991px) {
+/* for small to medium size screens (WHERE MOBILE NAVIGATION CSS IS*/
+@media (max-width: 1070px) {
     #manager-row {
         background-color: transparent;
         height: 100%;
@@ -605,9 +608,10 @@
     .hamburger-menu {
         cursor: pointer;
         display: flex;
-        position: absolute;
+        position: fixed;
         right: 15px;
         top: 18px;
+        z-index: 9999;
     }
 
     .manager-vert-navbar {

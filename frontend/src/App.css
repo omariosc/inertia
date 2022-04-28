@@ -176,6 +176,10 @@
     flex-direction: column;
 }
 
+.customer-navigation-mobile {
+    display: none !important;
+}
+
 /* for staff dashboard text (value) */
 .dashboard-text {
     font-size: xx-large !important;
@@ -210,6 +214,14 @@
 
 .hover-black:hover {
     color: #0D6EFD !important;
+}
+
+.hover-white {
+    color: white !important;
+}
+
+.hover-white:hover {
+    color: #555555 !important;
 }
 
 .input {
@@ -540,57 +552,18 @@
     display: none;
 }
 
-/* for phone size screens */
-@media (max-width: 480px) {
-    #account-page {
-        border: none;
-        padding-left: 3%;
-        padding-right: 3%;
-        padding-top: 2%;
-        pointer-events: all;
-        position: relative;
-    }
-
-    .customer-column {
-        border: none;
-        display: flex;
-        justify-content: center;
-    }
-
-    .customer-column-page {
-        display: flex;
-        justify-content: center;
-    }
-
-    .customer-navigation {
-        flex-direction: row;
-    }
+.hamburger-menu-customer {
+    display: none;
 }
 
-/* for small size screens */
-@media (max-width: 767px) {
-    #account-page {
-        border: none;
-        padding-left: 15%;
-        padding-right: 10%;
-        padding-top: 2%;
-        pointer-events: all;
-        position: relative;
-    }
-
-    .customer-column {
-        border: none;
+@media (max-width: 991px) {
+    .hamburger-menu {
+        cursor: pointer;
         display: flex;
-        justify-content: center;
-    }
-
-    .customer-column-page {
-        display: flex;
-        justify-content: center;
-    }
-
-    .customer-navigation {
-        flex-direction: row;
+        position: fixed;
+        right: 15px !important;
+        top: 18px;
+        z-index: 9999;
     }
 }
 
@@ -609,8 +582,17 @@
         cursor: pointer;
         display: flex;
         position: fixed;
-        right: 15px;
+        right: 280px;
         top: 18px;
+        z-index: 9999;
+    }
+
+    .hamburger-menu-customer {
+        cursor: pointer;
+        display: flex;
+        position: fixed;
+        right: 15px;
+        top: 7px;
         z-index: 9999;
     }
 
@@ -624,7 +606,7 @@
         display: flex !important;
         flex-direction: column;
         padding-bottom: 10px;
-        position: absolute;
+        position: fixed;
         right: 0;
         width: 100vw;
         z-index: 9002;
@@ -638,50 +620,50 @@
         background-color: transparent;
         border-right: none !important;
     }
-}
 
-/* for large size screens */
-@media (min-width: 1200px) {
-    #account-page {
-        border: none;
-        overflow-x: hidden;
-        pointer-events: all;
-        position: relative;
-    }
-
-    .manager-vert-navbar-mobile {
+    .customer-navigation {
         display: none !important;
     }
-}
 
-/* for medium size screens */
-@media (min-width: 768px) and (max-width: 991px) {
-    #account-page {
-        border: none;
-        padding-left: 15%;
-        padding-right: 10%;
-        padding-top: 2%;
-        pointer-events: all;
-        position: relative;
+    .customer-navigation-mobile {
+        background: rgba(0, 100, 230, .92);
+        display: flex !important;
+        flex-direction: column;
+        padding-bottom: 10px;
+        position: fixed;
+        top: 55px;
+        right: 15px;
+        width: auto;
+        z-index: 1000000;
     }
 
     .customer-column {
-        align-content: center;
-        border: none;
+        border: none !important;
+        border-block-end: transparent !important;
         display: flex;
-        justify-content: center;
+        width: 0px !important;
+        /*display: none !important;*/
     }
 
-    .customer-column-page {
-        display: flex;
-        justify-content: center;
+
+    .customer-home {
+        display: none !important;
     }
 
-    .customer-navigation {
-        flex-direction: row;
-    }
-}
+    #account-page {
+        padding-left: 5%;
+        padding-right: 7%;
+        padding-top: 2%;
+        pointer-events: all;
+        position: relative;
 
-/* for medium to large size screens */
-@media (min-width: 992px) and (max-width: 1199px) {
+    }
+
+    #customer-row {
+        height: 0px;
+    }
+
+    .customer-logout {
+        display: none;
+    }
 }

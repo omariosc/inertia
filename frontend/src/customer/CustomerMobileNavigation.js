@@ -1,10 +1,6 @@
 import React, {useState} from "react";
 import {Link, useOutletContext} from "react-router-dom";
 import {Nav} from "react-bootstrap";
-import {MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
-import {FaExclamation} from "react-icons/fa";
-import {RiBuilding3Fill} from "react-icons/ri";
-import {IoIosStats} from "react-icons/io";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
 

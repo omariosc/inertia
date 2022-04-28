@@ -556,6 +556,11 @@
     display: none;
 }
 
+.submit-issue {
+    padding-left: 15px;
+    width: auto;
+}
+
 @media (max-width: 991px) {
     .hamburger-menu {
         cursor: pointer;
@@ -641,7 +646,7 @@
         border: none !important;
         border-block-end: transparent !important;
         display: flex;
-        width: 0px !important;
+        width: 0 !important;
         /*display: none !important;*/
     }
 
@@ -660,7 +665,7 @@
     }
 
     #customer-row {
-        height: 0px;
+        height: 0;
     }
 
     .customer-logout {

@@ -52,10 +52,8 @@ export default function MainPage() {
                 </div>
             </div>
 
-            <div className="overlay">
-                {/* login and register modals */}
-                {/*<LoginForm show={showLogin} onHide={() => setShowLogin(false)}/>*/}
-                {/*<RegisterForm show={showRegister} onHide={() => setShowRegister(false)}/>*/}
+            <div className={"logo"}>
+                <p>INERTIA</p>
             </div>
 
             {/* displaying visual map */}

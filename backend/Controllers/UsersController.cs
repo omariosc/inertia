@@ -12,6 +12,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inertia.Controllers;
 
+/// <summary>
+/// Controller for providing all account related functionality
+/// (applying for discounts, login, signup, modify account)
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
@@ -39,6 +43,11 @@ public class UsersController : MyControllerBase
         _email = email;
     }
 
+    /// <summary>
+    /// Allows user to sign up.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("signup")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]
@@ -64,6 +73,11 @@ public class UsersController : MyControllerBase
         return Ok();
     }
     
+    /// <summary>
+    /// Allows user to log in in their account.
+    /// </summary>
+    /// <param name="loginRequest"></param>
+    /// <returns></returns>
     [HttpPost("authorize")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(LoginResponse), 200)]
@@ -101,6 +115,11 @@ public class UsersController : MyControllerBase
         return Ok(new LoginResponse(account, accessToken));
     }
 
+    /// <summary>
+    /// Allows users to logout (and as such invalidate the access token) from their account. 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpDelete("authorize")]
     [Authorize]
     [ProducesResponseType(typeof(void), 200)]
@@ -117,6 +136,11 @@ public class UsersController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Returns all the details of the logged in user account.
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <returns></returns>
     [HttpGet("{accountId}/profile")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -133,6 +157,11 @@ public class UsersController : MyControllerBase
         return Ok(account);
     }
 
+    /// <summary>
+    /// Returns a list of orders made by the currently logged in user account.
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <returns></returns>
     [HttpGet("{accountId}/orders")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -143,6 +172,9 @@ public class UsersController : MyControllerBase
         
         var orders = await _db.Orders
             .Include(e => e.HireOption)
+            .Include(e=>e.Scooter)
+            .ThenInclude(s=>s.Depo)
+            .Include(e=>e.Account)
             .Include(e => e.Extensions)
             .Where(e => e.AccountId == accountId && e.Extends == null)
             .ToListAsync();
@@ -150,6 +182,11 @@ public class UsersController : MyControllerBase
         return Ok(orders);
     }
 
+    /// <summary>
+    /// Returns a list of issues made by the currently logged in user account.
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <returns></returns>
     [HttpGet("{accountId}/issues")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -158,12 +195,19 @@ public class UsersController : MyControllerBase
     {
        var issues = await _db.Issues
             .OrderByDescending(i => i.DateOpened)
+            .Include(i=>i.Account)
             .Where(i => i.AccountId == accountId)
             .ToListAsync();
 
         return Ok(issues);
     }
     
+    /// <summary>
+    /// Create an issues
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("{accountId}/issues")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -198,6 +242,12 @@ public class UsersController : MyControllerBase
         return Ok(issue);
     }
     
+    /// <summary>
+    /// Get all the details of an issue submitted by the currently logged in user account
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <param name="issueId"></param>
+    /// <returns></returns>
     [HttpGet("{accountId}/issues/{issueId:int}")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -206,6 +256,7 @@ public class UsersController : MyControllerBase
     {
        var issue = await _db.Issues
             .Where(i => i.IssueId == issueId && i.AccountId == accountId)
+            .Include(i=>i.Account)
             .FirstOrDefaultAsync();
 
         if (issue == null)
@@ -214,6 +265,12 @@ public class UsersController : MyControllerBase
         return Ok(issue);
     }
     
+    /// <summary>
+    /// Remove an issue submitted by the currently logged in user account
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <param name="issueId"></param>
+    /// <returns></returns>
     [HttpDelete("{accountId}/issues/{issueId:int}")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -237,6 +294,12 @@ public class UsersController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Apply for discount
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("{accountId}/ApplyDiscount")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -275,6 +338,12 @@ public class UsersController : MyControllerBase
         }
     }
 
+    /// <summary>
+    /// Helper endpoints that allows for uploading images
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <param name="image"></param>
+    /// <returns></returns>
     [HttpPost("{accountId}/ApplyDiscountUploadImage")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [Consumes("application/octet-stream")]
@@ -303,6 +372,12 @@ public class UsersController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Change password for the currently logged in user
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("{accountId}/ChangePassword")]
     [Authorize(Policy = Policies.MatchAccountId)]
     [ProducesResponseType(typeof(ApplicationError), 422)]

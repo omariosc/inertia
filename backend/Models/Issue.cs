@@ -14,7 +14,7 @@ public class Issue
     [Required] public string Content { get; set; } = null!;
     
     [Required] public string AccountId { get; set; } = null!;
-    [ForeignKey("AccountId")] public virtual Account Account { get; set; } = null!;
+    [Required] [ForeignKey("AccountId")] public virtual Account Account { get; set; } = null!;
 
     [Required] public DateTime DateOpened { get; set; }
     

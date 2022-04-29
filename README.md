@@ -1,49 +1,104 @@
 # inertia
 
-## Instructions
+Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulan Maga](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
 
-### Frontend
+## Installation and Execution
 
-To run the frontend, locate the `inertia/frontend` directory in the terminal and enter the following commands: 
+### via docker and docker-compose
 
-```bat
+The project contains a docker image for each component, and a docker-compose file that orchestrates
+these images to be run as services. The configuration creates three services: `backend`, `fronted` and `nginx` 
+(a reverse proxy that redirects to the `backend` and `frontend` components), a persistent volume for the `backend`
+where the database is stored. This deployment is a production deployment, which means that all components
+run in release mode.
+
+####  Prerequisites
+```sh
+# install docker (or replacement) and docker-compose
+
+# using official docker convinience script
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+
+# using official docker-compose way of installation ()
+curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Alternatively, on Fedora
+# Installing podman as a drop in replacement for docker; and installing docker-compose from official repositories.
+sudo dnf install podman docker-compose
+```
+
+#### Deployment
+```shell
+git clone https://gitlab.com/sc20aim/inertia
+docker-compose up
+```
+
+### Development Mode components
+
+#### Prerequisites
+The project requires the following software packages in order to be built:
+* dotnet sdk
+* nodejs
+* npm
+* (optionally) doxygen for documentation generation
+* (optionally) python3 for running backend tests
+
+The following commands show how these packages can be acquired on Fedora Linux (34, 35):
+```shell
+sudo dnf install dotnet npm nodejs python3 python3-pip doxygen 
+```
+
+#### Backend
+Running the backend in development mode can be done like so:
+```shell
+# assuming the current working directory is: inertia/backend
+dotnet restore inertia.csproj
+dotnet run
+# the backend server will run automatically on the URL: https://localhost:7220
+```
+
+#### Running the tests
+```shell 
+# assuming the current working directory is: inertia/backend-testing
+pip3 install -r requirements.txt
+python3 main.py https://localhost:7220
+```
+
+#### Building documentation
+```shell
+# assuming the current working directory is: inertia/backend
+doxygen .doxygen
+```
+
+#### Frontend
+Before running the frontend component, the file `frontend/src/host.js` must be modified to contain:
+```js
+// Backend host IP address.
+let host = "https://localhost:7220";
+export default host;
+```
+This will ensure that the frontend will connect to the backend that is running in the development mode.
+
+```shell
+# assuming the current working directory is: inertia/frontend
 npm install
 npm start
 ```
+## Extras
 
-This will install all packages required in `inertia/frontend/node_modules` and run the server. It may take some time to run the frontend, however you should be able to find it at [localhost](https://localhost:3000).
+### The Architecture
+The architecture of the project can be found [here](https://gitlab.com/sc20aim/inertia/-/wikis/architecture).
 
-### Backend
+### Final Demonstration
+The project marking guide is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/marking-guide) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
 
-To run the backend, locate the `intertia/backend` directory in JetBrains Rider and run the project with the default configuration.
-
-## Interim Deliverables
-
+### Interim Deliverables
 The full interim deliverable specification list is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/interim) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
 
-## Notes
+### Documentation
+Documentation of the project is available [here](https://gitlab.com/sc20aim/inertia/-/tree/main/documentation).
 
-- The directory structure of the repository could be considered like a storage location containing all important files to the project as well as all the code
-- The issues are for us to organize work
-- Issue board consists of lists on each priority, in progress, merge requests and completed
-- Issues are closed once merged to main
-- Backlog issues may have A/B/C/D after the ID number:
-  * A | Customer Interface
-  * B | Employee Interface
-  * C | Manager Interface
-  * BC | Staff Interface (Employee and Manager Interfaces)
-  * D | Backend
-
-## Committing rules
-
-- no commits must directly be made to the `main` branch (except for maintainer work)
-- `main` is updated by creating merge requests for feature branches
-- each feature should be worked on in a different branch
-- each commit must begin with `component: `. For example the commit message that modifies the backend will be: `backend: Initial Commit`. Keep the component names consistent (use `ui-customer`, `ui-staff`, `backend`, `docs`) 
-- the commits in a feature branch must only modify a single component at a time
-- no rebasing is allowed.
-- force pushing and reverting to previous commits should be avoided 
-- after a feature branch is done, a merge request must be created
-- keep the commit history clean - especially on branches that are not to be squash merged
-- executable, or other compilation artifacts **MUST NOT** be commited
-- keep `.gitignore` updated with files that should be excluded (i.e. compilation artifacts)
+### Backend Documentation
+Documentation of the backend component is available [here](https://gitlab.com/sc20aim/inertia/-/raw/main/documentation/backend.pdf).

@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;
 
+/// <summary>
+/// Depos controller, to list and search through depos.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
@@ -18,12 +21,21 @@ public class DeposController : MyControllerBase
         _db = db;
     }
 
+    /// <summary>
+    /// Lists all the depos
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IEnumerable<Depo>> List()
     {
         return await _db.Depos.ToListAsync();
     }
     
+    /// <summary>
+    /// Returns all the details of a depo, by id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Depo), 200)]

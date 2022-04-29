@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
-import getScooterName from "../../getScooterName";
 import host from "../../host";
-import getMapName from "../../getMapName";
 
 export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [name, setName] = useState('');
@@ -88,7 +88,7 @@ export default function EmployeeCreateGuestBooking() {
     }
 
     // Done like this because it setState is asynchronous
-    function validate(){
+    function validate() {
         setValidName(name.length > 0);
         setValidEmail((email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)));
         setValidConfirm(email === confirmEmail);
@@ -131,6 +131,7 @@ export default function EmployeeCreateGuestBooking() {
                 let response = await request;
                 if (response.status === 200) {
                     NotificationManager.success("Created guest booking.", "Success");
+                    navigate('/bookings')
                 } else if (response.status === 422) {
                     let message = await response.json();
                     if (message.errorCode === 10) {
@@ -179,7 +180,7 @@ export default function EmployeeCreateGuestBooking() {
                                 <Col className="text-end align-self-center">
                                     Email Address:
                                 </Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="email" placeholder="name@example.com"
                                                   isInvalid={!validEmail}
                                                   onInput={e => setEmail(e.target.value)}/>
@@ -190,7 +191,7 @@ export default function EmployeeCreateGuestBooking() {
                             </Row>
                             <Row className="pb-2">
                                 <Col className="text-end align-self-center">Confirm Email Address</Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="email" placeholder="name@example.com"
                                                   isInvalid={!validConfirm}
                                                   onInput={e => setConfirmEmail(e.target.value)}/>
@@ -280,7 +281,7 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             {price === "" ?
-                                <h5>Cost: Unknown</h5>:
+                                <h5>Cost: Unknown</h5> :
                                 <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>
                             }
 
@@ -302,7 +303,7 @@ export default function EmployeeCreateGuestBooking() {
                                 <Col className="text-end col-6 align-self-center">
                                     Expiry Date:
                                 </Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="text" placeholder="MM/YY"
                                                   isInvalid={!validExpDate}
                                                   onInput={e => setExpiry(e.target.value)}/>
@@ -315,7 +316,7 @@ export default function EmployeeCreateGuestBooking() {
                                 <Col className="text-end col-6 align-self-center">
                                     CVV:
                                 </Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="text" placeholder="123"
                                                   isInvalid={!validCVV}
                                                   onInput={e => setCVV(e.target.value)}/>
@@ -329,7 +330,7 @@ export default function EmployeeCreateGuestBooking() {
                     <Col className="box">
                         {(map_locations === "") ? <p>Loading map locations...</p> :
                             <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
-                                          zoomControl={false} className="minimap-box">
+                                          zoomControl={false} className="minimap-guest">
                                 <TileLayer
                                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
@@ -355,6 +356,7 @@ export default function EmployeeCreateGuestBooking() {
                 </Row>
                 <Button onClick={createGuestBooking}>Confirm Booking</Button>
             </Container>
+
         </>
     );
 };

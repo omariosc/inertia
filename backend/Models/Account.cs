@@ -18,9 +18,9 @@ public class Account
 
     // [Required, DataType(DataType.PhoneNumber)] public string PhoneNumber { get; set; } = null!;
     
-    [Required, JsonIgnore] public string Password { get; set; } = null!;
+    [Required, Newtonsoft.Json.JsonIgnore] public string Password { get; set; } = null!;
 
-    [Required, JsonIgnore] public string Salt { get; set; } = null!;
+    [Required, Newtonsoft.Json.JsonIgnore] public string Salt { get; set; } = null!;
     
     [Required] public AccountRole Role { get; set; } 
 

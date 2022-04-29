@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import getMapName from "../../getMapName";
 import {NotificationManager} from "react-notifications";
 import Cookies from 'universal-cookie';
 import host from '../../host';
@@ -43,14 +42,7 @@ export default function EmployeeScooterManagement() {
                 },
                 mode: "cors"
             });
-            let response = await request.json();
-            let availableScooters = [];
-            {response.map((scooter, idx) => {
-                if (getMapName(idx, scooters, map_locations) !== 'Depot longer exists') {
-                    availableScooters.push(scooter)
-                }
-            })}
-            setScooters(availableScooters.sort((a, b) => a.softScooterId - b.softScooterId));
+            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
         } catch (error) {
             console.error(error);
         }
@@ -86,7 +78,7 @@ export default function EmployeeScooterManagement() {
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(scooters === '') ? <p>Loading scooters...</p> :
                     (scooters.length !== 0) ?
                         <Table className="table-formatting">
@@ -94,9 +86,9 @@ export default function EmployeeScooterManagement() {
                             <tr>
                                 <th>ID</th>
                                 <th>Availability</th>
-                                <th>Status</th>
-                                <th>Location</th>
-                                <th>Change Availability</th>
+                                <th className="minWidthFieldSmall">Status</th>
+                                <th className="minWidthFieldSmall">Location</th>
+                                <th className="minWidthFieldSmall">Change Availability</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -108,7 +100,7 @@ export default function EmployeeScooterManagement() {
                                     <td>
                                         {(map_locations === "") ?
                                             <p>Loading map locations...</p> :
-                                            getMapName(idx, scooters, map_locations)
+                                            String.fromCharCode(scooters[idx].depoId + 64) + ' - ' + map_locations[scooters[idx].depoId - 1].name
                                         }
                                     </td>
                                     <td>

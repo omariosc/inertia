@@ -19,7 +19,7 @@ public class Scooter: ISoftDelete
     
     [Required] public int DepoId { get; set; }
 
-    [ForeignKey("DepoId")] public virtual Depo Depo { get; set; } = null!;
+    [Required] [ForeignKey("DepoId")] public virtual Depo Depo { get; set; } = null!;
     
     [Required] public bool Available { get; set; }
     

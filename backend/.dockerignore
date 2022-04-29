@@ -456,8 +456,7 @@ $RECYCLE.BIN/
 # extra
 inertia.db
 inertia.db*
+login.txt
 Migrations/
-
-
-**/docker-compose*
-**/Dockerfile*
+data/
+docs/

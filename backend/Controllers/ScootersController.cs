@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;
 
+/// <summary>
+/// Controller for querying the availability of scooters.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
@@ -22,6 +25,14 @@ public class ScootersController: MyControllerBase
         _service = service;
     }
 
+    /// <summary>
+    /// Computes and returns a list of the available scooters.
+    /// Can filter by depoId, and time frame.
+    /// </summary>
+    /// <param name="depoId"> if left empty, queries all depos </param>
+    /// <param name="startTime"> if left empty, queries for the current time </param>
+    /// <param name="endTime"> if left empty, it is set to startTime </param>
+    /// <returns></returns>
     [HttpGet("available")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(List<Scooter>), 200)]
@@ -58,6 +69,13 @@ public class ScootersController: MyControllerBase
         }
     }
     
+    /// <summary>
+    /// Counts the currently available scooters.
+    /// </summary>
+    /// <param name="depoId"></param>
+    /// <param name="startTime"></param>
+    /// <param name="endTime"></param>
+    /// <returns></returns>
     [HttpGet("count")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(CountResponse), 200)]
@@ -104,6 +122,11 @@ public class ScootersController: MyControllerBase
         }
     }
     
+    /// <summary>
+    /// Returns the details of a scooter, by id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Scooter), 200)]

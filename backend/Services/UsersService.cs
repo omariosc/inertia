@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Services;
 
+/// <summary>
+/// Service for creating user accounts and logging in users
+/// </summary>
 public class UsersService
 {
     private static readonly RandomNumberGenerator RandomEngine = RandomNumberGenerator.Create();
@@ -18,6 +21,16 @@ public class UsersService
         _db = db;
     }
 
+    /// <summary>
+    /// Creates user account.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="password"></param>
+    /// <param name="name"></param>
+    /// <param name="userType"></param>
+    /// <param name="role"></param>
+    /// <returns></returns>
+    /// <exception cref="EmailAlreadyExistsException"></exception>
     public async Task<Account> CreateAccount(
         string email,
         string password,
@@ -53,6 +66,17 @@ public class UsersService
         }
     }
 
+    /// <summary>
+    /// Changes details of a user account, updating all the appropriate data
+    /// in the database.
+    /// </summary>
+    /// <param name="account"></param>
+    /// <param name="name"></param>
+    /// <param name="email"></param>
+    /// <param name="password"></param>
+    /// <param name="accountRole"></param>
+    /// <returns></returns>
+    /// <exception cref="EmailAlreadyExistsException"></exception>
     public async Task<Account> ModifyAccount(
         Account account,
         string? name,
@@ -79,6 +103,12 @@ public class UsersService
         }
     }
     
+    /// <summary>
+    /// Checks whether the email password login information is correct.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="password"></param>
+    /// <returns></returns>
     public async Task<Account?> MatchAccount(string email, string password)
     {
         var account = await _db.Accounts

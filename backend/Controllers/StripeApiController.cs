@@ -5,6 +5,9 @@ using Stripe;
 
 namespace inertia.Controllers;
 
+/// <summary>
+/// Boiler plate code for integrating with Stripe.
+/// </summary>
 [Route("api/create-payment-intent")]
 [ApiController]
 public class StripeApiController : Controller

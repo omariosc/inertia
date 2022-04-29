@@ -8,12 +8,27 @@ using inertia.Models;
 
 namespace inertia.Services;
 
+/// <summary>
+/// Generates Authentication tokens, to safely and securely
+/// authenticate and authorize users.
+/// </summary>
 public class AuthenticationTokenService
 {
+    /// <summary>
+    /// from configuration, the key used to generated the tokens
+    /// </summary>
     private readonly string _jwtKey;
+    
+    /// <summary>
+    /// from configuration, the name of the issuer
+    /// </summary>
     private readonly string _jwtIssuer;
+    
+    /// <summary>
+    /// from configuration, the number of days the generated token is valid
+    /// </summary>
     private readonly int _jwtAccessTokenExpiryInDays;
-
+    
     public AuthenticationTokenService(IConfiguration configuration)
     {
         _jwtKey = configuration["Jwt:Key"];
@@ -21,6 +36,11 @@ public class AuthenticationTokenService
         _jwtAccessTokenExpiryInDays = int.Parse(configuration["Jwt:AccessTokenExpiryInDays"]);
     }
     
+    /// <summary>
+    /// Generates an access token for an account
+    /// </summary>
+    /// <param name="account"></param>
+    /// <returns></returns>
     public string? GenerateAccessToken(Account account)
     {
         var claims = new[]
@@ -36,7 +56,7 @@ public class AuthenticationTokenService
 
         return generateToken(claims, issuedAt, expiresAt);
     }
-
+    
     private string? generateToken(IEnumerable<Claim> claims, DateTime issuedAt, DateTime expiresAt)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
@@ -49,6 +69,11 @@ public class AuthenticationTokenService
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);  
     }
 
+    /// <summary>
+    /// Checks whether a token is valid. 
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
     public ClaimsPrincipal? ValidateAccessToken(string token)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));

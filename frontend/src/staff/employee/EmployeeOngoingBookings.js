@@ -33,7 +33,7 @@ export default function EmployeeOngoingBookings() {
             let ongoingBookings = [];
             for (let i = 0; i < allBookings.length; i++) {
                 if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
-                    if (allBookings[i]['extensions'] != null) {
+                    if (allBookings[i]['extensions'].length > 0) {
                         allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
                     }
                     ongoingBookings.push(allBookings[i]);
@@ -119,7 +119,7 @@ export default function EmployeeOngoingBookings() {
             </p>
             <h3 id="pageName">Ongoing Bookings</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(bookingHistory === '') ?
                     <p>Loading booking history...</p> :
                     <>
@@ -129,10 +129,10 @@ export default function EmployeeOngoingBookings() {
                                 <Table>
                                     <thead>
                                     <tr>
-                                        <th>Customer ID</th>
-                                        <th>Scooter ID</th>
-                                        <th>Time Expiring</th>
-                                        <th>Extend</th>
+                                        <th className="minWidthFieldSmall">Customer ID</th>
+                                        <th className="minWidthFieldSmall">Scooter ID</th>
+                                        <th className="minWidthFieldSmall">Time Expiring</th>
+                                        <th className="minWidthFieldLarge">Extend</th>
                                         <th>Cancel</th>
                                         <th>Booking Confirmation</th>
                                     </tr>

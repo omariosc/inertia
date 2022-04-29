@@ -10,9 +10,9 @@ import {IoIosStats} from "react-icons/io";
 
 export default function ManagerMobileNavigation() {
     const [open, setOpen] = useState(false);
-    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35"
+    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35px"
                                            onClick={() => setOpen(!open)}/>
-    const closeIcon = <CgClose className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
+    const closeIcon = <CgClose className="hamburger-menu" color="white" size="35px" onClick={() => setOpen(!open)}/>
     const [signOut] = useOutletContext();
 
     function Links() {

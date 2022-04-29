@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace inertia.Controllers;
 
+/// <summary>
+/// Customer Controller base to make returning ApplicationError easier.
+/// </summary>
 public class MyControllerBase : Controller
 {
     protected ActionResult ApplicationError(

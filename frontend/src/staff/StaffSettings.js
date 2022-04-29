@@ -16,7 +16,8 @@ export default function StaffSettings() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href={(cookies.get("accountRole") === "2") ? "/dashboard" : "/home"}>Home</a> > <b>
+                <a className="breadcrumb-list"
+                   href={(cookies.get("accountRole") === "2") ? "/dashboard" : "/home"}>Home</a> > <b>
                 <a className="breadcrumb-current" href="/settings">Settings</a></b>
             </p>
             <h3 id="pageName">Change Password</h3>

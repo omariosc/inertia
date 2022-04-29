@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace inertia.Util;
 
+/// <summary>
+/// Utility class to format application/octet-stream request body into a byte[].
+/// </summary>
 public class ByteArrayInputFormatter: InputFormatter
 {
     public ByteArrayInputFormatter()

@@ -326,7 +326,7 @@ export default function EmployeeCreateGuestBooking() {
                             </Row>
                         </Container>
                     </Col>
-                    <Col className="box">
+                    <Col className="box" >
                         {(map_locations === "") ? <p>Loading map locations...</p> :
                             <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
                                           zoomControl={false} className="minimap-box">

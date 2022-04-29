@@ -587,7 +587,7 @@
         cursor: pointer;
         display: flex;
         position: fixed;
-        right: 280px;
+        right: 190px;
         top: 18px;
         z-index: 9999;
     }
@@ -614,7 +614,7 @@
         position: fixed;
         right: 0;
         width: 100vw;
-        z-index: 9002;
+        z-index: 9008;
     }
 
     .manager-vert-navbar-mobile a {
@@ -639,7 +639,6 @@
         top: 55px;
         right: 15px;
         width: auto;
-        z-index: 1000000;
     }
 
     .customer-column {
@@ -671,4 +670,5 @@
     .customer-logout {
         display: none;
     }
+
 }

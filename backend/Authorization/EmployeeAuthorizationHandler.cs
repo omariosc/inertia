@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inertia.Authorization;
 
+/// <summary>
+/// Handles Authorization requirement that checks for employee role.
+/// </summary>
 public class EmployeeAuthorizationHandler : AuthorizationHandler<EmployeeAuthorization>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

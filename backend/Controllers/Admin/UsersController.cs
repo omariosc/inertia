@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers.Admin;
 
+/// <summary>
+/// Admin Controller for operating on users
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -26,6 +29,10 @@ public class UsersController : MyControllerBase
         _users = users;
     }
 
+    /// <summary>
+    /// Gets a list of users.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(typeof(List<Account>), 200)]
     public async Task<ActionResult> GetUsers()
@@ -36,6 +43,11 @@ public class UsersController : MyControllerBase
         return Ok(users);
     }
 
+    /// <summary>
+    /// get all the details of a user, by id.
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <returns></returns>
     [HttpGet("{accountId}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Account), 200)]
@@ -51,6 +63,11 @@ public class UsersController : MyControllerBase
         return Ok(account);
     }
 
+    /// <summary>
+    /// Creates a new user
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(CreateUserResponse), 200)]
@@ -76,6 +93,12 @@ public class UsersController : MyControllerBase
         }
     }
     
+    /// <summary>
+    /// Modifies the details of an user account
+    /// </summary>
+    /// <param name="accountId"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPatch("{accountId}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Account), 200)]

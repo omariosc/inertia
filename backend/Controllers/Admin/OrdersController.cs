@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers.Admin;
 
+/// <summary>
+/// Admin controller for operating on orders.
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -29,6 +32,10 @@ public class OrdersController : MyControllerBase
         _users = users;
     }
 
+    /// <summary>
+    /// Returns a list of all the orders, by all users.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<List<Order>>> ListOrders()
     {
@@ -45,6 +52,11 @@ public class OrdersController : MyControllerBase
         return Ok(list);
     }
     
+    /// <summary>
+    /// gets all the details of an order, by id.
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
     [HttpGet("{orderId}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Order), 200)]
@@ -73,6 +85,11 @@ public class OrdersController : MyControllerBase
         return Ok(order);
     }
     
+    /// <summary>
+    /// Creates a guest order, used for employees creating guest orders
+    /// </summary>
+    /// <param name="createOrder"></param>
+    /// <returns></returns>
     [HttpPost("CreateGuestOrder")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Order), 200)]
@@ -146,6 +163,11 @@ public class OrdersController : MyControllerBase
         }
     }
 
+    /// <summary>
+    /// Cancels an order
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
     [HttpPost("{orderId}/cancel")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]
@@ -183,6 +205,12 @@ public class OrdersController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Extends an order
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <param name="extendOrder"></param>
+    /// <returns></returns>
     [HttpPost("{orderId}/extend")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Order), 200)]
@@ -248,6 +276,11 @@ public class OrdersController : MyControllerBase
         }
     }
     
+    /// <summary>
+    /// Approves an order
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
     [HttpPost("{orderId}/approve")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]
@@ -269,6 +302,11 @@ public class OrdersController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Rejects an order
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
     [HttpPost("{orderId}/deny")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]

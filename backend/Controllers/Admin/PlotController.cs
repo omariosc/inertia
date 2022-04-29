@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers.Admin;
 
+/// <summary>
+/// Endpoint for computing the plot values.
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -19,6 +22,11 @@ public class PlotController : MyControllerBase
         _db = db;
     }
 
+    /// <summary>
+    /// plots weekly income, can separate weekly income by hire options.
+    /// </summary>
+    /// <param name="separateHireOptions"></param>
+    /// <returns></returns>
     [HttpGet("weekly")]
     [ProducesResponseType(typeof(Plot), 200)]
     public async Task<ActionResult> PlotWeeklyIncome([FromQuery] bool separateHireOptions)
@@ -113,6 +121,10 @@ public class PlotController : MyControllerBase
         }
     }
 
+    /// <summary>
+    /// Computes the combined daily plot
+    /// </summary>
+    /// <returns></returns>
     [HttpGet("combinedDaily")]
     [ProducesResponseType(typeof(PlotBarChart), 200)]
     public async Task<ActionResult> PlotCombinedDaily()

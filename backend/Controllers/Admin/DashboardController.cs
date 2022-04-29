@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers.Admin;
 
+/// <summary>
+/// The controller for the admin dashboard functionality
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -23,6 +26,10 @@ public class DashboardController : MyControllerBase
         _inertia = inertia;
     }
 
+    /// <summary>
+    /// Fetches all the dashboard data and sends it in the http response. 
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<DashboardResponse>> Get()
     {

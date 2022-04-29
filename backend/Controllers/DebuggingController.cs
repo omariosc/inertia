@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;
 
+
+/// <summary>
+/// Debugging controller, only available in development mode. Used for the unit tests.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]

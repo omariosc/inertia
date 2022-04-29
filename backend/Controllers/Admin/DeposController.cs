@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers.Admin;
 
+/// <summary>
+/// Admin controller for modifying, adding and removing depos.
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -22,6 +25,11 @@ public class DeposController : MyControllerBase
         this.db = db;
     }
     
+    /// <summary>
+    /// Endpoint that creates a new Depo
+    /// </summary>
+    /// <param name="depo"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<Depo> AddItem(
         [FromBody] Dtos.CreateDepoRequest depo 
@@ -39,6 +47,11 @@ public class DeposController : MyControllerBase
         return e.Entity;
     }
 
+    /// <summary>
+    /// Endpoint that removes a depo.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]
@@ -54,6 +67,12 @@ public class DeposController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Endpoint that modifies a depo
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="depoRequest"></param>
+    /// <returns></returns>
     [HttpPatch("{id:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Depo), 200)]

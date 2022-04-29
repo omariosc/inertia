@@ -1,5 +1,9 @@
 namespace inertia.Services;
 
+/// <summary>
+/// Recurring task that calculates the Frequent Users
+/// every week.
+/// </summary>
 public class FrequentUsersService : CronJobService
 {
     private readonly ILogger<FrequentUsersService> _logger;

@@ -1,8 +1,7 @@
 import React from "react";
 import {useLocation, useOutletContext, Outlet, Link} from 'react-router-dom';
 import {Row, Col, Nav, DropdownButton, Dropdown} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
+import UserMenu from '../components/UserMenu';
 import CustomerNavigation from "./CustomerNavigation";
 import CustomerMobileNavigation from "./CustomerMobileNavigation";
 
@@ -21,13 +20,7 @@ export default function CustomerInterface() {
     return (
         <div id="overlay">
             <div id="top-bar">
-                <DropdownButton
-                    align="end"
-                    title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                    className="customer-logout float-right clickable"
-                >
-                    <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
-                </DropdownButton>
+                <UserMenu/>
             </div>
             <div id="account-page">
                 <Row>

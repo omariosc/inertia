@@ -135,10 +135,6 @@
     pointer-events: all;
 }
 
-.clickable black {
-    pointer-events: all;
-}
-
 /* for customer navbar */
 .customer-column {
     border: black;
@@ -174,10 +170,6 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-}
-
-.customer-navigation-mobile {
-    display: none !important;
 }
 
 /* for staff dashboard text (value) */
@@ -445,14 +437,19 @@
     position: relative;
     width: 50%;
 }
+
 .box:before {
     content: "";
     float: left;
     padding-top: 100%;
 }
 
-.minimap-box{
-    float:left;
+.minimap-box {
+    float: left;
+    max-height: 350px;
+}
+.mapMaxHeightRow {
+    max-height: 350px !important;
 }
 .navbar-pad-left {
     padding-left: 10px;
@@ -574,10 +571,14 @@
 
 /* for small to medium size screens (WHERE MOBILE NAVIGATION CSS IS*/
 @media (max-width: 1070px) {
+    .leaflet-container {
+        z-index: -1;
+    }
     #manager-row {
         background-color: transparent;
         height: 100%;
     }
+
 
     .border-end {
         border-right: transparent !important;
@@ -639,6 +640,7 @@
         top: 55px;
         right: 15px;
         width: auto;
+        z-index: 10000000;
     }
 
     .customer-column {

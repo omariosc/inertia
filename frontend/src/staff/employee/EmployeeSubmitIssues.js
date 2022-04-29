@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {Button, Form } from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
 import host from "../../host";
@@ -60,25 +60,26 @@ export default function EmployeeSubmitIssue() {
             <hr id="underline"/>
             <Form className={"submit-issue"}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label><h5>Enter Issue Title</h5></Form.Label>
+                    <Form.Label><h5>Title</h5></Form.Label>
                     <Form.Control autoFocus type="text" placeholder="Enter issue title here..."
                                   isInvalid={!validTitle} onInput={e => setTitle(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">
                         Please enter issue title
                     </Form.Control.Feedback>
                 </Form.Group>
-                <select defaultValue="none" onChange={(e) => {
-                    setPriority(e.target.value)
-                }}>
-                    <option value="none" key="none" disabled hidden>Select priority</option>
-                    {["None", "Low", "Medium", "High"].map((priority, idx) => (
-                        <option value={idx} key={priority}>{priority}</option>
-                    ))}
-                </select>
-                <br/>
-                <br/>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label><h5>Enter Issue Description</h5></Form.Label>
+                    <Form.Label><h5>Priority</h5></Form.Label>
+                    <Form.Select defaultValue="none" onChange={(e) => {
+                        setPriority(e.target.value)
+                    }}>
+                        <option value="none" key="none" disabled hidden>Select priority</option>
+                        {["None", "Low", "Medium", "High"].map((priority, idx) => (
+                            <option value={idx} key={priority}>{priority}</option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                    <Form.Label><h5>Description</h5></Form.Label>
                     <Form.Control type="text" as="textarea" rows={3} placeholder="Enter issue description here..."
                                   isInvalid={!validDescription} onInput={e => setContent(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">

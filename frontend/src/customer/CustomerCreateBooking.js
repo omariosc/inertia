@@ -391,9 +391,7 @@ export default function CustomerCreateBooking() {
                     </Row>
                 </> : <>
                     <h5>Using stored payment details</h5>
-
                     <Row>
-
                         <Col className="text-end col-3 align-self-center">
                             Card Number:
                         </Col>

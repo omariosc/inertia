@@ -39,14 +39,13 @@ export default function StaffManageIssues({manager}) {
                 },
                 mode: "cors"
             });
-            let response = await request.json();
             const sortFunctions = {
                 '1': (a, b) => b.issueId - a.issueId,
                 '2': (a, b) => a.issueId - b.issueId,
                 '3': (a, b) => a.priority - b.priority,
                 '4': (a, b) => b.priority - a.priority
             }
-            setIssues(response.sort(sortFunctions[sortOption]));
+            setIssues((await request.json()).sort(sortFunctions[sortOption]));
             if (sortOption) {
                 NotificationManager.success("Sorted Issues.", "Success");
             }

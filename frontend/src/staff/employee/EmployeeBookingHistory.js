@@ -27,7 +27,7 @@ export default function EmployeeBookingHistory() {
             let allBookings = await request.json();
             let ongoingBookings = [];
             for (let i = 0; i < allBookings.length; i++) {
-                if (allBookings[i]['extensions'] != null) {
+                if (allBookings[i]['extensions'].length > 0) {
                     allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
                 }
                 ongoingBookings.push(allBookings[i]);
@@ -47,7 +47,7 @@ export default function EmployeeBookingHistory() {
             </p>
             <h3 id="pageName">Booking History</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(bookings === '') ? <p>Loading bookings...</p> :
                     (bookings.length === 0) ? <p>There are no bookings.</p> :
                         <Row xs={1}>
@@ -55,7 +55,7 @@ export default function EmployeeBookingHistory() {
                                 <Table className="table-formatting">
                                     <tbody>
                                     {bookings.map((booking, idx) => (
-                                        <tr key={idx}>
+                                        <tr key={idx} className="minWidthFieldSmall">
                                             <td>{booking.orderId}</td>
                                             <td className="float-end">
                                                 <Button onClick={() => navigate("../bookings/" + booking.orderId)}>

@@ -143,6 +143,9 @@ public class UsersController : MyControllerBase
         
         var orders = await _db.Orders
             .Include(e => e.HireOption)
+            .Include(e=>e.Scooter)
+            .ThenInclude(s=>s.Depo)
+            .Include(e=>e.Account)
             .Include(e => e.Extensions)
             .Where(e => e.AccountId == accountId && e.Extends == null)
             .ToListAsync();
@@ -158,6 +161,7 @@ public class UsersController : MyControllerBase
     {
        var issues = await _db.Issues
             .OrderByDescending(i => i.DateOpened)
+            .Include(i=>i.Account)
             .Where(i => i.AccountId == accountId)
             .ToListAsync();
 
@@ -206,6 +210,7 @@ public class UsersController : MyControllerBase
     {
        var issue = await _db.Issues
             .Where(i => i.IssueId == issueId && i.AccountId == accountId)
+            .Include(i=>i.Account)
             .FirstOrDefaultAsync();
 
         if (issue == null)

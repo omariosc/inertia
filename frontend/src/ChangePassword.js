@@ -7,20 +7,20 @@ export default async function changePassword(oldPassword, password, confirmPassw
     const cookies = new Cookies();
     if (oldPassword.length < 1) {
         NotificationManager.error("Please enter your old password.", "Error");
-        return;
+        return false;
     }
     if (!(password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/))) {
         NotificationManager.error("Please enter a valid password. Passwords should contain minimum eight characters, " +
             "at least one uppercase letter, one lowercase letter, one number and one special character.", "Error");
-        return;
+        return false;
     }
     if (password !== confirmPassword) {
         NotificationManager.error("Passwords do not match.", "Error");
-        return;
+        return false;
     }
     if (oldPassword === password) {
         NotificationManager.error("Passwords must be different.", "Error");
-        return;
+        return false;
     }
     try {
         let request = await fetch(host + `api/Users/${cookies.get('accountID')}/ChangePassword`, {
@@ -39,10 +39,13 @@ export default async function changePassword(oldPassword, password, confirmPassw
         let response = await request;
         if (response.status === 200) {
             NotificationManager.success("Changed password.", "Success");
+            return true;
         } else {
             NotificationManager.error("Incorrect password.", "Error");
+            return false;
         }
     } catch (error) {
         console.error(error);
+        return false
     }
 };

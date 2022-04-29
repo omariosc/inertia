@@ -1,5 +1,7 @@
 # inertia
 
+Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulan Maga](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
+
 ## Running the project
 
 ### via docker and docker-compose
@@ -89,8 +91,8 @@ npm start
 ### The Architecture
 The project is divided into two major components: `frontend` and `backend`.
 
-* backend - a webservice that provides an API that implements all the business logic. This component was implements in `C#` using the `ASP.NET` framework.
-* frontend - a Single Page Application that implements the browser UI for the project. In release mode this components is built as a static page that can be served by an `nginx` instance.
+* backend - a webservice that provides an API that implements all the business logic. This component was implemented in `C#` using the `ASP.NET` framework.
+* frontend - a Single Page Application that implements the browser UI for the project. This component was implemented in `JavaScript` using the `React.js` framework. In release mode this components is built as a static page that can be served by an `nginx` instance. The frontend contains 3 main UI components for each user-type, customers, employees and managers. We used the `Bootstrap` framework for a lot of the styling.
 
 In production mode, both of these components are packed as docker image, alongside with a third components - the reverse proxy, whose job it is to provide a single front for the application. The proxy handles user requests and redirects them either to the frontend `nginx` instance or to the `backend` webservice.
 

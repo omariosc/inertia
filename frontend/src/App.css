@@ -1,52 +1,26 @@
-/* for customer interface container */
 #account-page {
+    overflow-y: scroll;
     padding-left: 15%;
     padding-right: 25%;
     padding-top: 2%;
     pointer-events: all;
     position: relative;
-    overflow-y: scroll;
 }
 
-/* for breadcrumb links */
 #breadcrumb {
+    padding-bottom: 20px;
     padding-left: 10px;
     padding-top: 15px;
-    padding-bottom: 20px;
 }
 
-.buttonPadding {
-    margin-left: -20px;
-}
-
-.buttonPaddingDepotLat {
-    margin-left: -32px;
-}
-
-.buttonPaddingDuration {
-    margin-left: -12px;
-
-}
-
-.buttonPaddingDepot {
-    margin-left: -100px;
-}
-
-.buttonPaddingScooter {
-    margin-left: 5px;
-}
-
-/* for customer interface navigation links */
 #customer-row {
     height: 75vh;
 }
 
-/* for manager interface navigation links */
 #manager-row {
     height: 100vh;
 }
 
-/* for landing page map overlay */
 #overlay {
     position: absolute;
     top: 0;
@@ -54,12 +28,10 @@
     z-index: 100000;
 }
 
-/* format page name heading */
 #pageName {
     padding-left: 80px;
 }
 
-/* used to position drop down menu */
 #top-bar {
     display: flex;
     justify-content: right;
@@ -68,7 +40,6 @@
     margin-top: 0.5%;
 }
 
-/* for <hr/> attributes */
 #underline {
     background-color: black;
     border: solid 1px black;
@@ -76,45 +47,53 @@
     margin-left: 80px;
 }
 
-/* main wrapper container */
 #wrapper {
     display: flex;
     height: 100%;
     position: relative;
 }
 
-/* to format account management labels */
 .account label {
     width: 300px !important;
 }
 
-/* for overflow on main containers */
 .autoScroll {
     max-height: 90%;
     overflow-y: auto;
     padding-bottom: 65px;
 }
 
-/* for overflow on sub containers */
 .autoScrollSub {
     overflow-y: auto;
 }
 
-/* sets important black background*/
 .black-bg {
     background-color: black !important;
 }
 
-/* current page for breadcrumb list */
+.box {
+    position: relative;
+    width: 50%;
+}
+
+.box:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
+}
+
 .breadcrumb-current {
     color: black;
     text-decoration: none;
 }
 
-/* other pages in breadcrumb list */
 .breadcrumb-list {
     color: grey;
     text-decoration: none;
+}
+
+.buttonPadding {
+    margin-left: -20px;
 }
 
 .buttonPadding {
@@ -122,21 +101,46 @@
     margin-right: 20px;
 }
 
+.buttonPaddingDepot {
+    margin-left: -100px;
+}
+
+.buttonPaddingDepotLat {
+    margin-left: -32px;
+}
+
+.buttonPaddingDuration {
+    margin-left: -12px;
+}
+
 .buttonPaddingScooter {
     margin-left: 5px;
 }
 
-/* hide canvajs credit */
+.buttonPaddingScooter {
+    margin-left: 5px;
+}
+
 .canvasjs-chart-credit {
     display: none;
 }
 
-/* allow mouse clicks */
+.centered-h5 {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.centered-item {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
 .clickable {
     pointer-events: all;
 }
 
-/* for customer navbar */
 .customer-column {
     border: black;
     border-block-end: black;
@@ -144,47 +148,39 @@
     justify-content: flex-end;
     position: sticky;
     top: 0;
-
 }
 
 .customer-create-booking-padding {
     padding-right: 15px;
 }
 
-/* for customer submit issue input fields */
 .customer-issue input {
     width: 500px !important;
 }
 
-/* for customer submit issue label fields */
 .customer-issue label {
     width: 100px !important;
 }
 
-/* for customer submit issue text area fields */
 .customer-issue textarea {
     width: 500px;
 }
 
-/* for customer navigation links */
 .customer-navigation {
     align-items: center;
     display: flex;
     flex-direction: column;
 }
 
-/* for staff dashboard text (value) */
 .dashboard-text {
     font-size: xx-large !important;
     text-align: center !important;
 }
 
-/* for staff dashboard title (key) */
 .dashboard-title {
     text-align: center !important;
 }
 
-/* fixed table layout */
 .fixed-table {
     table-layout: fixed !important;
 }
@@ -201,6 +197,14 @@
     width: 47.5%;
 }
 
+.hamburger-menu {
+    display: none;
+}
+
+.hamburger-menu-customer {
+    display: none;
+}
+
 .hover-black {
     color: black !important;
 }
@@ -215,6 +219,12 @@
 
 .hover-white:hover {
     color: #555555 !important;
+}
+
+.indented-class {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
 .input {
@@ -325,13 +335,22 @@
     display: none;
 }
 
+.manager-rows {
+    bottom: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: fixed;
+    right: 0;
+    top: 78px;
+}
+
 .manager-vert-navbar {
     display: flex;
     flex-direction: column;
     padding-top: 10px;
     position: sticky;
     top: 0;
-
 }
 
 .manager-vert-navbar a {
@@ -351,37 +370,12 @@
     display: none !important;
 }
 
-/* Scroll bar mechanics */
-::-webkit-scrollbar {
-    width: 21px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-
-::-webkit-scrollbar-thumb {
-    background: grey;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.manager-rows {
-    position: fixed;
-    top: 78px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
 .map-container {
     height: 100vh;
+}
+
+.mapMaxHeightRow {
+    max-height: 350px !important;
 }
 
 .marginRight {
@@ -433,29 +427,16 @@
     min-width: 100%;
 }
 
+.minimap-box {
+    float: left;
+    max-height: 350px;
+}
+
 .minimap-customer {
     height: 400px !important;
     width: 80% !important;
 }
 
-.box {
-    position: relative;
-    width: 50%;
-}
-
-.box:before {
-    content: "";
-    float: left;
-    padding-top: 100%;
-}
-
-.minimap-box {
-    float: left;
-    max-height: 350px;
-}
-.mapMaxHeightRow {
-    max-height: 350px !important;
-}
 .navbar-pad-left {
     padding-left: 10px;
 }
@@ -494,10 +475,8 @@
 }
 
 .sameLine {
-
     display: inline-flex;
     flex-direction: row;
-
 }
 
 .scroll {
@@ -520,6 +499,11 @@
     border-right: 1px solid black !important;
 }
 
+.submit-issue {
+    padding-left: 15px;
+    width: auto;
+}
+
 .table-formatting {
     border-collapse: collapse;
 }
@@ -538,12 +522,11 @@
 }
 
 .topnavbar {
-
-    display: block;
     background: black;
-    width: 100%;
-    top: 0;
+    display: block;
     height: 78px;
+    top: 0;
+    width: 100%;
 }
 
 .wrapper, html, body {
@@ -551,76 +534,70 @@
     margin: 0;
 }
 
-.hamburger-menu {
-    display: none;
+::-webkit-scrollbar {
+    width: 21px;
 }
 
-.hamburger-menu-customer {
-    display: none;
+::-webkit-scrollbar-thumb {
+    background: grey;
 }
 
-.submit-issue {
-    padding-left: 15px;
-    width: auto;
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
-.indented-class {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
-.centered-h5 {
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.centered-item {
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-}
-
-@media (max-width: 991px) {
-    .hamburger-menu {
-        cursor: pointer;
-        display: flex;
-        position: fixed;
-        right: 15px !important;
-        top: 18px;
-        z-index: 9999;
-    }
-}
-
-/* for small to medium size screens (WHERE MOBILE NAVIGATION CSS IS*/
 @media (max-width: 1070px) {
+    .customer-navigation {
+        flex-direction: row;
+    }
+
     .leaflet-container {
         z-index: -1;
     }
 
-    .customer-navigation {
-        flex-direction: row;
-    }
-    .responsive-issue {
-        overflow-x: auto;
-    }
-    .minWidthFieldSmall {
-        min-width: 200px;
-    }
-    .responsive-table {
-        overflow-x: auto;
-    }
-    .responsive-table .form-control {
-        min-width: 100px;
-    }
     .minWidthFieldLarge {
         min-width: 300px;
     }
+
+    .minWidthFieldSmall {
+        min-width: 200px;
+    }
+
+    .responsive-issue {
+        overflow-x: auto;
+    }
+
+    .responsive-table {
+        overflow-x: auto;
+    }
+
+    .responsive-table .form-control {
+        min-width: 100px;
+    }
 }
 
-/* for small to medium size screens */
-@media (max-width: 991px) {/* format page name heading */
+@media (max-width: 991px) {
+    #account-page {
+        padding-left: 5%;
+        padding-right: 7%;
+        padding-top: 2%;
+        pointer-events: all;
+        position: relative;
+    }
+
+    #customer-row {
+        height: 0;
+    }
+
+    #manager-row {
+        background-color: transparent;
+        height: 100%;
+    }
+
     #pageName {
         padding-left: 0 !important;
     }
@@ -629,13 +606,39 @@
         margin-left: 0 !important;
     }
 
-    #manager-row {
-        background-color: transparent;
-        height: 100%;
-    }
-
     .border-end {
         border-right: transparent !important;
+    }
+
+    .customer-column {
+        border: none !important;
+        border-block-end: transparent !important;
+        display: flex;
+        width: 0 !important;
+    }
+
+    .customer-home {
+        display: none !important;
+    }
+
+    .customer-logout {
+        display: none;
+    }
+
+    .customer-navigation {
+        display: none !important;
+    }
+
+    .customer-navigation-mobile {
+        background: rgba(0, 100, 230, .92);
+        display: flex !important;
+        flex-direction: column;
+        padding-bottom: 10px;
+        position: fixed;
+        right: 15px;
+        top: 55px;
+        width: auto;
+        z-index: 10000000;
     }
 
     .hamburger-menu {
@@ -658,7 +661,6 @@
 
     .manager-vert-navbar {
         display: none !important;
-
     }
 
     .manager-vert-navbar-mobile {
@@ -680,51 +682,15 @@
         background-color: transparent;
         border-right: none !important;
     }
+}
 
-    .customer-navigation {
-        display: none !important;
-    }
-
-    .customer-navigation-mobile {
-        background: rgba(0, 100, 230, .92);
-        display: flex !important;
-        flex-direction: column;
-        padding-bottom: 10px;
-        position: fixed;
-        top: 55px;
-        right: 15px;
-        width: auto;
-        z-index: 10000000;
-    }
-
-    .customer-column {
-        border: none !important;
-        border-block-end: transparent !important;
+@media (max-width: 991px) {
+    .hamburger-menu {
+        cursor: pointer;
         display: flex;
-        width: 0 !important;
-        /*display: none !important;*/
+        position: fixed;
+        right: 15px !important;
+        top: 18px;
+        z-index: 9999;
     }
-
-
-    .customer-home {
-        display: none !important;
-    }
-
-    #account-page {
-        padding-left: 5%;
-        padding-right: 7%;
-        padding-top: 2%;
-        pointer-events: all;
-        position: relative;
-
-    }
-
-    #customer-row {
-        height: 0;
-    }
-
-    .customer-logout {
-        display: none;
-    }
-
 }

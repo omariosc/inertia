@@ -1,27 +1,22 @@
 import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import Cookies from 'universal-cookie';
 import host from "../host";
 import moment from "moment";
 
-export default function CustomerCreateBooking() {
+export default function CustomerCreateExtension() {
     const cookies = new Cookies();
     const navigate = useNavigate();
-    const [map_locations, setMapLocations] = useState('');
-    const [scooters, setScooters] = useState('');
+    const {orderId} = useParams();
+    const [baseOrder, setBaseOrder] = useState("");
     const [hireOptions, setHireOptions] = useState('');
-    const [depotChoiceId, setDepotChoiceId] = useState('');
-    const [scooterChoiceId, setScooterChoiceId] = useState('');
     const [hireChoiceId, setHireChoiceId] = useState('');
     const [price, setPrice] = useState('');
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
-    const [validDepot, setValidDepot] = useState(true);
-    const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
     const [validCardNo, setValidCardNo] = useState(true);
     const [validExpDate, setValidExpDate] = useState(true);
@@ -32,28 +27,37 @@ export default function CustomerCreateBooking() {
     const [saveCard, setSaveCard] = useState(false);
     const [savedDetailsDeleted, setSavedDetailsDeleted] = useState(false);
 
+
     useEffect(() => {
-        fetchAvailableScooters();
+        fetchOrderInfo();
         fetchHirePeriods();
         fetchDiscountStatus();
-        fetchLocations();
     }, []);
 
-    async function fetchLocations() {
+    async function fetchOrderInfo() {
         try {
-            let request = await fetch(host + "api/Depos", {
+            let request = await fetch(host + `api/Orders/${orderId}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
                 },
                 mode: "cors"
             });
-            setMapLocations(await request.json());
-        } catch (e) {
-            console.log(e);
+            let response = await request;
+            if(response.status === 200){
+                setBaseOrder(await response.json());
+            } else {
+                navigate("/current-bookings")
+                NotificationManager.error("Order does not exist", "Error");
+            }
+
+        } catch (error) {
+            console.error(error);
         }
     }
+
 
     async function getDiscountStatus() {
         try {
@@ -101,6 +105,7 @@ export default function CustomerCreateBooking() {
                 mode: "cors"
             });
             let response = await request.json();
+
             if (response.userType === 0) {
                 setDiscount(true);
                 setDiscountType("Student");
@@ -133,32 +138,13 @@ export default function CustomerCreateBooking() {
         }
     }
 
-    async function fetchAvailableScooters() {
-        try {
-            let request = await fetch(host + "api/Scooters/available", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
-    async function createBooking() {
-        setValidDepot(depotChoiceId !== '' && depotChoiceId !== 'none')
-        setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
+    async function extendBooking() {
         setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
         setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
         setValidCVV(cvv.match(/^[0-9]{3,4}$/));
-        if (! (scooterChoiceId !== '' && scooterChoiceId !== 'none'
-            && hireChoiceId !== '' && hireChoiceId !== 'none')
+        if (!(hireChoiceId !== '' && hireChoiceId !== 'none')
             && cardNo.length > 9 && cardNo.length < 20
             && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
             && cvv.match(/^[0-9]{3,4}$/)) {
@@ -166,7 +152,7 @@ export default function CustomerCreateBooking() {
             return;
         }
         try {
-            let request = await fetch(host + "api/Orders", {
+            let request = await fetch(host + `api/Orders/${orderId}/extend`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -175,8 +161,6 @@ export default function CustomerCreateBooking() {
                 },
                 body: JSON.stringify({
                     'hireOptionId': parseInt(hireChoiceId),
-                    'scooterId': parseInt(scooterChoiceId),
-                    'startTime': new Date(Date.now()).toISOString()
                 }),
                 mode: "cors"
             });
@@ -186,7 +170,7 @@ export default function CustomerCreateBooking() {
             } else if (response.status === 400) {
                 NotificationManager.error("Please fill in all required fields.", "Error");
             } else if (response.status === 200) {
-                NotificationManager.success("Created Booking.", "Success");
+                NotificationManager.success("Extended Booking.", "Success");
                 if ((!checkCardExists() || savedDetailsDeleted) && saveCard) {
                     cookies.set('cardNumber', cardNo, {path: '/'});
                     cookies.set('expiryDate', expiry, {path: '/'});
@@ -229,7 +213,7 @@ export default function CustomerCreateBooking() {
                         <Row className="pb-2">
                             <Col>
                                 {(hireChoiceId === '') ? <h5>Cost £</h5> : <h5>Cost £{parseFloat(price).toFixed(2)}</h5>
-                            }
+                                }
                             </Col>
                         </Row>
         )
@@ -237,52 +221,16 @@ export default function CustomerCreateBooking() {
 
     return (
         <Container>
-            <Row className="mapMaxHeightRow">
-                {(map_locations === "") ? <Col>Loading map locations...</Col> :
-                    <Col className="box col=12">
-                        <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
-                                      zoomControl={false} className="minimap-box">
-                            <TileLayer
-                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                            {map_locations.map((map_location, index) => (
-                                <Marker key={index}
-                                        position={[map_location.latitude, map_location.longitude]}
-                                        eventHandlers = {{
-                                            click: () => {
-                                                setDepotChoiceId(map_location.depoId);
-                                                setScooterChoiceId("");
-                                            }}}>
-                                    <Popup>
-                                        <Button className="disabled">
-                                            {map_location.name}
-                                        </Button>
-                                    </Popup>
-                                </Marker>
-                            ))}
-                        </MapContainer>
-                    </Col>
-                }
-            </Row>
-            <br/>
             <h5>Booking Details</h5>
             <Row className="pb-2">
                 <Col className="text-end col-3 align-self-center">
                     Depot:
                 </Col>
                 <Col>
-                    {(map_locations === "" ) ? <> Loading depots... </> :
-                        <Form.Select value={depotChoiceId} isInvalid={!validDepot} onChange={(e) => {
-                            setDepotChoiceId(e.target.value);
-                            setScooterChoiceId("");
-                        }}>
-                            <option value="" key="none" disabled hidden>Select Depot</option>
-                            {map_locations.map((depot, idx) => (
-                                <option value={depot.depoId}
-                                        key={idx}>{depot.name}</option>
-                            ))}
-                        </Form.Select>
-                        }
+                    {(!baseOrder.scooter) ?
+                        <> Loading depot... </> :
+                        <Form.Control value={baseOrder.scooter.depoId} disabled />
+                    }
                 </Col>
             </Row>
             <Row className="pb-2">
@@ -290,46 +238,25 @@ export default function CustomerCreateBooking() {
                     Scooter:
                 </Col>
                 <Col>
-                    {(scooters === "") ? <> Loading scooters... </> :
-                        <Form.Select
-                                     value={scooterChoiceId}
-                                     isInvalid={!validScooter}
-                                     disabled={depotChoiceId === ""}
-                                     onChange={(e) => {
-                            setScooterChoiceId(e.target.value);
-                        }}>
-                            {depotChoiceId === "" ?
-                                <option value="" key="none" disabled hidden>Select Depot First</option> : <>
-                                <option value="" key="none" disabled hidden>Select Scooter</option>
-                            {scooters.filter((scooter)=>{
-                                if(scooter.depoId.toString() === depotChoiceId.toString()){
-                                    return scooter;
-                                } else{
-                                    return null;
-                                }
-                            }).map((scooter, idx) => (
-                                <option value={scooter.scooterId}
-                                key={idx}>{scooter.softScooterId}</option>
-                                ))}
-                                </>
-                            }
-                        </Form.Select>
+                    {(!baseOrder.scooter) ?
+                        <> Loading scooter... </> :
+                        <Form.Control value={baseOrder.scooter.softScooterId} disabled />
                     }
                 </Col>
             </Row>
             <Row className="pb-2">
                 <Col className="text-end col-3 align-self-center">
-                    Hire Period:
+                    Extension Period:
                 </Col>
                 <Col>
-                    {(hireOptions === "") ? <>Loading hire periods...</> : <>
+                    {(hireOptions === "") ? <>Loading extension periods...</> : <>
                         <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
                             let value = e.target.value.split(',')
                             setHireChoiceId(value[0]);
                             setPrice(value[1])
                         }}>
 
-                            <option value="none" key="none" disabled hidden>Select Hire Period</option>
+                            <option value="none" key="none" disabled hidden>Select Extension Period</option>
                             {hireOptions.map((option, idx) => (
                                 <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
                                     £{option.cost}</option>
@@ -432,7 +359,7 @@ export default function CustomerCreateBooking() {
             <br/>
 
             <Button className="float-right"
-                    onClick={createBooking}>Confirm Booking</Button>
+                    onClick={extendBooking}>Confirm Extension</Button>
 
 
         </Container>

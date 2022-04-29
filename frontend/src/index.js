@@ -5,6 +5,8 @@ import App from './App';
 import LandingPage from "./LandingPage";
 import CustomerInterface from "./customer/CustomerInterface";
 import CustomerCreateBooking from "./customer/CustomerCreateBooking";
+import CustomerCreateExtension from "./customer/CustomerCreateExtension";
+import CustomerCancelBooking from "./customer/CustomerCancelBooking";
 import CustomerCurrentBookings from "./customer/CustomerCurrentBooking";
 import CustomerBookingHistory from "./customer/CustomerBookingHistory";
 import CustomerSubmitIssue from "./customer/CustomerSubmitIssue";
@@ -84,6 +86,8 @@ ReactDOM.render(
                             <Route path="create-booking" element={<CustomerCreateBooking/>}/>
                             <Route index element={<CustomerCreateBooking/>}/>
                             <Route path="current-bookings" element={<CustomerCurrentBookings/>}/>
+                            <Route path="booking/extend/:orderId" element={<CustomerCreateExtension/>}/>
+                            <Route path="booking/cancel/:orderId" element={<CustomerCancelBooking/>}/>
                             <Route path="booking-history" element={<CustomerBookingHistory/>}/>
                             <Route path="submit-issue" element={<CustomerSubmitIssue/>}/>
                             <Route path="discounts" element={<CustomerDiscounts/>}/>

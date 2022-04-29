@@ -346,6 +346,10 @@
     color: black;
 }
 
+.manager-vert-navbar-mobile {
+    display: none !important;
+}
+
 /* Scroll bar mechanics */
 ::-webkit-scrollbar {
     width: 21px;
@@ -556,6 +560,18 @@
 .submit-issue {
     padding-left: 15px;
     width: auto;
+}
+
+.indented-class {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.centered-h5 {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 @media (max-width: 991px) {

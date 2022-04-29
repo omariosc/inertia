@@ -353,7 +353,9 @@ export default function EmployeeCreateGuestBooking() {
                         </Container>
                     </Col>
                 </Row>
-                <Button onClick={createGuestBooking}>Confirm Booking</Button>
+                <div className={"centered-item"}>
+                    <Button onClick={createGuestBooking}>Confirm Booking</Button>
+                </div>
             </Container>
         </>
     );

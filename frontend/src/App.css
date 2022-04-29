@@ -574,6 +574,12 @@
     padding-bottom: 10px;
 }
 
+.centered-item {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
 @media (max-width: 991px) {
     .hamburger-menu {
         cursor: pointer;

@@ -16,6 +16,8 @@ export default function CustomerCreateBooking() {
     const [depotChoiceId, setDepotChoiceId] = useState('');
     const [scooterChoiceId, setScooterChoiceId] = useState('');
     const [hireChoiceId, setHireChoiceId] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [startTime, setStartTime] = useState('');
     const [price, setPrice] = useState('');
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
@@ -23,6 +25,8 @@ export default function CustomerCreateBooking() {
     const [validDepot, setValidDepot] = useState(true);
     const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
+    const [validStartDate, setValidStartDate] = useState(true);
+    const [validStartTime, setValidStartTime] = useState(true);
     const [validCardNo, setValidCardNo] = useState(true);
     const [validExpDate, setValidExpDate] = useState(true);
     const [validCVV, setValidCVV] = useState(true);
@@ -33,11 +37,15 @@ export default function CustomerCreateBooking() {
     const [savedDetailsDeleted, setSavedDetailsDeleted] = useState(false);
 
     useEffect(() => {
-        fetchAvailableScooters();
         fetchHirePeriods();
         fetchDiscountStatus();
         fetchLocations();
     }, []);
+
+    useEffect(()=>{
+        fetchAvailableScooters();
+
+    },[startTime, startDate, hireChoiceId, depotChoiceId]);
 
     async function fetchLocations() {
         try {
@@ -133,35 +141,96 @@ export default function CustomerCreateBooking() {
         }
     }
 
+    function calcStartIso() {
+        let hours = parseInt(startTime.slice(0, 2));
+        let mins = parseInt(startTime.slice(3, 5));
+        let bookingStart = new Date(startDate);
+        bookingStart.setHours(hours, mins, 0, 0);
+        return bookingStart.toISOString()
+    }
+
+    function calcEndIso() {
+        let hours = parseInt(startTime.slice(0, 2));
+        let mins = parseInt(startTime.slice(3, 5));
+        let bookingEnd = new Date(startDate);
+        console.log(hireOptions)
+        let duration = hireOptions.find(x => x.hireOptionId === parseInt(hireChoiceId)).durationInHours;
+        bookingEnd.setHours(hours + duration, mins, 0, 0);
+        return bookingEnd.toISOString()
+    }
+
     async function fetchAvailableScooters() {
-        try {
-            let request = await fetch(host + "api/Scooters/available", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
-        } catch (error) {
-            console.error(error);
+        console.log("called");
+        if (validateTime()
+            && validateDate()
+            && hireChoiceId !== ''
+            && hireChoiceId !== 'none'
+            && depotChoiceId !== ''
+            && depotChoiceId !== 'none') {
+
+            try {
+                console.log("request");
+                let requestString = host + "api/Scooters/available/" + "?depoId=" + depotChoiceId + "&startTime=" + calcStartIso() + "&endTime=" + calcEndIso()
+                let request = await fetch(requestString, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    },
+                    mode: "cors"
+                });
+                setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
+                console.log("set");
+            } catch (error) {
+                console.error(error);
+            }
+        } else{
+            setScooters("");
+            setScooterChoiceId("");
         }
+    }
+
+    function validateDate() {
+        let currentDate = new Date();
+        let dStartDate = new Date(startDate);
+        currentDate.setHours(0, 0, 0, 0);
+        dStartDate.setHours(0, 0, 0, 0);
+        return currentDate.toString() !== "Invalid Date" && currentDate <= dStartDate
+    }
+
+    function validateTime() {
+        if (startTime.length !== 5) {
+            return false
+        }
+
+        let hours = parseInt(startTime.slice(0, 2));
+        let mins = parseInt(startTime.slice(3, 5));
+        if (hours < 0 || hours > 23 || mins % 15 !== 0) {
+            return false;
+        }
+        let currentDate = new Date();
+        let dStartDate = new Date(startDate);
+        currentDate.setSeconds(0, 0);
+        dStartDate.setHours(hours, mins, 0, 0);
+        return currentDate.toString() !== "Invalid Date" && currentDate <= dStartDate;
     }
 
     async function createBooking() {
         setValidDepot(depotChoiceId !== '' && depotChoiceId !== 'none')
+        setValidStartDate(validateDate());
+        setValidStartTime(validateTime());
         setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
         setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
         setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
         setValidCVV(cvv.match(/^[0-9]{3,4}$/));
         if (!(scooterChoiceId !== '' && scooterChoiceId !== 'none'
-                && hireChoiceId !== '' && hireChoiceId !== 'none'
+            && hireChoiceId !== '' && hireChoiceId !== 'none'
             && cardNo.length > 9 && cardNo.length < 20
             && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
-            && cvv.match(/^[0-9]{3,4}$/))) {
+            && cvv.match(/^[0-9]{3,4}$/)
+            && validateDate() && validateTime())) {
             NotificationManager.error("Invalid Details Provided", "Error");
             return;
         }
@@ -176,13 +245,13 @@ export default function CustomerCreateBooking() {
                 body: JSON.stringify({
                     'hireOptionId': parseInt(hireChoiceId),
                     'scooterId': parseInt(scooterChoiceId),
-                    'startTime': new Date(Date.now()).toISOString()
+                    'startTime': new Date(startDate + "T" + startTime).toISOString()
                 }),
                 mode: "cors"
             });
             let response = await request;
             if (response.status === 422) {
-                NotificationManager.error("Scooter is currently unavailable.", "Error");
+                NotificationManager.error("Scooter is unavailable at this time.", "Error");
             } else if (response.status === 400) {
                 NotificationManager.error("Please fill in all required fields.", "Error");
             } else if (response.status === 200) {
@@ -229,7 +298,7 @@ export default function CustomerCreateBooking() {
                         <Row className="pb-2">
                             <Col>
                                 {(hireChoiceId === '') ? <h5>Cost £</h5> : <h5>Cost £{parseFloat(price).toFixed(2)}</h5>
-                            }
+                                }
                             </Col>
                         </Row>
         )
@@ -250,8 +319,8 @@ export default function CustomerCreateBooking() {
                                         position={[map_location.latitude, map_location.longitude]}
                                         eventHandlers={{
                                             click: () => {
-                                                setDepotChoiceId(map_location.depoId);
                                                 setScooterChoiceId("");
+                                                setDepotChoiceId(map_location.depoId);
                                             }
                                         }}>
                                     <Popup>
@@ -288,34 +357,36 @@ export default function CustomerCreateBooking() {
             </Row>
             <Row className="pb-2">
                 <Col className="text-end col-3 align-self-center">
-                    Scooter:
+                    Start Time:
                 </Col>
                 <Col>
-                    {(scooters === "") ? <> Loading scooters... </> :
-                        <Form.Select
-                            value={scooterChoiceId}
-                            isInvalid={!validScooter}
-                            disabled={depotChoiceId === ""}
-                            onChange={(e) => {
-                                setScooterChoiceId(e.target.value);
-                            }}>
-                            {depotChoiceId === "" ?
-                                <option value="" key="none" disabled hidden>Select Depot First</option> : <>
-                                    <option value="" key="none" disabled hidden>Select Scooter</option>
-                                    {scooters.filter((scooter) => {
-                                        if (scooter.depoId.toString() === depotChoiceId.toString()) {
-                                            return scooter;
-                                        } else {
-                                            return null;
-                                        }
-                                    }).map((scooter, idx) => (
-                                        <option value={scooter.scooterId}
-                                                key={idx}>{scooter.softScooterId}</option>
-                                    ))}
-                                </>
-                            }
-                        </Form.Select>
-                    }
+                    <Form.Control type="date" isInvalid={!validStartDate} onChange={(e) => {
+                        setStartDate(e.target.value);
+                    }}/>
+                </Col>
+                <Col>
+                    <Form.Control type="time"
+                                  isInvalid={!validStartTime}
+                                  value={startTime}
+                                  onChange={(e) => {
+                                      let output = e.target.value.slice(0, 3);
+                                      let minutes = parseInt(e.target.value.slice(3, 5));
+                                      if (minutes % 15 === 1) {
+                                          minutes = (minutes + 14) % 60
+                                      } else if (minutes % 15 === 14) {
+                                          minutes = (minutes - 14)
+                                      } else if (minutes % 15 !== 0) {
+                                          minutes = (Math.round(minutes / 15) % 4) * 15
+                                      }
+                                      let minString = minutes.toString();
+                                      if (minString.length === 1) {
+                                          output += "0" + minString;
+                                      } else {
+                                          output += minString;
+                                      }
+                                      setStartTime(output);
+                                  }
+                                  }/>
                 </Col>
             </Row>
             <Row className="pb-2">
@@ -327,7 +398,7 @@ export default function CustomerCreateBooking() {
                         <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
                             let value = e.target.value.split(',')
                             setHireChoiceId(value[0]);
-                            setPrice(value[1])
+                            setPrice(value[1]);
                         }}>
 
                             <option value="none" key="none" disabled hidden>Select Hire Period</option>
@@ -338,6 +409,32 @@ export default function CustomerCreateBooking() {
                         </Form.Select>
                     </>
                     }
+                </Col>
+            </Row>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Scooter:
+                </Col>
+                <Col>
+
+                        <Form.Select
+                            value={scooterChoiceId}
+                            isInvalid={!validScooter}
+                            disabled={scooters === ""}
+                            onChange={(e) => {
+                                setScooterChoiceId(e.target.value);
+                            }}>
+                            {scooters === "" ?
+                                <option value="" key="none" disabled hidden>Please fill in other details</option> : <>
+                                    <option value="" key="none" disabled hidden>Select Scooter</option>
+                                    {scooters.map((scooter, idx) => (
+                                        <option value={scooter.scooterId}
+                                                key={idx}>{scooter.softScooterId}</option>
+                                    ))}
+                                </>
+                            }
+                        </Form.Select>
+
                 </Col>
             </Row>
             <br/>

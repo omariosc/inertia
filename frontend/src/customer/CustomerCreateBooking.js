@@ -32,6 +32,9 @@ export default function CustomerCreateBooking() {
     const [discountType, setDiscountType] = useState('');
     const [loading, setLoading] = useState('');
     const [saveCard, setSaveCard] = useState(false);
+    let cardDetails = {
+
+    }
 
     useEffect(() => {
         fetchAvailableScooters();
@@ -188,9 +191,16 @@ export default function CustomerCreateBooking() {
             } else if (response.status === 200) {
                 NotificationManager.success("Created Booking.", "Success");
                 if (!checkCardExists() && saveCard) {
-                    cookies.set('cardNumber', cardNo, {path: '/'});
-                    cookies.set('expiryDate', expiry, {path: '/'});
-                    cookies.set('cvv', cvv, {path: '/'});
+                    const card = {
+                        cardNumber: cardNo,
+                        expiryDate: expiry,
+                        cvv: cvv
+                    }
+
+                    localStorage.setItem(cookies.get("accountId"), JSON.stringify(card));
+                    // cookies.set('cardNumber', cardNo, {path: '/'});
+                    // cookies.set('expiryDate', expiry, {path: '/'});
+                    // cookies.set('cvv', cvv, {path: '/'});
                     NotificationManager.success("Stored credit card details.", "Success");
                 }
                 navigate('/current-bookings');
@@ -201,7 +211,10 @@ export default function CustomerCreateBooking() {
     }
 
     function checkCardExists() {
-        return (cookies.get('cardNumber') && cookies.get('expiryDate') && cookies.get('cvv'));
+        if (localStorage.getItem(cookies.get("accountId"))) {
+            cardDetails = JSON.parse(localStorage.getItem(cookies.get("accountId")));
+        }
+        return (!!localStorage.getItem(cookies.get("accountId")));
     }
 
     function DisplayCost() {
@@ -354,7 +367,7 @@ export default function CustomerCreateBooking() {
                                 setSaveCard(e.target.checked)}/>
                         </Col>
                     </Row>
-                    <Row className="pb-2 small-padding-top">
+                    <Row className="pb-2">
                         <Cards
                             cvc={cvv}
                             expiry={expiry}
@@ -362,45 +375,51 @@ export default function CustomerCreateBooking() {
                             name={cookies.get("accountName")}
                             number={cardNo}
                         />
-                        <Col className="text-end col-3 align-self-center">
-                            Card Number:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" name="number" placeholder="4000-1234-5678-9010"
-                                          isInvalid={!validCardNo}
-                                          onInput={e => setCardNo(e.target.value)}
-                                          onFocus={e => setFocus(e.target.name)}/>
-                            <Form.Control.Feedback type="invalid">
-                                Invalid Card Number
-                            </Form.Control.Feedback>
-                        </Col>
                     </Row>
                     <Row className="pb-2">
-                        <Col className="text-end col-3 align-self-center">
-                            Expiry Date:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" name="expiry" placeholder="MM/YY"
-                                          isInvalid={!validExpDate}
-                                          onInput={e => setExpiry(e.target.value)}
-                                          onFocus={e => setFocus(e.target.name)}/>
-                            <Form.Control.Feedback type="invalid">
-                                Invalid Expiry Date
-                            </Form.Control.Feedback>
-                        </Col>
-                    </Row>
-                    <Row className="pb-2">
-                        <Col className="text-end col-3 align-self-center">
-                            CVV:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" name="cvv" placeholder="123"
-                                          isInvalid={!validCVV}
-                                          onInput={e => setCVV(e.target.value)}
-                                          onFocus={e => setFocus(e.target.name)}/>
-                            <Form.Control.Feedback type="invalid">
-                                Invalid CVV
-                            </Form.Control.Feedback>
+                        <Col className="col-9">
+                            <Row className="pb-2 small-padding-top">
+                                <Col className="text-end col-3 align-self-center">
+                                    Card Number:
+                                </Col>
+                                <Col className="text-end">
+                                    <Form.Control type="text" name="number" placeholder="4000-1234-5678-9010"
+                                                  isInvalid={!validCardNo}
+                                                  onChange={e => setCardNo(e.target.value)}
+                                                  onFocus={e => setFocus(e.target.name)}/>
+                                    <Form.Control.Feedback type="invalid">
+                                        Invalid Card Number
+                                    </Form.Control.Feedback>
+                                </Col>
+                            </Row>
+                            <Row className="pb-2">
+                                <Col className="text-end col-3 align-self-center">
+                                    Expiry Date:
+                                </Col>
+                                <Col className="text-end">
+                                    <Form.Control type="text" name="expiry" placeholder="MM/YY"
+                                                  isInvalid={!validExpDate}
+                                                  onChange={e => setExpiry(e.target.value)}
+                                                  onFocus={e => setFocus(e.target.name)}/>
+                                    <Form.Control.Feedback type="invalid">
+                                        Invalid Expiry Date
+                                    </Form.Control.Feedback>
+                                </Col>
+                            </Row>
+                            <Row className="pb-2">
+                                <Col className="text-end col-3 align-self-center">
+                                    CVV:
+                                </Col>
+                                <Col className="text-end">
+                                    <Form.Control type="text" name="cvc" placeholder="123"
+                                                  isInvalid={!validCVV}
+                                                  onChange={e => setCVV(e.target.value)}
+                                                  onFocus={e => setFocus(e.target.name)}/>
+                                    <Form.Control.Feedback type="invalid">
+                                        Invalid CVV
+                                    </Form.Control.Feedback>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </> : <>
@@ -411,7 +430,7 @@ export default function CustomerCreateBooking() {
                         </Col>
                         <Col>
                             **** ****
-                            **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}
+                            **** {cardDetails.cardNumber.slice(cardDetails.cardNumber - 4)}
                         </Col>
                     </Row>
                     <Row className="pb-2 ">
@@ -419,7 +438,7 @@ export default function CustomerCreateBooking() {
                             Expiry Date:
                         </Col>
                         <Col>
-                            {cookies.get('expiryDate')}
+                            {cardDetails.expiryDate}
                         </Col>
                     </Row>
                     <Row>
@@ -427,9 +446,7 @@ export default function CustomerCreateBooking() {
                             <Button
                                 variant="danger"
                                 onClick={() => {
-                                    cookies.remove('cardNumber');
-                                    cookies.remove('expiryDate');
-                                    cookies.remove('cvv');
+                                    localStorage.removeItem(cookies.get("accountId"));
                                     navigate('/create-booking');
                                     NotificationManager.success("Deleted credit card details.", "Success");
                                 }}>

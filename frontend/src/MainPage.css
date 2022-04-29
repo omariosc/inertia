@@ -1,0 +1,48 @@
+.menu-page > .map-background {
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.menu-page > .overlay {
+
+}
+
+.menu-page > .my-account {
+    z-index: 2;
+
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.menu-page > .side-bar {
+    position: absolute;
+    z-index: 2;
+    width: 33vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+.menu-page > .side-bar > .search-bar {
+    width: auto;
+    height: 42px;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+.menu-page > .side-bar > .content {
+    flex-grow: 1;
+    width: auto;
+    height: auto;
+    margin-bottom: 10px;
+    background-color: white;
+}

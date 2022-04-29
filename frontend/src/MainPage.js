@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import LoginForm from "./Login";
-import RegisterForm from "./Register";
 import host from "./host";
 import "./MainPage.css"
 import UserMenu from './components/UserMenu';
-import {useLocation} from "react-router-dom";
+import {Outlet} from 'react-router-dom';
 
 export default function MainPage() {
     const [map_locations, setMapLocations] = useState([]);
@@ -50,7 +48,7 @@ export default function MainPage() {
                 </div>
 
                 <div className={"content"}>
-
+                    <Outlet />
                 </div>
             </div>
 

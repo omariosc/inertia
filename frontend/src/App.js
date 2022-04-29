@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter, Outlet, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {Outlet, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import host from './host';
 import Cookies from 'universal-cookie';
 import {NotificationContainer} from 'react-notifications';
@@ -34,6 +34,9 @@ import CustomerSettings from "./customer/CustomerSettings";
 import MainPage from "./MainPage";
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
+import DepotList from "./components/main-page-content/DepotList";
+import Booking from "./components/main-page-content/Booking";
+import DepotEntry from "./components/main-page-content/DepotEntry";
 
 const App = () => {
     const cookies = new Cookies();
@@ -137,9 +140,14 @@ const App = () => {
                         </>
                     } />
 
-                    {/* Non-Logged In Users Routes */}
-                    <Route index element={<MainPage/>}/>
-                    <Route path="*" element={<MainPage/>}/>
+                    {/* Main page routing */}
+                    <Route element={<MainPage/>}>
+                        <Route path="booking/:depoId/" element={<Booking />}/>
+                        <Route path="depots/:depoId" element={<DepotEntry />}/>
+                        <Route path="depots" element={<DepotList />}/>
+                        <Route index element={<DepotList/>}/>
+                        <Route path="*" element={<DepotList/>}/>
+                    </Route>
                 </Route>
             </Routes>
 

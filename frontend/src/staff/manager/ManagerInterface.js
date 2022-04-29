@@ -1,14 +1,13 @@
 import React from "react";
-import {Link, Outlet, useOutletContext} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import {Nav, Row, Col, Navbar} from "react-bootstrap";
 import UserMenu from '../../components/UserMenu';
-import ManagerMobileNavigation from "./ManagerMobileNavigation"
-import ManagerNavigation from "./ManagerNavigation"
+import ManagerMobileNavigation from "./ManagerMobileNavigation";
+import ManagerNavigation from "./ManagerNavigation";
 import Cookies from 'universal-cookie';
 
 export default function ManagerInterface() {
     const cookies = new Cookies();
-    const [signOut] = useOutletContext();
 
     return (
         <div id="overlay">
@@ -30,7 +29,7 @@ export default function ManagerInterface() {
                         <ManagerMobileNavigation/>
                     </Col>
                     <Col xs={11}>
-                        <Outlet context={[signOut]}/>
+                        <Outlet/>
                         <br/>
                         <br/>
                     </Col>

@@ -1,5 +1,5 @@
 import React from "react";
-import {Outlet, useOutletContext, Link} from 'react-router-dom';
+import {Outlet, Link} from 'react-router-dom';
 import {Col, Nav, Navbar, Row} from "react-bootstrap";
 import UserMenu from '../../components/UserMenu';
 import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
@@ -8,7 +8,6 @@ import Cookies from 'universal-cookie';
 
 export default function EmployeeInterface() {
     const cookies = new Cookies();
-    const [signOut] = useOutletContext();
 
     return (
         <div id="overlay">
@@ -30,7 +29,7 @@ export default function EmployeeInterface() {
                         <EmployeeMobileNavigation/>
                     </Col>
                     <Col xs={11}>
-                        <Outlet context={[signOut]}/>
+                        <Outlet/>
                     </Col>
                 </Row>
             </div>

@@ -5,7 +5,7 @@ import React from "react";
 import "./UserMenu.css";
 import {useLocation, useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
-import host from "../host";
+import signOut from '../signout';
 
 export default function userMenu() {
     const location = useLocation();
@@ -14,30 +14,6 @@ export default function userMenu() {
 
     let accountRole = cookies.get('accountRole');
     let accountName = cookies.get('accountName');
-
-    async function signOut() {
-        cookies.remove('accountRole');
-        cookies.remove('accessToken');
-        cookies.remove('accountID');
-        cookies.remove('accountName');
-        try {
-            await fetch(host + 'api/Users/authorize', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                body: JSON.stringify({
-                    'accessToken': cookies.get('accessToken')
-                }),
-                mode: "cors"
-            });
-        } catch (error) {
-            console.error(error);
-        }
-        window.location.reload(true);
-    }
 
     return (
         <DropdownButton
@@ -119,6 +95,7 @@ export default function userMenu() {
                 accountRole != null &&
                 <Dropdown.Item
                     onClick={() => {
+                        navigate('/');
                         signOut().then(r => r);
                     }}
                 >

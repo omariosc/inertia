@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {Link, useOutletContext} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
+import signOut from '../signout';
 
 export default function CustomerMobileNavigation() {
     const [open, setOpen] = useState(false);
@@ -22,7 +23,10 @@ export default function CustomerMobileNavigation() {
                 <Nav.Link as={Link} className="hover-white" to="/submit-issue">Submit Issue</Nav.Link>
                 <Nav.Link as={Link} className="hover-white" to="/discounts">Discounts</Nav.Link>
                 <Nav.Link as={Link} className="hover-white" to="/settings">Settings</Nav.Link>
-                <Nav.Link as={Link} className="hover-white" to="/" onClick={signOut}>Sign Out</Nav.Link>
+                <Nav.Link as={Link} className="hover-white" to="/" onClick={() => {
+                    navigate('/');
+                    signOut().then(r => r);
+                }}>Sign Out</Nav.Link>
             </Nav>
         );
     }

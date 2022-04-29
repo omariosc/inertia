@@ -1,6 +1,5 @@
 import React from "react";
 import {Outlet, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
-import host from './host';
 import Cookies from 'universal-cookie';
 import {NotificationContainer} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -44,45 +43,19 @@ const App = () => {
     const location = useLocation();
     const statefulBackgroundLocation = location.state;
 
-    // Signs out from application. Deletes cookies and navigates to landing page.
-    async function signOut() {
-        cookies.remove('accountRole');
-        cookies.remove('accessToken');
-        cookies.remove('accountID');
-        cookies.remove('accountName');
-        try {
-            await fetch(host + 'api/Users/authorize', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                body: JSON.stringify({
-                    'accessToken': cookies.get('accessToken')
-                }),
-                mode: "cors"
-            });
-        } catch (error) {
-            console.error(error);
-        }
-        window.location.reload(true);
-    }
-
     // Outlet with context (to pass signOut function) enclosed in wrapper.
     return (
         <div>
             <Routes location={statefulBackgroundLocation !== null ? statefulBackgroundLocation : location}>
                 <Route path="/" element={
                     <div id="wrapper">
-                        <Outlet context={[signOut]}/>
+                        <Outlet/>
                         <NotificationContainer className="custom-notification"/>
                     </div>}>
                     {/* Employee Routes */}
                     {(cookies.get('accountRole') === "1") &&
                         <Route element={<EmployeeInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
-                            {/*<Route index element={<Dashboard/>}/>*/}
                             <Route path="create-guest-booking" element={<EmployeeCreateGuestBooking/>}/>
                             <Route path="booking-applications" element={<EmployeeBookingApplications/>}/>
                             <Route path="bookings" element={<EmployeeOngoingBookings/>}/>

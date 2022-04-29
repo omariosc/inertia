@@ -1,13 +1,11 @@
 import React from "react";
-import {useLocation, useOutletContext, Outlet, Link} from 'react-router-dom';
-import {Row, Col, Nav, DropdownButton, Dropdown} from "react-bootstrap";
+import {Outlet, Link} from 'react-router-dom';
+import {Row, Col, Nav} from "react-bootstrap";
 import UserMenu from '../components/UserMenu';
 import CustomerNavigation from "./CustomerNavigation";
 import CustomerMobileNavigation from "./CustomerMobileNavigation";
 
 export default function CustomerInterface() {
-    let location = useLocation();
-    const [signOut] = useOutletContext();
     const headers = {
         "/create-booking": "Create Booking",
         "/current-bookings": "Current Bookings",
@@ -41,7 +39,7 @@ export default function CustomerInterface() {
                         <CustomerMobileNavigation/>
                     </Col>
                     <Col lg={8} xs={12}>
-                        <Outlet context={[signOut]}/>
+                        <Outlet/>
                     </Col>
                 </Row>
             </div>

@@ -1,5 +1,7 @@
 # inertia
 
+Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulan Maga](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
+
 ## Running the project
 
 ### via docker and docker-compose
@@ -33,7 +35,8 @@ git clone https://gitlab.com/sc20aim/inertia
 docker-compose up
 ```
 
-### each component independently in development mode
+### Development Mode components
+
 #### Prerequisites
 The project requires the following software packages in order to be built:
 * dotnet sdk
@@ -53,7 +56,7 @@ Running the backend in development mode can be done like so:
 # assuming the current working directory is: inertia/backend
 dotnet restore inertia.csproj
 dotnet run
-# the backend server will run on the URL: https://localhost:7220
+# the backend server will run automatically on the URL: https://localhost:7220
 ```
 
 #### Running the tests
@@ -85,18 +88,11 @@ npm start
 ```
 ## Extras
 
-### The architecture
-The project is divided into two major components: `frontend` and `backend`.
+### The Architecture
+The architecture of the project can be found [here](https://gitlab.com/sc20aim/inertia/-/wikis/architecture).
 
-* backend - a webservice that provides an API that implements all the business logic. 
-This component was implements in `C#` using the `ASP.NET` framework.
-* frontend - a Single Page Application that implements the browser UI for the project. In release
-mode this components is built as a static page that can be served by an `nginx` instance.
-
-In production mode, both of these components are packed as docker image, alongside with a third
-components - the reverse proxy, whose job it is to provide a single front for the application.
-The proxy handles user requests and redirects them either to the frontend `nginx` instance or to the
-`backend` webservice.
+### Final Demonstration
+The project marking guide is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/marking-guide) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
 
 ### Interim Deliverables
 The full interim deliverable specification list is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/interim) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.

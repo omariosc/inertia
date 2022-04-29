@@ -4,10 +4,8 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import Cookies from 'universal-cookie';
-import getScooterName from "../getScooterName";
 import host from "../host";
 import moment from "moment";
-import getMapName from "../getMapName";
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -236,11 +234,9 @@ export default function CustomerCreateBooking() {
 
     return (
         <Container>
-            <h5>Map</h5>
-            <Row>
-
+            <Row className="mapMaxHeightRow">
                 {(map_locations === "") ? <Col>Loading map locations...</Col> :
-                    <Col className="box offset-3 col=6">
+                    <Col className="box col=12">
                         <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
                                       zoomControl={false} className="minimap-box">
                             <TileLayer
@@ -258,7 +254,6 @@ export default function CustomerCreateBooking() {
                                         <Button className="disabled">
                                             {map_location.name}
                                         </Button>
-
                                     </Popup>
                                 </Marker>
                             ))}

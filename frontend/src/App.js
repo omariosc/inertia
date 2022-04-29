@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Outlet, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {NotificationContainer} from 'react-notifications';
@@ -37,11 +37,14 @@ import DepotList from "./components/main-page-content/DepotList";
 import Booking from "./components/main-page-content/Booking";
 import DepotEntry from "./components/main-page-content/DepotEntry";
 
+import {Account, signIn, signOut} from './authorize';
+
 const App = () => {
     const cookies = new Cookies();
     const navigate = useNavigate();
     const location = useLocation();
     const statefulBackgroundLocation = location.state;
+    const [account, setAccount] = useState(null);
 
     // Outlet with context (to pass signOut function) enclosed in wrapper.
     return (
@@ -112,7 +115,7 @@ const App = () => {
                     } />
 
                     {/* Main page routing */}
-                    <Route element={<MainPage/>}>
+                    <Route element={<MainPage setAccount={setAccount}/>}>
                         <Route path="booking/:depoId/" element={<Booking />}/>
                         <Route path="depots/:depoId" element={<DepotEntry />}/>
                         <Route path="depots" element={<DepotList />}/>
@@ -124,7 +127,7 @@ const App = () => {
 
             {statefulBackgroundLocation !== null && (
                 <Routes>
-                    <Route path={"/login"} element={<LoginForm show={true} onHide={() => navigate(-1)}/>} />
+                    <Route path={"/login"} element={<LoginForm setAccount = {setAccount} show={true} onHide={() => navigate(-1)}/>} />
                     <Route path={"/signup"} element={<RegisterForm show={true} onHide={() => navigate(-1)}/>} />
                 </Routes>
             )}

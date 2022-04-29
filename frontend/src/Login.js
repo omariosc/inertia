@@ -4,6 +4,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import Cookies from 'universal-cookie';
 import host from './host';
+import {signIn} from "./authorize";
 
 export default function LoginForm(props) {
     let navigate = useNavigate();
@@ -58,7 +59,9 @@ export default function LoginForm(props) {
             </Modal.Body>
             <Modal.Footer className="justify-content-center">
                 <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>
-                <Button className="float-right" onClick={onSubmit}>Login</Button>
+                <Button className="float-right" onClick={() => {
+                    signIn(props.setAccount, navigate, email, password);
+                }}>Login</Button>
             </Modal.Footer>
         </Modal>
     );

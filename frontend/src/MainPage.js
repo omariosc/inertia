@@ -5,7 +5,7 @@ import "./MainPage.css"
 import UserMenu from './components/UserMenu';
 import {Outlet} from 'react-router-dom';
 
-export default function MainPage() {
+export default function MainPage(props) {
     const [map_locations, setMapLocations] = useState([]);
 
     const centerLat = 53.80053044534111;
@@ -37,7 +37,7 @@ export default function MainPage() {
 
             {/* sign out button */}
             <div className={"my-account"}>
-                <UserMenu />
+                <UserMenu setAccount={props.setAccount}/>
             </div>
 
             <div className = {"side-bar"}>

@@ -5,9 +5,11 @@ import React from "react";
 import "./UserMenu.css";
 import {useLocation, useNavigate} from "react-router-dom";
 import Cookies from "universal-cookie";
-import signOut from '../signout';
+// import signOut from '../signout';
 
-export default function userMenu() {
+import {signOut} from "../authorize";
+
+export default function userMenu(props) {
     const location = useLocation();
     const navigate = useNavigate();
     const cookies = new Cookies();
@@ -95,8 +97,9 @@ export default function userMenu() {
                 accountRole != null &&
                 <Dropdown.Item
                     onClick={() => {
-                        navigate('/');
-                        signOut().then(r => r);
+                        // navigate('/');
+                        // signOut().then(r => r);
+                        signOut(props.setAccount, navigate);
                     }}
                 >
                     Sign Out

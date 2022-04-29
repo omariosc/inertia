@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
-import getMapName from "../../getMapName";
 import {NotificationManager} from "react-notifications";
 import Cookies from 'universal-cookie';
 import host from '../../host';
@@ -101,7 +100,7 @@ export default function EmployeeScooterManagement() {
                                     <td>
                                         {(map_locations === "") ?
                                             <p>Loading map locations...</p> :
-                                            getMapName(idx, scooters, map_locations)
+                                            String.fromCharCode(scooters[idx].depoId + 64) + ' - ' + map_locations[scooters[idx].depoId - 1].name
                                         }
                                     </td>
                                     <td>

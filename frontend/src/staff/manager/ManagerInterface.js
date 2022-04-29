@@ -33,7 +33,7 @@ export default function ManagerInterface() {
                         <ManagerNavigation/>
                         <ManagerMobileNavigation/>
                     </Col>
-                    <Col xs={9}>
+                    <Col xs={11}>
                         <Outlet context={[signOut]}/>
                         <br/>
                         <br/>

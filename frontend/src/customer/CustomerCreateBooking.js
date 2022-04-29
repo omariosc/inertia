@@ -157,11 +157,11 @@ export default function CustomerCreateBooking() {
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
         setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
         setValidCVV(cvv.match(/^[0-9]{3,4}$/));
-        if (! (scooterChoiceId !== '' && scooterChoiceId !== 'none'
-            && hireChoiceId !== '' && hireChoiceId !== 'none')
+        if (!(scooterChoiceId !== '' && scooterChoiceId !== 'none'
+                && hireChoiceId !== '' && hireChoiceId !== 'none'
             && cardNo.length > 9 && cardNo.length < 20
             && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
-            && cvv.match(/^[0-9]{3,4}$/)) {
+            && cvv.match(/^[0-9]{3,4}$/))) {
             NotificationManager.error("Invalid Details Provided", "Error");
             return;
         }
@@ -248,11 +248,12 @@ export default function CustomerCreateBooking() {
                             {map_locations.map((map_location, index) => (
                                 <Marker key={index}
                                         position={[map_location.latitude, map_location.longitude]}
-                                        eventHandlers = {{
+                                        eventHandlers={{
                                             click: () => {
                                                 setDepotChoiceId(map_location.depoId);
                                                 setScooterChoiceId("");
-                                            }}}>
+                                            }
+                                        }}>
                                     <Popup>
                                         <Button className="disabled">
                                             {map_location.name}
@@ -271,7 +272,7 @@ export default function CustomerCreateBooking() {
                     Depot:
                 </Col>
                 <Col>
-                    {(map_locations === "" ) ? <> Loading depots... </> :
+                    {(map_locations === "") ? <> Loading depots... </> :
                         <Form.Select value={depotChoiceId} isInvalid={!validDepot} onChange={(e) => {
                             setDepotChoiceId(e.target.value);
                             setScooterChoiceId("");
@@ -282,7 +283,7 @@ export default function CustomerCreateBooking() {
                                         key={idx}>{depot.name}</option>
                             ))}
                         </Form.Select>
-                        }
+                    }
                 </Col>
             </Row>
             <Row className="pb-2">
@@ -292,25 +293,25 @@ export default function CustomerCreateBooking() {
                 <Col>
                     {(scooters === "") ? <> Loading scooters... </> :
                         <Form.Select
-                                     value={scooterChoiceId}
-                                     isInvalid={!validScooter}
-                                     disabled={depotChoiceId === ""}
-                                     onChange={(e) => {
-                            setScooterChoiceId(e.target.value);
-                        }}>
+                            value={scooterChoiceId}
+                            isInvalid={!validScooter}
+                            disabled={depotChoiceId === ""}
+                            onChange={(e) => {
+                                setScooterChoiceId(e.target.value);
+                            }}>
                             {depotChoiceId === "" ?
                                 <option value="" key="none" disabled hidden>Select Depot First</option> : <>
-                                <option value="" key="none" disabled hidden>Select Scooter</option>
-                            {scooters.filter((scooter)=>{
-                                if(scooter.depoId.toString() === depotChoiceId.toString()){
-                                    return scooter;
-                                } else{
-                                    return null;
-                                }
-                            }).map((scooter, idx) => (
-                                <option value={scooter.scooterId}
-                                key={idx}>{scooter.softScooterId}</option>
-                                ))}
+                                    <option value="" key="none" disabled hidden>Select Scooter</option>
+                                    {scooters.filter((scooter) => {
+                                        if (scooter.depoId.toString() === depotChoiceId.toString()) {
+                                            return scooter;
+                                        } else {
+                                            return null;
+                                        }
+                                    }).map((scooter, idx) => (
+                                        <option value={scooter.scooterId}
+                                                key={idx}>{scooter.softScooterId}</option>
+                                    ))}
                                 </>
                             }
                         </Form.Select>
@@ -370,7 +371,7 @@ export default function CustomerCreateBooking() {
                         <Col className="text-end col-3 align-self-center">
                             Expiry Date:
                         </Col>
-                        <Col>
+                        <Col className="text-end">
                             <Form.Control type="text" placeholder="MM/YY"
                                           isInvalid={!validExpDate}
                                           onInput={e => setExpiry(e.target.value)}/>
@@ -383,7 +384,7 @@ export default function CustomerCreateBooking() {
                         <Col className="text-end col-3 align-self-center">
                             CVV:
                         </Col>
-                        <Col>
+                        <Col className="text-end">
                             <Form.Control type="text" placeholder="123"
                                           isInvalid={!validCVV}
                                           onInput={e => setCVV(e.target.value)}/>
@@ -414,7 +415,6 @@ export default function CustomerCreateBooking() {
                     <Row>
                         <Col className="offset-3">
                             <Button
-
                                 variant="danger"
                                 onClick={() => {
                                     cookies.remove('cardNumber');
@@ -430,11 +430,11 @@ export default function CustomerCreateBooking() {
                 </>
             }
             <br/>
-
             <Button className="float-right"
                     onClick={createBooking}>Confirm Booking</Button>
-
-
+            <br/>
+            <br/>
+            <br/>
         </Container>
     );
 };

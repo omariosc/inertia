@@ -2,6 +2,10 @@ using Cronos;
 
 namespace inertia.Services;
 
+/// <summary>
+/// Utility Service to run recurring tasks after
+/// a cron expression. 
+/// </summary>
 public abstract class CronJobService : IHostedService, IDisposable
 {
     private System.Timers.Timer? _timer;

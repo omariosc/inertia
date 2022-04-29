@@ -194,7 +194,7 @@ export default function ManagerScooterManagement() {
                             <tr key={idx}>
                                 <td>
                                     <Row className="sameLine minWidthFieldLarge">
-                                        <Col className="">{scooter.softScooterId}</Col>
+                                        <Col>{scooter.softScooterId}</Col>
                                         <Col>
                                             <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)}
                                                           size={20}/>

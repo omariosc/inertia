@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Authorization;
 
+/// <summary>
+/// Handles whether the user is logged in with a valid access token
+/// </summary>
 public class DefaultAuthorizationHandler : AuthorizationHandler<DefaultAuthorization>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

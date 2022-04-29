@@ -14,6 +14,10 @@ using MimeKit;
 
 namespace inertia.Services;
 
+/// <summary>
+/// The service that handles templating the email content
+/// and sending the emails
+/// </summary>
 public class EmailService
 {
     private readonly IRazorViewEngine _razorViewEngine;
@@ -63,6 +67,11 @@ public class EmailService
         }
     }
 
+    /// <summary>
+    /// Renders the render confirmation email and sends to the user.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="order"></param>
     public async Task SendOrderConfirmation(string email, Order order)
     {
         _db.Entry(order).Reference(o => o.Scooter).Load();
@@ -73,7 +82,7 @@ public class EmailService
         var model = new OrderConfirmationModel
         {
             ScooterId = order.Scooter.SoftScooterId,
-            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            Depo = order.Scooter.Depo.Name,
             OrderId = order.OrderId,
             HireOptionName = order.HireOption.Name,
             Cost = order.Cost,
@@ -85,6 +94,11 @@ public class EmailService
         await SendEmail(email, $"Booking no. {order.OrderId} confirmation", data);
     }
 
+    /// <summary>
+    /// Renders the render order approval email and sends to the user.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="order"></param>
     public async Task SendOrderApproval(string email, Order order)
     {
         _db.Entry(order).Reference(o => o.Scooter).Load();
@@ -102,6 +116,11 @@ public class EmailService
         await SendEmail(email, $"Booking no. {order.OrderId} has been approved", data);
     }
 
+    /// <summary>
+    /// Renders the order denied email and sends to the user.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="order"></param>
     public async Task SendOrderDenied(string email, Order order)
     {
         _db.Entry(order).Reference(o => o.Scooter).Load();
@@ -119,6 +138,11 @@ public class EmailService
         await SendEmail(email, $"Booking no. {order.OrderId} has been denied", data);
     }
 
+    /// <summary>
+    /// Renders the order cancellation email and sends to the user.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="order"></param>
     public async Task SendOrderCancellation(string email, Order order)
     {
         _db.Entry(order).Reference(o => o.Scooter).Load();
@@ -129,7 +153,7 @@ public class EmailService
         var model = new OrderCancellationModel
         {
             ScooterId = order.Scooter.SoftScooterId,
-            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            Depo = order.Scooter.Depo.Name,
             OrderId = order.OrderId,
             HireOptionName = order.HireOption.Name,
             Cost = order.Cost,
@@ -141,6 +165,11 @@ public class EmailService
         await SendEmail(email, $"Booking no. {order.OrderId} has been cancelled", data);
     }
 
+    /// <summary>
+    /// Renders the order was extended email and sends to the user.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="order"></param>
     public async Task SendOrderExtension(string email, Order order)
     {
         _db.Entry(order).Reference(o => o.Scooter).Load();
@@ -161,7 +190,7 @@ public class EmailService
         var model = new OrderExtensionModel
         {
             ScooterId = order.ScooterId,
-            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            Depo = order.Scooter.Depo.Name,
             OrderId = order.OrderId,
             Cost = order.Cost,
             Discount = order.Discount,
@@ -176,6 +205,11 @@ public class EmailService
         await SendEmail(email, $"Booking no. {order.OrderId} has been updated", data);
     }
     
+    /// <summary>
+    /// Renders the successful discount application email and sends to the user.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="account"></param>
     public async Task SendDiscountApplication(string email, Account account)
     {
         var model = new DiscountApplicationModel
@@ -188,6 +222,11 @@ public class EmailService
         await SendEmail(email, $"Your discount application has been approved!", data);
     }
 
+    /// <summary>
+    /// Renders the signup confirmation email and sends to the user.
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="account"></param>
     public async Task SendSignup(string email, Account account)
     {
         var model = new SignupModel
@@ -200,6 +239,12 @@ public class EmailService
         await SendEmail(email, $"Welcome to Inertia!", data);
     }
     
+    /// <summary>
+    /// Sends an email to the user.
+    /// </summary>
+    /// <param name="recipientEmail"></param>
+    /// <param name="subject"></param>
+    /// <param name="htmlBody"></param>
     private async Task SendEmail(string recipientEmail, string subject, string htmlBody)
     {
         var message = new MimeMessage();
@@ -228,6 +273,13 @@ public class EmailService
         }
     }
 
+    /// <summary>
+    /// Renders a razor page view into a string.
+    /// </summary>
+    /// <param name="viewName"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     private async Task<string> RenderToStringAsync(string viewName, object model)
     {
         var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };

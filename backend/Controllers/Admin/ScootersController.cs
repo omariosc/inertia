@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers.Admin;
 
+/// <summary>
+/// Admin Controller for handling scooters.
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -26,6 +29,12 @@ public class ScootersController : MyControllerBase
         _inertia = inertia;
     }
 
+    /// <summary>
+    /// Get a list of all scooters, with their updated status.
+    /// </summary>
+    /// <param name="depoId"></param>
+    /// <param name="status"></param>
+    /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(typeof(List<Scooter>), 200)]
     public async Task<ActionResult> List([FromQuery] int? depoId, [FromQuery] ScooterStatus? status)
@@ -41,6 +50,11 @@ public class ScootersController : MyControllerBase
         return Ok(scooters);
     }
 
+    /// <summary>
+    /// Returns a scooter that is in the PendingReturn state.
+    /// </summary>
+    /// <param name="scooterId"></param>
+    /// <returns></returns>
     [HttpPost("{scooterId:int}/return")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]
@@ -58,7 +72,11 @@ public class ScootersController : MyControllerBase
         return Ok();
     }
     
-    
+    /// <summary>
+    /// Creates a new scooter
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Scooter), 200)]
@@ -86,6 +104,11 @@ public class ScootersController : MyControllerBase
         }
     }
 
+    /// <summary>
+    /// removes a scooter
+    /// </summary>
+    /// <param name="scooterId"></param>
+    /// <returns></returns>
     [HttpDelete("{scooterId:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]
@@ -104,6 +127,12 @@ public class ScootersController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// updates the details of a scooter
+    /// </summary>
+    /// <param name="scooterId"></param>
+    /// <param name="scooterRequest"></param>
+    /// <returns></returns>
     [HttpPatch("{scooterId:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Scooter), 200)]

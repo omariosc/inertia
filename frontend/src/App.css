@@ -29,7 +29,7 @@
 }
 
 #pageName {
-    padding-left: 80px;
+    padding-left: 30px;
 }
 
 #top-bar {
@@ -44,7 +44,7 @@
     background-color: black;
     border: solid 1px black;
     color: black;
-    margin-left: 80px;
+    margin-left: 30px;
 }
 
 #wrapper {
@@ -101,10 +101,6 @@
     margin-right: 20px;
 }
 
-.buttonPadding {
-    margin-left: -20px;
-}
-
 .buttonPaddingDepot {
     margin-left: -100px;
 }
@@ -115,10 +111,6 @@
 
 .buttonPaddingDuration {
     margin-left: -12px;
-}
-
-.buttonPaddingScooter {
-    margin-left: 5px;
 }
 
 .buttonPaddingScooter {
@@ -432,12 +424,16 @@
 }
 
 .minimap-box {
-    height: 600px !important;
+    height: 350px !important;
 }
 
 .minimap-customer {
     height: 400px !important;
     width: 80% !important;
+}
+
+.minimap-guest {
+    height: 600px !important;
 }
 
 .navbar-pad-left {
@@ -558,10 +554,6 @@
         flex-direction: row;
     }
 
-    .leaflet-container {
-        z-index: -1;
-    }
-
     .minWidthFieldLarge {
         min-width: 300px;
     }
@@ -584,17 +576,6 @@
 }
 
 @media (max-width: 991px) {
-    .hamburger-menu {
-        cursor: pointer;
-        display: flex;
-        position: fixed;
-        right: 15px !important;
-        top: 18px;
-        z-index: 9999;
-    }
-}
-
-@media (max-width: 991px) {
     #account-page {
         padding-left: 5%;
         padding-right: 7%;
@@ -603,8 +584,12 @@
         position: relative;
     }
 
+    #breadcrumb {
+        display: none;
+    }
+
     #customer-row {
-        height: 0;
+        height: 100%;
     }
 
     #manager-row {
@@ -613,11 +598,12 @@
     }
 
     #pageName {
-        padding-left: 0 !important;
+        padding-left: 20px !important;
+        padding-top: 15px;
     }
 
     #underline {
-        margin-left: 0 !important;
+        margin-left: 20px !important;
     }
 
     .border-end {
@@ -699,5 +685,16 @@
 
     .submit-issue {
         padding-left: 0 !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .hamburger-menu {
+        cursor: pointer;
+        display: flex;
+        position: fixed;
+        right: 15px !important;
+        top: 18px;
+        z-index: 9999;
     }
 }

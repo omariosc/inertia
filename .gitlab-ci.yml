@@ -7,6 +7,7 @@
 stages:
 - test-sast
 - test-integration
+- compile-documentation
 
 sast:
   stage: test-sast
@@ -45,3 +46,18 @@ test-frontend:
   artifacts:
     paths:
       - frontend/build/
+
+doxygen-backend:
+  stage: compile-documentation
+  image: fedora
+  before_script:
+    - dnf install doxygen doxygen-latex make
+  script:
+    - cd backend/
+    - doxygen .doxygen
+    - cd docs/latex
+    - make
+  artifacts:
+    paths:
+      - backend/docs
+      - backend/docs/latex/refman.pdf

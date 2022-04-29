@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers;
 
+/// <summary>
+/// Controller for Creating, Querying, Extending and Cancelling orders.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
@@ -27,6 +30,11 @@ public class OrdersController : MyControllerBase
         _email = email;
     }
 
+    /// <summary>
+    /// Returns all the details of an order, by id.
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
     [HttpGet("{orderId}")]
     [Authorize(Policy = Policies.Authenticated)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -52,6 +60,11 @@ public class OrdersController : MyControllerBase
         return Ok(order);
     }
     
+    /// <summary>
+    /// endpoint for creating an order.
+    /// </summary>
+    /// <param name="createOrder"></param>
+    /// <returns></returns>
     [HttpPost]
     [Authorize(Policy = Policies.Authenticated)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -107,6 +120,11 @@ public class OrdersController : MyControllerBase
         }
     }
     
+    /// <summary>
+    /// endpoint for cancelling an order.
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
     [HttpPost("{orderId}/cancel")]
     [Authorize(Policy = Policies.Authenticated)]
     [ProducesResponseType(typeof(ApplicationError), 422)]
@@ -147,6 +165,12 @@ public class OrdersController : MyControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// endpoint for extending an order
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <param name="extendOrder"></param>
+    /// <returns></returns>
     [HttpPost("{orderId}/extend")]
     [Authorize(Policy = Policies.Authenticated)]
     [ProducesResponseType(typeof(ApplicationError), 422)]

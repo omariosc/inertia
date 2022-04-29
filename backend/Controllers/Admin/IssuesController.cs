@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Controllers.Admin;
 
+
+/// <summary>
+/// admin controller that implements the issue system.
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -22,6 +26,12 @@ public class IssuesController : MyControllerBase
         _db = db;
     }
 
+    /// <summary>
+    /// Lists issues, filtering through them; by default all issues are returned
+    /// </summary>
+    /// <param name="closed">filters by closed issues</param>
+    /// <param name="priority">filters by priority</param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult<List<Issue>>> ListIssues(
         [FromQuery] bool? closed,
@@ -47,6 +57,11 @@ public class IssuesController : MyControllerBase
         return Ok(issues);
     }
 
+    /// <summary>
+    /// gets all details of an issue, by id.
+    /// </summary>
+    /// <param name="issueId"></param>
+    /// <returns></returns>
     [HttpGet("{issueId:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Issue), 200)]
@@ -63,6 +78,12 @@ public class IssuesController : MyControllerBase
         return Ok(issue);
     }
     
+    /// <summary>
+    /// Modifies an issue, by id. Used to escalate, deescalate and close issues. 
+    /// </summary>
+    /// <param name="issueId"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPatch("{issueId:int}")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(Issue), 200)]

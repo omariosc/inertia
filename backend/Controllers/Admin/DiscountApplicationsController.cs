@@ -8,6 +8,10 @@ using MimeKit;
 
 namespace inertia.Controllers.Admin;
 
+
+/// <summary>
+/// Admin controller that implements approving and denying discount applications
+/// </summary>
 [ApiController]
 [Route("api/admin/[controller]")]
 [Produces("application/json")]
@@ -23,6 +27,10 @@ public class DiscountApplicationsController : MyControllerBase
         _email = email;
     }
 
+    /// <summary>
+    /// Fetches a list of the current discount applications
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<ActionResult> List()
     {
@@ -34,6 +42,11 @@ public class DiscountApplicationsController : MyControllerBase
         return Ok(applications);
     }
 
+    /// <summary>
+    /// Fetches the image of a discount application, by id.
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
     [HttpGet("{applicationId:int}/Image")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     public async Task<ActionResult> GetImage(int applicationId)
@@ -49,6 +62,11 @@ public class DiscountApplicationsController : MyControllerBase
         return File(application.Image!, "application/octet-stream");
     }
 
+    /// <summary>
+    /// Approved a discount application, by id.
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
     [HttpPost("{applicationId:int}/Approve")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]
@@ -71,7 +89,12 @@ public class DiscountApplicationsController : MyControllerBase
 
         return Ok();
     }
-    
+
+    /// <summary>
+    /// Rejects a discount application by id.
+    /// </summary>
+    /// <param name="applicationId"></param>
+    /// <returns></returns>
     [HttpPost("{applicationId:int}/Deny")]
     [ProducesResponseType(typeof(ApplicationError), 422)]
     [ProducesResponseType(typeof(void), 200)]

@@ -118,8 +118,8 @@ export default function CustomerCurrentBookings() {
                             <Table className="table-formatting">
                                 <thead>
                                 <tr>
-                                    <th>Time Expiring</th>
-                                    <th>Extend</th>
+                                    <th className="minWidthFieldSmall">Time Expiring</th>
+                                    <th className="minWidthFieldLarge">Extend</th>
                                     <th>Cancel</th>
                                     <th>Booking Confirmation</th>
                                 </tr>

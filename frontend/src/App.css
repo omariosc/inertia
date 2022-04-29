@@ -130,13 +130,8 @@
 .canvasjs-chart-credit {
     display: none;
 }
-
 /* allow mouse clicks */
 .clickable {
-    pointer-events: all;
-}
-
-.clickable black {
     pointer-events: all;
 }
 
@@ -590,10 +585,33 @@
     .customer-navigation {
         flex-direction: row;
     }
+    .responsive-issue {
+        overflow-x: auto;
+    }
+    .minWidthFieldSmall {
+        min-width: 200px;
+    }
+    .responsive-table {
+        overflow-x: auto;
+    }
+    .responsive-table .form-control {
+        min-width: 100px;
+    }
+    .minWidthFieldLarge {
+        min-width: 300px;
+    }
 }
 
 /* for small to medium size screens */
-@media (max-width: 991px) {
+@media (max-width: 991px) {/* format page name heading */
+    #pageName {
+        padding-left: 0 !important;
+    }
+
+    #underline {
+        margin-left: 0 !important;
+    }
+
     #manager-row {
         background-color: transparent;
         height: 100%;

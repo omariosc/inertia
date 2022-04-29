@@ -98,7 +98,7 @@ export default function EmployeeBookingApplications() {
             </p>
             <h3 id="pageName">Booking Applications</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(bookingHistory === '') ?
                     <p>Loading booking applications...</p> :
                     <>
@@ -108,9 +108,9 @@ export default function EmployeeBookingApplications() {
                                 <Table className="table-formatting">
                                     <thead>
                                     <tr>
-                                        <th>Customer ID</th>
+                                        <th className="minWidthFieldSmall">Customer ID</th>
                                         <th>Scooter ID</th>
-                                        <th>Time Expiring</th>
+                                        <th className="minWidthFieldSmall">Time Expiring</th>
                                         <th>Approve</th>
                                         <th>Deny</th>
                                         <th>Booking Confirmation</th>

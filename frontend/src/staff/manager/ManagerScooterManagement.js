@@ -134,8 +134,7 @@ export default function ManagerScooterManagement() {
             let response = await request;
             if (response.status === 422) {
                 NotificationManager.error("Scooter ID is already taken.", "Error");
-            }
-            else if (response.status !== 200) {
+            } else if (response.status !== 200) {
                 NotificationManager.error("Could not create scooter.", "Error");
             } else {
                 NotificationManager.success("Created scooter.", "Success");
@@ -177,7 +176,7 @@ export default function ManagerScooterManagement() {
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(scooters === '') ?
                     <p>Loading scooters...</p> :
                     <Table className="table-formatting">
@@ -194,7 +193,7 @@ export default function ManagerScooterManagement() {
                         {scooters.map((scooter, idx) => (
                             <tr key={idx}>
                                 <td>
-                                    <Row className="sameLine">
+                                    <Row className="sameLine minWidthFieldLarge">
                                         <Col className="">{scooter.softScooterId}</Col>
                                         <Col>
                                             <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)}
@@ -213,7 +212,7 @@ export default function ManagerScooterManagement() {
                                         </Col>
                                     </Row>
                                 </td>
-                                <td>
+                                <td className="minWidthFieldSmall">
                                     {(scooter.available ?
                                             <Button variant="danger"
                                                     onClick={() => editScooter(scooter.scooterId, 0, scooter.available)}>
@@ -225,16 +224,17 @@ export default function ManagerScooterManagement() {
                                             </Button>
                                     )}
                                 </td>
-                                <td>{scooterStatus[scooter.scooterStatus]}</td>
-                                <td>
+                                <td className="minWidthFieldSmall">{scooterStatus[scooter.scooterStatus]}</td>
+                                <td className="minWidthFieldLarge">
                                     {(map_locations === "") ?
                                         <p>Loading map locations...</p> :
                                         <>
-                                            <Form.Select defaultValue="none" onChange={(e) => {
-                                                if (e.target.value !== scooter.depoId.toString()) {
-                                                    editScooter(scooter.scooterId, 1, '', e.target.value);
-                                                }
-                                            }}>
+                                            <Form.Select className="minWidthFieldSmall" defaultValue="none"
+                                                         onChange={(e) => {
+                                                             if (e.target.value !== scooter.depoId.toString()) {
+                                                                 editScooter(scooter.scooterId, 1, '', e.target.value);
+                                                             }
+                                                         }}>
                                                 <option value="none" key="none" disabled hidden>
                                                     {getMapName(idx, scooters, map_locations)}
                                                 </option>
@@ -257,20 +257,21 @@ export default function ManagerScooterManagement() {
                         </tbody>
                     </Table>
                 }
-                <Table>
+                <Table className="table-formatting">
                     <tbody>
                     <tr>
                         <td>
-                            <Form.Control type="text" placeholder="Enter ID"
+                            <Form.Control className="minWidthFieldSmall" type="text" placeholder="Enter ID"
                                           onInput={e => setCreateId(e.target.value)}/>
                         </td>
                         <td>
                             {(map_locations === "") ?
                                 <p>Loading map locations...</p> :
                                 <Form>
-                                    <Form.Select defaultValue="none" onChange={(e) => {
-                                        setCreateDepo(e.target.value);
-                                    }}>
+                                    <Form.Select className="minWidthFieldSmall" defaultValue="none"
+                                                 onChange={(e) => {
+                                                     setCreateDepo(e.target.value);
+                                                 }}>
                                         <option value="none" key="none" disabled hidden>
                                             Select location
                                         </option>

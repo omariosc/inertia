@@ -3,9 +3,7 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
-import getScooterName from "../../getScooterName";
 import host from "../../host";
-import getMapName from "../../getMapName";
 
 export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();

@@ -33,20 +33,9 @@ export default function LoginForm(props) {
                 cookies.set("accountName", response.account.name, {path: '/'});
                 cookies.set("accountRole", response.account.role, {path: '/'});
                 cookies.set("accessToken", response.accessToken, {path: '/'});
-                // If manager account.
-                if (response.account.role === 2) {
-                    navigate('/dashboard');
-                    // If employee account.
-                } else if (response.account.role === 1) {
-                    navigate('/home');
-                    // If customer account.
-                } else if (response.account.role === 0) {
-                    navigate('/create-booking');
-                } else {
-                    console.log(response);
-                }
-                // Refreshes page.
-                window.location = window.location
+
+                navigate('/');
+                window.location.reload(true);
             } else {
                 NotificationManager.error("Login credentials invalid.", "Error");
             }

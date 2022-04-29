@@ -7,8 +7,6 @@ import {Outlet} from 'react-router-dom';
 
 export default function MainPage() {
     const [map_locations, setMapLocations] = useState([]);
-    const [showLogin, setShowLogin] = useState(false);
-    const [showRegister, setShowRegister] = useState(false);
 
     const centerLat = 53.80053044534111;
     const centerLong = -1.5460204298418807;

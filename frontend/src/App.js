@@ -80,9 +80,9 @@ const App = () => {
                     </div>}>
                     {/* Employee Routes */}
                     {(cookies.get('accountRole') === "1") &&
-                        <Route path="" element={<EmployeeInterface/>}>
-                            <Route path="home" element={<Dashboard/>}/>
-                            <Route index element={<Dashboard/>}/>
+                        <Route element={<EmployeeInterface/>}>
+                            <Route path="dashboard" element={<Dashboard/>}/>
+                            {/*<Route index element={<Dashboard/>}/>*/}
                             <Route path="create-guest-booking" element={<EmployeeCreateGuestBooking/>}/>
                             <Route path="booking-applications" element={<EmployeeBookingApplications/>}/>
                             <Route path="bookings" element={<EmployeeOngoingBookings/>}/>
@@ -99,9 +99,8 @@ const App = () => {
                     }
                     {/* Manager Routes */}
                     {(cookies.get('accountRole') === "2") &&
-                        <Route path="" element={<ManagerInterface/>}>
+                        <Route element={<ManagerInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
-                            <Route index element={<Dashboard/>}/>
                             <Route path="scooter-management" element={<ManagerScooterManagement/>}/>
                             <Route path="hire-option-management" element={<ManagerHireOptionManagement/>}/>
                             <Route path="depot-management" element={<ManagerDepotManagement/>}/>
@@ -117,7 +116,6 @@ const App = () => {
                     {(cookies.get('accountRole') === "0") &&
                         <Route path="" element={<CustomerInterface/>}>
                             <Route path="create-booking" element={<CustomerCreateBooking/>}/>
-                            <Route index element={<CustomerCreateBooking/>}/>
                             <Route path="current-bookings" element={<CustomerCurrentBookings/>}/>
                             <Route path="booking-history" element={<CustomerBookingHistory/>}/>
                             <Route path="submit-issue" element={<CustomerSubmitIssue/>}/>

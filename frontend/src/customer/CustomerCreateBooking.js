@@ -8,6 +8,8 @@ import getScooterName from "../getScooterName";
 import host from "../host";
 import moment from "moment";
 import getMapName from "../getMapName";
+import Cards from "elt-react-credit-cards";
+import 'elt-react-credit-cards/es/styles-compiled.css';
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -22,6 +24,7 @@ export default function CustomerCreateBooking() {
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
+    const [focus, setFocus] = useState('');
     const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
     const [validCardNo, setValidCardNo] = useState(true);
@@ -356,13 +359,21 @@ export default function CustomerCreateBooking() {
                         </Col>
                     </Row>
                     <Row className="pb-2 small-padding-top">
+                        <Cards
+                            cvc={cvv}
+                            expiry={expiry}
+                            focused={focus}
+                            name={cookies.get("accountName")}
+                            number={cardNo}
+                        />
                         <Col className="text-end col-3 align-self-center">
                             Card Number:
                         </Col>
                         <Col className="text-end">
-                            <Form.Control type="text" placeholder="4000-1234-5678-9010"
+                            <Form.Control type="text" name="number" placeholder="4000-1234-5678-9010"
                                           isInvalid={!validCardNo}
-                                          onInput={e => setCardNo(e.target.value)}/>
+                                          onInput={e => setCardNo(e.target.value)}
+                                          onFocus{e => setFocus(e.target)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid Card Number
                             </Form.Control.Feedback>
@@ -373,9 +384,10 @@ export default function CustomerCreateBooking() {
                             Expiry Date:
                         </Col>
                         <Col>
-                            <Form.Control type="text" placeholder="MM/YY"
+                            <Form.Control type="text" name="expiry" placeholder="MM/YY"
                                           isInvalid={!validExpDate}
-                                          onInput={e => setExpiry(e.target.value)}/>
+                                          onInput={e => setExpiry(e.target.value)}
+                                          onFocus{e => setFocus(e.target)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid Expiry Date
                             </Form.Control.Feedback>
@@ -386,9 +398,10 @@ export default function CustomerCreateBooking() {
                             CVV:
                         </Col>
                         <Col>
-                            <Form.Control type="text" placeholder="123"
+                            <Form.Control type="text" name="cvv"  placeholder="123"
                                           isInvalid={!validCVV}
-                                          onInput={e => setCVV(e.target.value)}/>
+                                          onInput={e => setCVV(e.target.value)}
+                                          onFocus{e => setFocus(e.target)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid CVV
                             </Form.Control.Feedback>

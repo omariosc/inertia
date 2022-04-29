@@ -11,6 +11,7 @@
     "@mui/material": "^5.6.2",
     "bootstrap": "^5.1.3",
     "bootstrap-switch-button-react": "^1.2.0",
+    "elt-react-credit-cards": "^0.0.1",
     "jquery": "^3.6.0",
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
@@ -23,7 +24,7 @@
     "react-notifications": "^1.7.3",
     "react-responsive": "^9.0.0-beta.6",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^2.1.3",
     "styled-components": "^5.3.5",
     "universal-cookie": "^4.0.4"
   },

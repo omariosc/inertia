@@ -171,7 +171,7 @@ export default function ManagerDepotManagement() {
             </p>
             <h3 id="pageName">Depot Management</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(depots === '') ?
                     <p>Loading depots...</p> :
                     <Table className="table-formatting">
@@ -249,14 +249,16 @@ export default function ManagerDepotManagement() {
                         </tbody>
                     </Table>
                 }
-                <Table>
+                <Table className="table-formatting">
                     <tbody>
                     <tr>
-                        <td><Form.Control type="text" placeholder="Enter name"
+                        <td><Form.Control className="minWidthFieldSmall" type="text" placeholder="Enter name"
                                           onInput={e => setCreateName(e.target.value)}/></td>
-                        <td><Form.Control type="text" placeholder="Enter latitude value"
+                        <td><Form.Control className="minWidthFieldSmall" type="text"
+                                          placeholder="Enter latitude value"
                                           onInput={e => setCreateLatitude(e.target.value)}/></td>
-                        <td><Form.Control type="text" placeholder="Enter longitude value"
+                        <td><Form.Control className="minWidthFieldSmall" type="text"
+                                          placeholder="Enter longitude value"
                                           onInput={e => setCreateLongitude(e.target.value)}/></td>
                         <td><Button onClick={createDepot} variant="success">Create</Button></td>
                     </tr>

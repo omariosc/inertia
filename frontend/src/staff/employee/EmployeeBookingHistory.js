@@ -47,7 +47,7 @@ export default function EmployeeBookingHistory() {
             </p>
             <h3 id="pageName">Booking History</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(bookings === '') ? <p>Loading bookings...</p> :
                     (bookings.length === 0) ? <p>There are no bookings.</p> :
                         <Row xs={1}>
@@ -55,7 +55,7 @@ export default function EmployeeBookingHistory() {
                                 <Table className="table-formatting">
                                     <tbody>
                                     {bookings.map((booking, idx) => (
-                                        <tr key={idx}>
+                                        <tr key={idx} className="minWidthFieldSmall">
                                             <td>{booking.orderId}</td>
                                             <td className="float-end">
                                                 <Button onClick={() => navigate("../bookings/" + booking.orderId)}>

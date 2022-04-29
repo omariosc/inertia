@@ -169,7 +169,7 @@ export default function ManagerHireOptionManagement() {
             </p>
             <h3 id="pageName">Hire Option Management</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(hireOptions === '') ?
                     <p>Loading hire options...</p> :
                     <Table className="table-formatting">
@@ -248,14 +248,15 @@ export default function ManagerHireOptionManagement() {
                         </tbody>
                     </Table>
                 }
-                <Table>
+                <Table className="table-formatting">
                     <tbody>
                     <tr>
-                        <td><Form.Control type="number" placeholder="Enter duration value"
+                        <td><Form.Control className="minWidthFieldSmall" type="number"
+                                          placeholder="Enter duration value"
                                           onInput={e => setCreateDuration(e.target.value)}/></td>
-                        <td><Form.Control type="text" placeholder="Enter name"
+                        <td><Form.Control className="minWidthFieldSmall" type="text" placeholder="Enter name"
                                           onInput={e => setCreateName(e.target.value)}/></td>
-                        <td><Form.Control type="price" placeholder="Enter cost"
+                        <td><Form.Control className="minWidthFieldSmall" type="price" placeholder="Enter cost"
                                           onInput={e => setCreateCost(e.target.value)}/></td>
                         <td><Button onClick={createHireOption} variant="success">Create</Button></td>
                     </tr>

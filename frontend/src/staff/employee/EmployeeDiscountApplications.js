@@ -74,7 +74,7 @@ export default function EmployeeDiscountApplications() {
             </p>
             <h3 id="pageName">Manage Discount Applications</h3>
             <hr id="underline"/>
-            <Container>
+            <Container className="responsive-table">
                 {(applications === '') ?
                     <p>Loading discount applications...</p> :
                     <>
@@ -93,11 +93,11 @@ export default function EmployeeDiscountApplications() {
                                 <Table className="table-formatting">
                                     <thead>
                                     <tr>
-                                        <th>Customer Name</th>
-                                        <th>Customer Email</th>
+                                        <th className="minWidthFieldSmall">Customer Name</th>
+                                        <th className="minWidthFieldSmall">Customer Email</th>
                                         <th>Application Type</th>
                                         <th>Photo Link</th>
-                                        <th>Action</th>
+                                        <th className="minWidthFieldSmall">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>

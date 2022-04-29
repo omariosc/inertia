@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace inertia.Authorization;
 
+/// <summary>
+/// Handles the MatchAccountId policy - if the access token id matches the one in the request.
+/// </summary>
 public class AccountIdentityHandler : AuthorizationHandler<AccountIdentityAuthorization>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;

@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace inertia.Services;
 
+/// <summary>
+/// Service that takes care of keeping Scooter states up to date according
+/// with the current ongoing bookings.
+/// </summary>
 public class InertiaService
 {
     private readonly InertiaContext _db;
@@ -14,6 +18,11 @@ public class InertiaService
         _db = db;
     }
 
+    /// <summary>
+    /// Computes the current status of all scooters
+    /// </summary>
+    /// <param name="depo">filters the scooters that are in `depo` </param>
+    /// <returns>List of scooters with the up to date status</returns>
     public async Task<IEnumerable<Scooter>> GetAllScootersCurrentStatus(Depo? depo = null)
     {
         await UpdateOrderStatus();
@@ -52,6 +61,13 @@ public class InertiaService
         return scooters;
     }
 
+    /// <summary>
+    /// Checks all the scooters that are not booked by another order,
+    /// from `startTime` to `endTime`
+    /// </summary>
+    /// <param name="startTime"></param>
+    /// <param name="endTime"></param>
+    /// <returns></returns>
     public async Task<IEnumerable<Scooter>> GetAvailableScooters(
             DateTime startTime,
             DateTime endTime
@@ -95,6 +111,14 @@ public class InertiaService
         return availableScooters;
     }
     
+    /// <summary>
+    /// Checks all the scooters that are not booked by another order,
+    /// from `startTime` to `endTime`, and that are in the depot `depo`.
+    /// </summary>
+    /// <param name="depo"></param>
+    /// <param name="startTime"></param>
+    /// <param name="endTime"></param>
+    /// <returns></returns>
     public async Task<IEnumerable<Scooter>> GetAvailableScooters(
         Depo depo,
         DateTime startTime,
@@ -139,6 +163,14 @@ public class InertiaService
         return availableScooters;
     }
 
+    /// <summary>
+    /// Checks whether a scooter is available (not booked)
+    /// between `startTime` and `endTime`. 
+    /// </summary>
+    /// <param name="scooter"></param>
+    /// <param name="startTime"></param>
+    /// <param name="endTime"></param>
+    /// <returns></returns>
     public async Task<bool> IsScooterAvailable(
         Scooter scooter,
         DateTime startTime,
@@ -173,6 +205,14 @@ public class InertiaService
         return clashingOrder == null && scooter.Available;
     }
     
+    /// <summary>
+    /// Checks whether an order can be extended.
+    /// </summary>
+    /// <param name="toExtend"></param>
+    /// <param name="scooter"></param>
+    /// <param name="startTime"></param>
+    /// <param name="endTime"></param>
+    /// <returns></returns>
     public async Task<bool> IsScooterAvailableForExtension(
         Order toExtend,
         Scooter scooter,
@@ -209,6 +249,11 @@ public class InertiaService
         return clashingOrder == null && scooter.Available;
     }
 
+    /// <summary>
+    /// Marks a scooter as returned, by marking the booking
+    /// that was using the scooter that it returned the scooter.
+    /// </summary>
+    /// <param name="scooter"></param>
     public async Task ReturnScooter(Scooter scooter)
     {
         await UpdateOrderStatus();
@@ -224,6 +269,10 @@ public class InertiaService
         await _db.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Updates all the order status, promoting them from Upcoming,
+    /// to Ongoing, to PendingReturn depending on the current time.
+    /// </summary>
     public async Task UpdateOrderStatus()
     {
         var upcomingOrders = await _db.Orders
@@ -253,6 +302,15 @@ public class InertiaService
         await _db.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Creates an order
+    /// </summary>
+    /// <param name="account"></param>
+    /// <param name="scooter"></param>
+    /// <param name="hireOption"></param>
+    /// <param name="startTime"></param>
+    /// <returns></returns>
+    /// <exception cref="UnavailableScooterException"></exception>
     public async Task<Order> CreateOrder(
         Account account,
         Scooter scooter, 
@@ -289,6 +347,14 @@ public class InertiaService
         return abstractOrder;
     }
 
+    /// <summary>
+    /// Extends an order
+    /// </summary>
+    /// <param name="order"></param>
+    /// <param name="hireOption"></param>
+    /// <returns></returns>
+    /// <exception cref="OrderCannotBeExtendException"></exception>
+    /// <exception cref="UnavailableScooterException"></exception>
     public async Task<Order> ExtendOrder(
         Order order,
         HireOption hireOption
@@ -351,6 +417,11 @@ public class InertiaService
         return extension;
     }
 
+    /// <summary>
+    /// Cancels an order
+    /// </summary>
+    /// <param name="order"></param>
+    /// <exception cref="OrderApprovedOrOngoingException"></exception>
     public async Task CancelOrder(Order order)
     {
         if (order.OrderState is OrderState.Completed or OrderState.Cancelled or OrderState.Denied)
@@ -369,6 +440,11 @@ public class InertiaService
         await _db.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Computes a list of users that are frequent and promotes them
+    /// to frequent users for that week.
+    /// Used from FrequentUsersService.
+    /// </summary>
     public async Task UpdateFrequentCustomers()
     {
         var users = await _db.Accounts

@@ -5,6 +5,9 @@ using inertia.Services;
 
 namespace inertia;
 
+/// <summary>
+/// Initializes database with the required depos and scooters, as well as the test accounts and orders.   
+/// </summary>
 public class DbInitializer
 {
     private static readonly RandomNumberGenerator RandomEngine = RandomNumberGenerator.Create();

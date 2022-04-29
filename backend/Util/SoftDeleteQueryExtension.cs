@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace inertia.Util;
 
+
+/// <summary>
+/// Global Query filter that ignores soft deleted entities from queries.
+/// </summary>
 public static class SoftDeleteQueryExtension
 {
     public static void AddSoftDeleteQueryFilter(this IMutableEntityType entityType)

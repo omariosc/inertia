@@ -1,7 +1,5 @@
 # inertia
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
-
 Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulian Magan](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
 
 ## Installation and Execution

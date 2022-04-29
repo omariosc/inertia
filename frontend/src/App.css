@@ -432,6 +432,10 @@
 }
 
 .minimap-box {
+    height: 350px !important;
+}
+
+.minimap-guest {
     height: 600px !important;
 }
 
@@ -558,10 +562,6 @@
         flex-direction: row;
     }
 
-    .leaflet-container {
-        z-index: -1;
-    }
-
     .minWidthFieldLarge {
         min-width: 300px;
     }
@@ -604,7 +604,7 @@
     }
 
     #customer-row {
-        height: 0;
+        height: 100%;
     }
 
     #manager-row {
@@ -641,6 +641,10 @@
 
     .customer-navigation {
         display: none !important;
+    }
+
+    .minimap-box {
+        z-index: -1 !important;
     }
 
     .customer-navigation-mobile {

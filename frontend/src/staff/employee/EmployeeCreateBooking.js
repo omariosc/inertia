@@ -327,7 +327,7 @@ export default function EmployeeCreateGuestBooking() {
                     <Col className="box" >
                         {(map_locations === "") ? <p>Loading map locations...</p> :
                             <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
-                                          zoomControl={false} className="minimap-box">
+                                          zoomControl={false} className="minimap-guest">
                                 <TileLayer
                                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>

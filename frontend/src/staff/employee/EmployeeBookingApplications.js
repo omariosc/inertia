@@ -31,7 +31,7 @@ export default function EmployeeBookingApplications() {
             let ongoingBookings = [];
             for (let i = 0; i < allBookings.length; i++) {
                 if (allBookings[i].orderState === 1) {
-                    if (allBookings[i]['extensions'] != null) {
+                    if (allBookings[i]['extensions'].length > 0) {
                         allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
                     }
                     ongoingBookings.push(allBookings[i]);

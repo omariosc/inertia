@@ -27,7 +27,7 @@ export default function EmployeeBookingHistory() {
             let allBookings = await request.json();
             let ongoingBookings = [];
             for (let i = 0; i < allBookings.length; i++) {
-                if (allBookings[i]['extensions'] != null) {
+                if (allBookings[i]['extensions'].length > 0) {
                     allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
                 }
                 ongoingBookings.push(allBookings[i]);

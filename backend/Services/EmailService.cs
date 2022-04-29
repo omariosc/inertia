@@ -82,7 +82,7 @@ public class EmailService
         var model = new OrderConfirmationModel
         {
             ScooterId = order.Scooter.SoftScooterId,
-            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            Depo = order.Scooter.Depo.Name,
             OrderId = order.OrderId,
             HireOptionName = order.HireOption.Name,
             Cost = order.Cost,
@@ -153,7 +153,7 @@ public class EmailService
         var model = new OrderCancellationModel
         {
             ScooterId = order.Scooter.SoftScooterId,
-            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            Depo = order.Scooter.Depo.Name,
             OrderId = order.OrderId,
             HireOptionName = order.HireOption.Name,
             Cost = order.Cost,
@@ -190,7 +190,7 @@ public class EmailService
         var model = new OrderExtensionModel
         {
             ScooterId = order.ScooterId,
-            Depo = $"{order.Scooter.Depo.Name}, {order.Scooter.Depo.Address}",
+            Depo = order.Scooter.Depo.Name,
             OrderId = order.OrderId,
             Cost = order.Cost,
             Discount = order.Discount,

@@ -20,6 +20,7 @@ export default function CustomerCreateBooking() {
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
+    const [validDepot, setValidDepot] = useState(true);
     const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
     const [validCardNo, setValidCardNo] = useState(true);
@@ -149,6 +150,7 @@ export default function CustomerCreateBooking() {
     }
 
     async function createBooking() {
+        setValidDepot(depotChoiceId !== '' && depotChoiceId !== 'none')
         setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
         setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
@@ -224,8 +226,8 @@ export default function CustomerCreateBooking() {
                             </Col>
                         </Row> :
                         <Row className="pb-2">
-                            <Col>Cost £{(hireChoiceId === '') ? null :
-                                `${parseFloat(price).toFixed(2)}`
+                            <Col>
+                                {(hireChoiceId === '') ? <h5>Cost £</h5> : <h5>Cost £{parseFloat(price).toFixed(2)}</h5>
                             }
                             </Col>
                         </Row>
@@ -269,7 +271,7 @@ export default function CustomerCreateBooking() {
                 </Col>
                 <Col>
                     {(map_locations === "" ) ? <> Loading depots... </> :
-                        <Form.Select value={depotChoiceId} isInvalid={!validScooter} onChange={(e) => {
+                        <Form.Select value={depotChoiceId} isInvalid={!validDepot} onChange={(e) => {
                             setDepotChoiceId(e.target.value);
                             setScooterChoiceId("");
                         }}>

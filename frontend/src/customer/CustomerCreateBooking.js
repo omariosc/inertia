@@ -373,7 +373,7 @@ export default function CustomerCreateBooking() {
                             <Form.Control type="text" name="number" placeholder="4000-1234-5678-9010"
                                           isInvalid={!validCardNo}
                                           onInput={e => setCardNo(e.target.value)}
-                                          onFocus{e => setFocus(e.target)}/>
+                                          onFocus={e => setFocus(e.target.name)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid Card Number
                             </Form.Control.Feedback>
@@ -387,7 +387,7 @@ export default function CustomerCreateBooking() {
                             <Form.Control type="text" name="expiry" placeholder="MM/YY"
                                           isInvalid={!validExpDate}
                                           onInput={e => setExpiry(e.target.value)}
-                                          onFocus{e => setFocus(e.target)}/>
+                                          onFocus={e => setFocus(e.target.name)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid Expiry Date
                             </Form.Control.Feedback>
@@ -401,7 +401,7 @@ export default function CustomerCreateBooking() {
                             <Form.Control type="text" name="cvv"  placeholder="123"
                                           isInvalid={!validCVV}
                                           onInput={e => setCVV(e.target.value)}
-                                          onFocus{e => setFocus(e.target)}/>
+                                          onFocus={e => setFocus(e.target.name)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid CVV
                             </Form.Control.Feedback>

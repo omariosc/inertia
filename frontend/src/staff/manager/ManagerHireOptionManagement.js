@@ -251,14 +251,22 @@ export default function ManagerHireOptionManagement() {
                 <Table className="table-formatting">
                     <tbody>
                     <tr>
-                        <td><Form.Control className="minWidthFieldSmall" type="number"
+                        <td className="minWidthFieldSmall">
+                            <Form.Control type="number"
                                           placeholder="Enter duration value"
-                                          onInput={e => setCreateDuration(e.target.value)}/></td>
-                        <td><Form.Control className="minWidthFieldSmall" type="text" placeholder="Enter name"
-                                          onInput={e => setCreateName(e.target.value)}/></td>
-                        <td><Form.Control className="minWidthFieldSmall" type="price" placeholder="Enter cost"
-                                          onInput={e => setCreateCost(e.target.value)}/></td>
-                        <td><Button onClick={createHireOption} variant="success">Create</Button></td>
+                                          onInput={e => setCreateDuration(e.target.value)}/>
+                        </td>
+                        <td className="minWidthFieldSmall">
+                            <Form.Control type="text" placeholder="Enter name"
+                                          onInput={e => setCreateName(e.target.value)}/>
+                        </td>
+                        <td className="minWidthFieldSmall">
+                            <Form.Control type="price" placeholder="Enter cost"
+                                          onInput={e => setCreateCost(e.target.value)}/>
+                        </td>
+                        <td>
+                            <Button onClick={createHireOption} variant="success">Create</Button>
+                        </td>
                     </tr>
                     </tbody>
                 </Table>

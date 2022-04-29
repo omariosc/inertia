@@ -252,15 +252,21 @@ export default function ManagerDepotManagement() {
                 <Table className="table-formatting">
                     <tbody>
                     <tr>
-                        <td><Form.Control className="minWidthFieldSmall" type="text" placeholder="Enter name"
-                                          onInput={e => setCreateName(e.target.value)}/></td>
-                        <td><Form.Control className="minWidthFieldSmall" type="text"
-                                          placeholder="Enter latitude value"
-                                          onInput={e => setCreateLatitude(e.target.value)}/></td>
-                        <td><Form.Control className="minWidthFieldSmall" type="text"
-                                          placeholder="Enter longitude value"
-                                          onInput={e => setCreateLongitude(e.target.value)}/></td>
-                        <td><Button onClick={createDepot} variant="success">Create</Button></td>
+                        <td className="minWidthFieldSmall">
+                            <Form.Control type="text" placeholder="Enter name"
+                                          onInput={e => setCreateName(e.target.value)}/>
+                        </td>
+                        <td className="minWidthFieldSmall">
+                            <Form.Control type="text" placeholder="Enter latitude value"
+                                          onInput={e => setCreateLatitude(e.target.value)}/>
+                        </td>
+                        <td className="minWidthFieldSmall">
+                            <Form.Control type="text" placeholder="Enter longitude value"
+                                          onInput={e => setCreateLongitude(e.target.value)}/>
+                        </td>
+                        <td>
+                            <Button onClick={createDepot} variant="success">Create</Button>
+                        </td>
                     </tr>
                     </tbody>
                 </Table>

@@ -72,8 +72,12 @@
 }
 
 .box {
+    height: 400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 20px !important;
     position: relative;
-    width: 50%;
+    width: 75% !important;
 }
 
 .box:before {
@@ -93,12 +97,12 @@
 }
 
 .buttonPadding {
-    margin-left: -20px;
+    margin-left: 10px;
+    margin-right: 20px;
 }
 
 .buttonPadding {
-    margin-left: 10px;
-    margin-right: 20px;
+    margin-left: -20px;
 }
 
 .buttonPaddingDepot {
@@ -428,8 +432,7 @@
 }
 
 .minimap-box {
-    float: left;
-    max-height: 350px;
+    height: 600px !important;
 }
 
 .minimap-customer {
@@ -500,7 +503,7 @@
 }
 
 .submit-issue {
-    padding-left: 15px;
+    padding-left: 80px;
     width: auto;
 }
 
@@ -577,6 +580,17 @@
 
     .responsive-table .form-control {
         min-width: 100px;
+    }
+}
+
+@media (max-width: 991px) {
+    .hamburger-menu {
+        cursor: pointer;
+        display: flex;
+        position: fixed;
+        right: 15px !important;
+        top: 18px;
+        z-index: 9999;
     }
 }
 
@@ -682,15 +696,8 @@
         background-color: transparent;
         border-right: none !important;
     }
-}
 
-@media (max-width: 991px) {
-    .hamburger-menu {
-        cursor: pointer;
-        display: flex;
-        position: fixed;
-        right: 15px !important;
-        top: 18px;
-        z-index: 9999;
+    .submit-issue {
+        padding-left: 0 !important;
     }
 }

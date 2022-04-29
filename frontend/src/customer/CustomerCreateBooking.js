@@ -155,10 +155,10 @@ export default function CustomerCreateBooking() {
         setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
         setValidCVV(cvv.match(/^[0-9]{3,4}$/));
         if (!(scooterChoiceId !== '' && scooterChoiceId !== 'none'
-                && hireChoiceId !== '' && hireChoiceId !== 'none')
+                && hireChoiceId !== '' && hireChoiceId !== 'none'
             && cardNo.length > 9 && cardNo.length < 20
             && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
-            && cvv.match(/^[0-9]{3,4}$/)) {
+            && cvv.match(/^[0-9]{3,4}$/))) {
             NotificationManager.error("Invalid Details Provided", "Error");
             return;
         }
@@ -368,7 +368,7 @@ export default function CustomerCreateBooking() {
                         <Col className="text-end col-3 align-self-center">
                             Expiry Date:
                         </Col>
-                        <Col>
+                        <Col className="text-end">
                             <Form.Control type="text" placeholder="MM/YY"
                                           isInvalid={!validExpDate}
                                           onInput={e => setExpiry(e.target.value)}/>
@@ -381,7 +381,7 @@ export default function CustomerCreateBooking() {
                         <Col className="text-end col-3 align-self-center">
                             CVV:
                         </Col>
-                        <Col>
+                        <Col className="text-end">
                             <Form.Control type="text" placeholder="123"
                                           isInvalid={!validCVV}
                                           onInput={e => setCVV(e.target.value)}/>

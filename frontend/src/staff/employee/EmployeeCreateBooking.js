@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
@@ -7,6 +8,7 @@ import host from "../../host";
 
 export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [name, setName] = useState('');
@@ -129,6 +131,7 @@ export default function EmployeeCreateGuestBooking() {
                 let response = await request;
                 if (response.status === 200) {
                     NotificationManager.success("Created guest booking.", "Success");
+                    navigate('/bookings')
                 } else if (response.status === 422) {
                     let message = await response.json();
                     if (message.errorCode === 10) {
@@ -177,7 +180,7 @@ export default function EmployeeCreateGuestBooking() {
                                 <Col className="text-end align-self-center">
                                     Email Address:
                                 </Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="email" placeholder="name@example.com"
                                                   isInvalid={!validEmail}
                                                   onInput={e => setEmail(e.target.value)}/>
@@ -188,7 +191,7 @@ export default function EmployeeCreateGuestBooking() {
                             </Row>
                             <Row className="pb-2">
                                 <Col className="text-end align-self-center">Confirm Email Address</Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="email" placeholder="name@example.com"
                                                   isInvalid={!validConfirm}
                                                   onInput={e => setConfirmEmail(e.target.value)}/>
@@ -300,7 +303,7 @@ export default function EmployeeCreateGuestBooking() {
                                 <Col className="text-end col-6 align-self-center">
                                     Expiry Date:
                                 </Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="text" placeholder="MM/YY"
                                                   isInvalid={!validExpDate}
                                                   onInput={e => setExpiry(e.target.value)}/>
@@ -313,7 +316,7 @@ export default function EmployeeCreateGuestBooking() {
                                 <Col className="text-end col-6 align-self-center">
                                     CVV:
                                 </Col>
-                                <Col>
+                                <Col className="text-end">
                                     <Form.Control type="text" placeholder="123"
                                                   isInvalid={!validCVV}
                                                   onInput={e => setCVV(e.target.value)}/>

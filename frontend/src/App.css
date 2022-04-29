@@ -29,7 +29,7 @@
 }
 
 #pageName {
-    padding-left: 80px;
+    padding-left: 30px;
 }
 
 #top-bar {
@@ -44,7 +44,7 @@
     background-color: black;
     border: solid 1px black;
     color: black;
-    margin-left: 80px;
+    margin-left: 30px;
 }
 
 #wrapper {

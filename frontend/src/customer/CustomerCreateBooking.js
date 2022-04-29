@@ -234,11 +234,9 @@ export default function CustomerCreateBooking() {
 
     return (
         <Container>
-            <h5>Map</h5>
-            <Row>
-
+            <Row className="mapMaxHeightRow">
                 {(map_locations === "") ? <Col>Loading map locations...</Col> :
-                    <Col className="box offset-3 col=6">
+                    <Col className="box col=12">
                         <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
                                       zoomControl={false} className="minimap-box">
                             <TileLayer
@@ -256,7 +254,6 @@ export default function CustomerCreateBooking() {
                                         <Button className="disabled">
                                             {map_location.name}
                                         </Button>
-
                                     </Popup>
                                 </Marker>
                             ))}

@@ -157,14 +157,40 @@ export default function EmployeeCreateGuestBooking() {
             <hr id="underline"/>
             <Container className="pb-4">
                 <Row>
-                    <Col className="col-6">
-                        <Container className="autoScrollSub">
-                            <h5>Customer Details</h5>
-                            <Row className="pb-2 small-padding-top">
-                                <Col className="text-end col-6 align-self-center">
+                    <Col xs={12} className="box " style={{height: "400px",paddingLeft: "35px" }}>
+                        {(map_locations === "") ? <p>Loading map locations...</p> :
+                            <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
+                                          zoomControl={false} className="minimap-box">
+                                <TileLayer
+                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                                {map_locations.map((map_location, index) => (
+                                    <Marker key={index}
+                                            position={[map_location.latitude, map_location.longitude]}
+                                            eventHandlers={{
+                                                click: () => {
+                                                    setDepotChoiceId(map_location.depoId);
+                                                    setScooterChoiceId("");
+                                                }
+                                            }}>
+                                        <Popup>
+                                            <Button className="disabled">
+                                                {map_location.name}
+                                            </Button>
+                                        </Popup>
+                                    </Marker>
+                                ))}
+                            </MapContainer>
+                        }
+                    </Col>
+                    <Col xs={12} className="flex col-6 justify-content-center">
+                        <Container className="centered-container autoScrollSub">
+                            <h5 className={"centered-h5"}>Customer Details</h5>
+                            <Row className="indented-class pb-2 small-padding-top">
+                                <Col xs={6} lg={4} className="text-end align-self-center">
                                     Name:
                                 </Col>
-                                <Col className="text-end">
+                                <Col xs={6} className="text-end">
                                     <Form.Control type="text" placeholder="John Smith"
                                                   isInvalid={!validName}
                                                   onInput={e => setName(e.target.value)}/>
@@ -174,10 +200,10 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             <Row className="pb-2">
-                                <Col className="text-end align-self-center">
+                                <Col xs={6}  lg={4}  className="text-end align-self-center">
                                     Email Address:
                                 </Col>
-                                <Col>
+                                <Col xs={6}>
                                     <Form.Control type="email" placeholder="name@example.com"
                                                   isInvalid={!validEmail}
                                                   onInput={e => setEmail(e.target.value)}/>
@@ -187,8 +213,8 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             <Row className="pb-2">
-                                <Col className="text-end align-self-center">Confirm Email Address</Col>
-                                <Col>
+                                <Col  xs={6}  lg={4} className="text-end align-self-center">Confirm Email Address:</Col>
+                                <Col xs={6} >
                                     <Form.Control type="email" placeholder="name@example.com"
                                                   isInvalid={!validConfirm}
                                                   onInput={e => setConfirmEmail(e.target.value)}/>
@@ -197,12 +223,12 @@ export default function EmployeeCreateGuestBooking() {
                                     </Form.Control.Feedback>
                                 </Col>
                             </Row>
-                            <h5>Booking Details</h5>
+                            <h5 className={"centered-h5"}>Booking Details</h5>
                             <Row className="pb-2">
-                                <Col className="text-end col-6 align-self-center">
+                                <Col xs={6}  lg={4} className="text-end align-self-center">
                                     Depot:
                                 </Col>
-                                <Col>
+                                <Col xs={6}>
                                     {(map_locations === "") ? <> Loading depots... </> :
                                         <Form.Select value={depotChoiceId}
                                                      isInvalid={!validScooter} onChange={(e) => {
@@ -219,10 +245,10 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             <Row className="pb-2">
-                                <Col className="text-end col-6 align-self-center">
+                                <Col  xs={6}  lg={4} className="text-end col-6 align-self-center">
                                     Scooter:
                                 </Col>
-                                <Col>
+                                <Col xs={6}>
                                     {(scooters === "") ? <> Loading scooters... </> :
                                         <Form.Select value={scooterChoiceId}
                                                      isInvalid={!validScooter}
@@ -253,10 +279,10 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             <Row className="pb-2">
-                                <Col className="text-end col-6 align-self-center">
+                                <Col  xs={6}  lg={4} className="text-end col-6 align-self-center">
                                     Hire Period:
                                 </Col>
-                                <Col>
+                                <Col xs={6}>
                                     {(hireOptions === "") ? <>Loading hire periods...</> : <>
                                         <Form.Select isInvalid={!validHireSlot} defaultValue="none"
                                                      onChange={(e) => {
@@ -278,16 +304,16 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             {price === "" ?
-                                <h5>Cost: Unknown</h5>:
-                                <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>
+                                <h5 className={"centered-h5"}>Cost: Unknown</h5>:
+                                <h5 className={"centered-h5"}>Cost: £{parseFloat(price).toFixed(2)}</h5>
                             }
 
-                            <h5>Payment details</h5>
+                            <h5 className={"centered-h5"}>Payment details</h5>
                             <Row className="pb-2 small-padding-top">
-                                <Col className="text-end col-6 align-self-center">
+                                <Col  xs={6}  lg={4} className="text-end col-6 align-self-center">
                                     Card Number:
                                 </Col>
-                                <Col className="text-end">
+                                <Col  xs={6}className="text-end">
                                     <Form.Control type="text" placeholder="4000-1234-5678-9010"
                                                   isInvalid={!validCardNo}
                                                   onInput={e => setCardNo(e.target.value)}/>
@@ -297,10 +323,10 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             <Row className="pb-2">
-                                <Col className="text-end col-6 align-self-center">
+                                <Col  xs={6}  lg={4} className="text-end col-6 align-self-center">
                                     Expiry Date:
                                 </Col>
-                                <Col>
+                                <Col xs={6}>
                                     <Form.Control type="text" placeholder="MM/YY"
                                                   isInvalid={!validExpDate}
                                                   onInput={e => setExpiry(e.target.value)}/>
@@ -310,10 +336,10 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             <Row className="pb-2">
-                                <Col className="text-end col-6 align-self-center">
+                                <Col  xs={6}  lg={4} className="text-end col-6 align-self-center">
                                     CVV:
                                 </Col>
-                                <Col>
+                                <Col xs={6}>
                                     <Form.Control type="text" placeholder="123"
                                                   isInvalid={!validCVV}
                                                   onInput={e => setCVV(e.target.value)}/>
@@ -324,34 +350,10 @@ export default function EmployeeCreateGuestBooking() {
                             </Row>
                         </Container>
                     </Col>
-                    <Col className="box">
-                        {(map_locations === "") ? <p>Loading map locations...</p> :
-                            <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
-                                          zoomControl={false} className="minimap-box">
-                                <TileLayer
-                                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                                {map_locations.map((map_location, index) => (
-                                    <Marker key={index}
-                                            position={[map_location.latitude, map_location.longitude]}
-                                            eventHandlers={{
-                                                click: () => {
-                                                    setDepotChoiceId(map_location.depoId);
-                                                    setScooterChoiceId("");
-                                                }
-                                            }}>
-                                        <Popup>
-                                            <Button className="disabled">
-                                                {map_location.name}
-                                            </Button>
-                                        </Popup>
-                                    </Marker>
-                                ))}
-                            </MapContainer>
-                        }
-                    </Col>
                 </Row>
-                <Button onClick={createGuestBooking}>Confirm Booking</Button>
+                <div className={"centered-item"}>
+                    <Button onClick={createGuestBooking}>Confirm Booking</Button>
+                </div>
             </Container>
         </>
     );

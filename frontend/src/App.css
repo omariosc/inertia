@@ -130,6 +130,7 @@
 .canvasjs-chart-credit {
     display: none;
 }
+
 /* allow mouse clicks */
 .clickable {
     pointer-events: all;
@@ -206,6 +207,14 @@
 
 .hover-black:hover {
     color: #0D6EFD !important;
+}
+
+.hover-white {
+    color: white !important;
+}
+
+.hover-white:hover {
+    color: #555555 !important;
 }
 
 .input {
@@ -338,6 +347,10 @@
     color: black;
 }
 
+.manager-vert-navbar-mobile {
+    display: none !important;
+}
+
 /* Scroll bar mechanics */
 ::-webkit-scrollbar {
     width: 21px;
@@ -429,14 +442,19 @@
     position: relative;
     width: 50%;
 }
+
 .box:before {
     content: "";
     float: left;
     padding-top: 100%;
 }
 
-.minimap-box{
-    float:left;
+.minimap-box {
+    float: left;
+    max-height: 350px;
+}
+.mapMaxHeightRow {
+    max-height: 350px !important;
 }
 .navbar-pad-left {
     padding-left: 10px;
@@ -533,53 +551,52 @@
     margin: 0;
 }
 
-/* for phone size screens */
-@media (max-width: 480px) {
-    #account-page {
-        border: none;
-        padding-left: 3%;
-        padding-right: 3%;
-        padding-top: 2%;
-        pointer-events: all;
-        position: relative;
-    }
+.hamburger-menu {
+    display: none;
+}
 
-    .customer-column {
-        border: none;
+.hamburger-menu-customer {
+    display: none;
+}
+
+.submit-issue {
+    padding-left: 15px;
+    width: auto;
+}
+
+.indented-class {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.centered-h5 {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.centered-item {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+@media (max-width: 991px) {
+    .hamburger-menu {
+        cursor: pointer;
         display: flex;
-        justify-content: center;
-    }
-
-    .customer-column-page {
-        display: flex;
-        justify-content: center;
-    }
-
-    .customer-navigation {
-        flex-direction: row;
+        position: fixed;
+        right: 15px !important;
+        top: 18px;
+        z-index: 9999;
     }
 }
 
-/* for small size screens */
-@media (max-width: 767px) {
-    #account-page {
-        border: none;
-        padding-left: 15%;
-        padding-right: 10%;
-        padding-top: 2%;
-        pointer-events: all;
-        position: relative;
-    }
-
-    .customer-column {
-        border: none;
-        display: flex;
-        justify-content: center;
-    }
-
-    .customer-column-page {
-        display: flex;
-        justify-content: center;
+/* for small to medium size screens (WHERE MOBILE NAVIGATION CSS IS*/
+@media (max-width: 1070px) {
+    .leaflet-container {
+        z-index: -1;
     }
 
     .customer-navigation {
@@ -624,9 +641,19 @@
     .hamburger-menu {
         cursor: pointer;
         display: flex;
-        position: absolute;
-        right: 15px;
+        position: fixed;
+        right: 190px;
         top: 18px;
+        z-index: 9999;
+    }
+
+    .hamburger-menu-customer {
+        cursor: pointer;
+        display: flex;
+        position: fixed;
+        right: 15px;
+        top: 7px;
+        z-index: 9999;
     }
 
     .manager-vert-navbar {
@@ -639,10 +666,10 @@
         display: flex !important;
         flex-direction: column;
         padding-bottom: 10px;
-        position: absolute;
+        position: fixed;
         right: 0;
         width: 100vw;
-        z-index: 9002;
+        z-index: 9008;
     }
 
     .manager-vert-navbar-mobile a {
@@ -653,50 +680,51 @@
         background-color: transparent;
         border-right: none !important;
     }
-}
 
-/* for large size screens */
-@media (min-width: 1200px) {
-    #account-page {
-        border: none;
-        overflow-x: hidden;
-        pointer-events: all;
-        position: relative;
-    }
-
-    .manager-vert-navbar-mobile {
+    .customer-navigation {
         display: none !important;
     }
-}
 
-/* for medium size screens */
-@media (min-width: 768px) and (max-width: 991px) {
-    #account-page {
-        border: none;
-        padding-left: 15%;
-        padding-right: 10%;
-        padding-top: 2%;
-        pointer-events: all;
-        position: relative;
+    .customer-navigation-mobile {
+        background: rgba(0, 100, 230, .92);
+        display: flex !important;
+        flex-direction: column;
+        padding-bottom: 10px;
+        position: fixed;
+        top: 55px;
+        right: 15px;
+        width: auto;
+        z-index: 10000000;
     }
 
     .customer-column {
-        align-content: center;
-        border: none;
+        border: none !important;
+        border-block-end: transparent !important;
         display: flex;
-        justify-content: center;
+        width: 0 !important;
+        /*display: none !important;*/
     }
 
-    .customer-column-page {
-        display: flex;
-        justify-content: center;
+
+    .customer-home {
+        display: none !important;
     }
 
-    .customer-navigation {
-        flex-direction: row;
-    }
-}
+    #account-page {
+        padding-left: 5%;
+        padding-right: 7%;
+        padding-top: 2%;
+        pointer-events: all;
+        position: relative;
 
-/* for medium to large size screens */
-@media (min-width: 992px) and (max-width: 1199px) {
+    }
+
+    #customer-row {
+        height: 0;
+    }
+
+    .customer-logout {
+        display: none;
+    }
+
 }

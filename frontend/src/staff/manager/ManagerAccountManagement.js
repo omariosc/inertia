@@ -73,6 +73,10 @@ export default function ManagerAccountManagement() {
             let patchResponse = await patchRequest;
             if (patchResponse.status === 200) {
                 NotificationManager.success(`Created employee account for ${name}.`, "Success");
+                setName("");
+                setEmail("");
+                setPassword("");
+                setConfirmPassword("");
             } else {
                 NotificationManager.error(patchResponse.description, "Error");
             }
@@ -93,19 +97,19 @@ export default function ManagerAccountManagement() {
                 <Form>
                     <div className="input account">
                         <label>Employee Name</label>
-                        <input autoFocus type="name" onInput={e => setName(e.target.value)}/>
+                        <input autoFocus type="name" value={name} onInput={e => setName(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Employee Email</label>
-                        <input type="email" onInput={e => setEmail(e.target.value)}/>
+                        <input type="email" value={email} onInput={e => setEmail(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Employee Password</label>
-                        <input type="password" onInput={e => setPassword(e.target.value)}/>
+                        <input type="password" value={password} onInput={e => setPassword(e.target.value)}/>
                     </div>
                     <div className="input account">
                         <label>Confirm Employee Password</label>
-                        <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
+                        <input type="password" value={confirmPassword} onInput={e => setConfirmPassword(e.target.value)}/>
                     </div>
                     <Form.Group className="large-padding-top">
                         <Button onClick={onSubmit}>Create Employee Account</Button>

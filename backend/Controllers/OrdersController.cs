@@ -36,7 +36,10 @@ public class OrdersController : MyControllerBase
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
         var order = await _db.Orders
             .Include(o => o.Extensions)
+            .Include(o=>o.Scooter)
+            .ThenInclude(s=>s.Depo)
             .Include(o => o.HireOption)
+            .Include(o=>o.Account)
             .Where(o => o.OrderId == orderId)
             .FirstOrDefaultAsync();
 

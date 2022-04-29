@@ -95,8 +95,8 @@ export default function EmployeeDiscountApplications() {
                                     <tr>
                                         <th className="minWidthFieldSmall">Customer Name</th>
                                         <th className="minWidthFieldSmall">Customer Email</th>
-                                        <th>Application Type</th>
-                                        <th>Photo Link</th>
+                                        <th className="minWidthFieldSmall">Application Type</th>
+                                        <th className="minWidthFieldSmall">Photo Link</th>
                                         <th className="minWidthFieldSmall">Action</th>
                                     </tr>
                                     </thead>

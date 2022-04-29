@@ -115,16 +115,10 @@ export default function CustomerBookingHistory() {
                                 </>
                             }
                             <br/>
-                            <Table className="table-formatting">
-                                <thead>
-                                <tr>
-                                    <th>Booking ID</th>
-                                    <th>Booking Details</th>
-                                </tr>
-                                </thead>
+                            <Table className="table-formatting responsive-table">
                                 <tbody>
                                 {bookingHistory.map((booking, idx) => (
-                                    <tr key={idx}>
+                                    <tr key={idx} className="minWidthFieldSmall">
                                         <td>{booking.orderId}</td>
                                         <td>
                                             <Button onClick={() => setBooking(bookingHistory[idx])}>

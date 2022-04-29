@@ -15,7 +15,7 @@ export default function CustomerInterface() {
         "/booking-history": "Booking History",
         "/submit-issue": "Submit Issue",
         "/discounts": "Discounts",
-        "/settings": "Settings"
+        "/settings": "Settings",
     };
 
     return (
@@ -31,8 +31,10 @@ export default function CustomerInterface() {
             </div>
             <div id="account-page">
                 <Row>
-                    <Col lg={4} xs={12} className="customer-column border-dark" style={{borderRight: "1px solid black"}}>
-                        <Nav.Link as={Link} className="customer-home hover-black" to="/create-booking"><h1>INERTIA</h1></Nav.Link>
+                    <Col lg={4} xs={12} className="customer-column border-dark"
+                         style={{borderRight: "1px solid black"}}>
+                        <Nav.Link as={Link} className="customer-home hover-black" to="/create-booking"><h1>INERTIA</h1>
+                        </Nav.Link>
                     </Col>
                     <Col lg={8} xs={12} className="customer-column-page">
                         <h3>{headers[location.pathname]}</h3>
@@ -40,7 +42,8 @@ export default function CustomerInterface() {
                     </Col>
                 </Row>
                 <Row id="customer-row">
-                    <Col lg={4} md={"auto"} xs={"auto"} className="customer-column border-dark" style={{borderRight: "1px solid black"}}>
+                    <Col lg={4} md={"auto"} xs={"auto"} className="customer-column border-dark"
+                         style={{borderRight: "1px solid black"}}>
                         <CustomerNavigation/>
                         <CustomerMobileNavigation/>
                     </Col>

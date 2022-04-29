@@ -134,7 +134,8 @@ export default function CustomerDiscounts() {
                         <>
                             <h5>Frequent User Discount</h5>
                             <>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this week to enjoy our 10% frequent
-                                user discount!</>
+                                user discount!
+                            </>
                             <br/>
                             <br/>
                             <h5>Student Discount</h5>

@@ -101,10 +101,6 @@
     margin-right: 20px;
 }
 
-.buttonPadding {
-    margin-left: -20px;
-}
-
 .buttonPaddingDepot {
     margin-left: -100px;
 }
@@ -115,10 +111,6 @@
 
 .buttonPaddingDuration {
     margin-left: -12px;
-}
-
-.buttonPaddingScooter {
-    margin-left: 5px;
 }
 
 .buttonPaddingScooter {
@@ -435,13 +427,13 @@
     height: 350px !important;
 }
 
-.minimap-guest {
-    height: 600px !important;
-}
-
 .minimap-customer {
     height: 400px !important;
     width: 80% !important;
+}
+
+.minimap-guest {
+    height: 600px !important;
 }
 
 .navbar-pad-left {
@@ -584,23 +576,16 @@
 }
 
 @media (max-width: 991px) {
-    .hamburger-menu {
-        cursor: pointer;
-        display: flex;
-        position: fixed;
-        right: 15px !important;
-        top: 18px;
-        z-index: 9999;
-    }
-}
-
-@media (max-width: 991px) {
     #account-page {
         padding-left: 5%;
         padding-right: 7%;
         padding-top: 2%;
         pointer-events: all;
         position: relative;
+    }
+
+    #breadcrumb {
+        display: none;
     }
 
     #customer-row {
@@ -613,11 +598,12 @@
     }
 
     #pageName {
-        padding-left: 0 !important;
+        padding-left: 20px !important;
+        padding-top: 15px;
     }
 
     #underline {
-        margin-left: 0 !important;
+        margin-left: 20px !important;
     }
 
     .border-end {
@@ -641,10 +627,6 @@
 
     .customer-navigation {
         display: none !important;
-    }
-
-    .minimap-box {
-        z-index: -1 !important;
     }
 
     .customer-navigation-mobile {
@@ -703,5 +685,16 @@
 
     .submit-issue {
         padding-left: 0 !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .hamburger-menu {
+        cursor: pointer;
+        display: flex;
+        position: fixed;
+        right: 15px !important;
+        top: 18px;
+        z-index: 9999;
     }
 }

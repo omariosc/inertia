@@ -109,7 +109,7 @@ export default function EmployeeBookingApplications() {
                                     <thead>
                                     <tr>
                                         <th className="minWidthFieldSmall">Customer ID</th>
-                                        <th>Scooter ID</th>
+                                        <th className="minWidthFieldSmall">Scooter ID</th>
                                         <th className="minWidthFieldSmall">Time Expiring</th>
                                         <th>Approve</th>
                                         <th>Deny</th>

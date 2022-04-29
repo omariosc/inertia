@@ -130,9 +130,9 @@ export default function EmployeeOngoingBookings() {
                                     <thead>
                                     <tr>
                                         <th className="minWidthFieldSmall">Customer ID</th>
-                                        <th>Scooter ID</th>
+                                        <th className="minWidthFieldSmall">Scooter ID</th>
                                         <th className="minWidthFieldSmall">Time Expiring</th>
-                                        <th className="minWidthFieldSmall">Extend</th>
+                                        <th className="minWidthFieldLarge">Extend</th>
                                         <th>Cancel</th>
                                         <th>Booking Confirmation</th>
                                     </tr>

@@ -86,7 +86,7 @@ export default function EmployeeCreateGuestBooking() {
     }
 
     // Done like this because it setState is asynchronous
-    function validate(){
+    function validate() {
         setValidName(name.length > 0);
         setValidEmail((email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)));
         setValidConfirm(email === confirmEmail);
@@ -278,7 +278,7 @@ export default function EmployeeCreateGuestBooking() {
                                 </Col>
                             </Row>
                             {price === "" ?
-                                <h5>Cost: Unknown</h5>:
+                                <h5>Cost: Unknown</h5> :
                                 <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>
                             }
 
@@ -324,7 +324,7 @@ export default function EmployeeCreateGuestBooking() {
                             </Row>
                         </Container>
                     </Col>
-                    <Col className="box" >
+                    <Col className="box">
                         {(map_locations === "") ? <p>Loading map locations...</p> :
                             <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
                                           zoomControl={false} className="minimap-guest">

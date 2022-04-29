@@ -62,7 +62,7 @@ export default function Dashboard() {
                     <Row>
                         {Object.keys(data).map((key, idx) => (
                             <Col lg={4} key={idx}>
-                                <Card className="mb-4" >
+                                <Card className="mb-4">
                                     <Card.Body>
                                         <Card.Text className="dashboard-title">{key}</Card.Text>
                                         <Card.Title className="dashboard-text">{data[key]}</Card.Title>

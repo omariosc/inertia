@@ -155,7 +155,7 @@ export default function CustomerCreateBooking() {
         setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
         setValidCVV(cvv.match(/^[0-9]{3,4}$/));
         if (!(scooterChoiceId !== '' && scooterChoiceId !== 'none'
-                && hireChoiceId !== '' && hireChoiceId !== 'none'
+            && hireChoiceId !== '' && hireChoiceId !== 'none'
             && cardNo.length > 9 && cardNo.length < 20
             && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
             && cvv.match(/^[0-9]{3,4}$/))) {
@@ -236,7 +236,7 @@ export default function CustomerCreateBooking() {
         <Container>
             <Row className="mapMaxHeightRow">
                 {(map_locations === "") ? <Col>Loading map locations...</Col> :
-                    <Col className="box col=12">
+                    <Col className="box">
                         <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
                                       zoomControl={false} className="minimap-box">
                             <TileLayer
@@ -262,7 +262,7 @@ export default function CustomerCreateBooking() {
                     </Col>
                 }
             </Row>
-            <br/>
+            <br className="mobile"/>
             <h5>Booking Details</h5>
             <Row className="pb-2">
                 <Col className="text-end col-3 align-self-center">
@@ -339,99 +339,156 @@ export default function CustomerCreateBooking() {
             </Row>
             <br/>
             <DisplayCost/>
-            {!checkCardExists() ?
-                <>
-                    <h5>Payment details</h5>
-                    <Row className="pb-2 small-padding-top">
-                        <Col className="text-end col-3 align-self-center">
+            <div className="issue-filters">
+                {!checkCardExists() ?
+                    <>
+                        <h5>Payment details</h5>
+                        <Row className="pb-2 small-padding-top">
+                            <Col className="text-end col-3 align-self-center">
+                                Save Card Details:
+                            </Col>
+                            <Col>
+                                <Form.Switch onClick={(e) =>
+                                    setSaveCard(e.target.checked)}/>
+                            </Col>
+                        </Row>
+                        <Row className="pb-2 small-padding-top">
+                            <Col className="text-end col-3 align-self-center">
+                                Card Number:
+                            </Col>
+                            <Col className="text-end">
+                                <Form.Control type="text" placeholder="4000-1234-5678-9010"
+                                              isInvalid={!validCardNo}
+                                              onInput={e => setCardNo(e.target.value)}/>
+                                <Form.Control.Feedback type="invalid">
+                                    Invalid Card Number
+                                </Form.Control.Feedback>
+                            </Col>
+                        </Row>
+                        <Row className="pb-2">
+                            <Col className="text-end col-3 align-self-center">
+                                Expiry Date:
+                            </Col>
+                            <Col className="text-end">
+                                <Form.Control type="text" placeholder="MM/YY"
+                                              isInvalid={!validExpDate}
+                                              onInput={e => setExpiry(e.target.value)}/>
+                                <Form.Control.Feedback type="invalid">
+                                    Invalid Expiry Date
+                                </Form.Control.Feedback>
+                            </Col>
+                        </Row>
+                        <Row className="pb-2">
+                            <Col className="text-end col-3 align-self-center">
+                                CVV:
+                            </Col>
+                            <Col className="text-end">
+                                <Form.Control type="text" placeholder="123"
+                                              isInvalid={!validCVV}
+                                              onInput={e => setCVV(e.target.value)}/>
+                                <Form.Control.Feedback type="invalid">
+                                    Invalid CVV
+                                </Form.Control.Feedback>
+                            </Col>
+                        </Row>
+                    </>
+                    : <>
+                        <h5>Using stored payment details</h5>
+                        <Row>
+                            <Col className="text-end col-3 align-self-center">
+                                Card Number:
+                            </Col>
+                            <Col>
+                                **** ****
+                                **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}
+                            </Col>
+                        </Row>
+                        <Row className="pb-2 ">
+                            <Col className="text-end col-3 align-self-center">
+                                Expiry Date:
+                            </Col>
+                            <Col>
+                                {cookies.get('expiryDate')}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className="offset-3">
+                                <Button
+                                    variant="danger"
+                                    onClick={() => {
+                                        cookies.remove('cardNumber');
+                                        cookies.remove('expiryDate');
+                                        cookies.remove('cvv');
+                                        navigate('/create-booking');
+                                        NotificationManager.success("Deleted credit card details.", "Success");
+                                    }}>
+                                    Delete Card Details
+                                </Button>
+                            </Col>
+                        </Row>
+                    </>
+                }
+            </div>
+            <div className="issue-filters-mobile">
+                {!checkCardExists() ?
+                    <>
+                        <h5>Payment details</h5>
+                        <Row className="small-padding-bottom">
                             Save Card Details:
-                        </Col>
-                        <Col>
-                            <Form.Switch onClick={(e) =>
-                                setSaveCard(e.target.checked)}/>
-                        </Col>
-                    </Row>
-                    <Row className="pb-2 small-padding-top">
-                        <Col className="text-end col-3 align-self-center">
+                            <Col>
+                                <Form.Switch onClick={(e) => setSaveCard(e.target.checked)}/>
+                            </Col>
+                        </Row>
+                        <Row className="small-padding-bottom">
                             Card Number:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" placeholder="4000-1234-5678-9010"
-                                          isInvalid={!validCardNo}
+                            <Form.Control type="text" placeholder="4000-1234-5678-9010" isInvalid={!validCardNo}
                                           onInput={e => setCardNo(e.target.value)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid Card Number
                             </Form.Control.Feedback>
-                        </Col>
-                    </Row>
-                    <Row className="pb-2">
-                        <Col className="text-end col-3 align-self-center">
+                        </Row>
+                        <Row className="small-padding-bottom">
                             Expiry Date:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" placeholder="MM/YY"
-                                          isInvalid={!validExpDate}
+                            <Form.Control type="text" placeholder="MM/YY" isInvalid={!validExpDate}
                                           onInput={e => setExpiry(e.target.value)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid Expiry Date
                             </Form.Control.Feedback>
-                        </Col>
-                    </Row>
-                    <Row className="pb-2">
-                        <Col className="text-end col-3 align-self-center">
+                        </Row>
+                        <Row>
                             CVV:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" placeholder="123"
-                                          isInvalid={!validCVV}
+                            <Form.Control type="text" placeholder="123" isInvalid={!validCVV}
                                           onInput={e => setCVV(e.target.value)}/>
                             <Form.Control.Feedback type="invalid">
                                 Invalid CVV
                             </Form.Control.Feedback>
-                        </Col>
-                    </Row>
-                </> : <>
-                    <h5>Using stored payment details</h5>
-                    <Row>
-                        <Col className="text-end col-3 align-self-center">
-                            Card Number:
-                        </Col>
-                        <Col>
-                            **** ****
-                            **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}
-                        </Col>
-                    </Row>
-                    <Row className="pb-2 ">
-                        <Col className="text-end col-3 align-self-center">
-                            Expiry Date:
-                        </Col>
-                        <Col>
-                            {cookies.get('expiryDate')}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="offset-3">
-                            <Button
-                                variant="danger"
-                                onClick={() => {
-                                    cookies.remove('cardNumber');
-                                    cookies.remove('expiryDate');
-                                    cookies.remove('cvv');
-                                    navigate('/create-booking');
-                                    NotificationManager.success("Deleted credit card details.", "Success");
-                                }}>
-                                Delete Card Details
-                            </Button>
-                        </Col>
-                    </Row>
-                </>
-            }
+                        </Row>
+                    </>
+                    : <>
+                        <h5>Using stored payment details</h5>
+                        <p>Card Number: **** ****
+                            **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)} </p>
+                        <p>Expiry Date: {cookies.get('expiryDate')} </p>
+                        <Button
+                            variant="danger"
+                            className="float-right"
+                            onClick={() => {
+                                cookies.remove('cardNumber');
+                                cookies.remove('expiryDate');
+                                cookies.remove('cvv');
+                                navigate('/create-booking');
+                                NotificationManager.success("Deleted credit card details.", "Success");
+                            }}>
+                            Delete Card Details
+                        </Button>
+                        <br/>
+                        <br/>
+                    </>
+                }
+            </div>
             <br/>
             <Button className="float-right"
                     onClick={createBooking}>Confirm Booking</Button>
-            <br/>
-            <br/>
-            <br/>
         </Container>
     );
 };

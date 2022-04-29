@@ -33,7 +33,7 @@ export default function EmployeeInterface() {
                         <EmployeeNavigation/>
                         <EmployeeMobileNavigation/>
                     </Col>
-                    <Col xs={11}>
+                    <Col xs={11} md={11} lg={9}>
                         <Outlet context={[signOut]}/>
                     </Col>
                 </Row>

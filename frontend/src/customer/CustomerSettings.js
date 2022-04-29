@@ -57,21 +57,22 @@ export default function CustomerSettings() {
             <h5 className="small-padding-top">Change Password</h5>
             <br/>
             <Form>
-                <div className="input">
-                    <label>Old Password</label>
-                    <input autoFocus type="password" onInput={e => setOldPassword(e.target.value)}/>
-                </div>
-                <div className="input">
-                    <label>New Password</label>
-                    <input type="password" onInput={e => setPassword(e.target.value)}/>
-                </div>
-                <div className="input">
-                    <label>Confirm Password</label>
-                    <input type="password" onInput={e => setConfirmPassword(e.target.value)}/>
-                </div>
-                <Form.Group className="large-padding-top">
-                    <Button onClick={onSubmit}>Change password</Button>
+                <Form.Group className="mb-3">
+                    <Form.Label>Old Password</Form.Label>
+                    <Form.Control autoFocus placeholder="Enter old password..." type="password"
+                                  onInput={e => setOldPassword(e.target.value)}/>
                 </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>New Password</Form.Label>
+                    <Form.Control type="password" placeholder="Enter new password..."
+                                  onInput={e => setPassword(e.target.value)}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type="password" placeholder="Confirm new password..."
+                                  onInput={e => setConfirmPassword(e.target.value)}/>
+                </Form.Group>
+                <Button className="float-right" onClick={onSubmit}>Change password</Button>
             </Form>
         </>
     );

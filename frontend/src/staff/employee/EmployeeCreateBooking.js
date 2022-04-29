@@ -3,9 +3,8 @@ import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
-import getScooterName from "../../getScooterName";
 import host from "../../host";
-import getMapName from "../../getMapName";
+
 
 export default function EmployeeCreateGuestBooking() {
     const cookies = new Cookies();
@@ -25,6 +24,7 @@ export default function EmployeeCreateGuestBooking() {
     const [validName, setValidName] = useState(true);
     const [validEmail, setValidEmail] = useState(true);
     const [validConfirm, setValidConfirm] = useState(true);
+    const [validDepot, setValidDepot] = useState(true);
     const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
     const [validCardNo, setValidCardNo] = useState(true);
@@ -92,6 +92,7 @@ export default function EmployeeCreateGuestBooking() {
         setValidName(name.length > 0);
         setValidEmail((email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)));
         setValidConfirm(email === confirmEmail);
+        setValidDepot(depotChoiceId !== '' && depotChoiceId !== 'none');
         setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
         setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
         setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
@@ -207,7 +208,7 @@ export default function EmployeeCreateGuestBooking() {
                                 <Col>
                                     {(map_locations === "") ? <> Loading depots... </> :
                                         <Form.Select value={depotChoiceId}
-                                                     isInvalid={!validScooter} onChange={(e) => {
+                                                     isInvalid={!validDepot} onChange={(e) => {
                                             setDepotChoiceId(e.target.value);
                                             setScooterChoiceId("");
                                         }}>

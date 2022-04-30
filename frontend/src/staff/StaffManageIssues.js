@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../authorize';
 import getAge from "./getAge";
 import accountRole from "./accountRole";
 import host from "../host";
@@ -9,7 +9,7 @@ import priorities from "./priorities";
 import userType from "./userType";
 
 export default function StaffManageIssues({manager}) {
-  const cookies = new Cookies();
+  const [account] = useAccount();
   const [issues, setIssues] = useState('');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(true);
   const [searchTitle, setSearchTitle] = useState("");
@@ -35,7 +35,7 @@ export default function StaffManageIssues({manager}) {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': `Bearer ${cookies.get('accessToken')}`
+          'Authorization': `Bearer ${account.accessToken}`
         },
         mode: "cors"
       });
@@ -76,13 +76,13 @@ export default function StaffManageIssues({manager}) {
     <>
       {(manager) ?
         <p id="breadcrumb">
-          <a className="breadcrumb-list" href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home
+          <a className="breadcrumb-list" href={account.role === "2" ? "/dashboard" : "/home"}>Home
           </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
           <a className="breadcrumb-current" href="/issues">High Priority Issues</a></b>
         </p> :
         <p id="breadcrumb">
           <a className="breadcrumb-list"
-             href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
+             href={account.role === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
           <a className="breadcrumb-current" href="/issues">Issues</a></b>
         </p>
       }

@@ -6,13 +6,16 @@ import "bootstrap/dist/js/bootstrap.min.js"
 import './App.css'
 import './index.css';
 import {BrowserRouter} from "react-router-dom";
+import {AccountProvider} from "./authorize";
 
 
 // Creates all routes for the user.
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <App/>
+            <AccountProvider>
+                <App/>
+            </AccountProvider>
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')

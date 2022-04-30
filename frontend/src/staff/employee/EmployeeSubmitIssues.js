@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
 
 export default function EmployeeSubmitIssue() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     let navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [validTitle, setValidTitle] = useState(true);
@@ -28,12 +28,12 @@ export default function EmployeeSubmitIssue() {
             return;
         }
         try {
-            await fetch(host + `api/Users/${cookies.get("accountID")}/issues`, {
+            await fetch(host + `api/Users/${account.id}/issues`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "priority": parseInt(priority),

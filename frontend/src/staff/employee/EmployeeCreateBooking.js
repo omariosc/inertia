@@ -3,11 +3,11 @@ import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
 
 export default function EmployeeCreateGuestBooking() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     let navigate = useNavigate();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
@@ -97,7 +97,7 @@ export default function EmployeeCreateGuestBooking() {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': `Bearer ${cookies.get('accessToken')}`
+                        'Authorization': `Bearer ${account.accessToken}`
                     },
                     mode: "cors"
                 });
@@ -118,7 +118,7 @@ export default function EmployeeCreateGuestBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -256,7 +256,7 @@ export default function EmployeeCreateGuestBooking() {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': `Bearer ${cookies.get('accessToken')}`
+                        'Authorization': `Bearer ${account.accessToken}`
                     },
                     body: JSON.stringify({
                         "email": email,

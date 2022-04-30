@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
 
 export default function ManagerScooterManagement() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [newID, setScooterNewId] = useState('');
     const [createID, setCreateId] = useState('');
     const [createDepo, setCreateDepo] = useState('');
@@ -41,7 +41,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -80,7 +80,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify(json),
                 mode: "cors"
@@ -120,7 +120,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "softScooterId": parseInt(createID),
@@ -151,7 +151,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });

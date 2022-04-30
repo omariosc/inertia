@@ -1,7 +1,6 @@
 # inertia
 
 [![pipeline status](https://gitlab.com/sc20aim/inertia/badges/main/pipeline.svg)](https://gitlab.com/sc20aim/inertia/-/commits/main)
-[![coverage report](https://gitlab.com/sc20aim/inertia/badges/main/coverage.svg)](https://gitlab.com/sc20aim/inertia/-/commits/main)
 [![Latest Release](https://gitlab.com/sc20aim/inertia/-/badges/release.svg)](https://gitlab.com/sc20aim/inertia/-/releases)
 [![Code Style: Google](https://img.shields.io/badge/code%20style-google-blueviolet.svg)](https://github.com/google/gts)
 

@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a dashboard with gerneral information
+	about the current state of the application
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {Card, Col, Container, Row} from "react-bootstrap";

@@ -1,9 +1,18 @@
+/*
+	Purpose of file: Show the current hire options and their prices
+	and allow the manager to change them
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import Cookies from 'universal-cookie';
 import host from "../../host";
 
+/**
+ * Returns the manager hire option management, displays current hire
+ * options and their prices
+ */
 export default function ManagerHireOptionManagement() {
     const cookies = new Cookies();
     const [hireOptions, setHireOptions] = useState('');
@@ -18,6 +27,9 @@ export default function ManagerHireOptionManagement() {
         fetchHirePeriods();
     }, []);
 
+		/**
+		 * Gets current hire periods from backend server
+		 */
     async function fetchHirePeriods() {
         try {
             let request = await fetch(host + "api/HireOptions", {
@@ -35,6 +47,10 @@ export default function ManagerHireOptionManagement() {
         }
     }
 
+		/**
+		 * Edits a specific hire option with the provided ID and updates
+		 * backend server
+		 */
     async function editHireOption(id, mode) {
         const json = {};
         switch (mode) {
@@ -92,6 +108,10 @@ export default function ManagerHireOptionManagement() {
         await fetchHirePeriods();
     }
 
+		/**
+		 * Creates a new hire option with the provided form and updates
+		 * the backend server
+		 */
     async function createHireOption() {
         if (!(createDuration.match(/^\d+$/))) {
             NotificationManager.error("Duration must be an integer.", "Error");
@@ -138,6 +158,9 @@ export default function ManagerHireOptionManagement() {
         await fetchHirePeriods();
     }
 
+		/**
+		 * Deletes a hire option with the provided ID
+		 */
     async function deleteHireOption(id) {
         try {
             let request = await fetch(host + `api/admin/HireOptions/${id}`, {

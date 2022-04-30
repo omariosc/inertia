@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Enable a staff member to submit or report
+	a new issue or problem in the application
+*/
+
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
@@ -5,6 +10,10 @@ import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
 import host from "../../host";
 
+/**
+ * Displays the submit issue form which allows the employee to
+ * raise a new issue
+ */
 export default function EmployeeSubmitIssue() {
     const cookies = new Cookies();
     let navigate = useNavigate();
@@ -14,6 +23,10 @@ export default function EmployeeSubmitIssue() {
     const [content, setContent] = useState('');
     const [priority, setPriority] = useState('');
 
+		/**
+		 * Checks that the issue has valid length and priority and sends the issue
+		 * to the backend server if the check is successful 
+		 */
     async function submitIssue() {
         if (title.length === 0) {
             NotificationManager.error("Issue must have a title", "Error");

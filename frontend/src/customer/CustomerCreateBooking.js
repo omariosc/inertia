@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allow a customer to create a new booking
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
@@ -9,6 +13,9 @@ import moment from "moment";
 import Cards from "elt-react-credit-cards";
 import 'elt-react-credit-cards/es/styles-compiled.css';
 
+/**
+ * Returns the create booking page for the customer
+ */
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -50,6 +57,9 @@ export default function CustomerCreateBooking() {
 
     }, [startTime, startDate, hireChoiceId, depotChoiceId]);
 
+		/**
+		 * Gets a list of locations from the backend server
+		 */
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -66,6 +76,10 @@ export default function CustomerCreateBooking() {
         }
     }
 
+	/**
+	 * Checks if the customer is currently eligible for frequent user discount,
+	 * applies it and updates backend server if they are
+	 */
   async function getDiscountStatus() {
     try {
       let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
@@ -100,6 +114,10 @@ export default function CustomerCreateBooking() {
     }
   }
 
+	/**
+	 * Checks if the user is eligible for another type of discount, e.g. student discount
+	 * and applies the discount
+	 */
   async function fetchDiscountStatus() {
     try {
       let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
@@ -127,6 +145,9 @@ export default function CustomerCreateBooking() {
     }
   }
 
+	/**
+	 * Gets list of available hire lengths from backend server
+	 */
   async function fetchHirePeriods() {
     try {
       let request = await fetch(host + "api/HireOptions", {
@@ -144,6 +165,9 @@ export default function CustomerCreateBooking() {
     }
   }
 
+		/**
+		 * Calculates the start time of the new booking
+		 */	
     function calcStartIso() {
         let hours = parseInt(startTime.slice(0, 2));
         let mins = parseInt(startTime.slice(3, 5));
@@ -152,6 +176,9 @@ export default function CustomerCreateBooking() {
         return bookingStart.toISOString()
     }
 
+		/**
+		 * Calculates the end time of the new booking
+		 */
     function calcEndIso() {
         let hours = parseInt(startTime.slice(0, 2));
         let mins = parseInt(startTime.slice(3, 5));
@@ -161,6 +188,9 @@ export default function CustomerCreateBooking() {
         return bookingEnd.toISOString()
     }
 
+		/**
+		 * Gets list of available scooters for the new booking from the backend server
+		 */
     async function fetchAvailableScooters() {
         let valid = true
         let validateFuncs = [validateTime, validateDate, validateDepot, validateHireSlot]
@@ -193,6 +223,9 @@ export default function CustomerCreateBooking() {
         }
     }
 
+		/**
+		 * Checks date of the new booking is valid
+		 */
     function validateDate(stateChange) {
         let currentDate = new Date();
         let dStartDate = new Date(startDate);
@@ -205,6 +238,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
+		/**
+		 * Checks time of the new booking is valid
+		 */
     function validateTime(stateChange) {
         let valid;
         if (startTime.length !== 5) {
@@ -228,6 +264,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
+		/**
+		 * Checks depot of the new booking is valid
+		 */
     function validateDepot(stateChange) {
         let valid = depotChoiceId !== '' && depotChoiceId !== 'none';
         if (stateChange) {
@@ -236,6 +275,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
+		/**
+		 * Checks scooter for the new booking is valid
+		 */
     function validateScooter(stateChange) {
         let valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
         if (stateChange) {
@@ -244,6 +286,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
+		/**
+		 * Checks hire length of the new booking is valid
+		 */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
         if (stateChange) {
@@ -252,6 +297,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
+		/**
+		 * Checks card number of the new booking is valid
+		 */
     function validateCardNo(stateChange) {
         if(checkCardExists()){
             return true;
@@ -263,6 +311,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
+		/**
+		 * Checks expiry date of the card for the new booking is valid
+		 */
     function validateExpDate(stateChange) {
         if(checkCardExists()){
             return true;
@@ -274,6 +325,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
+		/**
+		 * Checks CVV of the card for the new booking is valid
+		 */
     function validateCVV(stateChange) {
         if(checkCardExists()){
             return true;
@@ -286,6 +340,10 @@ export default function CustomerCreateBooking() {
     }
 
 
+		/**
+		 * If all validations pass, creates a new booking with the specified
+		 * information and updates backend server
+		 */
     async function createBooking() {
         let valid = true
         let validateFuncs = [validateTime, validateDate, validateDepot, validateScooter, validateHireSlot, validateCardNo, validateCVV, validateExpDate]
@@ -339,6 +397,9 @@ export default function CustomerCreateBooking() {
     }
   }
 
+	/**
+	 * Check if a card is stored in local cookies
+	 */
   function checkCardExists() {
     if (localStorage.getItem(cookies.get("accountID"))) {
       cardDetails = JSON.parse(localStorage.getItem(cookies.get("accountID")));
@@ -346,6 +407,9 @@ export default function CustomerCreateBooking() {
     return (!!localStorage.getItem(cookies.get("accountID")));
   }
 
+	/**
+	 * Shows total cost of the new booking
+	 */
   function DisplayCost() {
     return (
       (isNaN(parseFloat(price))) ? null :

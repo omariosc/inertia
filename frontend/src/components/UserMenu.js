@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Expandable menu to navigate the application
+*/
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser, faBars} from "@fortawesome/free-solid-svg-icons";
 import {Dropdown, DropdownButton} from "react-bootstrap";
@@ -6,6 +10,9 @@ import "./UserMenu.css";
 import {useLocation, useNavigate} from "react-router-dom";
 import {signOut, useAccount} from "../authorize";
 
+/**
+ * Returns the menu in the top right corner of the application
+ */
 export default function userMenu(props) {
     const location = useLocation();
     const navigate = useNavigate();

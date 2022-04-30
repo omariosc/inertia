@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Calculate and format the age of an issue
+	based on when it was created
+*/
+
 export default function getAge(dateString) {
     let openedAt = new Date(dateString);
     let current = new Date(Date.now())

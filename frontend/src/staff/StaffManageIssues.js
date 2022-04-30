@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display list of outstanding issues to staff
+	and allow them to filter to find specific issues and close/escalate them
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";

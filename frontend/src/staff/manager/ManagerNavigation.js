@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Navigation bar for manager accounts
+*/
+
 import React from "react";
 import {Link} from "react-router-dom";
 import {Nav} from "react-bootstrap";
@@ -6,6 +10,9 @@ import {FaExclamation} from "react-icons/fa";
 import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 
+/**
+ * Returns the manager navigation bar, allowing the browsing of the application
+ */
 export default function ManagerNavigation() {
     return (
         <Nav

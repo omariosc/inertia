@@ -26,7 +26,7 @@ export function signOut(setAccount, callback) {
                 'accessToken': cookies.get('accessToken')
             }),
             mode: "cors"
-        }).then(r => {
+        }).then(() => {
             cookies.remove('accountRole');
             cookies.remove('accessToken');
             cookies.remove('accountID');

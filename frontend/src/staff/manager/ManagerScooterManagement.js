@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import Cookies from 'universal-cookie';
-import getMapName from "../../getMapName";
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
 
@@ -236,7 +235,7 @@ export default function ManagerScooterManagement() {
                                                              }
                                                          }}>
                                                 <option value="none" key="none" disabled hidden>
-                                                    {getMapName(idx, scooters, map_locations)}
+                                                    {String.fromCharCode(scooters[idx].depoId + 64) + ' - ' + map_locations[scooters[idx].depoId - 1].name}
                                                 </option>
                                                 {map_locations.map((location, idx) => (
                                                     <option value={location.depoId} key={idx}>

@@ -94,26 +94,24 @@ export default function ManagerAccountManagement() {
             <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>
             <Container>
-                <Form>
-                    <div className="input account">
-                        <label>Employee Name</label>
-                        <input autoFocus type="name" value={name} onInput={e => setName(e.target.value)}/>
-                    </div>
-                    <div className="input account">
-                        <label>Employee Email</label>
-                        <input type="email" value={email} onInput={e => setEmail(e.target.value)}/>
-                    </div>
-                    <div className="input account">
-                        <label>Employee Password</label>
-                        <input type="password" value={password} onInput={e => setPassword(e.target.value)}/>
-                    </div>
-                    <div className="input account">
-                        <label>Confirm Employee Password</label>
-                        <input type="password" value={confirmPassword} onInput={e => setConfirmPassword(e.target.value)}/>
-                    </div>
-                    <Form.Group className="large-padding-top">
-                        <Button onClick={onSubmit}>Create Employee Account</Button>
+                <Form className="input-form">
+                    <Form.Group className="mb-3">
+                        <Form.Label><h5>Employee Name</h5></Form.Label>
+                        <Form.Control autoFocus type="name" value={name} onInput={e => setName(e.target.value)}/>
                     </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label><h5>Employee Email</h5></Form.Label>
+                        <Form.Control type="email" value={email} onInput={e => setEmail(e.target.value)}/>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label><h5>Employee Password</h5></Form.Label>
+                        <Form.Control type="password" value={password} onInput={e => setPassword(e.target.value)}/>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label><h5>Confirm Employee Password</h5></Form.Label>
+                        <Form.Control type="password" value={confirmPassword} onInput={e => setConfirmPassword(e.target.value)}/>
+                    </Form.Group>
+                    <Button className="float-right" onClick={onSubmit}>Create Employee Account</Button>
                 </Form>
             </Container>
         </>

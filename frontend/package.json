@@ -11,6 +11,7 @@
     "@mui/material": "^5.6.2",
     "bootstrap": "^5.1.3",
     "bootstrap-switch-button-react": "^1.2.0",
+    "elt-react-credit-cards": "^0.0.1",
     "jquery": "^3.6.0",
     "leaflet": "^1.7.1",
     "moment": "^2.29.1",
@@ -44,5 +45,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.29.4"
   }
 }

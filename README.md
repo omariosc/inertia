@@ -1,8 +1,8 @@
 # inertia
 
-Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulan Maga](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
+Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulian Magan](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
 
-## Running the project
+## Installation and Execution
 
 ### via docker and docker-compose
 
@@ -87,9 +87,6 @@ npm install
 npm start
 ```
 ## Extras
-
-### The Architecture
-The architecture of the project can be found [here](https://gitlab.com/sc20aim/inertia/-/wikis/architecture).
 
 ### Final Demonstration
 The project marking guide is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/marking-guide) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.

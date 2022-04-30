@@ -6,6 +6,8 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import Cookies from 'universal-cookie';
 import host from "../host";
 import moment from "moment";
+import Cards from "elt-react-credit-cards";
+import 'elt-react-credit-cards/es/styles-compiled.css';
 
 export default function CustomerCreateBooking() {
     const cookies = new Cookies();
@@ -22,6 +24,7 @@ export default function CustomerCreateBooking() {
     const [cardNo, setCardNo] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCVV] = useState('');
+    const [focus, setFocus] = useState('');
     const [validDepot, setValidDepot] = useState(true);
     const [validScooter, setValidScooter] = useState(true);
     const [validHireSlot, setValidHireSlot] = useState(true);
@@ -35,6 +38,7 @@ export default function CustomerCreateBooking() {
     const [loading, setLoading] = useState('');
     const [saveCard, setSaveCard] = useState(false);
     const [savedDetailsDeleted, setSavedDetailsDeleted] = useState(false);
+    let cardDetails = {};
 
     useEffect(() => {
         fetchHirePeriods();
@@ -63,83 +67,83 @@ export default function CustomerCreateBooking() {
         }
     }
 
-    async function getDiscountStatus() {
-        try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            let response = await request.json();
-            let thresholdDate = moment().subtract(1, 'week').toISOString()
-            let recentBookings = response.filter(e => e.createdAt >= thresholdDate);
-            let recentHours = 0;
-            for (let i = 0; i < recentBookings.length; i++) {
-                if (recentBookings[i].orderState !== 0 && recentBookings[i].orderState !== 6) {
-                    recentHours += recentBookings[i].hireOption.durationInHours;
-                    if (recentBookings[i]["extensions"] != null) {
-                        for (let j = 0; j < recentBookings[i]["extensions"].length; j++) {
-                            recentHours += recentBookings[i]["extensions"][j].hireOption.durationInHours;
-                        }
-                    }
-                }
+  async function getDiscountStatus() {
+    try {
+      let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${cookies.get('accessToken')}`
+        },
+        mode: "cors"
+      });
+      let response = await request.json();
+      let thresholdDate = moment().subtract(1, 'week').toISOString();
+      let recentBookings = response.filter(e => e.createdAt >= thresholdDate);
+      let recentHours = 0;
+      for (let i = 0; i < recentBookings.length; i++) {
+        if (recentBookings[i].orderState !== 0 && recentBookings[i].orderState !== 6) {
+          recentHours += recentBookings[i].hireOption.durationInHours;
+          if (recentBookings[i]["extensions"] != null) {
+            for (let j = 0; j < recentBookings[i]["extensions"].length; j++) {
+              recentHours += recentBookings[i]["extensions"][j].hireOption.durationInHours;
             }
-            if (recentHours >= 8) {
-                setDiscount(true);
-                setDiscountType("Frequent User");
-            }
-        } catch (e) {
-            console.log(e);
+          }
         }
+      }
+      if (recentHours >= 8) {
+        setDiscount(true);
+        setDiscountType("Frequent User");
+      }
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    async function fetchDiscountStatus() {
-        try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            let response = await request.json();
-            if (response.userType === 0) {
-                setDiscount(true);
-                setDiscountType("Student");
-            } else if (response.userType === 1) {
-                setDiscount(true);
-                setDiscountType("Senior");
-            } else {
-                await getDiscountStatus();
-            }
-            setLoading('complete');
-        } catch (e) {
-            console.log(e);
-        }
+  async function fetchDiscountStatus() {
+    try {
+      let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${cookies.get('accessToken')}`
+        },
+        mode: "cors"
+      });
+      let response = await request.json();
+      if (response.userType === 0) {
+        setDiscount(true);
+        setDiscountType("Student");
+      } else if (response.userType === 1) {
+        setDiscount(true);
+        setDiscountType("Senior");
+      } else {
+        await getDiscountStatus();
+      }
+      setLoading('complete');
+    } catch (e) {
+      console.log(e);
     }
+  }
 
-    async function fetchHirePeriods() {
-        try {
-            let request = await fetch(host + "api/HireOptions", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
-        } catch (error) {
-            console.error(error);
-        }
+  async function fetchHirePeriods() {
+    try {
+      let request = await fetch(host + "api/HireOptions", {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${cookies.get('accessToken')}`
+        },
+        mode: "cors"
+      });
+      setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
+    } catch (error) {
+      console.error(error);
     }
+  }
 
     function calcStartIso() {
         let hours = parseInt(startTime.slice(0, 2));
@@ -250,7 +254,7 @@ export default function CustomerCreateBooking() {
     }
 
     function validateCardNo(stateChange) {
-        if(cookies.get('cardNumber')){
+        if(checkCardExists()){
             return true;
         }
         let valid = cardNo.length > 9 && cardNo.length < 20;
@@ -261,7 +265,7 @@ export default function CustomerCreateBooking() {
     }
 
     function validateExpDate(stateChange) {
-        if(cookies.get('expiryDate')){
+        if(checkCardExists()){
             return true;
         }
         let valid = expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/);
@@ -272,7 +276,7 @@ export default function CustomerCreateBooking() {
     }
 
     function validateCVV(stateChange) {
-        if(cookies.get('cvv')){
+        if(checkCardExists()){
             return true;
         }
         let valid = cvv.match(/^[0-9]{3,4}$/);
@@ -295,78 +299,84 @@ export default function CustomerCreateBooking() {
 
         })
         if (!valid) {
-            NotificationManager.error("Invalid Details Provided", "Error");
+            NotificationManager.error("Complete Booking Provided", "Error");
             return;
         }
-        try {
-            let request = await fetch(host + "api/Orders", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                body: JSON.stringify({
-                    'hireOptionId': parseInt(hireChoiceId),
-                    'scooterId': parseInt(scooterChoiceId),
-                    'startTime': startDate + "T" + startTime
-                }),
-                mode: "cors"
-            });
-            let response = await request;
-            if (response.status === 422) {
-                NotificationManager.error("Scooter is unavailable at this time.", "Error");
-            } else if (response.status === 400) {
-                NotificationManager.error("Please fill in all required fields.", "Error");
-            } else if (response.status === 200) {
-                NotificationManager.success("Created Booking.", "Success");
-                if ((!checkCardExists() || savedDetailsDeleted) && saveCard) {
-                    cookies.set('cardNumber', cardNo, {path: '/'});
-                    cookies.set('expiryDate', expiry, {path: '/'});
-                    cookies.set('cvv', cvv, {path: '/'});
-                    NotificationManager.success("Stored credit card details.", "Success");
-                }
-                navigate('/current-bookings');
-            }
-        } catch (error) {
-            console.error(error);
+    try {
+      let request = await fetch(host + "api/Orders", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${cookies.get('accessToken')}`
+        },
+        body: JSON.stringify({
+          'hireOptionId': parseInt(hireChoiceId),
+          'scooterId': parseInt(scooterChoiceId),
+          'startTime': startDate + "T" + startTime
+        }),
+        mode: "cors"
+      });
+      let response = await request;
+      if (response.status === 422) {
+        NotificationManager.error("Scooter is currently unavailable.", "Error");
+      } else if (response.status === 400) {
+        NotificationManager.error("Please fill in all required fields.", "Error");
+      } else if (response.status === 200) {
+        NotificationManager.success("Created Booking.", "Success");
+        if ((!checkCardExists() || savedDetailsDeleted) && saveCard) {
+          const card = {
+            cardNumber: cardNo,
+            expiryDate: expiry,
+            cvv: cvv
+          };
+          localStorage.setItem(cookies.get("accountID"), JSON.stringify(card));
+          NotificationManager.success("Stored credit card details.", "Success");
         }
+        navigate('/current-bookings');
+      }
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    function checkCardExists() {
-        return (cookies.get('cardNumber') && cookies.get('expiryDate') && cookies.get('cvv'));
+  function checkCardExists() {
+    if (localStorage.getItem(cookies.get("accountId"))) {
+      cardDetails = JSON.parse(localStorage.getItem(cookies.get("accountId")));
     }
+    return (!!localStorage.getItem(cookies.get("accountId")));
+  }
 
-    function DisplayCost() {
-        return (
-            (isNaN(parseFloat(price))) ? null :
-                (loading === '') ? null :
-                    (discount) ?
-                        <Row className="pb-2">
-                            <Col>
-                                {(hireChoiceId === '') ? null :
-                                    <>
-                                        <h5>Cost: £{(0.9 * parseFloat(price)).toFixed(2)}</h5>
-                                        <Row className="pb-2">
-                                            <Col className="text-end col-3 align-self-center">
-                                                Discount:
-                                            </Col>
-                                            <Col>
-                                                {discountType} (10%) applied
-                                            </Col>
-                                        </Row>
-                                    </>
-                                }
-                            </Col>
-                        </Row> :
-                        <Row className="pb-2">
-                            <Col>
-                                {(hireChoiceId === '') ? <h5>Cost £</h5> : <h5>Cost £{parseFloat(price).toFixed(2)}</h5>
-                                }
-                            </Col>
-                        </Row>
-        )
-    }
+  function DisplayCost() {
+    return (
+      (isNaN(parseFloat(price))) ? null :
+        (loading === '') ? null :
+          (discount) ?
+            <Row className="pb-2">
+              <Col>
+                {(hireChoiceId === '') ? null :
+                  <>
+                    <h5>Cost: £{(0.9 * parseFloat(price)).toFixed(2)}</h5>
+                    <Row className="pb-2">
+                      <Col className="text-end col-3 align-self-center">
+                        Discount:
+                      </Col>
+                      <Col>
+                        {discountType} (10%) applied
+                      </Col>
+                    </Row>
+                  </>
+                }
+              </Col>
+            </Row> :
+            <Row className="pb-2">
+              <Col>Cost £{(hireChoiceId === '') ? null :
+                `${parseFloat(price).toFixed(2)}`
+              }
+              </Col>
+            </Row>
+    );
+  }
 
     return (
         <Container>
@@ -503,99 +513,184 @@ export default function CustomerCreateBooking() {
             </Row>
             <br/>
             <DisplayCost/>
-            {!checkCardExists() || savedDetailsDeleted ?
-                <>
-                    <h5>Payment details</h5>
-                    <Row className="pb-2 small-padding-top">
-                        <Col className="text-end col-3 align-self-center">
-                            Save Card Details:
-                        </Col>
-                        <Col>
-                            <Form.Switch onClick={(e) =>
-                                setSaveCard(e.target.checked)}/>
-                        </Col>
-                    </Row>
-                    <Row className="pb-2 small-padding-top">
-                        <Col className="text-end col-3 align-self-center">
-                            Card Number:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" placeholder="4000-1234-5678-9010"
-                                          isInvalid={!validCardNo}
-                                          onInput={e => setCardNo(e.target.value)}/>
-                            <Form.Control.Feedback type="invalid">
-                                Invalid Card Number
-                            </Form.Control.Feedback>
-                        </Col>
-                    </Row>
-                    <Row className="pb-2">
-                        <Col className="text-end col-3 align-self-center">
-                            Expiry Date:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" placeholder="MM/YY"
-                                          isInvalid={!validExpDate}
-                                          onInput={e => setExpiry(e.target.value)}/>
-                            <Form.Control.Feedback type="invalid">
-                                Invalid Expiry Date
-                            </Form.Control.Feedback>
-                        </Col>
-                    </Row>
-                    <Row className="pb-2">
-                        <Col className="text-end col-3 align-self-center">
-                            CVV:
-                        </Col>
-                        <Col className="text-end">
-                            <Form.Control type="text" placeholder="123"
-                                          isInvalid={!validCVV}
-                                          onInput={e => setCVV(e.target.value)}/>
-                            <Form.Control.Feedback type="invalid">
-                                Invalid CVV
-                            </Form.Control.Feedback>
-                        </Col>
-                    </Row>
-                </> : <>
-                    <h5>Using stored payment details</h5>
-                    <Row>
-                        <Col className="text-end col-3 align-self-center">
-                            Card Number:
-                        </Col>
-                        <Col>
-                            **** ****
-                            **** {cookies.get('cardNumber').slice(cookies.get('cardNumber').length - 4)}
-                        </Col>
-                    </Row>
-                    <Row className="pb-2 ">
-                        <Col className="text-end col-3 align-self-center">
-                            Expiry Date:
-                        </Col>
-                        <Col>
-                            {cookies.get('expiryDate')}
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className="offset-3">
-                            <Button
-                                variant="danger"
-                                onClick={() => {
-                                    cookies.remove('cardNumber');
-                                    cookies.remove('expiryDate');
-                                    cookies.remove('cvv');
-                                    setSavedDetailsDeleted(true);
-                                    NotificationManager.success("Deleted credit card details.", "Success");
-                                }}>
-                                Delete Card Details
-                            </Button>
-                        </Col>
-                    </Row>
-                </>
-            }
+      <div className="issue-filters">
+        {!checkCardExists() || savedDetailsDeleted ?
+          <>
+            <h5>Payment details</h5>
+            <Row className="pb-2 small-padding-top">
+              <Col className="text-end col-3 align-self-center">
+                Save Card Details:
+              </Col>
+              <Col>
+                <Form.Switch onClick={(e) =>
+                  setSaveCard(e.target.checked)}/>
+              </Col>
+            </Row>
+            <Row className="pb-2 small-padding-top">
+              <Cards
+                cvc={cvv}
+                expiry={expiry}
+                focused={focus}
+                name={cookies.get("accountName")}
+                number={cardNo}
+              />
+            </Row>
+            <Row className="pb-2 small-padding-top">
+              <Col className="text-end col-3 align-self-center">
+                Card Number:
+              </Col>
+              <Col className="text-end">
+                <Form.Control type="text" name="number" placeholder="4000-1234-5678-9010"
+                              isInvalid={!validCardNo}
+                              onChange={e => setCardNo(e.target.value)}
+                              onFocus={e => setFocus(e.target.name)}/>
+                <Form.Control.Feedback type="invalid">
+                  Invalid Card Number
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+            <Row className="pb-2">
+              <Col className="text-end col-3 align-self-center">
+                Expiry Date:
+              </Col>
+              <Col className="text-end">
+                <Form.Control type="text" name="expiry" placeholder="MM/YY"
+                              isInvalid={!validExpDate}
+                              onChange={e => setExpiry(e.target.value)}
+                              onFocus={e => setFocus(e.target.name)}/>
+                <Form.Control.Feedback type="invalid">
+                  Invalid Expiry Date
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+            <Row className="pb-2">
+              <Col className="text-end col-3 align-self-center">
+                CVV:
+              </Col>
+              <Col className="text-end">
+                <Form.Control type="text" name="cvc" placeholder="123"
+                              isInvalid={!validCVV}
+                              onChange={e => setCVV(e.target.value)}
+                              onFocus={e => setFocus(e.target.name)}/>
+                <Form.Control.Feedback type="invalid">
+                  Invalid CVV
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+          </>
+          : <>
+            <h5>Using stored payment details</h5>
+            <Row className="pb-2">
+              <Col className="text-end col-3 align-self-center">
+                Card Number:
+              </Col>
+              <Col>
+                **** ****
+                **** {cardDetails.cardNumber.slice(cardDetails.cardNumber.length - 4)}
+              </Col>
+            </Row>
+            <Row className="pb-2">
+              <Col className="text-end col-3 align-self-center">
+                Expiry Date:
+              </Col>
+              <Col>
+                {cardDetails.expiryDate}
+              </Col>
+            </Row>
+            <Row>
+              <Col className="offset-3">
+                <Button
+                  variant="danger"
+                  onClick={() => {
+                    localStorage.removeItem(cookies.get("accountId"));
+                    navigate('/create-booking');
+                    NotificationManager.success("Deleted credit card details.", "Success");
+                  }}>
+                  Delete Card Details
+                </Button>
+              </Col>
+            </Row>
+          </>
+        }
+      </div>
+      <div className="issue-filters-mobile">
+        {!checkCardExists() ?
+          <>
+            <h5>Payment details</h5>
+            <Row className="small-padding-bottom">
+              Save Card Details:
+              <Col>
+                <Form.Switch onClick={(e) => setSaveCard(e.target.checked)}/>
+              </Col>
+            </Row>
+            <Row className="small-padding-bottom">
+              <Cards
+                cvc={cvv}
+                expiry={expiry}
+                focused={focus}
+                name={cookies.get("accountName")}
+                number={cardNo}
+              />
+            </Row>
+            <Row className="small-padding-bottom">
+              Card Number:
+              <Form.Control type="text" name="number" placeholder="4000-1234-5678-9010"
+                            isInvalid={!validCardNo}
+                            onChange={e => setCardNo(e.target.value)}
+                            onFocus={e => setFocus(e.target.name)}/>
+              <Form.Control.Feedback type="invalid">
+                Invalid Card Number
+              </Form.Control.Feedback>
+            </Row>
+            <Row className="small-padding-bottom">
+              Expiry Date:
+              <Form.Control type="text" name="expiry" placeholder="MM/YY"
+                            isInvalid={!validExpDate}
+                            onChange={e => setExpiry(e.target.value)}
+                            onFocus={e => setFocus(e.target.name)}/>
+              <Form.Control.Feedback type="invalid">
+                Invalid Expiry Date
+              </Form.Control.Feedback>
+            </Row>
+            <Row>
+              CVV:
+              <Form.Control type="text" name="cvc" placeholder="123"
+                            isInvalid={!validCVV}
+                            onChange={e => setCVV(e.target.value)}
+                            onFocus={e => setFocus(e.target.name)}/>
+              <Form.Control.Feedback type="invalid">
+                Invalid CVV
+              </Form.Control.Feedback>
+            </Row>
+          </>
+          : <>
+            <h5>Using stored payment details</h5>
+            <p>Card Number: **** ****
+              **** {cardDetails.cardNumber.slice(cardDetails.cardNumber.length - 4)} </p>
+            <p>Expiry Date: {cardDetails.expiryDate} </p>
+            <Button
+              variant="danger"
+              className="float-right"
+              onClick={() => {
+                localStorage.removeItem(cookies.get("accountId"));
+                navigate('/create-booking');
+                NotificationManager.success("Deleted credit card details.", "Success");
+              }}>
+              Delete Card Details
+            </Button>
             <br/>
-            <Button className="float-right"
-                    onClick={createBooking}>Confirm Booking</Button>
             <br/>
-            <br/>
-            <br/>
-        </Container>
-    );
+          </>
+        }
+      </div>
+      <br/>
+      <Button className="float-right"
+              onClick={createBooking}>Confirm Booking</Button>
+      <div className="issue-filters-mobile">
+        <br/>
+        <br/>
+        <br/>
+      </div>
+    </Container>
+  );
 };

@@ -120,54 +120,104 @@ export default function StaffViewIssue() {
             </p>
             {(issue === "") ? <p>Loading issue details...</p> :
                 <>
-                    <h5 id="pageName">Issue #{id}: {issue.title}</h5>
-                    <hr className="issue-divider"/>
-                    <Container>
-                        <Row>
-                            <Col xs={6} xg={7} xl={8}>
-                                [{(accountRole === "1") ? "Employee" : "Customer"}] {accountName} ·
-                                created {getAge(issue.dateOpened + "+00:00")} ago
-                            </Col>
-                            <Col xs={3}/>
-                            <Col className={`issue-label-${issue.priority}`}>
-                                <b className="issue-text">{priorities[issue.priority]}</b>
-                            </Col>
-                        </Row>
-                    </Container>
-                    <hr className="issue-divider"/>
-                    <Container>
-                        <p>{issue.content}</p>
-                        <br/>
-                        <Row>
-                            <Col xs={5} md={6} xg={7} xl={9}>
+                    <div className="issue-view">
+                        <h5 id="pageName">Issue #{id}: {issue.title}</h5>
+                        <hr className="issue-divider"/>
+                        <Container>
+                            <Row>
+                                <Col xs={6} xg={7} xl={8}>
+                                    [{(accountRole === "1") ? "Employee" : "Customer"}] {accountName} ·
+                                    created {getAge(issue.dateOpened + "+00:00")} ago
+                                </Col>
+                                <Col xs={2}/>
+                                <Col className={`issue-label-${issue.priority}`}>
+                                    <b className="issue-text">{priorities[issue.priority]}</b>
+                                </Col>
+                            </Row>
+                        </Container>
+                        <hr className="issue-divider"/>
+                        <Container>
+                            <p>Description: {issue.content}</p>
+                            <br/>
+                            <Row>
+                                <Col>
+                                    <Button onClick={resolve}>Mark as Resolved</Button>
+                                </Col>
+                                <Col xs={'auto'}>
+                                    <Row>
+                                        <Col xs={'auto'}>
+                                            <Form.Select defaultValue="none" onChange={(e) => {
+                                                setPriority(e.target.value)
+                                            }}>
+                                                <option value="none" key="none" disabled hidden>
+                                                    Select priority
+                                                </option>
+                                                {priorities.map((priority, idx) => (
+                                                    (issue.priority !== idx && priority !== "None") ?
+                                                        <option value={idx} key={idx}>{priority}</option> : null
+                                                ))}
+                                            </Form.Select>
+                                        </Col>
+                                        <Col xs={'auto'}>
+                                            <Button onClick={editPriority}>
+                                                {(priority === "" || priority === "none") ? "Change" : <>
+                                                    {(issue.priority > parseInt(priority)) ? "Resolve" : "Escalate"} </>
+                                                }
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                    <div className="issue-view-mobile">
+                        <Container>
+                            <br/>
+                            <Row>
+                                <Col xs={6} xg={7} xl={8}>
+                                    <h5>Issue #{id}: {issue.title}</h5>
+                                </Col>
+                                <Col xs={2}/>
+                                <Col className={`issue-label-${issue.priority}`}>
+                                    <b className="issue-text">{priorities[issue.priority]}</b>
+                                </Col>
+                            </Row>
+                            [{(accountRole === "1") ? "Employee" : "Customer"}] {accountName} ·
+                            created {getAge(issue.dateOpened + "+00:00")} ago
+                        </Container>
+                        <hr className="issue-divider"/>
+                        <Container>
+                            <p>Description: {issue.content}</p>
+                        </Container>
+                        <hr className="issue-divider"/>
+                        <Container>
+                            <Row>
                                 <Button onClick={resolve}>Mark as Resolved</Button>
-                            </Col>
-                            <Col xs={'auto'}>
-                                <Row>
-                                    <Col xs={'auto'}>
-                                        <Form.Select defaultValue="none" onChange={(e) => {
-                                            setPriority(e.target.value)
-                                        }}>
-                                            <option value="none" key="none" disabled hidden>
-                                                Select priority
-                                            </option>
-                                            {priorities.map((priority, idx) => (
-                                                (issue.priority !== idx && priority !== "None") ?
-                                                    <option value={idx} key={idx}>{priority}</option> : null
-                                            ))}
-                                        </Form.Select>
-                                    </Col>
-                                    <Col xs={'auto'}>
-                                        <Button onClick={editPriority}>
-                                            {(priority === "" || priority === "none") ? "Change" : <>
-                                                {(issue.priority > parseInt(priority)) ? "Resolve" : "Escalate"} </>
-                                            }
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </Container>
+                            </Row>
+                            <br/>
+                            <Row>
+                                <Form.Select defaultValue="none" onChange={(e) => {
+                                    setPriority(e.target.value)
+                                }}>
+                                    <option value="none" key="none" disabled hidden>
+                                        Select priority
+                                    </option>
+                                    {priorities.map((priority, idx) => (
+                                        (issue.priority !== idx && priority !== "None") ?
+                                            <option value={idx} key={idx}>{priority}</option> : null
+                                    ))}
+                                </Form.Select>
+                            </Row>
+                            <br/>
+                            <Row>
+                                <Button onClick={editPriority}>
+                                    {(priority === "" || priority === "none") ? "Change" : <>
+                                        {(issue.priority > parseInt(priority)) ? "Resolve" : "Escalate"} </>
+                                    }
+                                </Button>
+                            </Row>
+                        </Container>
+                    </div>
                 </>
             }
         </>

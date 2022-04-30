@@ -86,6 +86,21 @@
     padding-top: 100%;
 }
 
+.box-staff {
+    height: 400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 20px !important;
+    position: relative;
+    width: 75% !important;
+}
+
+.box-staff:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
+}
+
 .breadcrumb-current {
     color: black;
     text-decoration: none;
@@ -249,6 +264,11 @@
     width: 300px;
 }
 
+.input-form {
+    padding-left: 80px;
+    width: auto;
+}
+
 .issue input {
     width: 1000px !important;
 }
@@ -267,7 +287,11 @@
     background-color: black;
     border: solid 1px black;
     color: black;
-    margin-left: 80px;
+    margin-left: 30px;
+}
+
+.issue-filters-mobile {
+    display: none;
 }
 
 .issue-label-0 {
@@ -498,11 +522,6 @@
     border-right: 1px solid black !important;
 }
 
-.submit-issue {
-    padding-left: 80px;
-    width: auto;
-}
-
 .table-formatting {
     border-collapse: collapse;
 }
@@ -575,7 +594,45 @@
     }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 791px) {
+    .issue-divider {
+        margin-left: 20px !important;
+    }
+
+    .issue-view {
+        display: none !important;
+    }
+
+    .issue-view-mobile {
+        display: initial !important;
+    }
+}
+.issue-view-mobile {
+    display: none;
+}
+@media (max-width: 1500px) {
+    .issue-divider {
+        margin-left: 20px;
+    }
+
+    .issue-filters {
+        display: none;
+    }
+
+    .issue-filters-mobile {
+        display: initial !important;
+    }
+}
+.booking-responsive-mobile {
+    display: none;
+}
+@media (max-width: 1070px) {
+    .booking-responsive-mobile {
+        display: initial !important;
+    }
+    .booking-responsive {
+        display: none;
+    }
     #account-page {
         padding-left: 5%;
         padding-right: 7%;
@@ -659,6 +716,10 @@
         z-index: 9999;
     }
 
+    .input-form {
+        padding-left: 0 !important;
+    }
+
     .manager-vert-navbar {
         display: none !important;
     }
@@ -682,13 +743,26 @@
         background-color: transparent;
         border-right: none !important;
     }
-
-    .submit-issue {
-        padding-left: 0 !important;
+    .box {
+        display: none;
+    }
+    .box-show {
+        display: initial;
+    }
+    .mobile {
+        display: none;
     }
 }
 
+.small-padding-bottom {
+    padding-bottom: 10px;
+}
+
 @media (max-width: 991px) {
+    #manager-row {
+        display: none;
+    }
+
     .hamburger-menu {
         cursor: pointer;
         display: flex;

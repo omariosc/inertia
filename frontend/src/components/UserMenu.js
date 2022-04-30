@@ -73,7 +73,7 @@ export default function userMenu(props) {
                 account.role === '1' &&
                 <Dropdown.Item
                     onClick={() => {
-                        navigate('dashboard', {state: location})
+                        navigate('/dashboard');
                     }}
                 >
                     Employee Dashboard
@@ -85,7 +85,7 @@ export default function userMenu(props) {
                 account.role === '2' &&
                 <Dropdown.Item
                     onClick={() => {
-                        navigate('dashboard', {state: location})
+                        navigate('/dashboard');
                     }}
                 >
                     Manager Dashboard

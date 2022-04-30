@@ -129,8 +129,8 @@ export function AccountProvider(props) {
     const [account, setAccount] = useState(accountFromCookies());
     const value = useMemo(() => [
         account,
-        () => signOut(setAccount),
-        (email, password) => signIn(setAccount, email, password)
+        (callback) => signOut(setAccount, callback),
+        (email, password, callback) => signIn(setAccount, email, password, callback)
     ], [account]);
     return <AccountContext.Provider value={value} {...props} />;
 }

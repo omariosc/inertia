@@ -25,8 +25,15 @@ export default function LoginForm(props) {
             <Modal.Footer className="justify-content-center">
                 <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>
                 <Button className="float-right" onClick={() => {
-                    signIn(email, password);
-                    navigate('/');
+                    signIn(email, password, (m) => {
+                        if (m === 'login success') {
+                            NotificationManager.success('Logged In.', 'Success');
+                            navigate('/');
+                        } else {
+                            NotificationManager.error('Invalid Credentials.', 'Error');
+                        }
+                    });
+
                 }}>Login</Button>
             </Modal.Footer>
         </Modal>

@@ -38,8 +38,15 @@ export default function RegisterForm(props) {
             if (response.status === 200) {
                 NotificationManager.success("Registered Account.", "Success");
                 props.onHide();
-                signIn(email, password);
-                navigate('/');
+                signIn(email, password, () => {
+                    if (m === 'login success') {
+                        NotificationManager.success('Logged In.', 'Success');
+                        navigate('/');
+                    } else {
+                        NotificationManager.error('Invalid Credentials.', 'Error');
+                    }
+                });
+
             } else {
                 NotificationManager.error("Email address already in use.", "Error");
             }

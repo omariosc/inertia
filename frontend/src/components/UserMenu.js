@@ -5,6 +5,7 @@ import React from "react";
 import "./UserMenu.css";
 import {useLocation, useNavigate} from "react-router-dom";
 import {signOut, useAccount} from "../authorize";
+import {NotificationManager} from "react-notifications";
 
 export default function userMenu(props) {
     const location = useLocation();
@@ -59,6 +60,7 @@ export default function userMenu(props) {
 
             {
                 account != null &&
+                account.role === '0' &&
                 <Dropdown.Item onClick={() => {
                     navigate('/create-booking');
                 }
@@ -96,8 +98,10 @@ export default function userMenu(props) {
                 account != null &&
                 <Dropdown.Item
                     onClick={() => {
-                        signOut();
-                        navigate('/');
+                        signOut(() => {
+                            NotificationManager.success('Logged out.', 'Success');
+                            navigate('/');
+                        });
                     }}
                 >
                     Sign Out

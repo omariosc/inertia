@@ -133,7 +133,7 @@ export default function CustomerCancelBooking() {
 
 
 
-            <Button className="float-right"
+            <Button className="float-right" variant="danger"
                     onClick={cancelBooking}>Cancel Booking</Button>
 
 

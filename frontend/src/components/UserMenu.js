@@ -4,18 +4,12 @@ import {Dropdown, DropdownButton} from "react-bootstrap";
 import React from "react";
 import "./UserMenu.css";
 import {useLocation, useNavigate} from "react-router-dom";
-import Cookies from "universal-cookie";
-// import signOut from '../signout';
-
-import {signOut} from "../authorize";
+import {signOut, useAccount} from "../authorize";
 
 export default function userMenu(props) {
     const location = useLocation();
     const navigate = useNavigate();
-    const cookies = new Cookies();
-
-    let accountRole = cookies.get('accountRole');
-    let accountName = cookies.get('accountName');
+    const [account, signOut, signIn] = useAccount();
 
     return (
         <DropdownButton
@@ -33,16 +27,16 @@ export default function userMenu(props) {
             className="user-menu float-right clickable"
         >
             {
-                accountName != null &&
+                account != null &&
                 <Dropdown.Item
                     disabled={true}
                 >
-                    {accountName}
+                    {account.name}
                 </Dropdown.Item>
             }
 
             {
-                accountRole == null &&
+                account == null &&
                 <Dropdown.Item
                     onClick={() => {
                         navigate('/login', {state: location})
@@ -53,7 +47,7 @@ export default function userMenu(props) {
             }
 
             {
-                accountRole == null &&
+                account === null &&
                 <Dropdown.Item
                     onClick={() => {
                         navigate('/signup', {state: location})
@@ -64,7 +58,7 @@ export default function userMenu(props) {
             }
 
             {
-                accountRole != null &&
+                account != null &&
                 <Dropdown.Item>
                     My Account
                 </Dropdown.Item>
@@ -72,7 +66,8 @@ export default function userMenu(props) {
 
 
             {
-                accountRole === '1' &&
+                account != null &&
+                account.role === '1' &&
                 <Dropdown.Item
                     onClick={() => {
                         navigate('dashboard', {state: location})
@@ -83,7 +78,8 @@ export default function userMenu(props) {
             }
 
             {
-                accountRole === '2' &&
+                account != null &&
+                account.role === '2' &&
                 <Dropdown.Item
                     onClick={() => {
                         navigate('dashboard', {state: location})
@@ -94,12 +90,11 @@ export default function userMenu(props) {
             }
 
             {
-                accountRole != null &&
+                account != null &&
                 <Dropdown.Item
                     onClick={() => {
-                        // navigate('/');
-                        // signOut().then(r => r);
-                        signOut(props.setAccount, navigate);
+                        signOut();
+                        navigate('/');
                     }}
                 >
                     Sign Out

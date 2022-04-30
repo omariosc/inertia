@@ -7,13 +7,14 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
 import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
-import signOut from '../../signout';
+import {useAccount} from "../../authorize";
 
 export default function ManagerMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35px"
                                            onClick={() => setOpen(!open)}/>
     const closeIcon = <CgClose className="hamburger-menu" color="white" size="35px" onClick={() => setOpen(!open)}/>
+    const [account, signOut, signIn] = useAccount();
     const navigate = useNavigate();
 
     function Links() {
@@ -48,8 +49,8 @@ export default function ManagerMobileNavigation() {
                     <MdSettings/> Settings
                 </Nav.Link>
                 <Nav.Link as={Link} to="/" onClick={() =>{
+                    signOut();
                     navigate('/');
-                    signOut().then(r => r);
                 }}>
                     Sign Out</Nav.Link>
             </Nav>);

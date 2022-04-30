@@ -4,11 +4,8 @@ import {Col, Nav, Navbar, Row} from "react-bootstrap";
 import UserMenu from '../../components/UserMenu';
 import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
 import EmployeeNavigation from "./EmployeeNavigation";
-import Cookies from 'universal-cookie';
 
 export default function EmployeeInterface() {
-    const cookies = new Cookies();
-
     return (
         <div id="overlay">
             <div className="clickable">

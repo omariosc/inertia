@@ -5,13 +5,14 @@ import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
-import signOut from '../../signout';
+import {useAccount} from "../../authorize";
 
 export default function EmployeeMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35"
                                            onClick={() => setOpen(!open)}/>
     const closeIcon = <CgClose className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
+    const [account, signOut, signIn] = useAccount();
     const navigate = useNavigate();
 
     function Links() {
@@ -49,8 +50,8 @@ export default function EmployeeMobileNavigation() {
                     <MdSettings/> Settings
                 </Nav.Link>
                 <Nav.Link as={Link} to="/" onClick={() => {
+                    signOut();
                     navigate('/');
-                    signOut().then(r => r);
                 }}>
                     Sign Out</Nav.Link>
             </Nav>);

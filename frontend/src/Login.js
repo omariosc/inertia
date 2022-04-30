@@ -2,48 +2,13 @@ import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
-import host from './host';
-import {signIn} from "./authorize";
+import {signIn, useAccount} from "./authorize";
 
 export default function LoginForm(props) {
     let navigate = useNavigate();
-    const cookies = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    // Attempts to authorize user.
-    async function onSubmit() {
-        try {
-            let request = await fetch(host + 'api/Users/authorize', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    'email': email,
-                    'password': password
-                }),
-                mode: "cors"
-            });
-            let response = await request.json();
-            if (response.accessToken) {
-                // Sets user cookies.
-                cookies.set("accountID", response.account.accountId, {path: '/'});
-                cookies.set("accountName", response.account.name, {path: '/'});
-                cookies.set("accountRole", response.account.role, {path: '/'});
-                cookies.set("accessToken", response.accessToken, {path: '/'});
-
-                navigate('/');
-                window.location.reload(true);
-            } else {
-                NotificationManager.error("Login credentials invalid.", "Error");
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    const [account, signOut, signIn] = useAccount();
 
     return (
         <Modal {...props} centered>
@@ -60,7 +25,8 @@ export default function LoginForm(props) {
             <Modal.Footer className="justify-content-center">
                 <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>
                 <Button className="float-right" onClick={() => {
-                    signIn(props.setAccount, navigate, email, password);
+                    signIn(email, password);
+                    navigate('/');
                 }}>Login</Button>
             </Modal.Footer>
         </Modal>

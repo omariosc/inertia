@@ -37,7 +37,7 @@ export default function MainPage(props) {
 
             {/* sign out button */}
             <div className={"my-account"}>
-                <UserMenu setAccount={props.setAccount}/>
+                <UserMenu/>
             </div>
 
             <div className = {"side-bar"}>

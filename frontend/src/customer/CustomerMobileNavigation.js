@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
-import signOut from '../signout';
+import {useAccount} from "../authorize";
 
 export default function CustomerMobileNavigation() {
     const [open, setOpen] = useState(false);
@@ -11,7 +11,8 @@ export default function CustomerMobileNavigation() {
                                            onClick={() => setOpen(!open)}/>
     const closeIcon = <CgClose className="hamburger-menu-customer" color="black" size="35px"
                                onClick={() => setOpen(!open)}/>
-    const [signOut] = useOutletContext();
+    const [account, signOut, signIn] = useAccount();
+    const navigate = useNavigate();
 
     function Links() {
         return (
@@ -24,8 +25,8 @@ export default function CustomerMobileNavigation() {
                 <Nav.Link as={Link} className="hover-white" to="/discounts">Discounts</Nav.Link>
                 <Nav.Link as={Link} className="hover-white" to="/settings">Settings</Nav.Link>
                 <Nav.Link as={Link} className="hover-white" to="/" onClick={() => {
+                    signOut();
                     navigate('/');
-                    signOut().then(r => r);
                 }}>Sign Out</Nav.Link>
             </Nav>
         );

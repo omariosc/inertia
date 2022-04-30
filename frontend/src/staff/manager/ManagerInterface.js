@@ -4,11 +4,8 @@ import {Nav, Row, Col, Navbar} from "react-bootstrap";
 import UserMenu from '../../components/UserMenu';
 import ManagerMobileNavigation from "./ManagerMobileNavigation";
 import ManagerNavigation from "./ManagerNavigation";
-import Cookies from 'universal-cookie';
 
 export default function ManagerInterface() {
-    const cookies = new Cookies();
-
     return (
         <div id="overlay">
             <div id="manager-wrapper" className="clickable">

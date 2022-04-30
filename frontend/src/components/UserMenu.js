@@ -75,7 +75,7 @@ export default function userMenu(props) {
                 account.role === '1' &&
                 <Dropdown.Item
                     onClick={() => {
-                        navigate('/dashboard');
+                        navigate('/home');
                     }}
                 >
                     Employee Dashboard

@@ -434,33 +434,39 @@ export default function CustomerCreateBooking() {
                     Start Time:
                 </Col>
                 <Col>
-                    <Form.Control type="date" isInvalid={!validStartDate} onChange={(e) => {
-                        setStartDate(e.target.value);
-                    }}/>
-                </Col>
-                <Col>
-                    <Form.Control type="time"
-                                  isInvalid={!validStartTime}
-                                  value={startTime}
-                                  onChange={(e) => {
-                                      let output = e.target.value.slice(0, 3);
-                                      let minutes = parseInt(e.target.value.slice(3, 5));
-                                      if (minutes % 15 === 1) {
-                                          minutes = (minutes + 14) % 60
-                                      } else if (minutes % 15 === 14) {
-                                          minutes = (minutes - 14)
-                                      } else if (minutes % 15 !== 0) {
-                                          minutes = (Math.round(minutes / 15) % 4) * 15
-                                      }
-                                      let minString = minutes.toString();
-                                      if (minString.length === 1) {
-                                          output += "0" + minString;
-                                      } else {
-                                          output += minString;
-                                      }
-                                      setStartTime(output);
-                                  }
-                                  }/>
+                    <Container className="p-0">
+                        <Row>
+                            <Col>
+                                <Form.Control type="date" isInvalid={!validStartDate} onChange={(e) => {
+                                    setStartDate(e.target.value);
+                                }}/>
+                            </Col>
+                            <Col>
+                                <Form.Control type="time"
+                                              isInvalid={!validStartTime}
+                                              value={startTime}
+                                              onChange={(e) => {
+                                                  let output = e.target.value.slice(0, 3);
+                                                  let minutes = parseInt(e.target.value.slice(3, 5));
+                                                  if (minutes % 15 === 1) {
+                                                      minutes = (minutes + 14) % 60
+                                                  } else if (minutes % 15 === 14) {
+                                                      minutes = (minutes - 14)
+                                                  } else if (minutes % 15 !== 0) {
+                                                      minutes = (Math.round(minutes / 15) % 4) * 15
+                                                  }
+                                                  let minString = minutes.toString();
+                                                  if (minString.length === 1) {
+                                                      output += "0" + minString;
+                                                  } else {
+                                                      output += minString;
+                                                  }
+                                                  setStartTime(output);
+                                              }
+                                              }/>
+                            </Col>
+                        </Row>
+                    </Container>
                 </Col>
             </Row>
             <Row className="pb-2">
@@ -684,12 +690,11 @@ export default function CustomerCreateBooking() {
                 }
             </div>
             <br/>
-            <Button className="float-right"
-                    onClick={createBooking}>Confirm Booking</Button>
+            <div className="text-center">
+                <Button onClick={createBooking}>Confirm Booking</Button>
+            </div>
+            <br/>
             <div className="issue-filters-mobile">
-                <br/>
-                <br/>
-                <br/>
             </div>
         </Container>
     );

@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom';
 import {Card, Col, Container, Row} from "react-bootstrap";
 import Cookies from 'universal-cookie';
 import host from '../host';
 
 export default function Dashboard() {
     const cookies = new Cookies();
+    let navigate = useNavigate();
     const [data, setData] = useState('');
 
     useEffect(() => {
@@ -50,10 +52,8 @@ export default function Dashboard() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list"
-                   href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
-                <a className="breadcrumb-current"
-                   href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Dashboard</a></b>
+                <a className="breadcrumb-list" onClick={() => cookies.get("accountRole") === "2" ? navigate("/dashboard") : navigate("/home")}>Home</a> > <b>
+                <a className="breadcrumb-current" onClick={() => cookies.get("accountRole") === "2" ? navigate("/dashboard") : navigate("/home")}>Dashboard</a></b>
             </p>
             <h3 id="pageName">Dashboard</h3>
             <hr id="underline"/>

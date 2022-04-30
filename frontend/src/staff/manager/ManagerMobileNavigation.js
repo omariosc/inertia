@@ -25,6 +25,9 @@ export default function ManagerMobileNavigation() {
     const [account, signOut, signIn] = useAccount();
     const navigate = useNavigate();
 
+		/**
+		 * Sets up the side navigation bar of links to browse the application
+		 */
     function Links() {
         return (
             <Nav

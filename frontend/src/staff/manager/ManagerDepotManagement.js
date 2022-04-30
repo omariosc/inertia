@@ -160,6 +160,9 @@ export default function ManagerDepotManagement() {
         await fetchDepots();
     }
 
+		/**
+		 * Deletes a depot from the backend database with the specified ID
+		 */
     async function deleteDepot(id) {
         try {
             let request = await fetch(host + `api/admin/Depos/${id}`, {

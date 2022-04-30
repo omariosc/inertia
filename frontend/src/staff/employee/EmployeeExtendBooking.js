@@ -1,5 +1,5 @@
 /*
-	Purpose of file: Allow a staff member to create a booking
+	Purpose of file: Allow a staff member to extend a booking
 	for an unregistered user
 */
 
@@ -10,7 +10,10 @@ import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
 import host from "../../host";
 
-
+/**
+ * Returns the employee extend booking page, allows a staff member
+ * to prolong a booking for an unregistered user
+ */
 export default function EmployeeExtendGuestBooking() {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -32,6 +35,9 @@ export default function EmployeeExtendGuestBooking() {
     }, []);
 
 
+		/**
+		 * Gets detailed information of a specific order from the backend server
+		 */
     async function fetchOrderInfo() {
         try {
             let request = await fetch(host + `api/admin/Orders/${orderId}`, {
@@ -56,6 +62,9 @@ export default function EmployeeExtendGuestBooking() {
         }
     }
 
+		/**
+		 * Gets list of hire periods from the backend server
+		 */
     async function fetchHirePeriods() {
         try {
             let request = await fetch(host + "api/HireOptions", {
@@ -73,6 +82,9 @@ export default function EmployeeExtendGuestBooking() {
         }
     }
 
+		/**
+		 * Checks that a chosen hire slot is valid
+		 */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
         if (stateChange) {
@@ -81,6 +93,9 @@ export default function EmployeeExtendGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the provided card number is valid
+		 */
     function validateCardNo(stateChange) {
         let valid = cardNo.length > 9 && cardNo.length < 20;
         if (stateChange) {
@@ -89,6 +104,9 @@ export default function EmployeeExtendGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the provided expiry date of the card is valid
+		 */
     function validateExpDate(stateChange) {
         let valid = expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/);
         if (stateChange) {
@@ -97,6 +115,9 @@ export default function EmployeeExtendGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the provided CVV of the card is valid
+		 */
     function validateCVV(stateChange) {
         let valid = cvv.match(/^[0-9]{3,4}$/);
         if (stateChange) {
@@ -106,6 +127,10 @@ export default function EmployeeExtendGuestBooking() {
     }
 
 
+		/**
+		 * If validations are passed and extension is valid, updates the backend server
+		 * and extends the booking
+		 */
     async function extendBooking() {
         let valid = true
         let validateFuncs = [validateHireSlot, validateCardNo, validateCVV, validateExpDate]

@@ -10,6 +10,9 @@ import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
 import EmployeeNavigation from "./EmployeeNavigation";
 import {useAccount} from "../../authorize";
 
+/**
+ * Returns the boilerplate required for the employee interface
+ */
 export default function EmployeeInterface() {
     const [account] = useAccount();
 

@@ -12,6 +12,10 @@ import showDate from "../../showDate";
 import host from "../../host";
 import orderState from "../orderState";
 
+/**
+ * Returns the employee cancel booking page, allows an unregistered user's
+ * order to be cancelled
+ */
 export default function EmployeeCancelBooking() {
     let navigate = useNavigate();
     let {orderId} = useParams();
@@ -22,7 +26,9 @@ export default function EmployeeCancelBooking() {
         fetchBookingDetails();
     }, []);
 
-    // Gets the order details.
+    /**
+		 * Gets the specific details of the chosen booking from the backend server
+		 */
     async function fetchBookingDetails() {
         try {
             let request = await fetch(host + `api/admin/Orders/` + orderId, {
@@ -50,6 +56,10 @@ export default function EmployeeCancelBooking() {
         }
     }
 
+		/**
+		 * If the booking is chosen to be cancelled, cancels it and updates
+		 * backend server
+		 */
     async function cancelBooking() {
         try {
             let request = await fetch(host + `api/admin/Orders/${orderId}/cancel`, {

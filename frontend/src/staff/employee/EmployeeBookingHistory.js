@@ -9,6 +9,10 @@ import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import Cookies from 'universal-cookie';
 import host from '../../host';
 
+/**
+ * Returns the employee booking history page, shows a list of
+ * all previous bookings
+ */
 export default function EmployeeBookingHistory() {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -18,6 +22,9 @@ export default function EmployeeBookingHistory() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of bookings from backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + "api/admin/Orders/", {

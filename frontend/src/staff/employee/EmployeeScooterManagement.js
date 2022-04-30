@@ -10,6 +10,10 @@ import Cookies from 'universal-cookie';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
 
+/**
+ * Returns the employee scooter management page, displays
+ * list of scooters
+ */
 export default function EmployeeScooterManagement() {
     const cookies = new Cookies();
     const [map_locations, setMapLocations] = useState('');
@@ -20,6 +24,9 @@ export default function EmployeeScooterManagement() {
         fetchLocations();
     }, []);
 
+		/**
+		 * Get list of locations of depots from the backend server
+		 */
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -36,6 +43,9 @@ export default function EmployeeScooterManagement() {
         }
     }
 
+		/**
+		 * Get list of scooter details from the backend server
+		 */
     async function fetchScooters() {
         try {
             let request = await fetch(host + "api/admin/Scooters", {
@@ -53,6 +63,10 @@ export default function EmployeeScooterManagement() {
         }
     }
 
+		/**
+		 * Changes details of the scooter ID provided by updating
+		 * the backend server with the new information
+		 */
     async function editScooter(id, availability) {
         try {
             await fetch(host + `api/admin/Scooters/${id}`, {

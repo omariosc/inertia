@@ -10,6 +10,10 @@ import Cookies from "universal-cookie";
 import showDate from "../../showDate";
 import host from "../../host";
 
+/**
+ * Returns the employee ongoing bookings page which shows the employee
+ * a list of current bookings
+ */
 export default function EmployeeOngoingBookings() {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -21,6 +25,9 @@ export default function EmployeeOngoingBookings() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of ongoing bookings from the backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/admin/Orders/`, {

@@ -10,6 +10,10 @@ import Cookies from "universal-cookie";
 import validate from '../../Validators';
 import host from '../../host';
 
+/**
+ * Returns the manager account management page, a form allowing
+ * the manager to create a new employee account
+ */
 export default function ManagerAccountManagement() {
     const cookies = new Cookies();
     const [name, setName] = useState('');
@@ -17,6 +21,10 @@ export default function ManagerAccountManagement() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+		/**
+		 * Upon submitting the form, sends the new account details to the
+		 * backend server and creates a new employee account if details are valid
+		 */
     async function onSubmit() {
         if (!validate(name, email, password, confirmPassword)) {
             return;

@@ -9,6 +9,10 @@ import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
 import host from "../../host";
 
+/**
+ * Returns the employee discount application page, shows a list of
+ * current applications
+ */
 export default function EmployeeDiscountApplications() {
     const cookies = new Cookies();
     const [applications, setApplications] = useState('');
@@ -19,6 +23,9 @@ export default function EmployeeDiscountApplications() {
         fetchApplications();
     }, []);
 
+		/**
+		 * Gets list of current applications from backend server
+		 */
     async function fetchApplications() {
         try {
             let request = await fetch(host + `api/admin/DiscountApplications`, {
@@ -36,6 +43,10 @@ export default function EmployeeDiscountApplications() {
         }
     }
 
+		/**
+		 * Updates an application with specified ID based on the choice (approved/denied)
+		 * made by the staff account
+		 */
     async function applicationAction(id, choice) {
         try {
             await fetch(host + `api/admin/DiscountApplications/${id}/${choice}`, {
@@ -54,6 +65,10 @@ export default function EmployeeDiscountApplications() {
         }
     }
 
+		/**
+		 * Gets the provided image (e.g. Student ID) for the provided application ID from
+		 * the backend server
+		 */
     async function getImage(id) {
         try {
             let request = await fetch(host + `api/admin/DiscountApplications/${id}/Image`, {

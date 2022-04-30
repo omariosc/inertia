@@ -11,6 +11,10 @@ import Cookies from "universal-cookie";
 import showDate from "../../showDate";
 import host from "../../host";
 
+/**
+ * Returns employee booking application page, shows a list of
+ * bookings made by unregistered users
+ */
 export default function EmployeeBookingApplications() {
     const cookies = new Cookies();
     const [bookingHistory, setBookingHistory] = useState('');
@@ -21,6 +25,9 @@ export default function EmployeeBookingApplications() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of unregistered users' bookings from backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/admin/Orders/`, {
@@ -48,6 +55,10 @@ export default function EmployeeBookingApplications() {
         }
     }
 
+		/**
+		 * Approves the booking associated with the provided ID and updates the
+		 * backend server
+		 */
     async function approveBooking(id) {
         try {
             let request = await fetch(host + `api/admin/Orders/${id}/approve`, {
@@ -71,6 +82,10 @@ export default function EmployeeBookingApplications() {
         await fetchBookings();
     }
 
+		/**
+		 * Denies the booking associated with the provided ID and updates
+		 * the backend server
+		 */
     async function denyBooking(id) {
         try {
             let request = await fetch(host + `api/admin/Orders/${id}/deny`, {

@@ -4,10 +4,12 @@ import {NotificationManager} from "react-notifications";
 import {default as CanvasJSReact} from "../../canvasjs.react.js";
 import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function ManagerStatistics() {
+    const navigate = useNavigate();
     const [account] = useAccount();
     const [weeklyData, setWeeklyData] = useState('');
     const [weeklyHiresData, setWeeklyHiresData] = useState('');
@@ -43,8 +45,8 @@ export default function ManagerStatistics() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/statistics">Statistics</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/statistics")}}>Statistics</a></b>
             </p>
             <h3 id="pageName">Statistics</h3>
             <hr id="underline"/>

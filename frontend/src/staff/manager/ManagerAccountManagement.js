@@ -9,12 +9,14 @@ import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import validate from '../../Validators';
 import host from '../../host';
+import {useNavigate} from "react-router-dom";
 
 /**
  * Returns the manager account management page, a form allowing
  * the manager to create a new employee account
  */
 export default function ManagerAccountManagement() {
+    const navigate = useNavigate();
     const [account] = useAccount();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -101,8 +103,8 @@ export default function ManagerAccountManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home </a> > <b>
-                <a className="breadcrumb-current" href="/account-management">Account Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home </a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/account-management")}}>Account Management</a></b>
             </p>
             <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>

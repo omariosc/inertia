@@ -57,7 +57,7 @@ export default function Dashboard() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Home</a> > <b>
+                <a className="breadcrumb-list" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Home</a> &gt; <b>
                 <a className="breadcrumb-current" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Dashboard</a></b>
             </p>
             <h3 id="pageName">Dashboard</h3>

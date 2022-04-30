@@ -17,7 +17,7 @@ import host from "../../host";
  */
 export default function EmployeeCreateGuestBooking() {
     const [account] = useAccount();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
     const [name, setName] = useState('');
@@ -352,9 +352,9 @@ export default function EmployeeCreateGuestBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
-                <a className="breadcrumb-current" href="/create-guest-booking">Create Booking</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/create-guest-booking")}}>Create Booking</a></b>
             </p>
             <h3 id="pageName">Create Booking</h3>
             <hr id="underline"/>

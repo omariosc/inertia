@@ -8,12 +8,14 @@ import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
 /**
  * Returns the manager hire option management, displays current hire
  * options and their prices
  */
 export default function ManagerHireOptionManagement() {
+    const navigate = useNavigate();
     const [account] = useAccount();
     const [hireOptions, setHireOptions] = useState('');
     const [newDuration, setNewDuration] = useState('');
@@ -187,8 +189,8 @@ export default function ManagerHireOptionManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/hire-option-management">Hire Option Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/hire-option-management")}}>Hire Option Management</a></b>
             </p>
             <h3 id="pageName">Hire Option Management</h3>
             <hr id="underline"/>

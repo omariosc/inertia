@@ -5,6 +5,8 @@ import App from './App';
 import LandingPage from "./LandingPage";
 import CustomerInterface from "./customer/CustomerInterface";
 import CustomerCreateBooking from "./customer/CustomerCreateBooking";
+import CustomerCreateExtension from "./customer/CustomerCreateExtension";
+import CustomerCancelBooking from "./customer/CustomerCancelBooking";
 import CustomerCurrentBookings from "./customer/CustomerCurrentBooking";
 import CustomerBookingHistory from "./customer/CustomerBookingHistory";
 import CustomerSubmitIssue from "./customer/CustomerSubmitIssue";
@@ -15,6 +17,8 @@ import EmployeeCreateGuestBooking from "./staff/employee/EmployeeCreateBooking";
 import EmployeeBookingApplications from "./staff/employee/EmployeeBookingApplications";
 import EmployeeOngoingBookings from "./staff/employee/EmployeeOngoingBookings";
 import EmployeeBookingHistory from "./staff/employee/EmployeeBookingHistory";
+import EmployeeCancelBooking from "./staff/employee/EmployeeCancelBooking";
+import EmployeeExtendGuestBooking from "./staff/employee/EmployeeExtendBooking";
 import EmployeeViewBooking from "./staff/employee/EmployeeViewBooking";
 import EmployeeScooterManagement from "./staff/employee/EmployeeScooterManagement";
 import EmployeeSubmitIssue from "./staff/employee/EmployeeSubmitIssues";
@@ -53,6 +57,8 @@ ReactDOM.render(
                             <Route path="bookings" element={<EmployeeOngoingBookings/>}/>
                             <Route path="booking-history" element={<EmployeeBookingHistory/>}/>
                             <Route path="bookings/:orderId/" element={<EmployeeViewBooking/>}/>
+                            <Route path="bookings/extend/:orderId/" element={<EmployeeExtendGuestBooking/>}/>
+                            <Route path="bookings/cancel/:orderId/" element={<EmployeeCancelBooking/>}/>
                             <Route path="scooter-management" element={<EmployeeScooterManagement/>}/>
                             <Route path="submit-issue" element={<EmployeeSubmitIssue/>}/>
                             <Route path="issues" element={<StaffManageIssues/>}/>
@@ -84,6 +90,8 @@ ReactDOM.render(
                             <Route path="create-booking" element={<CustomerCreateBooking/>}/>
                             <Route index element={<CustomerCreateBooking/>}/>
                             <Route path="current-bookings" element={<CustomerCurrentBookings/>}/>
+                            <Route path="booking/extend/:orderId" element={<CustomerCreateExtension/>}/>
+                            <Route path="booking/cancel/:orderId" element={<CustomerCancelBooking/>}/>
                             <Route path="booking-history" element={<CustomerBookingHistory/>}/>
                             <Route path="submit-issue" element={<CustomerSubmitIssue/>}/>
                             <Route path="discounts" element={<CustomerDiscounts/>}/>

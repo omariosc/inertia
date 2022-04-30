@@ -10,52 +10,61 @@ import Cards from "elt-react-credit-cards";
 import 'elt-react-credit-cards/es/styles-compiled.css';
 
 export default function CustomerCreateBooking() {
-  const cookies = new Cookies();
-  const navigate = useNavigate();
-  const [map_locations, setMapLocations] = useState('');
-  const [scooters, setScooters] = useState('');
-  const [hireOptions, setHireOptions] = useState('');
-  const [depotChoiceId, setDepotChoiceId] = useState('');
-  const [scooterChoiceId, setScooterChoiceId] = useState('');
-  const [hireChoiceId, setHireChoiceId] = useState('');
-  const [price, setPrice] = useState('');
-  const [cardNo, setCardNo] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvv, setCVV] = useState('');
-  const [focus, setFocus] = useState('');
-  const [validScooter, setValidScooter] = useState(true);
-  const [validHireSlot, setValidHireSlot] = useState(true);
-  const [validCardNo, setValidCardNo] = useState(true);
-  const [validExpDate, setValidExpDate] = useState(true);
-  const [validCVV, setValidCVV] = useState(true);
-  const [discount, setDiscount] = useState(false);
-  const [discountType, setDiscountType] = useState('');
-  const [loading, setLoading] = useState('');
-  const [saveCard, setSaveCard] = useState(false);
-  let cardDetails = {};
+    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const [map_locations, setMapLocations] = useState('');
+    const [scooters, setScooters] = useState('');
+    const [hireOptions, setHireOptions] = useState('');
+    const [depotChoiceId, setDepotChoiceId] = useState('');
+    const [scooterChoiceId, setScooterChoiceId] = useState('');
+    const [hireChoiceId, setHireChoiceId] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [startTime, setStartTime] = useState('');
+    const [price, setPrice] = useState('');
+    const [cardNo, setCardNo] = useState('');
+    const [expiry, setExpiry] = useState('');
+    const [cvv, setCVV] = useState('');
+    const [focus, setFocus] = useState('');
+    const [validDepot, setValidDepot] = useState(true);
+    const [validScooter, setValidScooter] = useState(true);
+    const [validHireSlot, setValidHireSlot] = useState(true);
+    const [validStartDate, setValidStartDate] = useState(true);
+    const [validStartTime, setValidStartTime] = useState(true);
+    const [validCardNo, setValidCardNo] = useState(true);
+    const [validExpDate, setValidExpDate] = useState(true);
+    const [validCVV, setValidCVV] = useState(true);
+    const [discount, setDiscount] = useState(false);
+    const [discountType, setDiscountType] = useState('');
+    const [loading, setLoading] = useState('');
+    const [saveCard, setSaveCard] = useState(false);
+    let cardDetails = {};
 
-  useEffect(() => {
-    fetchAvailableScooters();
-    fetchHirePeriods();
-    fetchDiscountStatus();
-    fetchLocations();
-  }, []);
+    useEffect(() => {
+        fetchHirePeriods();
+        fetchDiscountStatus();
+        fetchLocations();
+    }, []);
 
-  async function fetchLocations() {
-    try {
-      let request = await fetch(host + "api/Depos", {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        mode: "cors"
-      });
-      setMapLocations(await request.json());
-    } catch (e) {
-      console.log(e);
+    useEffect(() => {
+        fetchAvailableScooters();
+
+    }, [startTime, startDate, hireChoiceId, depotChoiceId]);
+
+    async function fetchLocations() {
+        try {
+            let request = await fetch(host + "api/Depos", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                mode: "cors"
+            });
+            setMapLocations(await request.json());
+        } catch (e) {
+            console.log(e);
+        }
     }
-  }
 
   async function getDiscountStatus() {
     try {
@@ -135,42 +144,163 @@ export default function CustomerCreateBooking() {
     }
   }
 
-  async function fetchAvailableScooters() {
-    try {
-      let request = await fetch(host + "api/Scooters/available", {
-        method: "GET",
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${cookies.get('accessToken')}`
-        },
-        mode: "cors"
-      });
-      setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
-    } catch (error) {
-      console.error(error);
+    function calcStartIso() {
+        let hours = parseInt(startTime.slice(0, 2));
+        let mins = parseInt(startTime.slice(3, 5));
+        let bookingStart = new Date(startDate);
+        bookingStart.setHours(hours, mins, 0, 0);
+        return bookingStart.toISOString()
     }
-  }
 
-  async function createBooking() {
-    setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
-    setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
-    if (!checkCardExists()) {
-      setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
-      setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
-      setValidCVV(cvv.match(/^[0-9]{3,4}$/));
+    function calcEndIso() {
+        let hours = parseInt(startTime.slice(0, 2));
+        let mins = parseInt(startTime.slice(3, 5));
+        let bookingEnd = new Date(startDate);
+        let duration = hireOptions.find(x => x.hireOptionId === parseInt(hireChoiceId)).durationInHours;
+        bookingEnd.setHours(hours + duration, mins, 0, 0);
+        return bookingEnd.toISOString()
     }
-    if (!(scooterChoiceId !== '' && scooterChoiceId !== 'none'
-      && hireChoiceId !== '' && hireChoiceId !== 'none')) {
-      NotificationManager.error("Complete booking details.", "Error");
-      return;
+
+    async function fetchAvailableScooters() {
+        let valid = true
+        let validateFuncs = [validateTime, validateDate, validateDepot, validateHireSlot]
+        validateFuncs.forEach((validateTerm) => {
+            if (valid) {
+                valid = validateTerm(false);
+            } else {
+                validateTerm(false);
+            }
+        })
+        if (valid) {
+            try {
+                let requestString = host + "api/Scooters/available/" + "?depoId=" + depotChoiceId + "&startTime=" + calcStartIso() + "&endTime=" + calcEndIso()
+                let request = await fetch(requestString, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    },
+                    mode: "cors"
+                });
+                setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+            setScooters("");
+            setScooterChoiceId("");
+        }
     }
-    if (!checkCardExists() && !(cardNo.length > 9 && cardNo.length < 20
-      && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
-      && cvv.match(/^[0-9]{3,4}$/))) {
-      NotificationManager.error("Complete booking details.", "Error");
-      return;
+
+    function validateDate(stateChange) {
+        let currentDate = new Date();
+        let dStartDate = new Date(startDate);
+        currentDate.setHours(0, 0, 0, 0);
+        dStartDate.setHours(0, 0, 0, 0);
+        let valid = currentDate.toString() !== "Invalid Date" && currentDate <= dStartDate;
+        if (stateChange) {
+            setValidStartDate(valid);
+        }
+        return valid;
     }
+
+    function validateTime(stateChange) {
+        let valid;
+        if (startTime.length !== 5) {
+            valid = false;
+        } else {
+            let hours = parseInt(startTime.slice(0, 2));
+            let mins = parseInt(startTime.slice(3, 5));
+            if (hours < 0 || hours > 23 || mins % 15 !== 0) {
+                valid = false;
+            } else {
+                let currentDate = new Date();
+                let dStartDate = new Date(startDate);
+                currentDate.setSeconds(0, 0);
+                dStartDate.setHours(hours, mins, 0, 0);
+                valid = currentDate.toString() !== "Invalid Date" && currentDate <= dStartDate;
+            }
+        }
+        if (stateChange) {
+            setValidStartTime(valid);
+        }
+        return valid;
+    }
+
+    function validateDepot(stateChange) {
+        let valid = depotChoiceId !== '' && depotChoiceId !== 'none';
+        if (stateChange) {
+            setValidDepot(valid);
+        }
+        return valid;
+    }
+
+    function validateScooter(stateChange) {
+        let valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
+        if (stateChange) {
+            setValidScooter(valid);
+        }
+        return valid;
+    }
+
+    function validateHireSlot(stateChange) {
+        let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
+        if (stateChange) {
+            setValidHireSlot(valid);
+        }
+        return valid;
+    }
+
+    function validateCardNo(stateChange) {
+        if(checkCardExists()){
+            return true;
+        }
+        let valid = cardNo.length > 9 && cardNo.length < 20;
+        if (stateChange) {
+            setValidCardNo(valid);
+        }
+        return valid;
+    }
+
+    function validateExpDate(stateChange) {
+        if(checkCardExists()){
+            return true;
+        }
+        let valid = expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/);
+        if (stateChange) {
+            setValidExpDate(valid);
+        }
+        return valid;
+    }
+
+    function validateCVV(stateChange) {
+        if(checkCardExists()){
+            return true;
+        }
+        let valid = cvv.match(/^[0-9]{3,4}$/);
+        if (stateChange) {
+            setValidCVV(valid);
+        }
+        return valid;
+    }
+
+
+    async function createBooking() {
+        let valid = true
+        let validateFuncs = [validateTime, validateDate, validateDepot, validateScooter, validateHireSlot, validateCardNo, validateCVV, validateExpDate]
+        validateFuncs.forEach((validateTerm) => {
+            if (valid) {
+                valid = validateTerm(true);
+            } else {
+                validateTerm(true);
+            }
+
+        })
+        if (!valid) {
+            NotificationManager.error("Complete Booking Provided", "Error");
+            return;
+        }
     try {
       let request = await fetch(host + "api/Orders", {
         method: "POST",
@@ -182,7 +312,7 @@ export default function CustomerCreateBooking() {
         body: JSON.stringify({
           'hireOptionId': parseInt(hireChoiceId),
           'scooterId': parseInt(scooterChoiceId),
-          'startTime': new Date(Date.now()).toISOString()
+          'startTime': startDate + "T" + startTime
         }),
         mode: "cors"
       });
@@ -193,7 +323,7 @@ export default function CustomerCreateBooking() {
         NotificationManager.error("Please fill in all required fields.", "Error");
       } else if (response.status === 200) {
         NotificationManager.success("Created Booking.", "Success");
-        if (!checkCardExists() && saveCard) {
+        if (checkCardExists()  && saveCard) {
           const card = {
             cardNumber: cardNo,
             expiryDate: expiry,
@@ -210,10 +340,10 @@ export default function CustomerCreateBooking() {
   }
 
   function checkCardExists() {
-    if (localStorage.getItem(cookies.get("accountId"))) {
-      cardDetails = JSON.parse(localStorage.getItem(cookies.get("accountId")));
+    if (localStorage.getItem(cookies.get("accountID"))) {
+      cardDetails = JSON.parse(localStorage.getItem(cookies.get("accountID")));
     }
-    return (!!localStorage.getItem(cookies.get("accountId")));
+    return (!!localStorage.getItem(cookies.get("accountID")));
   }
 
   function DisplayCost() {
@@ -247,113 +377,141 @@ export default function CustomerCreateBooking() {
     );
   }
 
-  return (
-    <Container>
-      <Row className="mapMaxHeightRow">
-        {(map_locations === "") ? <Col>Loading map locations...</Col> :
-          <Col className="box offset-3">
-            <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
-                          zoomControl={false} className="minimap-box">
-              <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-              {map_locations.map((map_location, index) => (
-                <Marker key={index}
-                        position={[map_location.latitude, map_location.longitude]}
-                        eventHandlers={{
-                          click: () => {
-                            setDepotChoiceId(map_location.depoId);
+    return (
+        <Container>
+            <Row className="mapMaxHeightRow">
+                {(map_locations === "") ? <Col>Loading map locations...</Col> :
+                    <Col className="box col=12">
+                        <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
+                                      zoomControl={false} className="minimap-box">
+                            <TileLayer
+                                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                            {map_locations.map((map_location, index) => (
+                                <Marker key={index}
+                                        position={[map_location.latitude, map_location.longitude]}
+                                        eventHandlers={{
+                                            click: () => {
+                                                setScooterChoiceId("");
+                                                setDepotChoiceId(map_location.depoId);
+                                            }
+                                        }}>
+                                    <Popup>
+                                        <Button className="disabled">
+                                            {map_location.name}
+                                        </Button>
+                                    </Popup>
+                                </Marker>
+                            ))}
+                        </MapContainer>
+                    </Col>
+                }
+            </Row>
+            <br/>
+            <h5>Booking Details</h5>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Depot:
+                </Col>
+                <Col>
+                    {(map_locations === "") ? <> Loading depots... </> :
+                        <Form.Select value={depotChoiceId} isInvalid={!validDepot} onChange={(e) => {
+                            setDepotChoiceId(e.target.value);
                             setScooterChoiceId("");
-                          }
                         }}>
-                  <Popup>
-                    <Button className="disabled">
-                      {map_location.name}
-                    </Button>
-                  </Popup>
-                </Marker>
-              ))}
-            </MapContainer>
-          </Col>
-        }
-      </Row>
-      <br className="mobile"/>
-      <h5>Booking Details</h5>
-      <Row className="pb-2">
-        <Col className="text-end col-3 align-self-center">
-          Depot:
-        </Col>
-        <Col>
-          {(map_locations === "") ? <> Loading depots... </> :
-            <Form.Select value={depotChoiceId} isInvalid={!validScooter} onChange={(e) => {
-              setDepotChoiceId(e.target.value);
-              setScooterChoiceId("");
-            }}>
-              <option value="" key="none" disabled hidden>Select Depot</option>
-              {map_locations.map((depot, idx) => (
-                <option value={depot.depoId}
-                        key={idx}>{depot.name}</option>
-              ))}
-            </Form.Select>
-          }
-        </Col>
-      </Row>
-      <Row className="pb-2">
-        <Col className="text-end col-3 align-self-center">
-          Scooter:
-        </Col>
-        <Col>
-          {(scooters === "") ? <> Loading scooters... </> :
-            <Form.Select
-              value={scooterChoiceId}
-              isInvalid={!validScooter}
-              disabled={depotChoiceId === ""}
-              onChange={(e) => {
-                setScooterChoiceId(e.target.value);
-              }}>
-              {depotChoiceId === "" ?
-                <option value="" key="none" disabled hidden>Select Depot First</option> : <>
-                  <option value="" key="none" disabled hidden>Select Scooter</option>
-                  {scooters.filter((scooter) => {
-                    if (scooter.depoId.toString() === depotChoiceId.toString()) {
-                      return scooter;
-                    } else {
-                      return null;
+                            <option value="" key="none" disabled hidden>Select Depot</option>
+                            {map_locations.map((depot, idx) => (
+                                <option value={depot.depoId}
+                                        key={idx}>{depot.name}</option>
+                            ))}
+                        </Form.Select>
                     }
-                  }).map((scooter, idx) => (
-                    <option value={scooter.scooterId}
-                            key={idx}>{scooter.softScooterId}</option>
-                  ))}
-                </>
-              }
-            </Form.Select>
-          }
-        </Col>
-      </Row>
-      <Row className="pb-2">
-        <Col className="text-end col-3 align-self-center">
-          Hire Period:
-        </Col>
-        <Col>
-          {(hireOptions === "") ? <>Loading hire periods...</> : <>
-            <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
-              let value = e.target.value.split(',');
-              setHireChoiceId(value[0]);
-              setPrice(value[1]);
-            }}>
+                </Col>
+            </Row>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Start Time:
+                </Col>
+                <Col>
+                    <Form.Control type="date" isInvalid={!validStartDate} onChange={(e) => {
+                        setStartDate(e.target.value);
+                    }}/>
+                </Col>
+                <Col>
+                    <Form.Control type="time"
+                                  isInvalid={!validStartTime}
+                                  value={startTime}
+                                  onChange={(e) => {
+                                      let output = e.target.value.slice(0, 3);
+                                      let minutes = parseInt(e.target.value.slice(3, 5));
+                                      if (minutes % 15 === 1) {
+                                          minutes = (minutes + 14) % 60
+                                      } else if (minutes % 15 === 14) {
+                                          minutes = (minutes - 14)
+                                      } else if (minutes % 15 !== 0) {
+                                          minutes = (Math.round(minutes / 15) % 4) * 15
+                                      }
+                                      let minString = minutes.toString();
+                                      if (minString.length === 1) {
+                                          output += "0" + minString;
+                                      } else {
+                                          output += minString;
+                                      }
+                                      setStartTime(output);
+                                  }
+                                  }/>
+                </Col>
+            </Row>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Hire Period:
+                </Col>
+                <Col>
+                    {(hireOptions === "") ? <>Loading hire periods...</> : <>
+                        <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
+                            let value = e.target.value.split(',')
+                            setHireChoiceId(value[0]);
+                            setPrice(value[1]);
+                        }}>
 
-              <option value="none" key="none" disabled hidden>Select Hire Period</option>
-              {hireOptions.map((option, idx) => (
-                <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
-                  £{option.cost}</option>
-              ))}
-            </Form.Select>
-          </>
-          }
-        </Col>
-      </Row>
-      <br/>
-      <DisplayCost/>
+                            <option value="none" key="none" disabled hidden>Select Hire Period</option>
+                            {hireOptions.map((option, idx) => (
+                                <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
+                                    £{option.cost}</option>
+                            ))}
+                        </Form.Select>
+                    </>
+                    }
+                </Col>
+            </Row>
+            <Row className="pb-2">
+                <Col className="text-end col-3 align-self-center">
+                    Scooter:
+                </Col>
+                <Col>
+
+                    <Form.Select
+                        value={scooterChoiceId}
+                        isInvalid={!validScooter}
+                        disabled={scooters === ""}
+                        onChange={(e) => {
+                            setScooterChoiceId(e.target.value);
+                        }}>
+                        {scooters === "" ?
+                            <option value="" key="none" disabled hidden>Please fill in other details</option> : <>
+                                <option value="" key="none" disabled hidden>Select Scooter</option>
+                                {scooters.map((scooter, idx) => (
+                                    <option value={scooter.scooterId}
+                                            key={idx}>{scooter.softScooterId}</option>
+                                ))}
+                            </>
+                        }
+                    </Form.Select>
+
+                </Col>
+            </Row>
+            <br/>
+            <DisplayCost/>
       <div className="issue-filters">
         {!checkCardExists() ?
           <>
@@ -443,7 +601,7 @@ export default function CustomerCreateBooking() {
                 <Button
                   variant="danger"
                   onClick={() => {
-                    localStorage.removeItem(cookies.get("accountId"));
+                    localStorage.removeItem(cookies.get("accountID"));
                     navigate('/create-booking');
                     NotificationManager.success("Deleted credit card details.", "Success");
                   }}>
@@ -513,7 +671,7 @@ export default function CustomerCreateBooking() {
               variant="danger"
               className="float-right"
               onClick={() => {
-                localStorage.removeItem(cookies.get("accountId"));
+                localStorage.removeItem(cookies.get("accountID"));
                 navigate('/create-booking');
                 NotificationManager.success("Deleted credit card details.", "Success");
               }}>

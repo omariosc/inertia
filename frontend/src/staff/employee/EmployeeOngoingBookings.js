@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {Button, Container, Form, Table} from "react-bootstrap";
-import {NotificationManager} from "react-notifications";
+import {Button, Container, Table} from "react-bootstrap";
 import Cookies from "universal-cookie";
 import showDate from "../../showDate";
 import host from "../../host";
@@ -10,12 +9,11 @@ export default function EmployeeOngoingBookings() {
     const cookies = new Cookies();
     const navigate = useNavigate();
     const [bookingHistory, setBookingHistory] = useState('');
-    const [hireOptions, setHireOptions] = useState('');
-    const [hireChoiceId, setHireChoiceId] = useState('');
+
+
 
     useEffect(() => {
         fetchBookings();
-        fetchHirePeriods();
     }, []);
 
     async function fetchBookings() {
@@ -43,72 +41,6 @@ export default function EmployeeOngoingBookings() {
         } catch (e) {
             console.log(e);
         }
-    }
-
-    async function fetchHirePeriods() {
-        try {
-            let request = await fetch(host + "api/HireOptions", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            setHireOptions((await request.json()).sort((a, b) => a.cost - b.cost));
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    async function extendBooking(id) {
-        try {
-            let request = await fetch(host + `api/admin/Orders/${id}/extend`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                body: JSON.stringify({
-                    'hireOptionId': parseInt(hireChoiceId)
-                }),
-                mode: "cors"
-            });
-            let response = await request;
-            if (response.status !== 200) {
-                NotificationManager.error("Could not extend booking.", "Error");
-            } else {
-                NotificationManager.success("Extended booking.", "Success");
-            }
-        } catch (e) {
-            console.log(e);
-        }
-        await fetchBookings();
-    }
-
-    async function cancelBooking(id) {
-        try {
-            let request = await fetch(host + `api/admin/Orders/${id}/cancel`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
-                },
-                mode: "cors"
-            });
-            let response = await request;
-            if (response.status !== 200) {
-                NotificationManager.error("Could not cancel booking.", "Error");
-            } else {
-                NotificationManager.success("Cancelled booking.", "Success");
-            }
-        } catch (e) {
-            console.log(e);
-        }
-        await fetchBookings();
     }
 
     return (
@@ -147,29 +79,11 @@ export default function EmployeeOngoingBookings() {
                                                     <td>{booking.scooter.softScooterId}</td>
                                                     <td>{showDate(booking.endTime)}</td>
                                                     <td>
-                                                        {(hireOptions === '') ?
-                                                            <p>Loading hire options...</p> :
-                                                            <Form.Select defaultValue="none"
-                                                                         onChange={(e) => {
-                                                                             setHireChoiceId(e.target.value);
-                                                                         }}
-                                                            >
-                                                                <option value="none" key="none" disabled hidden>
-                                                                    Select hire period
-                                                                </option>
-                                                                {hireOptions.map((option, idx) => (
-                                                                    <option key={idx}
-                                                                            value={option.hireOptionId}>{option.name} -
-                                                                        £{option.cost}</option>
-                                                                ))}
-                                                            </Form.Select>
-                                                        }
-                                                        <Button
-                                                            onClick={() => extendBooking(booking.orderId)}
+                                                        <Button onClick={() => navigate("../bookings/extend/" + booking.orderId)}
                                                             variant="success">Extend</Button>
                                                     </td>
                                                     <td>
-                                                        <Button onClick={() => cancelBooking(booking.orderId)}
+                                                        <Button onClick={() => navigate("../bookings/cancel/" + booking.orderId)}
                                                                 variant="danger">Cancel</Button>
                                                     </td>
                                                     <td>

@@ -73,6 +73,10 @@ export default function ManagerAccountManagement() {
             let patchResponse = await patchRequest;
             if (patchResponse.status === 200) {
                 NotificationManager.success(`Created employee account for ${name}.`, "Success");
+                setName("");
+                setEmail("");
+                setPassword("");
+                setConfirmPassword("");
             } else {
                 NotificationManager.error(patchResponse.description, "Error");
             }
@@ -93,19 +97,19 @@ export default function ManagerAccountManagement() {
                 <Form className="input-form">
                     <Form.Group className="mb-3">
                         <Form.Label><h5>Employee Name</h5></Form.Label>
-                        <Form.Control autoFocus type="name" onInput={e => setName(e.target.value)}/>
+                        <Form.Control autoFocus type="name" value={name} onInput={e => setName(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label><h5>Employee Email</h5></Form.Label>
-                        <Form.Control type="email" onInput={e => setEmail(e.target.value)}/>
+                        <Form.Control type="email" value={email} onInput={e => setEmail(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label><h5>Employee Password</h5></Form.Label>
-                        <Form.Control type="password" onInput={e => setPassword(e.target.value)}/>
+                        <Form.Control type="password" value={password} onInput={e => setPassword(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label><h5>Confirm Employee Password</h5></Form.Label>
-                        <Form.Control type="password" onInput={e => setConfirmPassword(e.target.value)}/>
+                        <Form.Control type="password" value={confirmPassword} onInput={e => setConfirmPassword(e.target.value)}/>
                     </Form.Group>
                     <Button className="float-right" onClick={onSubmit}>Create Employee Account</Button>
                 </Form>

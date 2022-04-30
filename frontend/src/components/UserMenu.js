@@ -59,7 +59,10 @@ export default function userMenu(props) {
 
             {
                 account != null &&
-                <Dropdown.Item>
+                <Dropdown.Item onClick={() => {
+                    navigate('/create-booking');
+                }
+                }>
                     My Account
                 </Dropdown.Item>
             }

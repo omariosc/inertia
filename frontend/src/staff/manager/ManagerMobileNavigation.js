@@ -11,10 +11,10 @@ import {useAccount} from "../../authorize";
 
 export default function ManagerMobileNavigation() {
     const [open, setOpen] = useState(false);
-    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35px"
+    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu-staff" color="white" size="35px"
                                            onClick={() => setOpen(!open)}/>
-    const closeIcon = <CgClose className="hamburger-menu" color="white" size="35px" onClick={() => setOpen(!open)}/>
-    const [account, signOut, signIn] = useAccount();
+    const closeIcon = <CgClose className="hamburger-menu-staff" color="white" size="35px" onClick={() => setOpen(!open)}/>
+    const [, signOut, ] = useAccount();
     const navigate = useNavigate();
 
     function Links() {

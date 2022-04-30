@@ -18,7 +18,7 @@ export default function ManagerInterface() {
                         <Navbar.Text className="navbar-pad-right text-white">
                             Logged in as: {account.name}
                         </Navbar.Text>
-                        <Nav.Item className="navbar-pad-right">
+                        <Nav.Item className="navbar-pad-right dropDownMenu">
                             <UserMenu/>
                         </Nav.Item>
                     </Navbar.Collapse>

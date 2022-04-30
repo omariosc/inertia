@@ -16,6 +16,8 @@ export default function CustomerInterface() {
         "/submit-issue": "Submit Issue",
         "/discounts": "Discounts",
         "/settings": "Settings",
+        "/": "Create Booking",
+        "": "Create Booking"
     };
 
     return (

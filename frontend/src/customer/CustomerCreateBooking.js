@@ -155,15 +155,20 @@ export default function CustomerCreateBooking() {
   async function createBooking() {
     setValidScooter(scooterChoiceId !== '' && scooterChoiceId !== 'none');
     setValidHireSlot(hireChoiceId !== '' && hireChoiceId !== 'none');
-    setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
-    setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
-    setValidCVV(cvv.match(/^[0-9]{3,4}$/));
+    if (!checkCardExists()) {
+      setValidCardNo(cardNo.length > 9 && cardNo.length < 20);
+      setValidExpDate(expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/));
+      setValidCVV(cvv.match(/^[0-9]{3,4}$/));
+    }
     if (!(scooterChoiceId !== '' && scooterChoiceId !== 'none'
-      && hireChoiceId !== '' && hireChoiceId !== 'none'
-      && cardNo.length > 9 && cardNo.length < 20
+      && hireChoiceId !== '' && hireChoiceId !== 'none')) {
+      NotificationManager.error("Complete booking details.", "Error");
+      return;
+    }
+    if (!checkCardExists() && !(cardNo.length > 9 && cardNo.length < 20
       && expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/)
       && cvv.match(/^[0-9]{3,4}$/))) {
-      NotificationManager.error("Invalid Details Provided", "Error");
+      NotificationManager.error("Complete booking details.", "Error");
       return;
     }
     try {
@@ -194,6 +199,7 @@ export default function CustomerCreateBooking() {
             expiryDate: expiry,
             cvv: cvv
           };
+          console.log(cookies.get("accountId"));
           localStorage.setItem(cookies.get("accountId"), JSON.stringify(card));
           NotificationManager.success("Stored credit card details.", "Success");
         }
@@ -246,7 +252,7 @@ export default function CustomerCreateBooking() {
     <Container>
       <Row className="mapMaxHeightRow">
         {(map_locations === "") ? <Col>Loading map locations...</Col> :
-          <Col className="box col=12">
+          <Col className="box offset-3">
             <MapContainer center={[map_locations[0].latitude, map_locations[0].longitude]} zoom={15}
                           zoomControl={false} className="minimap-box">
               <TileLayer
@@ -370,6 +376,8 @@ export default function CustomerCreateBooking() {
                 name={cookies.get("accountName")}
                 number={cardNo}
               />
+            </Row>
+            <Row className="pb-2 small-padding-top">
               <Col className="text-end col-3 align-self-center">
                 Card Number:
               </Col>
@@ -414,16 +422,16 @@ export default function CustomerCreateBooking() {
           </>
           : <>
             <h5>Using stored payment details</h5>
-            <Row>
+            <Row className="pb-2">
               <Col className="text-end col-3 align-self-center">
                 Card Number:
               </Col>
               <Col>
                 **** ****
-                **** {cardDetails.cardNumber.slice(cardDetails.cardNumber - 4)}
+                **** {cardDetails.cardNumber.slice(cardDetails.cardNumber.length - 4)}
               </Col>
             </Row>
-            <Row className="pb-2 ">
+            <Row className="pb-2">
               <Col className="text-end col-3 align-self-center">
                 Expiry Date:
               </Col>
@@ -457,13 +465,15 @@ export default function CustomerCreateBooking() {
                 <Form.Switch onClick={(e) => setSaveCard(e.target.checked)}/>
               </Col>
             </Row>
-            <Cards
-              cvc={cvv}
-              expiry={expiry}
-              focused={focus}
-              name={cookies.get("accountName")}
-              number={cardNo}
-            />
+            <Row className="small-padding-bottom">
+              <Cards
+                cvc={cvv}
+                expiry={expiry}
+                focused={focus}
+                name={cookies.get("accountName")}
+                number={cardNo}
+              />
+            </Row>
             <Row className="small-padding-bottom">
               Card Number:
               <Form.Control type="text" name="number" placeholder="4000-1234-5678-9010"
@@ -498,7 +508,7 @@ export default function CustomerCreateBooking() {
           : <>
             <h5>Using stored payment details</h5>
             <p>Card Number: **** ****
-              **** {cardDetails.cardNumber.slice(cardDetails.cardNumber - 4)} </p>
+              **** {cardDetails.cardNumber.slice(cardDetails.cardNumber.length - 4)} </p>
             <p>Expiry Date: {cardDetails.expiryDate} </p>
             <Button
               variant="danger"
@@ -516,8 +526,13 @@ export default function CustomerCreateBooking() {
         }
       </div>
       <br/>
-            <Button className="float-right"
-                    onClick={createBooking}>Confirm Booking</Button>
+      <Button className="float-right"
+              onClick={createBooking}>Confirm Booking</Button>
+      <div className="issue-filters-mobile">
+        <br/>
+        <br/>
+        <br/>
+      </div>
     </Container>
   );
 };

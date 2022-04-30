@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a list of currently ongoing bookings
+	and allow a staff account to extend or cancel them
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";

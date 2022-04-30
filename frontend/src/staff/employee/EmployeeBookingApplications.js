@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display pending bookings to a staff member
+	and allow them to approve or deny them
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";

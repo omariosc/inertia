@@ -1,9 +1,18 @@
+/*
+	Purpose of file: Display the current depots to the manager
+	and allow them to add, remove or change a depot
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import Cookies from 'universal-cookie';
 import host from "../../host";
 
+/**
+ * Returns the manager depot management, a list of all current
+ * depots available
+ */
 export default function ManagerDepotManagement() {
     const cookies = new Cookies();
     const [depots, setDepots] = useState('');
@@ -18,6 +27,9 @@ export default function ManagerDepotManagement() {
         fetchDepots();
     }, []);
 
+		/**
+		 * Gets list of current depots from backend server
+		 */
     async function fetchDepots() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -35,6 +47,10 @@ export default function ManagerDepotManagement() {
         }
     }
 
+		/**
+		 * Edits the details of a specific depot with the provided ID
+		 * and updates the backend server
+		 */
     async function editDepot(id, mode) {
         const json = {};
         switch (mode) {
@@ -91,6 +107,10 @@ export default function ManagerDepotManagement() {
         await fetchDepots();
     }
 
+		/**
+		 * Creates a new depot with the information provided in the form
+		 * and updates the backend server
+		 */
     async function createDepot() {
         if (createName === '') {
             NotificationManager.error("Depot name cannot be empty.", "Error");

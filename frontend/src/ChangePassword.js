@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Allow a user to change their password if they
+	provide their correct current password.
+*/
+
 import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
 import host from './host';

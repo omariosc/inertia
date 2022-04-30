@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a customer's booking history
+	and information for each booking in a table
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
 import Cookies from 'universal-cookie';

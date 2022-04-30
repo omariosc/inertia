@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display all bookings in a table and show
+	extra information when a specific booking is selected
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";

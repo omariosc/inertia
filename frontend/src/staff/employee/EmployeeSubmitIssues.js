@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Enable a staff member to submit or report
+	a new issue or problem in the application
+*/
+
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";

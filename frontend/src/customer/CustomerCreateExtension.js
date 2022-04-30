@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allow a customer to extend one of their ongoing bookings
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";

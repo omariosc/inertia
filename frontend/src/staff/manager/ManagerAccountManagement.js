@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Enables the manager account to create
+	new employee accounts provided the details are valid
+*/
+
 import React, {useState} from "react";
 import {Button, Container, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";

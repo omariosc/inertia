@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Allow a staff member to cancel a booking
+	for an unregistered user
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";

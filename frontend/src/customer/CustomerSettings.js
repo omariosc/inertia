@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a customer's account settings and information
+	and allow them to change their password.
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Form, Table} from "react-bootstrap";
 import Cookies from "universal-cookie";

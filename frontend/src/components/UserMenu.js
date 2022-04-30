@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Expandable menu to navigate the appliation
+*/
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser, faBars} from "@fortawesome/free-solid-svg-icons";
 import {Dropdown, DropdownButton} from "react-bootstrap";

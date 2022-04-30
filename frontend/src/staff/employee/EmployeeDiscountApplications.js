@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display all pending discount applications and allow
+	a staff account to approve or deny them
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";

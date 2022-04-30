@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Entry point of application
+*/
+
 import React, {useState} from "react";
 import {Outlet, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import Cookies from 'universal-cookie';

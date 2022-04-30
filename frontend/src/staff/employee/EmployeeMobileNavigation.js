@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Navigation for employee accounts on mobile devices
+*/
+
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Nav} from "react-bootstrap";

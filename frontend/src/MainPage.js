@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Landing page shown to a user not logged in
+*/
+
 import React, {useEffect, useState} from "react";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import host from "./host";

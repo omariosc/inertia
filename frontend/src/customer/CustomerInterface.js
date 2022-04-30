@@ -1,3 +1,7 @@
+/*
+	Purpose of file: General framework for the customer interface
+*/
+
 import React from "react";
 import {Outlet, Link} from 'react-router-dom';
 import {Row, Col, Nav} from "react-bootstrap";

@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Display a detailed view of a booking
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";

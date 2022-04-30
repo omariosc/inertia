@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Navigation bar for manager accounts on mobile devices
+*/
+
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Nav} from "react-bootstrap";
@@ -9,6 +13,10 @@ import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 import {useAccount} from "../../authorize";
 
+/**
+ * Returns the manager mobile navigation bar, allowing for the browsing of the
+ * application on mobile devices
+ */
 export default function ManagerMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35px"

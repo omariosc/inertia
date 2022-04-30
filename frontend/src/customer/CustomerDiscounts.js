@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a customer's current discount status
+	and allow them to apply for a specific type of discount
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button} from "react-bootstrap";

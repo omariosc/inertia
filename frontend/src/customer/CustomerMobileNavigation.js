@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Navigation bar for customers on mobile devices
+*/
+
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Nav} from "react-bootstrap";

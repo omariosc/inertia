@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a list of all scooters and allow
+	each one to have its details modified by a member of staff
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";

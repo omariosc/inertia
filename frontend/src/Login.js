@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Login form used to authenticate a user,
+	checks type of user (customer, employee, manager)
+*/
+
 import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {Button, Form, Modal} from "react-bootstrap";

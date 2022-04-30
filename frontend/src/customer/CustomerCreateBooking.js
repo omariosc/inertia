@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allow a customer to create a new booking
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";

@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a list of all scooters and enable the manager
+	to create, delete and edit scooters.
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
@@ -5,6 +10,10 @@ import Cookies from 'universal-cookie';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
 
+/**
+ * Returns the manager scooter management page, displays
+ * list of scooters
+ */
 export default function ManagerScooterManagement() {
     const cookies = new Cookies();
     const [newID, setScooterNewId] = useState('');
@@ -18,6 +27,9 @@ export default function ManagerScooterManagement() {
         fetchLocations();
     }, []);
 
+		/**
+		 * Gets list of locations from backend server
+		 */
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -34,6 +46,9 @@ export default function ManagerScooterManagement() {
         }
     }
 
+		/**
+		 * Gets list of scooters from backend server
+		 */
     async function fetchScooters() {
         try {
             let request = await fetch(host + "api/admin/Scooters", {
@@ -51,6 +66,9 @@ export default function ManagerScooterManagement() {
         }
     }
 
+		/**
+		 * Changes a given scooter's information and updates the backend server
+		 */
     async function editScooter(id, mode, availability = '', location = '') {
         const json = {}
         switch (mode) {
@@ -99,6 +117,9 @@ export default function ManagerScooterManagement() {
         await fetchScooters();
     }
 
+		/**
+		 * Creates a new scooter and updates the backend server
+		 */
     async function createScooter() {
         if (!(createID.match(/^\d+$/))) {
             NotificationManager.error("Scooter ID must be an integer.", "Error");
@@ -144,6 +165,9 @@ export default function ManagerScooterManagement() {
         await fetchScooters();
     }
 
+		/**
+		 * Deletes the scooter with the ID provided
+		 */
     async function deleteScooter(id) {
         try {
             let request = await fetch(host + `api/admin/Scooters/${id}`, {

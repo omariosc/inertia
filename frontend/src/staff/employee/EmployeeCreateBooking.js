@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Allow a staff member to create a booking
+	for an unregistered user
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";

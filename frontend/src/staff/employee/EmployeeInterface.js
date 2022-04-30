@@ -1,3 +1,7 @@
+/*
+	Purpose of file: General framework for the employee interface
+*/
+
 import React from "react";
 import {Outlet, Link} from 'react-router-dom';
 import {Col, Nav, Navbar, Row} from "react-bootstrap";

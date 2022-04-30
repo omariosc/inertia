@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a customer's current booking
+	and allow them to cancel or extend it
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
 import Cookies from "universal-cookie";

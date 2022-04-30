@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allow a customer to cancel an existing booking of theirs
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";

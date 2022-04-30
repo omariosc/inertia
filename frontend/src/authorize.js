@@ -12,7 +12,7 @@ export class Account {
     }
 }
 
-export function signOut(setAccount) {
+export function signOut(setAccount, callback) {
     const cookies = new Cookies();
 
     try {
@@ -33,6 +33,9 @@ export function signOut(setAccount) {
             cookies.remove('accountID');
             cookies.remove('accountName');
             setAccount(null);
+            if (callback) {
+                callback('signout success');
+            }
         });
     } catch (error) {
         console.error(error);
@@ -70,9 +73,13 @@ export function signIn(setAccount, email, password, callback) {
                         response.accessToken)
                     );
 
-                    callback('login success');
+                    if (callback) {
+                        callback('login success');
+                    }
                 } else {
-                    callback('login error');
+                    if (callback) {
+                        callback('login error');
+                    }
                 }
             })
         })

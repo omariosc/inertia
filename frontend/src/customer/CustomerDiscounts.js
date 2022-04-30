@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
 import host from "../host";
 import moment from "moment";
+import {useAccount} from "../authorize";
 
 export default function CustomerDiscounts() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     let navigate = useNavigate();
     const [loading, setLoading] = useState('');
     const [frequentUser, setFrequent] = useState(false);
@@ -23,12 +23,12 @@ export default function CustomerDiscounts() {
 
     async function getDiscountStatus() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+            let request = await fetch(host + `api/Users/${account.id}/orders`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -58,12 +58,12 @@ export default function CustomerDiscounts() {
 
     async function fetchDiscountStatus() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
+            let request = await fetch(host + `api/Users/${account.id}/profile`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -87,12 +87,12 @@ export default function CustomerDiscounts() {
             return;
         }
         try {
-            let discountRequest = await fetch(host + `api/Users/${cookies.get('accountID')}/ApplyDiscount`, {
+            let discountRequest = await fetch(host + `api/Users/${account.id}/ApplyDiscount`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     discountType: (type === 'student') ? 0 : 1
@@ -104,11 +104,11 @@ export default function CustomerDiscounts() {
                 NotificationManager.error("Already applied for discount.", "Error");
                 return;
             }
-            let imageRequest = await fetch(host + `api/Users/${cookies.get('accountID')}/ApplyDiscountUploadImage`, {
+            let imageRequest = await fetch(host + `api/Users/${account.id}/ApplyDiscountUploadImage`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/octet-stream',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: (type === 'student') ? studentImage : seniorImage,
                 mode: "cors"

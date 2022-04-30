@@ -48,9 +48,9 @@ export default function ManagerAccountManagement() {
             let getResponse = await getRequest.json();
             let accountId;
             for (let i = 0; getResponse.length; i++) {
-                let account = getResponse[i];
-                if (account.email === email) {
-                    accountId = account.accountId;
+                let user = getResponse[i];
+                if (user.email === email) {
+                    accountId = user.accountId;
                     break;
                 }
             }

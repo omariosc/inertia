@@ -1,6 +1,5 @@
 import Cookies from "universal-cookie";
 import host from "./host";
-import {NotificationManager} from "react-notifications";
 import {createContext, useContext, useMemo, useState} from "react";
 
 export class Account {

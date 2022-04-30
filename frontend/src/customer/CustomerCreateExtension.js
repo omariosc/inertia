@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
 import host from "../host";
 import moment from "moment";
 import Cards from "elt-react-credit-cards";
+import {useAccount} from "../authorize";
 
 export default function CustomerCreateExtension() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const {orderId} = useParams();
     const [baseOrder, setBaseOrder] = useState("");
@@ -43,7 +43,7 @@ export default function CustomerCreateExtension() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -62,12 +62,12 @@ export default function CustomerCreateExtension() {
 
     async function getDiscountStatus() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+            let request = await fetch(host + `api/Users/${account.id}/orders`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -96,12 +96,12 @@ export default function CustomerCreateExtension() {
 
     async function fetchDiscountStatus() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
+            let request = await fetch(host + `api/Users/${account.id}/profile`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -128,7 +128,7 @@ export default function CustomerCreateExtension() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -201,7 +201,7 @@ export default function CustomerCreateExtension() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     'hireOptionId': parseInt(hireChoiceId),
@@ -221,7 +221,7 @@ export default function CustomerCreateExtension() {
                         expiryDate: expiry,
                         cvv: cvv
                     };
-                    localStorage.setItem(cookies.get("accountID"), JSON.stringify(card));
+                    localStorage.setItem(account.id, JSON.stringify(card));
                     NotificationManager.success("Stored credit card details.", "Success");
                 }
                 navigate('/current-bookings');
@@ -232,10 +232,10 @@ export default function CustomerCreateExtension() {
     }
 
     function checkCardExists() {
-        if (localStorage.getItem(cookies.get("accountID"))) {``
-            setSavedCardDetails(JSON.parse(localStorage.getItem(cookies.get("accountID"))));
+        if (localStorage.getItem(account.id)) {``
+            setSavedCardDetails(JSON.parse(localStorage.getItem(account.id)));
         }
-        return (!!localStorage.getItem(cookies.get("accountID")));
+        return (!!localStorage.getItem(account.id));
     }
 
 
@@ -337,7 +337,7 @@ export default function CustomerCreateExtension() {
                                 cvc={cvv}
                                 expiry={expiry}
                                 focused={focus}
-                                name={cookies.get("accountName")}
+                                name={account.name}
                                 number={cardNo}
                             />
                         </Row>
@@ -408,7 +408,7 @@ export default function CustomerCreateExtension() {
                                 <Button
                                     variant="danger"
                                     onClick={() => {
-                                        localStorage.removeItem(cookies.get("accountID"));
+                                        localStorage.removeItem(account.id);
                                         NotificationManager.success("Deleted credit card details.", "Success");
                                         setSavedCardDetails(null);
                                     }}>
@@ -434,7 +434,7 @@ export default function CustomerCreateExtension() {
                                 cvc={cvv}
                                 expiry={expiry}
                                 focused={focus}
-                                name={cookies.get("accountName")}
+                                name={account.name}
                                 number={cardNo}
                             />
                         </Row>
@@ -478,7 +478,7 @@ export default function CustomerCreateExtension() {
                             variant="danger"
                             className="float-right"
                             onClick={() => {
-                                localStorage.removeItem(cookies.get("accountID"));
+                                localStorage.removeItem(account.id);
                                 NotificationManager.success("Deleted credit card details.", "Success");
                                 setSavedCardDetails(null);
                             }}>

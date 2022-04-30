@@ -9,6 +9,9 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
 import {useAccount} from "../authorize";
 
+/**
+ * Returns the navigation bar for customers on mobile devices
+ */
 export default function CustomerMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu-customer" color="black" size="35px"
@@ -18,6 +21,10 @@ export default function CustomerMobileNavigation() {
     const [account, signOut, signIn] = useAccount();
     const navigate = useNavigate();
 
+		/**
+		 * Groups the links required for the navigation bar in order
+		 * to browse the application
+		 */
     function Links() {
         return (
             <Nav defaultActiveKey="#/create-bookings" className="customer-navigation-mobile align-items-begin">

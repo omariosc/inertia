@@ -8,6 +8,10 @@ import {NotificationManager} from "react-notifications";
 import Cookies from "universal-cookie";
 import host from "../host";
 
+/**
+ * Returns the customer submit issue page, allows them to
+ * raise a new issue
+ */
 export default function CustomerSubmitIssue() {
     const cookies = new Cookies();
     const [title, setTitle] = useState('');
@@ -15,6 +19,9 @@ export default function CustomerSubmitIssue() {
     const [validTitle, setValidTitle] = useState(true);
     const [validDescription, setValidDescription] = useState(true);
 
+		/**
+		 * Send the customer's new issue to the backend server
+		 */
     async function submitIssue() {
         setValidTitle(title.length > 0);
         setValidDescription(content.length > 0);

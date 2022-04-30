@@ -9,6 +9,9 @@ import UserMenu from '../components/UserMenu';
 import CustomerNavigation from "./CustomerNavigation";
 import CustomerMobileNavigation from "./CustomerMobileNavigation";
 
+/**
+ * Returns the boilerplate required for the customer interface
+ */
 export default function CustomerInterface() {
     const headers = {
         "/create-booking": "Create Booking",

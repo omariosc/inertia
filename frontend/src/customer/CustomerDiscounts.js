@@ -11,6 +11,10 @@ import Cookies from "universal-cookie";
 import host from "../host";
 import moment from "moment";
 
+/**
+ * Returns the customer discount page, shows their current discount status
+ * and allows them to apply for new discounts
+ */
 export default function CustomerDiscounts() {
     const cookies = new Cookies();
     let navigate = useNavigate();
@@ -26,6 +30,10 @@ export default function CustomerDiscounts() {
         fetchDiscountStatus();
     }, []);
 
+		/**
+		 * Checks if a customer is eligible for frequent user discount, applies it automatically
+		 * and updates the backend server
+		 */
     async function getDiscountStatus() {
         try {
             let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
@@ -61,6 +69,9 @@ export default function CustomerDiscounts() {
         }
     }
 
+		/**
+		 * Gets current discount status of the customer
+		 */
     async function fetchDiscountStatus() {
         try {
             let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
@@ -86,6 +97,10 @@ export default function CustomerDiscounts() {
         }
     }
 
+		/**
+		 * If the customer submits a new application, check that image is present if one
+		 * is required and update the backend server
+		 */
     async function onSubmit(type) {
         if ((type === 'student' && !studentImage) || (type === 'senior' && !seniorImage)) {
             NotificationManager.error("You must upload an image.", "Error");

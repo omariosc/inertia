@@ -9,6 +9,10 @@ import Cookies from "universal-cookie";
 import changePassword from "../ChangePassword";
 import host from "../host";
 
+/**
+ * Returns the customer settings page, allows them to change
+ * their password
+ */
 export default function CustomerSettings() {
     const cookies = new Cookies();
     const [accountInfo, setAccountInfo] = useState('');
@@ -20,6 +24,9 @@ export default function CustomerSettings() {
         fetchAccountInformation();
     }, []);
 
+		/**
+		 * Get the customer's account information from the backend server
+		 */
     async function fetchAccountInformation() {
         try {
             let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
@@ -37,6 +44,10 @@ export default function CustomerSettings() {
         }
     }
 
+		/**
+		 * If the customer changes their password, submit a request
+		 * to the backend server to change it
+		 */
     async function onSubmit() {
         await changePassword(oldPassword, password, confirmPassword);
     }

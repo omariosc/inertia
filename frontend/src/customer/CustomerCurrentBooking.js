@@ -1,6 +1,5 @@
 /*
-	Purpose of file: Display a customer's current booking
-	and allow them to cancel or extend it
+	Purpose of file: Display a customer's currently ongoing bookings
 */
 
 import React, {useEffect, useState} from "react";
@@ -11,6 +10,10 @@ import host from "../host";
 import orderState from "../staff/orderState";
 import {useNavigate} from "react-router-dom";
 
+/**
+ * Returns the current booking page, shows detailed information about the
+ * customer's current bookings
+ */
 export default function CustomerCurrentBookings() {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -21,6 +24,9 @@ export default function CustomerCurrentBookings() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of all ongoing bookings made by the customer from the backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {

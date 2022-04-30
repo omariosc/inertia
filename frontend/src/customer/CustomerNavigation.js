@@ -6,6 +6,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 
+/**
+ * Returns the navigation bar for customers to browse the application
+ */
 export default function CustomerNavigation() {
     return (
         <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">

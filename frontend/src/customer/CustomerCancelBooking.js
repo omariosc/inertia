@@ -11,6 +11,9 @@ import host from "../host";
 import showDate from "../showDate";
 import orderState from "../staff/orderState";
 
+/**
+ * Returns the customer cancel booking page
+ */
 export default function CustomerCancelBooking() {
     const cookies = new Cookies();
     const navigate = useNavigate();
@@ -22,6 +25,9 @@ export default function CustomerCancelBooking() {
         fetchOrderInfo();
     }, []);
 
+		/**
+		 * Gets the details of the chosen order
+		 */
     async function fetchOrderInfo() {
         try {
             let request = await fetch(host + `api/Orders/${orderId}`, {
@@ -46,6 +52,9 @@ export default function CustomerCancelBooking() {
     }
 
 
+		/**
+		 * Cancels the chosen order and updates the backend server
+		 */
     async function cancelBooking() {
         try {
             let request = await fetch(host + `api/Orders/${orderId}/cancel`, {

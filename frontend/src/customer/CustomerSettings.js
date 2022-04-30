@@ -5,16 +5,16 @@
 
 import React, {useEffect, useState} from "react";
 import {Button, Form, Table} from "react-bootstrap";
-import Cookies from "universal-cookie";
 import changePassword from "../ChangePassword";
 import host from "../host";
+import {useAccount} from "../authorize";
 
 /**
  * Returns the customer settings page, allows them to change
  * their password
  */
 export default function CustomerSettings() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [accountInfo, setAccountInfo] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
@@ -29,12 +29,12 @@ export default function CustomerSettings() {
 		 */
     async function fetchAccountInformation() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
+            let request = await fetch(host + `api/Users/${account.id}/profile`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });

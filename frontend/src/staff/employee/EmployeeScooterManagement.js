@@ -6,7 +6,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
 
@@ -15,7 +15,7 @@ import scooterStatus from "../../scooterStatus";
  * list of scooters
  */
 export default function EmployeeScooterManagement() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
 
@@ -53,7 +53,7 @@ export default function EmployeeScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -74,7 +74,7 @@ export default function EmployeeScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "available": !availability

@@ -20,24 +20,33 @@ export default function CustomerInterface() {
         "/submit-issue": "Submit Issue",
         "/discounts": "Discounts",
         "/settings": "Settings",
-        "/": "Create Booking",
-        "": "Create Booking"
     };
-
+    function getPathName() {
+        if (!headers[location.pathname]) {
+            if (location.pathname.includes('extend')) {
+                return "Extend Booking";
+            }
+            if (location.pathname.includes('cancel')) {
+                return "Cancel Booking";
+            }
+        } else {
+            return headers[location.pathname];
+        }
+    }
     return (
         <div id="overlay">
-            <div id="top-bar">
+            <div id="top-bar" className="dropDownMenu">
                 <UserMenu/>
             </div>
             <div id="account-page">
                 <Row>
                     <Col lg={4} xs={12} className="customer-column border-dark"
                          style={{borderRight: "1px solid black"}}>
-                        <Nav.Link as={Link} className="customer-home hover-black" to="/create-booking"><h1>INERTIA</h1>
+                        <Nav.Link as={Link} className="customer-home hover-black" to="/"><h1>INERTIA</h1>
                         </Nav.Link>
                     </Col>
                     <Col lg={8} xs={12} className="customer-column-page">
-                        <h3>{headers[location.pathname]}</h3>
+                        <h3>{getPathName()}</h3>
                         <hr/>
                     </Col>
                 </Row>

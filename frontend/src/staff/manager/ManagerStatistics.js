@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import {default as CanvasJSReact} from "../../canvasjs.react.js";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function ManagerStatistics() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [weeklyData, setWeeklyData] = useState('');
     const [weeklyHiresData, setWeeklyHiresData] = useState('');
     const [combinedDailyData, setCombinedDailyData] = useState('');
@@ -23,7 +23,7 @@ export default function ManagerStatistics() {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
+                'Authorization': `Bearer ${account.accessToken}`
             },
             mode: "cors"
         }
@@ -48,6 +48,7 @@ export default function ManagerStatistics() {
             </p>
             <h3 id="pageName">Statistics</h3>
             <hr id="underline"/>
+            <br/>
             <Container>
                 {(weeklyData === '') ?
                     <p>Loading weekly hire options graph...</p> :

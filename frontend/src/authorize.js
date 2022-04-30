@@ -4,7 +4,6 @@
 
 import Cookies from "universal-cookie";
 import host from "./host";
-import {NotificationManager} from "react-notifications";
 import {createContext, useContext, useMemo, useState} from "react";
 
 export class Account {
@@ -31,7 +30,7 @@ export function signOut(setAccount, callback) {
                 'accessToken': cookies.get('accessToken')
             }),
             mode: "cors"
-        }).then(r => {
+        }).then(() => {
             cookies.remove('accountRole');
             cookies.remove('accessToken');
             cookies.remove('accountID');
@@ -70,19 +69,22 @@ export function signIn(setAccount, email, password, callback) {
                     cookies.set("accountName", response.account.name, {path: '/'});
                     cookies.set("accountRole", response.account.role, {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
-                    setAccount(new Account(
+
+                    let account = new Account(
                         response.account.name,
                         String(response.account.role),
                         response.account.accountId,
-                        response.accessToken)
+                        response.accessToken
                     );
 
+                    setAccount(account);
+
                     if (callback) {
-                        callback('login success');
+                        callback('login success', account);
                     }
                 } else {
                     if (callback) {
-                        callback('login error');
+                        callback('login error', null);
                     }
                 }
             })
@@ -133,8 +135,8 @@ export function AccountProvider(props) {
     const [account, setAccount] = useState(accountFromCookies());
     const value = useMemo(() => [
         account,
-        () => signOut(setAccount),
-        (email, password) => signIn(setAccount, email, password)
+        (callback) => signOut(setAccount, callback),
+        (email, password, callback) => signIn(setAccount, email, password, callback)
     ], [account]);
     return <AccountContext.Provider value={value} {...props} />;
 }

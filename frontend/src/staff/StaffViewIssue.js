@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../authorize';
 import getAge from "./getAge";
 import host from '../host';
 import priorities from "./priorities";
@@ -15,7 +15,7 @@ import priorities from "./priorities";
 export default function StaffViewIssue() {
     let navigate = useNavigate();
     let {id} = useParams();
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [accountName, setAccountName] = useState('');
     const [accountRole, setAccountRole] = useState('');
     const [issue, setIssue] = useState('');
@@ -33,7 +33,7 @@ export default function StaffViewIssue() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -59,7 +59,7 @@ export default function StaffViewIssue() {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
+                'Authorization': `Bearer ${account.accessToken}`
             },
             mode: "cors"
         });
@@ -76,7 +76,7 @@ export default function StaffViewIssue() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "resolution": "Resolved"
@@ -102,7 +102,7 @@ export default function StaffViewIssue() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "priority": parseInt(priority)
@@ -119,7 +119,7 @@ export default function StaffViewIssue() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href={(cookies.get("accountRole") === "2") ? "/dashboard" : "/home"}>Home
+                <a className="breadcrumb-list" href={(account.role === "2") ? "/dashboard" : "/home"}>Home
                 </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
                 <a className="breadcrumb-current" href={`/issues/${id}`}>#{id}</a></b>
             </p>

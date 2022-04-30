@@ -11,7 +11,7 @@ import {Nav} from "react-bootstrap";
  */
 export default function CustomerNavigation() {
     return (
-        <Nav defaultActiveKey="#/create-bookings" className="customer-navigation align-items-end">
+        <Nav defaultActiveKey="/create-bookings" className="customer-navigation align-items-end">
             <Nav.Link as={Link} className="hover-black" to="/create-booking">Create Booking</Nav.Link>
             <Nav.Link as={Link} className="hover-black" to="/current-bookings">Current
                 Bookings</Nav.Link>

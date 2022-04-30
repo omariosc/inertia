@@ -7,7 +7,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
 
 /**
@@ -15,7 +15,7 @@ import host from "../../host";
  * raise a new issue
  */
 export default function EmployeeSubmitIssue() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     let navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [validTitle, setValidTitle] = useState(true);
@@ -41,12 +41,12 @@ export default function EmployeeSubmitIssue() {
             return;
         }
         try {
-            await fetch(host + `api/Users/${cookies.get("accountID")}/issues`, {
+            await fetch(host + `api/Users/${account.id}/issues`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "priority": parseInt(priority),
@@ -73,7 +73,7 @@ export default function EmployeeSubmitIssue() {
             <hr id="underline"/>
             <Form className="input-form">
                 <Form.Group className="mb-3">
-                    <Form.Label><h5>Title</h5></Form.Label>
+                    <Form.Label><h6>Title</h6></Form.Label>
                     <Form.Control autoFocus type="text" placeholder="Enter issue title here..."
                                   isInvalid={!validTitle} onInput={e => setTitle(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">
@@ -81,7 +81,7 @@ export default function EmployeeSubmitIssue() {
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label><h5>Priority</h5></Form.Label>
+                    <Form.Label><h6>Priority</h6></Form.Label>
                     <Form.Select defaultValue="none" onChange={(e) => {
                         setPriority(e.target.value)
                     }}>
@@ -92,7 +92,7 @@ export default function EmployeeSubmitIssue() {
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label><h5>Description</h5></Form.Label>
+                    <Form.Label><h6>Description</h6></Form.Label>
                     <Form.Control type="text" as="textarea" rows={3} placeholder="Enter issue description here..."
                                   isInvalid={!validDescription} onInput={e => setContent(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">

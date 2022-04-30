@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Display a detailed view of a booking
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
@@ -7,6 +11,9 @@ import showDate from "../../showDate";
 import host from "../../host";
 import orderState from "../orderState";
 
+/**
+ * Returns more detailed information on a specific booking
+ */
 export default function staffViewBooking() {
     let navigate = useNavigate();
     let {orderId} = useParams();
@@ -17,7 +24,9 @@ export default function staffViewBooking() {
         fetchBookingDetails();
     }, []);
 
-    // Gets the order details.
+    /**
+		 * Gets the information about the booking from the backend server
+		 */
     async function fetchBookingDetails() {
         try {
 

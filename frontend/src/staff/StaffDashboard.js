@@ -1,10 +1,17 @@
+/*
+	Purpose of file: Display a dashboard with gerneral information
+	about the current state of the application
+*/
+
 import React, {useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom';
 import {Card, Col, Container, Row} from "react-bootstrap";
 import host from '../host';
 import {useAccount} from "../authorize";
 
 export default function Dashboard() {
     const [account] = useAccount();
+    const navigate = useNavigate();
     const [data, setData] = useState('');
 
     useEffect(() => {
@@ -50,10 +57,8 @@ export default function Dashboard() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list"
-                   href={account.role === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
-                <a className="breadcrumb-current"
-                   href={account.role === "2" ? "/dashboard" : "/home"}>Dashboard</a></b>
+                <a className="breadcrumb-list" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Home</a> > <b>
+                <a className="breadcrumb-current" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Dashboard</a></b>
             </p>
             <h3 id="pageName">Dashboard</h3>
             <hr id="underline"/>

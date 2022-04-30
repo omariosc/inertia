@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Display a customer's currently ongoing bookings
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
 import showDate from "../showDate";
@@ -6,6 +10,10 @@ import orderState from "../staff/orderState";
 import {useNavigate} from "react-router-dom";
 import {useAccount} from "../authorize";
 
+/**
+ * Returns the current booking page, shows detailed information about the
+ * customer's current bookings
+ */
 export default function CustomerCurrentBookings() {
     const [account] = useAccount();
     const navigate = useNavigate();
@@ -16,6 +24,9 @@ export default function CustomerCurrentBookings() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of all ongoing bookings made by the customer from the backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/Users/${account.id}/orders`, {

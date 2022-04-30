@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display a customer's booking history
+	and information for each booking in a table
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
 import showDate from "../showDate";
@@ -5,6 +10,10 @@ import host from '../host';
 import orderState from "../staff/orderState";
 import {useAccount} from "../authorize";
 
+/**
+ * Returns the customer's booking history, a list of all previous
+ * orders they have made
+ */
 export default function CustomerBookingHistory() {
     const [account] = useAccount();
     const [bookingHistory, setBookingHistory] = useState('');
@@ -14,6 +23,9 @@ export default function CustomerBookingHistory() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of bookings from backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/Users/${account.id}/orders`, {

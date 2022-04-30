@@ -1,9 +1,18 @@
+/*
+	Purpose of file: Display all bookings in a table and show
+	extra information when a specific booking is selected
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
 import { useAccount } from '../../authorize';
 import host from '../../host';
 
+/**
+ * Returns the employee booking history page, shows a list of
+ * all previous bookings
+ */
 export default function EmployeeBookingHistory() {
     const [account] = useAccount();
     const navigate = useNavigate();
@@ -13,6 +22,9 @@ export default function EmployeeBookingHistory() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of bookings from backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + "api/admin/Orders/", {

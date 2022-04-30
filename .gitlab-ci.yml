@@ -5,14 +5,8 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test-sast
 - test-integration
 - compile-documentation
-
-sast:
-  stage: test-sast
-include:
-- template: Security/SAST.gitlab-ci.yml
 
 test-backend:
   stage: test-integration

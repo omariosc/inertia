@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Allow a staff member to create a booking
+	for an unregistered user
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
@@ -6,6 +11,10 @@ import {NotificationManager} from "react-notifications";
 import {useAccount} from '../../authorize';
 import host from "../../host";
 
+/**
+ * Returns the employee create guest booking page which allows a staff
+ * member to create a booking for an unregistered user
+ */
 export default function EmployeeCreateGuestBooking() {
     const [account] = useAccount();
     let navigate = useNavigate();
@@ -46,6 +55,9 @@ export default function EmployeeCreateGuestBooking() {
 
     }, [startTime, startDate, hireChoiceId, depotChoiceId]);
 
+		/**
+		 * Gets list of available locations from backend server
+		 */
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -62,6 +74,9 @@ export default function EmployeeCreateGuestBooking() {
         }
     }
 
+		/**
+		 * Calculates the start time of the new booking
+		 */
     function calcStartIso() {
         let hours = parseInt(startTime.slice(0, 2));
         let mins = parseInt(startTime.slice(3, 5));
@@ -70,6 +85,9 @@ export default function EmployeeCreateGuestBooking() {
         return bookingStart.toISOString()
     }
 
+		/**
+		 * Calculates the end time of the new booking
+		 */
     function calcEndIso() {
         let hours = parseInt(startTime.slice(0, 2));
         let mins = parseInt(startTime.slice(3, 5));
@@ -79,6 +97,9 @@ export default function EmployeeCreateGuestBooking() {
         return bookingEnd.toISOString()
     }
 
+		/**
+		 * Gets list of available scooters for the order from the backend server
+		 */
     async function fetchAvailableScooters() {
         let valid = true
         let validateFuncs = [validateTime, validateDate, validateDepot, validateHireSlot]
@@ -111,6 +132,9 @@ export default function EmployeeCreateGuestBooking() {
         }
     }
 
+		/**
+		 * Gets list of available hire lengths for the order from the backend server
+		 */
     async function fetchHirePeriods() {
         try {
             let request = await fetch(host + "api/HireOptions", {
@@ -128,6 +152,9 @@ export default function EmployeeCreateGuestBooking() {
         }
     }
 
+		/**
+		 * Checks that the provided name for the order is valid
+		 */
     function validateName(stateChange) {
         let valid = name.length > 0;
         if (stateChange) {
@@ -136,6 +163,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the provided email for the order is valid
+		 */
     function validateEmail(stateChange) {
         let valid = email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (stateChange) {
@@ -144,6 +174,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the provided "confirm email" field for the order is valid
+		 */
     function validateConfirm(stateChange) {
         let valid = email === confirmEmail;
         if (stateChange) {
@@ -152,6 +185,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the date of the new order is valid
+		 */
     function validateDate(stateChange) {
         let currentDate = new Date();
         let dStartDate = new Date(startDate);
@@ -164,6 +200,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the time of the new order is valid
+		 */
     function validateTime(stateChange) {
         let valid;
         if (startTime.length !== 5) {
@@ -187,6 +226,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the depot of the new order is valid
+		 */
     function validateDepot(stateChange) {
         let valid = depotChoiceId !== '' && depotChoiceId !== 'none';
         if (stateChange) {
@@ -195,6 +237,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the chosen scooter for the new order is valid
+		 */
     function validateScooter(stateChange) {
         let valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
         if (stateChange) {
@@ -203,6 +248,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the hiring length of the order is valid
+		 */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
         if (stateChange) {
@@ -211,6 +259,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the card number of the new order is valid
+		 */
     function validateCardNo(stateChange) {
         let valid = cardNo.length > 9 && cardNo.length < 20;
         if (stateChange) {
@@ -219,6 +270,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the expiry date of the card of the new order is valid
+		 */
     function validateExpDate(stateChange) {
         let valid = expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/);
         if (stateChange) {
@@ -227,6 +281,9 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
+		/**
+		 * Checks that the CVV of the card of the new order is valid
+		 */
     function validateCVV(stateChange) {
         let valid = cvv.match(/^[0-9]{3,4}$/);
         if (stateChange) {
@@ -236,6 +293,10 @@ export default function EmployeeCreateGuestBooking() {
     }
 
 
+		/**
+		 * If all validations are passed and booking can be made, creates the booking
+		 * and updates the backend server
+		 */
     async function createGuestBooking() {
         let valid = true
         let validateFuncs = [validateName, validateEmail, validateConfirm, validateTime, validateDate, validateDepot, validateScooter, validateHireSlot, validateCardNo, validateCVV, validateExpDate]
@@ -413,7 +474,8 @@ export default function EmployeeCreateGuestBooking() {
                                                              setPrice(value[1]);
                                                          }}>
 
-                                                <option value="none" key="none" disabled hidden>Select Hire Period
+                                                <option value="none" key="none" disabled hidden>
+                                                    Select Hire Period
                                                 </option>
                                                 {hireOptions.map((option, idx) => (
                                                     <option key={idx}
@@ -556,7 +618,6 @@ export default function EmployeeCreateGuestBooking() {
                     <h5>Booking Details</h5>
                     <div className="padding-down">
                         Depot:
-
                         {(map_locations === "") ? <> Loading depots... </> :
                             <Form.Select value={depotChoiceId} isInvalid={!validDepot} onChange={(e) => {
                                 setDepotChoiceId(e.target.value);

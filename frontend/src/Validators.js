@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Validators for registration, checks that
+	supplied name, email, password are in correct format.
+*/
+
 import {NotificationManager} from "react-notifications";
 
 // Validators for registration.

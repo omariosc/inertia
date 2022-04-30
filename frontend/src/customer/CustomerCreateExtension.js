@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allow a customer to extend one of their ongoing bookings
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
@@ -7,6 +11,10 @@ import moment from "moment";
 import Cards from "elt-react-credit-cards";
 import {useAccount} from "../authorize";
 
+/**
+ * Returns the customer extension page, where they are able to
+ * extend a currently ongoing booking
+ */
 export default function CustomerCreateExtension() {
     const [account] = useAccount();
     const navigate = useNavigate();
@@ -36,6 +44,9 @@ export default function CustomerCreateExtension() {
         checkCardExists();
     }, []);
 
+		/**
+		 * Gets information of the specific order from the backend server
+		 */
     async function fetchOrderInfo() {
         try {
             let request = await fetch(host + `api/Orders/${orderId}`, {
@@ -60,6 +71,10 @@ export default function CustomerCreateExtension() {
         }
     }
 
+		/**
+		 * Check if a user is eligible for frequent user status, applies the discount
+		 * and updates backend server if they are
+		 */
     async function getDiscountStatus() {
         try {
             let request = await fetch(host + `api/Users/${account.id}/orders`, {
@@ -94,6 +109,10 @@ export default function CustomerCreateExtension() {
         }
     }
 
+		/**
+		 * Checks if the user is eligible for any other discount types (e.g. Student) and
+		 * applies the discount if they are
+		 */
     async function fetchDiscountStatus() {
         try {
             let request = await fetch(host + `api/Users/${account.id}/profile`, {
@@ -121,6 +140,9 @@ export default function CustomerCreateExtension() {
         }
     }
 
+		/**
+		 * Gets list of available hire lengths from the backend server
+		 */
     async function fetchHirePeriods() {
         try {
             let request = await fetch(host + "api/HireOptions", {
@@ -180,6 +202,10 @@ export default function CustomerCreateExtension() {
     }
 
 
+		/**
+		 * Extends the booking for the chosen amount of time and updates the
+		 * backend server
+		 */
     async function extendBooking() {
         let valid = true
         let validateFuncs = [validateHireSlot, validateCardNo, validateCVV, validateExpDate]
@@ -231,6 +257,9 @@ export default function CustomerCreateExtension() {
         }
     }
 
+		/**
+		 * Checks if a card is stored in local cookies
+		 */
     function checkCardExists() {
         if (localStorage.getItem(account.id)) {``
             setSavedCardDetails(JSON.parse(localStorage.getItem(account.id)));
@@ -238,7 +267,9 @@ export default function CustomerCreateExtension() {
         return (!!localStorage.getItem(account.id));
     }
 
-
+		/**
+		 * Displays total cost of the extension to the customer
+		 */
     function DisplayCost() {
         return (
             (isNaN(parseFloat(price))) ? null :
@@ -491,12 +522,8 @@ export default function CustomerCreateExtension() {
             </div>
             <br/>
             <Button className="float-right"
-                    onClick={extendBooking}>Extend Booking</Button>
-            <div className="issue-filters-mobile">
-                <br/>
-                <br/>
-                <br/>
-            </div>
+                    onClick={extendBooking}>Confirm Extension</Button>
+            <br/>
         </Container>
     );
 };

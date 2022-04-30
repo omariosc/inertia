@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Open the specific overview of an issue to
+	access detailed information about it
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";

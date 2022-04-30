@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allow a customer to cancel an existing booking of theirs
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
@@ -7,6 +11,9 @@ import showDate from "../showDate";
 import orderState from "../staff/orderState";
 import {useAccount} from "../authorize";
 
+/**
+ * Returns the customer cancel booking page
+ */
 export default function CustomerCancelBooking() {
     const [account] = useAccount();
     const navigate = useNavigate();
@@ -18,6 +25,9 @@ export default function CustomerCancelBooking() {
         fetchOrderInfo();
     }, []);
 
+		/**
+		 * Gets the details of the chosen order
+		 */
     async function fetchOrderInfo() {
         try {
             let request = await fetch(host + `api/Orders/${orderId}`, {
@@ -42,6 +52,9 @@ export default function CustomerCancelBooking() {
     }
 
 
+		/**
+		 * Cancels the chosen order and updates the backend server
+		 */
     async function cancelBooking() {
         try {
             let request = await fetch(host + `api/Orders/${orderId}/cancel`, {

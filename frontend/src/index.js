@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Index page of application
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';

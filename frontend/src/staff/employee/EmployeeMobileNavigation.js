@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Navigation for employee accounts on mobile devices
+*/
+
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Nav} from "react-bootstrap";
@@ -7,6 +11,10 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
 import {useAccount} from "../../authorize";
 
+/**
+ * Returns the employee navigation bar with links for browsing the application
+ * on mobile devices
+ */
 export default function EmployeeMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu-staff" color="white" size="35"
@@ -15,6 +23,9 @@ export default function EmployeeMobileNavigation() {
     const [, signOut, ] = useAccount();
     const navigate = useNavigate();
 
+		/**
+		 * Groups the different links required for the navigation bar
+		 */
     function Links() {
         return (
             <Nav

@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allows a user to either sign in or out of their account
+*/
+
 import Cookies from "universal-cookie";
 import host from "./host";
 import {createContext, useContext, useMemo, useState} from "react";

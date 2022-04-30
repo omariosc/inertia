@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Allow a staff account to change their password
+*/
+
 import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import { useAccount } from '../authorize';

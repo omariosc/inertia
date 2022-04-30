@@ -1,3 +1,7 @@
+/*
+	Purpose of file: General framework for the customer interface
+*/
+
 import React from "react";
 import {Outlet, Link} from 'react-router-dom';
 import {Row, Col, Nav} from "react-bootstrap";
@@ -5,6 +9,9 @@ import UserMenu from '../components/UserMenu';
 import CustomerNavigation from "./CustomerNavigation";
 import CustomerMobileNavigation from "./CustomerMobileNavigation";
 
+/**
+ * Returns the boilerplate required for the customer interface
+ */
 export default function CustomerInterface() {
     const headers = {
         "/create-booking": "Create Booking",

@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display pending bookings to a staff member
+	and allow them to approve or deny them
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
@@ -6,6 +11,10 @@ import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
 import host from "../../host";
 
+/**
+ * Returns employee booking application page, shows a list of
+ * bookings made by unregistered users
+ */
 export default function EmployeeBookingApplications() {
     const [account] = useAccount();
     const [bookingHistory, setBookingHistory] = useState('');
@@ -16,6 +25,9 @@ export default function EmployeeBookingApplications() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of unregistered users' bookings from backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/admin/Orders/`, {
@@ -43,6 +55,10 @@ export default function EmployeeBookingApplications() {
         }
     }
 
+		/**
+		 * Approves the booking associated with the provided ID and updates the
+		 * backend server
+		 */
     async function approveBooking(id) {
         try {
             let request = await fetch(host + `api/admin/Orders/${id}/approve`, {
@@ -66,6 +82,10 @@ export default function EmployeeBookingApplications() {
         await fetchBookings();
     }
 
+		/**
+		 * Denies the booking associated with the provided ID and updates
+		 * the backend server
+		 */
     async function denyBooking(id) {
         try {
             let request = await fetch(host + `api/admin/Orders/${id}/deny`, {

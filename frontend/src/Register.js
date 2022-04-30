@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Allows a new user to register to the application
+*/
+
+
 import React, {useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";

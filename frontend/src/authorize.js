@@ -65,19 +65,22 @@ export function signIn(setAccount, email, password, callback) {
                     cookies.set("accountName", response.account.name, {path: '/'});
                     cookies.set("accountRole", response.account.role, {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
-                    setAccount(new Account(
+
+                    let account = new Account(
                         response.account.name,
                         String(response.account.role),
                         response.account.accountId,
-                        response.accessToken)
+                        response.accessToken
                     );
 
+                    setAccount(account);
+
                     if (callback) {
-                        callback('login success');
+                        callback('login success', account);
                     }
                 } else {
                     if (callback) {
-                        callback('login error');
+                        callback('login error', null);
                     }
                 }
             })

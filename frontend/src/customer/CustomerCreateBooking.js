@@ -37,7 +37,6 @@ export default function CustomerCreateBooking() {
     const [discountType, setDiscountType] = useState('');
     const [loading, setLoading] = useState('');
     const [saveCard, setSaveCard] = useState(false);
-    const [savedDetailsDeleted, setSavedDetailsDeleted] = useState(false);
     let cardDetails = {};
 
     useEffect(() => {
@@ -324,7 +323,7 @@ export default function CustomerCreateBooking() {
         NotificationManager.error("Please fill in all required fields.", "Error");
       } else if (response.status === 200) {
         NotificationManager.success("Created Booking.", "Success");
-        if ((!checkCardExists() || savedDetailsDeleted) && saveCard) {
+        if (checkCardExists()  && saveCard) {
           const card = {
             cardNumber: cardNo,
             expiryDate: expiry,
@@ -341,10 +340,10 @@ export default function CustomerCreateBooking() {
   }
 
   function checkCardExists() {
-    if (localStorage.getItem(cookies.get("accountId"))) {
-      cardDetails = JSON.parse(localStorage.getItem(cookies.get("accountId")));
+    if (localStorage.getItem(cookies.get("accountID"))) {
+      cardDetails = JSON.parse(localStorage.getItem(cookies.get("accountID")));
     }
-    return (!!localStorage.getItem(cookies.get("accountId")));
+    return (!!localStorage.getItem(cookies.get("accountID")));
   }
 
   function DisplayCost() {
@@ -514,7 +513,7 @@ export default function CustomerCreateBooking() {
             <br/>
             <DisplayCost/>
       <div className="issue-filters">
-        {!checkCardExists() || savedDetailsDeleted ?
+        {!checkCardExists() ?
           <>
             <h5>Payment details</h5>
             <Row className="pb-2 small-padding-top">
@@ -602,7 +601,7 @@ export default function CustomerCreateBooking() {
                 <Button
                   variant="danger"
                   onClick={() => {
-                    localStorage.removeItem(cookies.get("accountId"));
+                    localStorage.removeItem(cookies.get("accountID"));
                     navigate('/create-booking');
                     NotificationManager.success("Deleted credit card details.", "Success");
                   }}>
@@ -672,7 +671,7 @@ export default function CustomerCreateBooking() {
               variant="danger"
               className="float-right"
               onClick={() => {
-                localStorage.removeItem(cookies.get("accountId"));
+                localStorage.removeItem(cookies.get("accountID"));
                 navigate('/create-booking');
                 NotificationManager.success("Deleted credit card details.", "Success");
               }}>

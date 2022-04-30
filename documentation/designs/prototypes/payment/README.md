@@ -1,3 +1,3 @@
-﻿# Payment
+﻿# Payment Prototypes
 
-This directory contains all payment interface designs of the `inertia` project
+This directory contains all payment interface design prototypes.

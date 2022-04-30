@@ -17,6 +17,7 @@ where the database is stored. This deployment is a production deployment, which 
 run in release mode.
 
 ####  Prerequisites
+
 ```sh
 # install docker (or replacement) and docker-compose
 
@@ -34,6 +35,7 @@ sudo dnf install podman docker-compose
 ```
 
 #### Deployment
+
 ```shell
 git clone https://gitlab.com/sc20aim/inertia
 docker-compose up
@@ -41,8 +43,10 @@ docker-compose up
 
 ### Development Mode components
 
-#### Prerequisites
+#### Development Prerequisites
+
 The project requires the following software packages in order to be built:
+
 * dotnet sdk
 * nodejs
 * npm
@@ -50,12 +54,15 @@ The project requires the following software packages in order to be built:
 * (optionally) python3 for running backend tests
 
 The following commands show how these packages can be acquired on Fedora Linux (34, 35):
+
 ```shell
 sudo dnf install dotnet npm nodejs python3 python3-pip doxygen 
 ```
 
 #### Backend
+
 Running the backend in development mode can be done like so:
+
 ```shell
 # assuming the current working directory is: inertia/backend
 dotnet restore inertia.csproj
@@ -64,25 +71,30 @@ dotnet run
 ```
 
 #### Running the tests
-```shell 
+
+```shell
 # assuming the current working directory is: inertia/backend-testing
 pip3 install -r requirements.txt
 python3 main.py https://localhost:7220
 ```
 
 #### Building documentation
+
 ```shell
 # assuming the current working directory is: inertia/backend
 doxygen .doxygen
 ```
 
 #### Frontend
+
 Before running the frontend component, the file `frontend/src/host.js` must be modified to contain:
+
 ```js
 // Backend host IP address.
 let host = "https://localhost:7220";
 export default host;
 ```
+
 This will ensure that the frontend will connect to the backend that is running in the development mode.
 
 ```shell
@@ -90,16 +102,21 @@ This will ensure that the frontend will connect to the backend that is running i
 npm install
 npm start
 ```
+
 ## Extras
 
 ### Final Demonstration
+
 The project marking guide is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/marking-guide) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
 
 ### Interim Deliverables
+
 The full interim deliverable specification list is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/interim) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
 
 ### Documentation
+
 Documentation of the project is available [here](https://gitlab.com/sc20aim/inertia/-/tree/main/documentation).
 
 ### Backend Documentation
+
 Documentation of the backend component is available [here](https://gitlab.com/sc20aim/inertia/-/raw/main/documentation/backend.pdf).

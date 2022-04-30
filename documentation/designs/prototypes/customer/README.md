@@ -1,3 +1,3 @@
-﻿# Customer
+﻿# Customer Prototypes
 
-This directory contains all customer interface designs of the `inertia` project
+This directory contains all customer interface design prototypes.

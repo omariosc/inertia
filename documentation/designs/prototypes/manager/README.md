@@ -1,3 +1,3 @@
-﻿# Manager
+﻿# Manager Prototypes
 
-This directory contains all manager interface designs of the `inertia` project
+This directory contains all manager interface design prototypes.

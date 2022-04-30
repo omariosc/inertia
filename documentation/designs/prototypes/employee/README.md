@@ -1,3 +1,3 @@
-﻿# Employee
+﻿# Employee Prototypes
 
-This directory contains all employee interface designs of the `inertia` project
+This directory contains all employee interface design prototypes.

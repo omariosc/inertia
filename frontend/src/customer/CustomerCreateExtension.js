@@ -363,7 +363,7 @@ export default function CustomerCreateExtension() {
                                     setSaveCard(e.target.checked)}/>
                             </Col>
                         </Row>
-                        <Row className="pb-2 small-padding-top">
+                        <Row className="small-padding-bottom">
                             <Cards
                                 cvc={cvv}
                                 expiry={expiry}
@@ -460,7 +460,7 @@ export default function CustomerCreateExtension() {
                                 <Form.Switch onClick={(e) => setSaveCard(e.target.checked)}/>
                             </Col>
                         </Row>
-                        <Row className="small-padding-bottom">
+                        <Row className="small-padding-bottom customer-create-booking-card">
                             <Cards
                                 cvc={cvv}
                                 expiry={expiry}

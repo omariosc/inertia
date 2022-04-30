@@ -700,7 +700,7 @@
         right: 15px;
         top: 55px;
         width: auto;
-        z-index: 10000000;
+        z-index: 10000000 !important;
     }
 
     .hamburger-menu {
@@ -761,6 +761,10 @@
 
 .small-padding-bottom {
     padding-bottom: 10px;
+}
+
+.customer-create-booking-card *{
+    z-index: -1;
 }
 
 @media (max-width: 991px) {

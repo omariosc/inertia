@@ -692,7 +692,7 @@ export default function CustomerCreateBooking() {
                                 <Form.Switch onClick={(e) => setSaveCard(e.target.checked)}/>
                             </Col>
                         </Row>
-                        <Row className="small-padding-bottom">
+                        <Row className="small-padding-bottom customer-create-booking-card">
                             <Cards
                                 cvc={cvv}
                                 expiry={expiry}

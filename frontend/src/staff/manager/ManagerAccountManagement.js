@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import {Button, Container, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import validate from '../../Validators';
 import host from '../../host';
 
 export default function ManagerAccountManagement() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,7 +22,7 @@ export default function ManagerAccountManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     'name': name,
@@ -41,7 +41,7 @@ export default function ManagerAccountManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -63,7 +63,7 @@ export default function ManagerAccountManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     'accountRole': 1

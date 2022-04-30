@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from '../../host';
 
 export default function EmployeeBookingHistory() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const [bookings, setBookings] = useState('');
 
@@ -20,7 +20,7 @@ export default function EmployeeBookingHistory() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });

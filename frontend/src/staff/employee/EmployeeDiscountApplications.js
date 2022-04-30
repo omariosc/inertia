@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
 
 export default function EmployeeDiscountApplications() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [applications, setApplications] = useState('');
     const [image, setImage] = useState(null);
     const applicationType = ["Student", "Senior"];
@@ -21,7 +21,7 @@ export default function EmployeeDiscountApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -38,7 +38,7 @@ export default function EmployeeDiscountApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -56,7 +56,7 @@ export default function EmployeeDiscountApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });

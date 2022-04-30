@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {NotificationManager} from "react-notifications";
-import { useAccount } from '../../authorize';
+import {useAccount} from '../../authorize';
 import host from "../../host";
 
 export default function EmployeeCreateGuestBooking() {
@@ -128,7 +128,7 @@ export default function EmployeeCreateGuestBooking() {
         }
     }
 
-    function validateName(stateChange){
+    function validateName(stateChange) {
         let valid = name.length > 0;
         if (stateChange) {
             setValidName(valid);
@@ -136,7 +136,7 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
-    function validateEmail(stateChange){
+    function validateEmail(stateChange) {
         let valid = email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (stateChange) {
             setValidEmail(valid);
@@ -144,7 +144,7 @@ export default function EmployeeCreateGuestBooking() {
         return valid;
     }
 
-    function validateConfirm(stateChange){
+    function validateConfirm(stateChange) {
         let valid = email === confirmEmail;
         if (stateChange) {
             setValidConfirm(valid);
@@ -304,7 +304,7 @@ export default function EmployeeCreateGuestBooking() {
                             <Container className="autoScrollSub">
                                 <h5>Customer Details</h5>
                                 <Row className="pb-2 small-padding-top">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Name:
                                     </Col>
                                     <Col className="text-end">
@@ -317,7 +317,7 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Email Address:
                                     </Col>
                                     <Col className="text-end">
@@ -330,7 +330,7 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end align-self-center">Confirm Email Address</Col>
+                                    <Col className="col-5 text-end align-self-center">Confirm Email Address</Col>
                                     <Col className="text-end">
                                         <Form.Control type="email" placeholder="name@example.com"
                                                       isInvalid={!validConfirm}
@@ -342,15 +342,16 @@ export default function EmployeeCreateGuestBooking() {
                                 </Row>
                                 <h5>Booking Details</h5>
                                 <Row className="pb-2">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Depot:
                                     </Col>
                                     <Col>
                                         {(map_locations === "") ? <> Loading depots... </> :
-                                            <Form.Select value={depotChoiceId} isInvalid={!validDepot} onChange={(e) => {
-                                                setDepotChoiceId(e.target.value);
-                                                setScooterChoiceId("");
-                                            }}>
+                                            <Form.Select value={depotChoiceId} isInvalid={!validDepot}
+                                                         onChange={(e) => {
+                                                             setDepotChoiceId(e.target.value);
+                                                             setScooterChoiceId("");
+                                                         }}>
                                                 <option value="" key="none" disabled hidden>Select Depot</option>
                                                 {map_locations.map((depot, idx) => (
                                                     <option value={depot.depoId}
@@ -361,7 +362,7 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Start Date:
                                     </Col>
                                     <Col>
@@ -371,7 +372,7 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Start Time:
                                     </Col>
                                     <Col>
@@ -400,20 +401,23 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Hire Period:
                                     </Col>
                                     <Col>
                                         {(hireOptions === "") ? <>Loading hire periods...</> : <>
-                                            <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
-                                                let value = e.target.value.split(',')
-                                                setHireChoiceId(value[0]);
-                                                setPrice(value[1]);
-                                            }}>
+                                            <Form.Select isInvalid={!validHireSlot} defaultValue="none"
+                                                         onChange={(e) => {
+                                                             let value = e.target.value.split(',')
+                                                             setHireChoiceId(value[0]);
+                                                             setPrice(value[1]);
+                                                         }}>
 
-                                                <option value="none" key="none" disabled hidden>Select Hire Period</option>
+                                                <option value="none" key="none" disabled hidden>Select Hire Period
+                                                </option>
                                                 {hireOptions.map((option, idx) => (
-                                                    <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
+                                                    <option key={idx}
+                                                            value={[option.hireOptionId, option.cost]}>{option.name} -
                                                         £{option.cost}</option>
                                                 ))}
                                             </Form.Select>
@@ -422,7 +426,7 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Scooter:
                                     </Col>
                                     <Col>
@@ -435,7 +439,8 @@ export default function EmployeeCreateGuestBooking() {
                                                 setScooterChoiceId(e.target.value);
                                             }}>
                                             {scooters === "" ?
-                                                <option value="" key="none" disabled hidden>Please fill in other details</option> : <>
+                                                <option value="" key="none" disabled hidden>Please fill in other
+                                                    details</option> : <>
                                                     <option value="" key="none" disabled hidden>Select Scooter</option>
                                                     {scooters.map((scooter, idx) => (
                                                         <option value={scooter.scooterId}
@@ -450,7 +455,7 @@ export default function EmployeeCreateGuestBooking() {
                                 {price === "" ? null : <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>}
                                 <h5>Payment details</h5>
                                 <Row className="pb-2 small-padding-top">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Card Number:
                                     </Col>
                                     <Col className="text-end">
@@ -463,7 +468,7 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         Expiry Date:
                                     </Col>
                                     <Col className="text-end">
@@ -476,7 +481,7 @@ export default function EmployeeCreateGuestBooking() {
                                     </Col>
                                 </Row>
                                 <Row className="pb-2">
-                                    <Col className="text-end col-6 align-self-center">
+                                    <Col className="col-5 text-end align-self-center">
                                         CVV:
                                     </Col>
                                     <Col className="text-end">
@@ -551,9 +556,9 @@ export default function EmployeeCreateGuestBooking() {
                     <h5>Booking Details</h5>
                     <div className="padding-down">
                         Depot:
+
                         {(map_locations === "") ? <> Loading depots... </> :
-                            <Form.Select value={depotChoiceId}
-                                         isInvalid={!validScooter} onChange={(e) => {
+                            <Form.Select value={depotChoiceId} isInvalid={!validDepot} onChange={(e) => {
                                 setDepotChoiceId(e.target.value);
                                 setScooterChoiceId("");
                             }}>
@@ -566,54 +571,72 @@ export default function EmployeeCreateGuestBooking() {
                         }
                     </div>
                     <div className="padding-down">
-                        Scooter:
-                        {(scooters === "") ? <> Loading scooters... </> :
-                            <Form.Select value={scooterChoiceId}
-                                         isInvalid={!validScooter}
-                                         disabled={depotChoiceId === ""}
-                                         onChange={(e) => {
-                                             setScooterChoiceId(e.target.value);
-                                         }}>
-                                {depotChoiceId === "" ?
-                                    <option value="" key="none" disabled hidden>Select Depot
-                                        First</option> : <>
-                                        <option value="" key="none" disabled hidden>Select Scooter
-                                        </option>
-                                        {scooters.filter((scooter) => {
-                                            if (scooter.depoId.toString() === depotChoiceId.toString()) {
-                                                return scooter;
-                                            } else {
-                                                return null;
-                                            }
-                                        }).map((scooter, idx) => (
-                                            <option value={scooter.scooterId}
-                                                    key={idx}>{scooter.softScooterId}</option>
-                                        ))}
-                                    </>
-                                }
-
-                            </Form.Select>
-                        }
+                        Start Date:
+                        <Form.Control type="date" isInvalid={!validStartDate} onChange={(e) => {
+                            setStartDate(e.target.value);
+                        }}/>
+                    </div>
+                    <div className="padding-down">
+                        Start Time:
+                        <Form.Control type="time"
+                                      isInvalid={!validStartTime}
+                                      value={startTime}
+                                      onChange={(e) => {
+                                          let output = e.target.value.slice(0, 3);
+                                          let minutes = parseInt(e.target.value.slice(3, 5));
+                                          if (minutes % 15 === 1) {
+                                              minutes = (minutes + 14) % 60
+                                          } else if (minutes % 15 === 14) {
+                                              minutes = (minutes - 14)
+                                          } else if (minutes % 15 !== 0) {
+                                              minutes = (Math.round(minutes / 15) % 4) * 15
+                                          }
+                                          let minString = minutes.toString();
+                                          if (minString.length === 1) {
+                                              output += "0" + minString;
+                                          } else {
+                                              output += minString;
+                                          }
+                                          setStartTime(output);
+                                      }
+                                      }/>
                     </div>
                     <div className="padding-down">
                         Hire Period:
                         {(hireOptions === "") ? <>Loading hire periods...</> : <>
-                            <Form.Select isInvalid={!validHireSlot} defaultValue="none"
-                                         onChange={(e) => {
-                                             let value = e.target.value.split(',')
-                                             setHireChoiceId(value[0]);
-                                             setPrice(value[1])
-                                         }}>
-                                <option value="none" key="none" disabled hidden>Select Hire Period
-                                </option>
+                            <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
+                                let value = e.target.value.split(',')
+                                setHireChoiceId(value[0]);
+                                setPrice(value[1]);
+                            }}>
+                                <option value="none" key="none" disabled hidden>Select Hire Period</option>
                                 {hireOptions.map((option, idx) => (
-                                    <option key={idx}
-                                            value={[option.hireOptionId, option.cost]}>{option.name} -
+                                    <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
                                         £{option.cost}</option>
                                 ))}
                             </Form.Select>
                         </>
                         }
+                    </div>
+                    <div className="padding-down">
+                        Scooter:
+                        <Form.Select
+                            value={scooterChoiceId}
+                            isInvalid={!validScooter}
+                            disabled={scooters === ""}
+                            onChange={(e) => {
+                                setScooterChoiceId(e.target.value);
+                            }}>
+                            {scooters === "" ?
+                                <option value="" key="none" disabled hidden>Please fill in other details</option> : <>
+                                    <option value="" key="none" disabled hidden>Select Scooter</option>
+                                    {scooters.map((scooter, idx) => (
+                                        <option value={scooter.scooterId}
+                                                key={idx}>{scooter.softScooterId}</option>
+                                    ))}
+                                </>
+                            }
+                        </Form.Select>
                     </div>
                     <div className="padding-down">
                         {price === "" ? null : <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>}
@@ -648,7 +671,9 @@ export default function EmployeeCreateGuestBooking() {
                         </Form.Control.Feedback>
                     </div>
                 </div>
+                <div className="text-center">
                 <Button onClick={createGuestBooking}>Confirm Booking</Button>
+                </div>
             </Container>
         </>
     )

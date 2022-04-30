@@ -48,6 +48,7 @@ export default function ManagerStatistics() {
             </p>
             <h3 id="pageName">Statistics</h3>
             <hr id="underline"/>
+            <br/>
             <Container>
                 {(weeklyData === '') ?
                     <p>Loading weekly hire options graph...</p> :

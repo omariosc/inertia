@@ -6,7 +6,7 @@
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from "../../host";
 
 /**
@@ -14,7 +14,7 @@ import host from "../../host";
  * depots available
  */
 export default function ManagerDepotManagement() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [depots, setDepots] = useState('');
     const [newName, setNewName] = useState('');
     const [newLatitude, setNewLatitude] = useState('');
@@ -90,7 +90,7 @@ export default function ManagerDepotManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify(json),
                 mode: "cors"
@@ -138,7 +138,7 @@ export default function ManagerDepotManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "name": createName,
@@ -170,7 +170,7 @@ export default function ManagerDepotManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });

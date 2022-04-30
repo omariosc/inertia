@@ -13,6 +13,6 @@ services:
     build: nginx/
     restart: always
     ports:
-      - "42069:80"
+      - "80:80"
 volumes:
     backend_data: {}

@@ -6,7 +6,7 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
 import host from "../../host";
 
@@ -15,7 +15,7 @@ import host from "../../host";
  * a list of current bookings
  */
 export default function EmployeeOngoingBookings() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const [bookingHistory, setBookingHistory] = useState('');
 
@@ -35,21 +35,20 @@ export default function EmployeeOngoingBookings() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
             let allBookings = await request.json();
-            let ongoingBookings = [];
-            for (let i = 0; i < allBookings.length; i++) {
-                if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
-                    if (allBookings[i]['extensions'].length > 0) {
-                        allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+            setBookingHistory(allBookings.filter((booking) => {
+                if(booking.orderState >= 1 &&  booking.orderState <= 3) {
+                    if(booking.extensions.length > 0) {
+                        booking.endTime = booking.extensions[booking.extensions.length-1].endTime;
                     }
-                    ongoingBookings.push(allBookings[i]);
+                    return booking;
                 }
-            }
-            setBookingHistory(ongoingBookings);
+                return null;
+            }));
         } catch (e) {
             console.log(e);
         }

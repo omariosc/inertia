@@ -25,7 +25,7 @@ export default function ManagerInterface() {
                         <Navbar.Text className="navbar-pad-right text-white">
                             Logged in as: {account.name}
                         </Navbar.Text>
-                        <Nav.Item className="navbar-pad-right">
+                        <Nav.Item className="navbar-pad-right dropDownMenu">
                             <UserMenu/>
                         </Nav.Item>
                     </Navbar.Collapse>
@@ -35,7 +35,7 @@ export default function ManagerInterface() {
                         <ManagerNavigation/>
                         <ManagerMobileNavigation/>
                     </Col>
-                    <Col xs={11} lg={7} xl={9}>
+                    <Col xs={11} lg={8} xl={9}>
                         <Outlet/>
                         <br/>
                         <br/>

@@ -27,7 +27,7 @@ export default function CustomerMobileNavigation() {
 		 */
     function Links() {
         return (
-            <Nav defaultActiveKey="#/create-bookings" className="customer-navigation-mobile align-items-begin">
+            <Nav defaultActiveKey="/create-bookings" className="customer-navigation-mobile align-items-begin">
                 <Nav.Link as={Link} className="hover-white" to="/create-booking">Create Booking</Nav.Link>
                 <Nav.Link as={Link} className="hover-white" to="/current-bookings">Current
                     Bookings</Nav.Link>

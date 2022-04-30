@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
 
 /**
@@ -15,7 +15,7 @@ import host from "../../host";
  * to prolong a booking for an unregistered user
  */
 export default function EmployeeExtendGuestBooking() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const {orderId} = useParams();
     const [baseOrder, setBaseOrder] = useState("");
@@ -45,7 +45,7 @@ export default function EmployeeExtendGuestBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -72,7 +72,7 @@ export default function EmployeeExtendGuestBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -151,7 +151,7 @@ export default function EmployeeExtendGuestBooking() {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
-                        'Authorization': `Bearer ${cookies.get('accessToken')}`
+                        'Authorization': `Bearer ${account.accessToken}`
                     },
                     body: JSON.stringify({
                         'hireOptionId': parseInt(hireChoiceId)

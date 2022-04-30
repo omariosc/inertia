@@ -4,18 +4,18 @@
 
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
-import Cookies from "universal-cookie";
 import showDate from "../showDate";
 import host from "../host";
 import orderState from "../staff/orderState";
 import {useNavigate} from "react-router-dom";
+import {useAccount} from "../authorize";
 
 /**
  * Returns the current booking page, shows detailed information about the
  * customer's current bookings
  */
 export default function CustomerCurrentBookings() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
@@ -29,27 +29,25 @@ export default function CustomerCurrentBookings() {
 		 */
     async function fetchBookings() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+            let request = await fetch(host + `api/Users/${account.id}/orders`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
             let allBookings = await request.json();
-            let ongoingBookings = [];
-            for (let i = 0; i < allBookings.length; i++) {
-                if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
-                    if (allBookings[i]['extensions'].length > 0) {
-                        allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+            setBookingHistory(allBookings.filter((booking) => {
+                if(booking.orderState >= 1 &&  booking.orderState <= 3) {
+                    if(booking.extensions.length > 0) {
+                        booking.endTime = booking.extensions[booking.extensions.length-1].endTime;
                     }
-                    ongoingBookings.push(allBookings[i]);
+                    return booking;
                 }
-            }
-            console.log(ongoingBookings);
-            setBookingHistory(ongoingBookings);
+                return null;
+            }));
         } catch (e) {
             console.log(e);
         }

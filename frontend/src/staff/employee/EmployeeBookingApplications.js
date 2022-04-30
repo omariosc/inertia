@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
 import host from "../../host";
 
@@ -16,7 +16,7 @@ import host from "../../host";
  * bookings made by unregistered users
  */
 export default function EmployeeBookingApplications() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [bookingHistory, setBookingHistory] = useState('');
     const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ export default function EmployeeBookingApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -66,7 +66,7 @@ export default function EmployeeBookingApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -93,7 +93,7 @@ export default function EmployeeBookingApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });

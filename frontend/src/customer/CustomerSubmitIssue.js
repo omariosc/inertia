@@ -5,15 +5,15 @@
 import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
 import host from "../host";
+import {useAccount} from "../authorize";
 
 /**
  * Returns the customer submit issue page, allows them to
  * raise a new issue
  */
 export default function CustomerSubmitIssue() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [validTitle, setValidTitle] = useState(true);
@@ -29,12 +29,12 @@ export default function CustomerSubmitIssue() {
             return;
         }
         try {
-            await fetch(host + `api/Users/${cookies.get("accountID")}/issues`, {
+            await fetch(host + `api/Users/${account.id}/issues`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "title": title.toString(),

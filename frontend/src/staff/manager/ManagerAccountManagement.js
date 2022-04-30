@@ -4,9 +4,9 @@
 */
 
 import React, {useState} from "react";
-import {Button, Container, Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import validate from '../../Validators';
 import host from '../../host';
 
@@ -15,7 +15,7 @@ import host from '../../host';
  * the manager to create a new employee account
  */
 export default function ManagerAccountManagement() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -35,7 +35,7 @@ export default function ManagerAccountManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     'name': name,
@@ -54,16 +54,16 @@ export default function ManagerAccountManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
             let getResponse = await getRequest.json();
             let accountId;
             for (let i = 0; getResponse.length; i++) {
-                let account = getResponse[i];
-                if (account.email === email) {
-                    accountId = account.accountId;
+                let user = getResponse[i];
+                if (user.email === email) {
+                    accountId = user.accountId;
                     break;
                 }
             }
@@ -76,7 +76,7 @@ export default function ManagerAccountManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     'accountRole': 1
@@ -106,27 +106,25 @@ export default function ManagerAccountManagement() {
             </p>
             <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>
-            <Container>
                 <Form className="input-form">
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Employee Name</h5></Form.Label>
+                        <Form.Label><h6>Employee Name</h6></Form.Label>
                         <Form.Control autoFocus type="name" value={name} onInput={e => setName(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Employee Email</h5></Form.Label>
+                        <Form.Label><h6>Employee Email</h6></Form.Label>
                         <Form.Control type="email" value={email} onInput={e => setEmail(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Employee Password</h5></Form.Label>
+                        <Form.Label><h6>Employee Password</h6></Form.Label>
                         <Form.Control type="password" value={password} onInput={e => setPassword(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Confirm Employee Password</h5></Form.Label>
+                        <Form.Label><h6>Confirm Employee Password</h6></Form.Label>
                         <Form.Control type="password" value={confirmPassword} onInput={e => setConfirmPassword(e.target.value)}/>
                     </Form.Group>
                     <Button className="float-right" onClick={onSubmit}>Create Employee Account</Button>
                 </Form>
-            </Container>
         </>
     );
 };

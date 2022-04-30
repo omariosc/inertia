@@ -40,21 +40,20 @@ import RegisterForm from "./Register";
 import DepotList from "./components/main-page-content/DepotList";
 import Booking from "./components/main-page-content/Booking";
 import DepotEntry from "./components/main-page-content/DepotEntry";
-import {Account, AccountProvider, signIn, signOut} from './authorize';
+import {useAccount} from './authorize';
 import CustomerCreateExtension from "./customer/CustomerCreateExtension";
 import CustomerCancelBooking from "./customer/CustomerCancelBooking";
 import EmployeeExtendGuestBooking from "./staff/employee/EmployeeExtendBooking";
 import EmployeeCancelBooking from "./staff/employee/EmployeeCancelBooking";
 
 const App = () => {
-    const cookies = new Cookies();
     const navigate = useNavigate();
     const location = useLocation();
     const statefulBackgroundLocation = location.state;
+    const [account] = useAccount();
 
-    // Outlet with context (to pass signOut function) enclosed in wrapper.
     return (
-        <AccountProvider>
+        <div>
             <Routes location={statefulBackgroundLocation !== null ? statefulBackgroundLocation : location}>
                 <Route path="/" element={
                     <div id="wrapper">
@@ -62,7 +61,7 @@ const App = () => {
                         <NotificationContainer className="custom-notification"/>
                     </div>}>
                     {/* Employee Routes */}
-                    {(cookies.get('accountRole') === "1") &&
+                    {(account != null && account.role === "1") &&
                         <Route element={<EmployeeInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
                             <Route path="create-guest-booking" element={<EmployeeCreateGuestBooking/>}/>
@@ -82,7 +81,7 @@ const App = () => {
                         </Route>
                     }
                     {/* Manager Routes */}
-                    {(cookies.get('accountRole') === "2") &&
+                    {(account != null && account.role === "2") &&
                         <Route element={<ManagerInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
                             <Route path="scooter-management" element={<ManagerScooterManagement/>}/>
@@ -97,7 +96,7 @@ const App = () => {
                         </Route>
                     }
                     {/* Customer Routes */}
-                    {(cookies.get('accountRole') === "0") &&
+                    {(account != null && account.role === "0") &&
                         <Route path="" element={<CustomerInterface/>}>
                             <Route path="create-booking" element={<CustomerCreateBooking/>}/>
                             <Route path="current-bookings" element={<CustomerCurrentBookings/>}/>
@@ -141,7 +140,7 @@ const App = () => {
                     <Route path={"/signup"} element={<RegisterForm show={true} onHide={() => navigate(-1)}/>} />
                 </Routes>
             )}
-        </AccountProvider>
+        </div>
     );
 };
 

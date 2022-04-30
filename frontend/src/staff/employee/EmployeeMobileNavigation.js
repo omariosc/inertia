@@ -17,10 +17,10 @@ import {useAccount} from "../../authorize";
  */
 export default function EmployeeMobileNavigation() {
     const [open, setOpen] = useState(false);
-    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35"
+    const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu-staff" color="white" size="35"
                                            onClick={() => setOpen(!open)}/>
-    const closeIcon = <CgClose className="hamburger-menu" color="white" size="35" onClick={() => setOpen(!open)}/>
-    const [account, signOut, signIn] = useAccount();
+    const closeIcon = <CgClose className="hamburger-menu-staff" color="white" size="35" onClick={() => setOpen(!open)}/>
+    const [, signOut, ] = useAccount();
     const navigate = useNavigate();
 
 		/**
@@ -29,8 +29,7 @@ export default function EmployeeMobileNavigation() {
     function Links() {
         return (
             <Nav
-                defaultActiveKey="/home"
-                variant="pills"
+                defaultActiveKey="/home" variant="pills"
                 className="manager-vert-navbar-mobile flex-column medium-padding-left"
             >
                 <Nav.Link as={Link} to="/home">

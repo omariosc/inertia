@@ -1,14 +1,11 @@
 import React from "react";
-import {useLocation, useOutletContext, Outlet, Link} from 'react-router-dom';
-import {Row, Col, Nav, DropdownButton, Dropdown} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
+import {Outlet, Link} from 'react-router-dom';
+import {Row, Col, Nav} from "react-bootstrap";
+import UserMenu from '../components/UserMenu';
 import CustomerNavigation from "./CustomerNavigation";
 import CustomerMobileNavigation from "./CustomerMobileNavigation";
 
 export default function CustomerInterface() {
-    let location = useLocation();
-    const [signOut] = useOutletContext();
     const headers = {
         "/create-booking": "Create Booking",
         "/current-bookings": "Current Bookings",
@@ -23,13 +20,7 @@ export default function CustomerInterface() {
     return (
         <div id="overlay">
             <div id="top-bar">
-                <DropdownButton
-                    align="end"
-                    title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}
-                    className="customer-logout float-right clickable"
-                >
-                    <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
-                </DropdownButton>
+                <UserMenu/>
             </div>
             <div id="account-page">
                 <Row>
@@ -50,7 +41,7 @@ export default function CustomerInterface() {
                         <CustomerMobileNavigation/>
                     </Col>
                     <Col lg={8} xs={12}>
-                        <Outlet context={[signOut]}/>
+                        <Outlet/>
                     </Col>
                 </Row>
             </div>

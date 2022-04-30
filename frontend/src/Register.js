@@ -4,15 +4,15 @@ import {NotificationManager} from "react-notifications";
 import validate from './Validators';
 import host from './host';
 import {useNavigate} from "react-router-dom";
-import Cookies from 'universal-cookie';
+import {useAccount} from "./authorize";
 
 export default function RegisterForm(props) {
     const navigate = useNavigate();
-    const cookies = new Cookies();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [account, signOut, signIn] = useAccount();
 
 
     // Attempts to create customer account.
@@ -38,41 +38,8 @@ export default function RegisterForm(props) {
             if (response.status === 200) {
                 NotificationManager.success("Registered Account.", "Success");
                 props.onHide();
-                let request = await fetch(host + 'api/Users/authorize', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'email': email,
-                        'password': password
-                    }),
-                    mode: "cors"
-                });
-                let response = await request.json();
-                if (response.accessToken) {
-                    // Sets user cookies.
-                    cookies.set("accountID", response.account.accountId, {path: '/'});
-                    cookies.set("accountName", response.account.name, {path: '/'});
-                    cookies.set("accountRole", response.account.role, {path: '/'});
-                    cookies.set("accessToken", response.accessToken, {path: '/'});
-                    // If staff account navigates to dashboard.
-                    if (response.account.role === 2 || response.account.role === 1) {
-                        NotificationManager.success("Logged in.", "Success");
-                        navigate('/dashboard');
-                    } else if (response.account.role === 0) {
-                        NotificationManager.success("Logged in.", "Success");
-                        navigate('/create-booking');
-                    } else {
-                        NotificationManager.error("Could not log in.", "Error");
-                        console.log(response);
-                    }
-                    // Refreshes page.
-                    window.location = window.location
-                } else {
-                    NotificationManager.error("Unable to Log in.", "Error");
-                }
+                signIn(email, password);
+                navigate('/');
             } else {
                 NotificationManager.error("Email address already in use.", "Error");
             }

@@ -1,16 +1,11 @@
 import React from "react";
-import {Link, Outlet, useOutletContext} from "react-router-dom";
-import {Nav, Row, Col, Navbar, DropdownButton, Dropdown} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import ManagerMobileNavigation from "./ManagerMobileNavigation"
-import ManagerNavigation from "./ManagerNavigation"
-import Cookies from 'universal-cookie';
+import {Link, Outlet} from "react-router-dom";
+import {Nav, Row, Col, Navbar} from "react-bootstrap";
+import UserMenu from '../../components/UserMenu';
+import ManagerMobileNavigation from "./ManagerMobileNavigation";
+import ManagerNavigation from "./ManagerNavigation";
 
 export default function ManagerInterface() {
-    const cookies = new Cookies();
-    const [signOut] = useOutletContext();
-
     return (
         <div id="overlay">
             <div id="manager-wrapper" className="clickable">
@@ -21,10 +16,7 @@ export default function ManagerInterface() {
                             Logged in as: {cookies.get("accountName")}
                         </Navbar.Text>
                         <Nav.Item className="navbar-pad-right">
-                            <DropdownButton align="end" className="float-right" variant="dark"
-                                            title={<span><i><FontAwesomeIcon icon={faUser}/></i></span>}>
-                                <Dropdown.Item as={Link} to="/" onClick={signOut}>Sign Out</Dropdown.Item>
-                            </DropdownButton>
+                            <UserMenu/>
                         </Nav.Item>
                     </Navbar.Collapse>
                 </Navbar>
@@ -34,7 +26,7 @@ export default function ManagerInterface() {
                         <ManagerMobileNavigation/>
                     </Col>
                     <Col xs={11} lg={7} xl={9}>
-                        <Outlet context={[signOut]}/>
+                        <Outlet/>
                         <br/>
                         <br/>
                     </Col>

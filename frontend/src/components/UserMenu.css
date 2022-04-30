@@ -1,0 +1,51 @@
+.user-menu {
+
+}
+
+.user-menu > .dropdown-toggle {
+    border-radius: 32px;
+    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border: 1px solid white;
+}
+
+.user-menu > .dropdown-toggle::after {
+    display: none;
+}
+
+.user-menu > .dropdown-toggle.btn-primary {
+    background-color: white !important;
+    border: 1px solid white !important;
+}
+
+.user-menu > .btn-primary.dropdown-toggle:focus {
+    background-color: white !important;
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+}
+
+.user-menu > .btn-primary.dropdown-toggle:hover {
+    border: 1px solid #000000;
+    background-color: white;
+}
+
+.user-menu-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+
+.user-menu-title > .burger-menu {
+    color: black;
+}
+
+.user-menu-title > .icon {
+    color: black;
+    padding-left: 7px;
+}
+
+.user-menu > .dropdown-menu > .dropdown-item:active {
+    color: white;
+    background-color: black;
+}

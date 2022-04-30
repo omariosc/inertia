@@ -2,58 +2,13 @@ import React, {useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
-import host from './host';
+import {signIn, useAccount} from "./authorize";
 
 export default function LoginForm(props) {
     let navigate = useNavigate();
-    const cookies = new Cookies();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    // Attempts to authorize user.
-    async function onSubmit() {
-        try {
-            let request = await fetch(host + 'api/Users/authorize', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    'email': email,
-                    'password': password
-                }),
-                mode: "cors"
-            });
-            let response = await request.json();
-            if (response.accessToken) {
-                // Sets user cookies.
-                cookies.set("accountID", response.account.accountId, {path: '/'});
-                cookies.set("accountName", response.account.name, {path: '/'});
-                cookies.set("accountRole", response.account.role, {path: '/'});
-                cookies.set("accessToken", response.accessToken, {path: '/'});
-                // If manager account.
-                if (response.account.role === 2) {
-                    navigate('/dashboard');
-                    // If employee account.
-                } else if (response.account.role === 1) {
-                    navigate('/home');
-                    // If customer account.
-                } else if (response.account.role === 0) {
-                    navigate('/create-booking');
-                } else {
-                    console.log(response);
-                }
-                // Refreshes page.
-                window.location = window.location
-            } else {
-                NotificationManager.error("Login credentials invalid.", "Error");
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    const [account, signOut, signIn] = useAccount();
 
     return (
         <Modal {...props} centered>
@@ -69,7 +24,10 @@ export default function LoginForm(props) {
             </Modal.Body>
             <Modal.Footer className="justify-content-center">
                 <Button className="float-left" variant="danger" onClick={props.onHide}>Cancel</Button>
-                <Button className="float-right" onClick={onSubmit}>Login</Button>
+                <Button className="float-right" onClick={() => {
+                    signIn(email, password);
+                    navigate('/');
+                }}>Login</Button>
             </Modal.Footer>
         </Modal>
     );

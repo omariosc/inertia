@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Link, useOutletContext} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 import {MdCreate, MdDashboard, MdElectricScooter, MdManageAccounts, MdSettings} from "react-icons/md";
 import {FaExclamation} from "react-icons/fa";
@@ -7,13 +7,15 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import {CgClose} from "react-icons/cg";
 import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
+import {useAccount} from "../../authorize";
 
 export default function ManagerMobileNavigation() {
     const [open, setOpen] = useState(false);
     const hamburgerIcon = <GiHamburgerMenu className="hamburger-menu" color="white" size="35px"
                                            onClick={() => setOpen(!open)}/>
     const closeIcon = <CgClose className="hamburger-menu" color="white" size="35px" onClick={() => setOpen(!open)}/>
-    const [signOut] = useOutletContext();
+    const [account, signOut, signIn] = useAccount();
+    const navigate = useNavigate();
 
     function Links() {
         return (
@@ -46,7 +48,10 @@ export default function ManagerMobileNavigation() {
                 <Nav.Link as={Link} to="/settings">
                     <MdSettings/> Settings
                 </Nav.Link>
-                <Nav.Link as={Link} to="/" onClick={signOut}>
+                <Nav.Link as={Link} to="/" onClick={() =>{
+                    signOut();
+                    navigate('/');
+                }}>
                     Sign Out</Nav.Link>
             </Nav>);
     }

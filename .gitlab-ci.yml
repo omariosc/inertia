@@ -34,12 +34,7 @@ test-frontend:
   script:
     - cd frontend/
     - npm install
-    - npm run build
     - npm test -- --watchAll=false
-
-  artifacts:
-    paths:
-      - frontend/build/
 
 doxygen-backend:
   stage: compile-documentation

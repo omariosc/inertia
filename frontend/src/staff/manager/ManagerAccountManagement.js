@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Container, Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import validate from '../../Validators';
@@ -93,27 +93,25 @@ export default function ManagerAccountManagement() {
             </p>
             <h3 id="pageName">Create Employee Account</h3>
             <hr id="underline"/>
-            <Container>
                 <Form className="input-form">
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Employee Name</h5></Form.Label>
+                        <Form.Label><h6>Employee Name</h6></Form.Label>
                         <Form.Control autoFocus type="name" value={name} onInput={e => setName(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Employee Email</h5></Form.Label>
+                        <Form.Label><h6>Employee Email</h6></Form.Label>
                         <Form.Control type="email" value={email} onInput={e => setEmail(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Employee Password</h5></Form.Label>
+                        <Form.Label><h6>Employee Password</h6></Form.Label>
                         <Form.Control type="password" value={password} onInput={e => setPassword(e.target.value)}/>
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label><h5>Confirm Employee Password</h5></Form.Label>
+                        <Form.Label><h6>Confirm Employee Password</h6></Form.Label>
                         <Form.Control type="password" value={confirmPassword} onInput={e => setConfirmPassword(e.target.value)}/>
                     </Form.Group>
                     <Button className="float-right" onClick={onSubmit}>Create Employee Account</Button>
                 </Form>
-            </Container>
         </>
     );
 };

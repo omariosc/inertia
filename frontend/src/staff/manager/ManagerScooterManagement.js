@@ -192,7 +192,7 @@ export default function ManagerScooterManagement() {
                         {scooters.map((scooter, idx) => (
                             <tr key={idx}>
                                 <td>
-                                    <Row className="sameLine minWidthFieldLarge">
+                                    <Row className="sameLine">
                                         <Col>{scooter.softScooterId}</Col>
                                         <Col>
                                             <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)}

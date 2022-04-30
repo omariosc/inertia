@@ -60,7 +60,7 @@ export default function EmployeeSubmitIssue() {
             <hr id="underline"/>
             <Form className="input-form">
                 <Form.Group className="mb-3">
-                    <Form.Label><h5>Title</h5></Form.Label>
+                    <Form.Label><h6>Title</h6></Form.Label>
                     <Form.Control autoFocus type="text" placeholder="Enter issue title here..."
                                   isInvalid={!validTitle} onInput={e => setTitle(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">
@@ -68,7 +68,7 @@ export default function EmployeeSubmitIssue() {
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label><h5>Priority</h5></Form.Label>
+                    <Form.Label><h6>Priority</h6></Form.Label>
                     <Form.Select defaultValue="none" onChange={(e) => {
                         setPriority(e.target.value)
                     }}>
@@ -79,7 +79,7 @@ export default function EmployeeSubmitIssue() {
                     </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                    <Form.Label><h5>Description</h5></Form.Label>
+                    <Form.Label><h6>Description</h6></Form.Label>
                     <Form.Control type="text" as="textarea" rows={3} placeholder="Enter issue description here..."
                                   isInvalid={!validDescription} onInput={e => setContent(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">

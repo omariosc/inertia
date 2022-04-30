@@ -473,7 +473,7 @@ export default function CustomerCreateExtension() {
                         <h5>Using stored payment details</h5>
                         <p>Card Number: **** ****
                             **** {savedCardDetails.cardNumber.slice(savedCardDetails.cardNumber.length - 4)} </p>
-                        <p>Expiry Date: savedCardDetails.expiryDate} </p>
+                        <p>Expiry Date: {savedCardDetails.expiryDate} </p>
                         <Button
                             variant="danger"
                             className="float-right"

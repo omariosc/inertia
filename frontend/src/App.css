@@ -630,6 +630,9 @@
     .booking-responsive-mobile {
         display: initial !important;
     }
+    .dropDownMenu {
+        display: none !important;
+    }
     .booking-responsive {
         display: none;
     }
@@ -717,7 +720,7 @@
     }
 
     .input-form {
-        padding-left: 0 !important;
+        padding-left: 20px !important;
     }
 
     .manager-vert-navbar {

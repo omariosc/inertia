@@ -28,7 +28,7 @@ export default function ManagerInterface() {
                         <ManagerNavigation/>
                         <ManagerMobileNavigation/>
                     </Col>
-                    <Col xs={11} lg={7} xl={9}>
+                    <Col xs={11} lg={8} xl={9}>
                         <Outlet/>
                         <br/>
                         <br/>

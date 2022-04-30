@@ -28,17 +28,15 @@ export default function CustomerCurrentBookings() {
                 mode: "cors"
             });
             let allBookings = await request.json();
-            let ongoingBookings = [];
-            for (let i = 0; i < allBookings.length; i++) {
-                if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
-                    if (allBookings[i]['extensions'].length > 0) {
-                        allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+            setBookingHistory(allBookings.filter((booking) => {
+                if(booking.orderState >= 1 &&  booking.orderState <= 3) {
+                    if(booking.extensions.length > 0) {
+                        booking.endTime = booking.extensions[booking.extensions.length-1].endTime;
                     }
-                    ongoingBookings.push(allBookings[i]);
+                    return booking;
                 }
-            }
-            console.log(ongoingBookings);
-            setBookingHistory(ongoingBookings);
+                return null;
+            }));
         } catch (e) {
             console.log(e);
         }

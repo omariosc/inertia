@@ -17,6 +17,8 @@ import EmployeeCreateGuestBooking from "./staff/employee/EmployeeCreateBooking";
 import EmployeeBookingApplications from "./staff/employee/EmployeeBookingApplications";
 import EmployeeOngoingBookings from "./staff/employee/EmployeeOngoingBookings";
 import EmployeeBookingHistory from "./staff/employee/EmployeeBookingHistory";
+import EmployeeCancelBooking from "./staff/employee/EmployeeCancelBooking";
+import EmployeeExtendGuestBooking from "./staff/employee/EmployeeExtendBooking";
 import EmployeeViewBooking from "./staff/employee/EmployeeViewBooking";
 import EmployeeScooterManagement from "./staff/employee/EmployeeScooterManagement";
 import EmployeeSubmitIssue from "./staff/employee/EmployeeSubmitIssues";
@@ -55,6 +57,8 @@ ReactDOM.render(
                             <Route path="bookings" element={<EmployeeOngoingBookings/>}/>
                             <Route path="booking-history" element={<EmployeeBookingHistory/>}/>
                             <Route path="bookings/:orderId/" element={<EmployeeViewBooking/>}/>
+                            <Route path="bookings/extend/:orderId/" element={<EmployeeExtendGuestBooking/>}/>
+                            <Route path="bookings/cancel/:orderId/" element={<EmployeeCancelBooking/>}/>
                             <Route path="scooter-management" element={<EmployeeScooterManagement/>}/>
                             <Route path="submit-issue" element={<EmployeeSubmitIssue/>}/>
                             <Route path="issues" element={<StaffManageIssues/>}/>

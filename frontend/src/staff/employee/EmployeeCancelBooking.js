@@ -7,7 +7,7 @@ import showDate from "../../showDate";
 import host from "../../host";
 import orderState from "../orderState";
 
-export default function staffViewBooking() {
+export default function EmployeeCancelBooking() {
     let navigate = useNavigate();
     let {orderId} = useParams();
     const cookies = new Cookies();
@@ -20,7 +20,6 @@ export default function staffViewBooking() {
     // Gets the order details.
     async function fetchBookingDetails() {
         try {
-
             let request = await fetch(host + `api/admin/Orders/` + orderId, {
                 method: "GET",
                 headers: {
@@ -42,7 +41,31 @@ export default function staffViewBooking() {
             }
         } catch (error) {
             NotificationManager.error("Could not load booking.", "Error");
-            navigate('/bookings');
+            console.error(error);
+        }
+    }
+
+    async function cancelBooking() {
+        try {
+            let request = await fetch(host + `api/admin/Orders/${orderId}/cancel`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                },
+                mode: "cors"
+            });
+
+            let response = await request;
+            if (response.status === 422) {
+                NotificationManager.error("Unable to cancel booking", "Error");
+            } else if (response.status === 200) {
+                NotificationManager.success("Booking Cancelled.", "Success");
+                navigate('/current-bookings');
+            }
+        } catch (error) {
+            NotificationManager.success("Could not connect to server.", "Error");
             console.error(error);
         }
     }
@@ -128,7 +151,7 @@ export default function staffViewBooking() {
                         </tbody>
                     </Table>
                 }
-                <Button className="float-right" variant="danger" onClick={()=>{navigate("/bookings")}}>Close</Button>
+                <Button className="float-right" variant="danger" onClick={cancelBooking}>Cancel</Button>
             </Container>
         </>
     );

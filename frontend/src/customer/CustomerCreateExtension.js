@@ -58,7 +58,6 @@ export default function CustomerCreateExtension() {
         }
     }
 
-
     async function getDiscountStatus() {
         try {
             let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
@@ -227,9 +226,9 @@ export default function CustomerCreateExtension() {
                     Depot:
                 </Col>
                 <Col>
-                    {(!baseOrder.scooter) ?
+                    {(!baseOrder) ?
                         <> Loading depot... </> :
-                        <Form.Control value={baseOrder.scooter.depoId} disabled />
+                        <Form.Control value={baseOrder.scooter.depo.name} disabled />
                     }
                 </Col>
             </Row>
@@ -238,7 +237,7 @@ export default function CustomerCreateExtension() {
                     Scooter:
                 </Col>
                 <Col>
-                    {(!baseOrder.scooter) ?
+                    {(!baseOrder) ?
                         <> Loading scooter... </> :
                         <Form.Control value={baseOrder.scooter.softScooterId} disabled />
                     }

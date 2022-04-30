@@ -37,6 +37,7 @@ export default function CustomerCurrentBookings() {
                     ongoingBookings.push(allBookings[i]);
                 }
             }
+            console.log(ongoingBookings);
             setBookingHistory(ongoingBookings);
         } catch (e) {
             console.log(e);

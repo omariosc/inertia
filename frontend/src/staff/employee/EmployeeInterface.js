@@ -4,8 +4,11 @@ import {Col, Nav, Navbar, Row} from "react-bootstrap";
 import UserMenu from '../../components/UserMenu';
 import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
 import EmployeeNavigation from "./EmployeeNavigation";
+import {useAccount} from "../../authorize";
 
 export default function EmployeeInterface() {
+    const [account] = useAccount();
+
     return (
         <div id="overlay">
             <div className="clickable">
@@ -13,7 +16,7 @@ export default function EmployeeInterface() {
                     <Navbar.Brand className="navbar-style" as={Link} to="/home"><b>INERTIA</b></Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text className="navbar-pad-right text-white">
-                            Logged in as: {cookies.get("accountName")}
+                            Logged in as: {account.name}
                         </Navbar.Text>
                         <Nav.Item className="navbar-pad-right">
                             <UserMenu/>

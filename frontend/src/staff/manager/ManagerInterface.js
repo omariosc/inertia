@@ -4,8 +4,11 @@ import {Nav, Row, Col, Navbar} from "react-bootstrap";
 import UserMenu from '../../components/UserMenu';
 import ManagerMobileNavigation from "./ManagerMobileNavigation";
 import ManagerNavigation from "./ManagerNavigation";
+import {useAccount} from "../../authorize";
 
 export default function ManagerInterface() {
+    const [account] = useAccount();
+
     return (
         <div id="overlay">
             <div id="manager-wrapper" className="clickable">
@@ -13,7 +16,7 @@ export default function ManagerInterface() {
                     <Navbar.Brand className="navbar-style" as={Link} to="/dashboard"><b>INERTIA</b></Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text className="navbar-pad-right text-white">
-                            Logged in as: {cookies.get("accountName")}
+                            Logged in as: {account.name}
                         </Navbar.Text>
                         <Nav.Item className="navbar-pad-right">
                             <UserMenu/>

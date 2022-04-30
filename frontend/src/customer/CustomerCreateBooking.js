@@ -199,8 +199,7 @@ export default function CustomerCreateBooking() {
             expiryDate: expiry,
             cvv: cvv
           };
-          console.log(cookies.get("accountId"));
-          localStorage.setItem(cookies.get("accountId"), JSON.stringify(card));
+          localStorage.setItem(cookies.get("accountID"), JSON.stringify(card));
           NotificationManager.success("Stored credit card details.", "Success");
         }
         navigate('/current-bookings');

@@ -112,9 +112,9 @@ export default function EmployeeBookingApplications() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
-                <a className="breadcrumb-current" href="/booking-applications">Booking Applications</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/booking-applications")}}>Booking Applications</a></b>
             </p>
             <h3 id="pageName">Booking Applications</h3>
             <hr id="underline"/>

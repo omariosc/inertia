@@ -57,8 +57,8 @@ export default function EmployeeOngoingBookings() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home</a> > <b>
-                <a className="breadcrumb-current" href="/bookings">Bookings</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/bookings")}}>Bookings</a></b>
             </p>
             <h3 id="pageName">Ongoing Bookings</h3>
             <hr id="underline"/>

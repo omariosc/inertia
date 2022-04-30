@@ -9,12 +9,14 @@ import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
+import {useNavigate} from "react-router-dom";
 
 /**
  * Returns the manager scooter management page, displays
  * list of scooters
  */
 export default function ManagerScooterManagement() {
+    const navigate = useNavigate();
     const [account] = useAccount();
     const [newID, setScooterNewId] = useState('');
     const [createID, setCreateId] = useState('');
@@ -194,8 +196,8 @@ export default function ManagerScooterManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/scooter-management")}}>Scooter Management</a></b>
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>

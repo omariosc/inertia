@@ -8,12 +8,14 @@ import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
 /**
  * Returns the employee discount application page, shows a list of
  * current applications
  */
 export default function EmployeeDiscountApplications() {
+    const navigate = useNavigate();
     const [account] = useAccount();
     const [applications, setApplications] = useState('');
     const [image, setImage] = useState(null);
@@ -89,8 +91,8 @@ export default function EmployeeDiscountApplications() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home</a> > <b>
-                <a className="breadcrumb-current" href="/discount-applications">Discount Applications</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/discount-applications")}}>Discount Applications</a></b>
             </p>
             <h3 id="pageName">Manage Discount Applications</h3>
             <hr id="underline"/>

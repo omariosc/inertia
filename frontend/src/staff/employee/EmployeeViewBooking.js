@@ -15,7 +15,7 @@ import orderState from "../orderState";
  * Returns more detailed information on a specific booking
  */
 export default function staffViewBooking() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     let {orderId} = useParams();
     const [account] = useAccount();
     const [booking, setBooking] = useState("");
@@ -59,9 +59,9 @@ export default function staffViewBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
-                <a className="breadcrumb-current" href={`/bookings/${orderId}`}>#{orderId}</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate(`/bookings/${orderId}`)}}>#{orderId}</a></b>
             </p>
             <Container>
                 {(booking === "") ? <p>Loading booking details...</p> :

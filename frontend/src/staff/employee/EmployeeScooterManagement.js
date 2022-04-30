@@ -9,12 +9,14 @@ import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
+import {useNavigate} from "react-router-dom";
 
 /**
  * Returns the employee scooter management page, displays
  * list of scooters
  */
 export default function EmployeeScooterManagement() {
+    const navigate = useNavigate();
     const [account] = useAccount();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
@@ -92,8 +94,8 @@ export default function EmployeeScooterManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home</a> > <b>
-                <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/scooter-management")}}>Scooter Management</a></b>
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>

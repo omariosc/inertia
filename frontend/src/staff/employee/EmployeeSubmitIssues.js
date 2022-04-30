@@ -16,7 +16,7 @@ import host from "../../host";
  */
 export default function EmployeeSubmitIssue() {
     const [account] = useAccount();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [validTitle, setValidTitle] = useState(true);
     const [validDescription, setValidDescription] = useState(true);
@@ -65,9 +65,9 @@ export default function EmployeeSubmitIssue() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
-                <a className="breadcrumb-current" href="/submit-issue">Submit Issue</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/issues")}}>Issues</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/submit-issue")}}>Submit Issue</a></b>
             </p>
             <h3 id="pageName">Submit Issue</h3>
             <hr id="underline"/>

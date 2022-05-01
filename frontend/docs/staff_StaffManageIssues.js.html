@@ -1,4 +1,32 @@
-/* eslint-disable react/prop-types */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: staff/StaffManageIssues.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: staff/StaffManageIssues.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/prop-types */
 /* Purpose of file: Display list of outstanding issues to staff and
 allow them to filter to find specific issues and close/escalate them */
 
@@ -45,7 +73,7 @@ export default function StaffManageIssues({manager}) {
   async function fetchIssues(sortOption = null) {
     try {
       const request = await fetch(host +
-          `api/admin/Issues/?closed=false${(manager) ? '&priority=3' : ''}`, {
+          `api/admin/Issues/?closed=false${(manager) ? '&amp;priority=3' : ''}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -91,47 +119,47 @@ export default function StaffManageIssues({manager}) {
   }
 
   return (
-    <>
+    &lt;>
       {(manager) ?
-            <p id="breadcrumb">
-              <a className="breadcrumb-list" onClick={() => {
+            &lt;p id="breadcrumb">
+              &lt;a className="breadcrumb-list" onClick={() => {
                 account.role === '2' ?
                     navigate('/dashboard') :
                     navigate('/home');
               }}>Home
-              </a> &gt; <a className="breadcrumb-list" onClick={() => {
+              &lt;/a> &amp;gt; &lt;a className="breadcrumb-list" onClick={() => {
                 navigate('/issues');
-              }}>Issues</a> &gt; <b>
-                <a className="breadcrumb-current" onClick={() => {
+              }}>Issues&lt;/a> &amp;gt; &lt;b>
+                &lt;a className="breadcrumb-current" onClick={() => {
                   navigate('/issues');
-                }}>High Priority Issues</a></b>
-            </p> :
-            <p id="breadcrumb">
-              <a className="breadcrumb-list"
+                }}>High Priority Issues&lt;/a>&lt;/b>
+            &lt;/p> :
+            &lt;p id="breadcrumb">
+              &lt;a className="breadcrumb-list"
                 onClick={() => {
                    account.role === '2' ?
                        navigate('/dashboard') :
                        navigate('/home');
-                }}>Home</a> &gt; <b>
-                <a className="breadcrumb-current" onClick={() => {
+                }}>Home&lt;/a> &amp;gt; &lt;b>
+                &lt;a className="breadcrumb-current" onClick={() => {
                   navigate('/issues');
-                }}>Issues</a></b>
-            </p>
+                }}>Issues&lt;/a>&lt;/b>
+            &lt;/p>
       }
-      <h3 id="pageName">Issues</h3>
-      <hr id="underline"/>
-      <Container className="p-3">
-        <div className="issue-filters">
-          <Row className="p-2">
-            <Col className="col-8">
-              <Form.Control type="text"
+      &lt;h3 id="pageName">Issues&lt;/h3>
+      &lt;hr id="underline"/>
+      &lt;Container className="p-3">
+        &lt;div className="issue-filters">
+          &lt;Row className="p-2">
+            &lt;Col className="col-8">
+              &lt;Form.Control type="text"
                 onChange={(event) => {
                   setSearchTitle(event.target.value);
                 }}
                 placeholder="Search Issue Titles"/>
-            </Col>
-            <Col className="col-2">
-              <Button type="button"
+            &lt;/Col>
+            &lt;Col className="col-2">
+              &lt;Button type="button"
                 className={showAdvancedFilters ?
                             'btn-danger' :
                             'btn-primary'}
@@ -140,294 +168,294 @@ export default function StaffManageIssues({manager}) {
                 }}>
                 {showAdvancedFilters ? 'Hide Filters' : 'Show Filters'}
 
-              </Button>
-            </Col>
+              &lt;/Button>
+            &lt;/Col>
 
-            <Col>
-              <Form.Select onChange={(e) => {
+            &lt;Col>
+              &lt;Form.Select onChange={(e) => {
                 fetchIssues(e.target.value);
               }}>
-                <option value={1}>Time: Newest</option>
-                <option value={2}>Time: Oldest</option>
+                &lt;option value={1}>Time: Newest&lt;/option>
+                &lt;option value={2}>Time: Oldest&lt;/option>
                 {(manager) ? null :
-                      <>
-                        <option value={3}>Priority: Ascending</option>
-                        <option value={4}>Priority: Descending</option>
-                      </>
+                      &lt;>
+                        &lt;option value={3}>Priority: Ascending&lt;/option>
+                        &lt;option value={4}>Priority: Descending&lt;/option>
+                      &lt;/>
                 }
-              </Form.Select>
-            </Col>
-          </Row>
-          {showAdvancedFilters &&
-                <>
-                  <Row className="p-2">
-                    <Col className="col-2">
+              &lt;/Form.Select>
+            &lt;/Col>
+          &lt;/Row>
+          {showAdvancedFilters &amp;&amp;
+                &lt;>
+                  &lt;Row className="p-2">
+                    &lt;Col className="col-2">
                       Before
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Control type="date"
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Control type="date"
                         onChange={(event) => setSearchBefore(
                             event.target.value)}
                       />
-                    </Col>
-                    <Col className="col-2">
+                    &lt;/Col>
+                    &lt;Col className="col-2">
                       After
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Control type="date"
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Control type="date"
                         onChange={(event) => setSearchAfter(
                             event.target.value)}
                       />
-                    </Col>
-                    <Col className="col-2">
+                    &lt;/Col>
+                    &lt;Col className="col-2">
                       Priority
-                    </Col>
-                    <Col className="col-2">
-                      {(manager) ? <>High</> :
-                          <Form.Select onChange={(e) => {
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      {(manager) ? &lt;>High&lt;/> :
+                          &lt;Form.Select onChange={(e) => {
                             setSearchPriority(e.target.value);
                           }}>
-                            <option value="All" key="All">All</option>
+                            &lt;option value="All" key="All">All&lt;/option>
                             {priorities.map((pString, pValue) => (
-                              <option value={pValue}
-                                key={pValue}>{pString}</option>
+                              &lt;option value={pValue}
+                                key={pValue}>{pString}&lt;/option>
                             ))}
-                          </Form.Select>
+                          &lt;/Form.Select>
                       }
-                    </Col>
-                  </Row>
-                  <Row className="p-2">
-                    <Col className="col-2">
+                    &lt;/Col>
+                  &lt;/Row>
+                  &lt;Row className="p-2">
+                    &lt;Col className="col-2">
                       Issue ID
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Control type="input"
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Control type="input"
                         onChange={(event) => setSearchIssueID(
                             event.target.value)}
                       />
-                    </Col>
-                    <Col className="col-2">
+                    &lt;/Col>
+                    &lt;Col className="col-2">
                       Account ID
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Control type="input"
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Control type="input"
                         onChange={(event) => setSearchAccountID(
                             event.target.value)}
                       />
-                    </Col>
-                    <Col className="col-2">
+                    &lt;/Col>
+                    &lt;Col className="col-2">
                       Account Type
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Select onChange={(e) => {
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Select onChange={(e) => {
                         setSearchAccountRole(e.target.value);
                       }}>
-                        <option value="All" key="All">All</option>
+                        &lt;option value="All" key="All">All&lt;/option>
                         {accountRole.map((aRString, aRValue) => (
-                          <option value={aRValue}
-                            key={aRValue}>{aRString}</option>
+                          &lt;option value={aRValue}
+                            key={aRValue}>{aRString}&lt;/option>
                         ))}
-                      </Form.Select>
-                    </Col>
-                  </Row>
-                  <Row className="p-2">
-                    <Col className="col-2">
+                      &lt;/Form.Select>
+                    &lt;/Col>
+                  &lt;/Row>
+                  &lt;Row className="p-2">
+                    &lt;Col className="col-2">
                       Username
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Control type="input"
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Control type="input"
                         onChange={(event) => setSearchAccountName(
                             event.target.value)}
                       />
-                    </Col>
-                    <Col className="col-2">
+                    &lt;/Col>
+                    &lt;Col className="col-2">
                       Email
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Control type="input"
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Control type="input"
                         onChange={(event) => setSearchAccountEmail(
                             event.target.value)}
                       />
-                    </Col>
-                    <Col className="col-2">
+                    &lt;/Col>
+                    &lt;Col className="col-2">
                       User Type
-                    </Col>
-                    <Col className="col-2">
-                      <Form.Select onChange={(e) => {
+                    &lt;/Col>
+                    &lt;Col className="col-2">
+                      &lt;Form.Select onChange={(e) => {
                         setSearchAccountType(e.target.value);
                       }}>
-                        <option value="All" key="All">All</option>
+                        &lt;option value="All" key="All">All&lt;/option>
                         {userType.map((uTString, uTValue) => (
-                          <option value={uTValue}
-                            key={uTString}>{uTString}</option>
+                          &lt;option value={uTValue}
+                            key={uTString}>{uTString}&lt;/option>
                         ))}
-                      </Form.Select>
-                    </Col>
-                  </Row>
-                  <Row className="p-2">
-                    <Col className="col-2">
+                      &lt;/Form.Select>
+                    &lt;/Col>
+                  &lt;/Row>
+                  &lt;Row className="p-2">
+                    &lt;Col className="col-2">
                       Content Included
-                    </Col>
-                    <Col className="col-10">
-                      <Form.Control as="textarea" rows={2}
+                    &lt;/Col>
+                    &lt;Col className="col-10">
+                      &lt;Form.Control as="textarea" rows={2}
                         onInput={(e) => setSearchContent(
                             e.target.value)}/>
 
-                    </Col>
-                  </Row>
-                </>
+                    &lt;/Col>
+                  &lt;/Row>
+                &lt;/>
           }
-        </div>
-        <div className="issue-filters-mobile">
-          <Form.Control type="text"
+        &lt;/div>
+        &lt;div className="issue-filters-mobile">
+          &lt;Form.Control type="text"
             onChange={(event) => {
               setSearchTitle(event.target.value);
             }}
             placeholder="Search Issue Titles"/>
-          <br/>
-          <Row>
-            <Col>
-              <Form.Select onChange={(e) => {
+          &lt;br/>
+          &lt;Row>
+            &lt;Col>
+              &lt;Form.Select onChange={(e) => {
                 fetchIssues(e.target.value);
               }}>
-                <option value={1}>Time: Newest</option>
-                <option value={2}>Time: Oldest</option>
+                &lt;option value={1}>Time: Newest&lt;/option>
+                &lt;option value={2}>Time: Oldest&lt;/option>
                 {(manager) ? null :
-                      <>
-                        <option value={3}>Priority: Ascending</option>
-                        <option value={4}>Priority: Descending</option>
-                      </>
+                      &lt;>
+                        &lt;option value={3}>Priority: Ascending&lt;/option>
+                        &lt;option value={4}>Priority: Descending&lt;/option>
+                      &lt;/>
                 }
-              </Form.Select></Col>
-            <Col>
-              <Button type="button"
+              &lt;/Form.Select>&lt;/Col>
+            &lt;Col>
+              &lt;Button type="button"
                 className="float-right"
                 variant={showAdvancedFilters ? 'danger' : 'primary'}
                 onClick={() => {
                   toggleAdvancedFilters();
                 }}>
                 {showAdvancedFilters ? 'Hide Filters' : 'Show Filters'}
-              </Button>
-            </Col>
-          </Row>
-          {showAdvancedFilters &&
-                <>
-                  <br/>
+              &lt;/Button>
+            &lt;/Col>
+          &lt;/Row>
+          {showAdvancedFilters &amp;&amp;
+                &lt;>
+                  &lt;br/>
                   Before
-                  <Form.Control type="date"
+                  &lt;Form.Control type="date"
                     onChange={(event) => setSearchBefore(
                         event.target.value)}
                   />
-                  <br/>
+                  &lt;br/>
                   After
-                  <Form.Control type="date"
+                  &lt;Form.Control type="date"
                     onChange={(event) => setSearchAfter(
                         event.target.value)}
                   />
-                  <br/>
+                  &lt;br/>
                   {(manager) ? null :
-                      <>
+                      &lt;>
                         Priority
-                        <Form.Select onChange={(e) => {
+                        &lt;Form.Select onChange={(e) => {
                           setSearchPriority(e.target.value);
                         }}>
-                          <option value="All" key="All">All</option>
+                          &lt;option value="All" key="All">All&lt;/option>
                           {priorities.map((pString, pValue) => (
-                            <option value={pValue}
-                              key={pValue}>{pString}</option>
+                            &lt;option value={pValue}
+                              key={pValue}>{pString}&lt;/option>
                           ))}
-                        </Form.Select>
-                        <br/>
-                      </>
+                        &lt;/Form.Select>
+                        &lt;br/>
+                      &lt;/>
                   }
                   Issue ID
-                  <Form.Control type="input"
+                  &lt;Form.Control type="input"
                     onChange={(event) => setSearchIssueID(
                         event.target.value)}
                   />
-                  <br/>
+                  &lt;br/>
                   Account ID
-                  <Form.Control type="input"
+                  &lt;Form.Control type="input"
                     onChange={(event) => setSearchAccountID(
                         event.target.value)}
                   />
-                  <br/>
+                  &lt;br/>
                   Account Type
-                  <Form.Select onChange={(e) => {
+                  &lt;Form.Select onChange={(e) => {
                     setSearchAccountRole(e.target.value);
                   }}>
-                    <option value="All" key="All">All</option>
+                    &lt;option value="All" key="All">All&lt;/option>
                     {accountRole.map((aRString, aRValue) => (
-                      <option value={aRValue}
-                        key={aRValue}>{aRString}</option>
+                      &lt;option value={aRValue}
+                        key={aRValue}>{aRString}&lt;/option>
                     ))}
-                  </Form.Select>
-                  <br/>
+                  &lt;/Form.Select>
+                  &lt;br/>
                   Username
-                  <Form.Control type="input"
+                  &lt;Form.Control type="input"
                     onChange={(event) => setSearchAccountName(
                         event.target.value)}
                   />
-                  <br/>
+                  &lt;br/>
                   Email
-                  <Form.Control type="input"
+                  &lt;Form.Control type="input"
                     onChange={(event) => setSearchAccountEmail(
                         event.target.value)}
                   />
-                  <br/>
+                  &lt;br/>
                   User Type
-                  <Form.Select onChange={(e) => {
+                  &lt;Form.Select onChange={(e) => {
                     setSearchAccountType(e.target.value);
                   }}>
-                    <option value="All" key="All">All</option>
+                    &lt;option value="All" key="All">All&lt;/option>
                     {userType.map((uTString, uTValue) => (
-                      <option value={uTValue}
-                        key={uTString}>{uTString}</option>
+                      &lt;option value={uTValue}
+                        key={uTString}>{uTString}&lt;/option>
                     ))}
-                  </Form.Select>
-                  <br/>
+                  &lt;/Form.Select>
+                  &lt;br/>
                   Content Included
-                  <Form.Control as="textarea" rows={2}
+                  &lt;Form.Control as="textarea" rows={2}
                     onInput={(e) => setSearchContent(
                         e.target.value)}/>
-                </>
+                &lt;/>
           }
-        </div>
-        <hr/>
-        {(issues.length === 0) ? <p>There are no open issues.</p> :
-              <>
+        &lt;/div>
+        &lt;hr/>
+        {(issues.length === 0) ? &lt;p>There are no open issues.&lt;/p> :
+              &lt;>
                 {issues.filter((issue) => {
-                  if (searchTitle !== '' && !(issue.title.toLowerCase().
+                  if (searchTitle !== '' &amp;&amp; !(issue.title.toLowerCase().
                       includes(searchTitle.toLowerCase()))) {
                     return null;
                   }
-                  if (searchIssueID !== '' && searchIssueID !==
+                  if (searchIssueID !== '' &amp;&amp; searchIssueID !==
                       issue.issueId.toString()) {
                     return null;
                   }
 
-                  if (searchPriority !== 'All' && searchPriority !==
+                  if (searchPriority !== 'All' &amp;&amp; searchPriority !==
                       issue.priority.toString()) {
                     return null;
                   }
-                  if (searchAccountID !== '' && searchAccountID !==
+                  if (searchAccountID !== '' &amp;&amp; searchAccountID !==
                       issue.accountId) {
                     return null;
                   }
-                  if (searchAccountName !== '' && searchAccountName !==
+                  if (searchAccountName !== '' &amp;&amp; searchAccountName !==
                       issue.account.name) {
                     return null;
                   }
-                  if (searchAccountEmail !== '' &&
+                  if (searchAccountEmail !== '' &amp;&amp;
                       !(issue.account.email.toLowerCase().
                           includes(searchAccountEmail.toLowerCase()))) {
                     return null;
                   }
-                  if (searchAccountRole !== 'All' && searchAccountRole !==
+                  if (searchAccountRole !== 'All' &amp;&amp; searchAccountRole !==
                       issue.account.role.toString()) {
                     return null;
                   }
-                  if (searchAccountType !== 'All' && searchAccountType !==
+                  if (searchAccountType !== 'All' &amp;&amp; searchAccountType !==
                       issue.account.userType.toString()) {
                     return null;
                   }
@@ -448,7 +476,7 @@ export default function StaffManageIssues({manager}) {
                   const dateOf = new Date(
                       issue.dateOpened + '+00:00').getTime();
 
-                  if (dateOf < dateAfter.getTime() + 86400000) {
+                  if (dateOf &lt; dateAfter.getTime() + 86400000) {
                     return null;
                   }
                   if (dateOf >= dateBefore.getTime()) {
@@ -456,37 +484,60 @@ export default function StaffManageIssues({manager}) {
                   }
                   return issue;
                 }).map((issue) => (
-                  <a key={issue.issueId} className="breadcrumb-current"
+                  &lt;a key={issue.issueId} className="breadcrumb-current"
                     onClick={() => {
                       navigate(`../issues/${issue.issueId}`);
                     }}>
-                    <Row>
-                      <Col xs={8} lg={10} className="issue-filters">
-                        <b>{issue.title}</b>
-                      </Col>
-                      <Col xs={5} className="issue-filters-mobile">
-                        <b>{issue.title}</b>
-                      </Col>
-                      <Col className="issue-filters-mobile"/>
-                      <Col className={`issue-label-${issue.priority}`}>
+                    &lt;Row>
+                      &lt;Col xs={8} lg={10} className="issue-filters">
+                        &lt;b>{issue.title}&lt;/b>
+                      &lt;/Col>
+                      &lt;Col xs={5} className="issue-filters-mobile">
+                        &lt;b>{issue.title}&lt;/b>
+                      &lt;/Col>
+                      &lt;Col className="issue-filters-mobile"/>
+                      &lt;Col className={`issue-label-${issue.priority}`}>
                         {/* eslint-disable-next-line max-len */}
-                        <b className="issue-text">{priorities[issue.priority]}</b>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
+                        &lt;b className="issue-text">{priorities[issue.priority]}&lt;/b>
+                      &lt;/Col>
+                    &lt;/Row>
+                    &lt;Row>
+                      &lt;Col>
                           created by [{accountRole[issue.account.role]}] {
                           issue.account.name} · {getAge(
                             issue.dateOpened + '+00:00')} ago
-                      </Col>
-                    </Row>
-                    <hr/>
-                  </a>
+                      &lt;/Col>
+                    &lt;/Row>
+                    &lt;hr/>
+                  &lt;/a>
                 ))}
-              </>
+              &lt;/>
         }
-        <br/>
-      </Container>
-    </>
+        &lt;br/>
+      &lt;/Container>
+    &lt;/>
   );
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li></ul><h3>Global</h3><ul><li><a href="global.html#accountFromCookies">accountFromCookies</a></li><li><a href="global.html#AccountProvider">AccountProvider</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#useAccount">useAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 01 2022 22:09:55 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

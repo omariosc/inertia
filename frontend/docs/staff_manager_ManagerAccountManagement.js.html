@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: staff/manager/ManagerAccountManagement.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: staff/manager/ManagerAccountManagement.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* Purpose of file: Enables the manager account to create
+new employee accounts provided the details are valid */
+
+import React, {useState} from 'react';
+import {Button, Form} from 'react-bootstrap';
+import {NotificationManager} from 'react-notifications';
+import {useAccount} from '../../authorize';
+import validate from '../../Validators';
+import host from '../../host';
+import {useNavigate} from 'react-router-dom';
+
+/**
+ * Renders the manager account management page, a form allowing
+ * the manager to create a new employee account
+ * @return {JSX.Element} Manager account management page
+ */
+export default function ManagerAccountManagement() {
+  const navigate = useNavigate();
+  const [account] = useAccount();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  /**
+   * Upon submitting the form, sends the new account details to the
+   * backend server and creates a new employee account if details are valid
+   */
+  async function onSubmit() {
+    if (!validate(name, email, password, confirmPassword)) {
+      return;
+    }
+    try {
+      const signupRequest = await fetch(host + 'api/Users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        body: JSON.stringify({
+          'name': name,
+          'email': email,
+          'password': password,
+        }),
+        mode: 'cors',
+      });
+      const signupResponse = await signupRequest;
+      if (signupResponse.status === 422) {
+        NotificationManager.error('Email address already exists.', 'Error');
+        return;
+      }
+      const getRequest = await fetch(host + 'api/admin/Users', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        mode: 'cors',
+      });
+      const getResponse = await getRequest.json();
+      let accountId;
+      for (let i = 0; getResponse.length; i++) {
+        const user = getResponse[i];
+        if (user.email === email) {
+          accountId = user.accountId;
+          break;
+        }
+      }
+      if (!accountId) {
+        NotificationManager.error('Could not patch account to employee role.',
+            'Error');
+        return;
+      }
+      const patchRequest = await fetch(host + `api/admin/Users/${accountId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        body: JSON.stringify({
+          'accountRole': 1,
+        }),
+        mode: 'cors',
+      });
+      const patchResponse = await patchRequest;
+      if (patchResponse.status === 200) {
+        NotificationManager.success(`Created employee account for ${name}.`,
+            'Success');
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+      } else {
+        NotificationManager.error(patchResponse.description, 'Error');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return (
+    &lt;>
+      &lt;p id="breadcrumb">
+        &lt;a className="breadcrumb-list" onClick={() => {
+          navigate('/dashboard');
+        }}>Home &lt;/a> &amp;gt; &lt;b>
+          &lt;a className="breadcrumb-current" onClick={() => {
+            navigate('/account-management');
+          }}>Account Management&lt;/a>&lt;/b>
+      &lt;/p>
+      &lt;h3 id="pageName">Create Employee Account&lt;/h3>
+      &lt;hr id="underline"/>
+      &lt;Form className="input-form">
+        &lt;Form.Group className="mb-3">
+          &lt;Form.Label>&lt;h6>Employee Name&lt;/h6>&lt;/Form.Label>
+          &lt;Form.Control autoFocus type="name" value={name}
+            onInput={(e) => setName(e.target.value)}/>
+        &lt;/Form.Group>
+        &lt;Form.Group className="mb-3">
+          &lt;Form.Label>&lt;h6>Employee Email&lt;/h6>&lt;/Form.Label>
+          &lt;Form.Control type="email" value={email}
+            onInput={(e) => setEmail(e.target.value)}/>
+        &lt;/Form.Group>
+        &lt;Form.Group className="mb-3">
+          &lt;Form.Label>&lt;h6>Employee Password&lt;/h6>&lt;/Form.Label>
+          &lt;Form.Control type="password" value={password}
+            onInput={(e) => setPassword(e.target.value)}/>
+        &lt;/Form.Group>
+        &lt;Form.Group className="mb-3">
+          &lt;Form.Label>&lt;h6>Confirm Employee Password&lt;/h6>&lt;/Form.Label>
+          &lt;Form.Control type="password" value={confirmPassword}
+            onInput={(e) => setConfirmPassword(e.target.value)}/>
+        &lt;/Form.Group>
+        &lt;Button className="float-right" onClick={onSubmit}>Create Employee
+            Account&lt;/Button>
+      &lt;/Form>
+    &lt;/>
+  );
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li></ul><h3>Global</h3><ul><li><a href="global.html#accountFromCookies">accountFromCookies</a></li><li><a href="global.html#AccountProvider">AccountProvider</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#useAccount">useAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 01 2022 22:09:55 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

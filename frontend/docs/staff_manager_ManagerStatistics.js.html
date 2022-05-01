@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: staff/manager/ManagerStatistics.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: staff/manager/ManagerStatistics.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* Purpose of file: Display information on daily and weekly sales
+to the manager */
+
+import React, {useEffect, useState} from 'react';
+import {Container} from 'react-bootstrap';
+import {NotificationManager} from 'react-notifications';
+import {default as CanvasJSReact} from '../../canvasjs.react.js';
+import {useAccount} from '../../authorize';
+import host from '../../host';
+import {useNavigate} from 'react-router-dom';
+
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+/**
+ * Renders the manager statistics page and the graphs relating
+ * to the sales statistics
+ * @return {JSX.Element} Manager statistics page
+ */
+export default function ManagerStatistics() {
+  const navigate = useNavigate();
+  const [account] = useAccount();
+  const [weeklyData, setWeeklyData] = useState('');
+  const [weeklyHiresData, setWeeklyHiresData] = useState('');
+  const [combinedDailyData, setCombinedDailyData] = useState('');
+
+  useEffect(() => {
+    fetchStatistics();
+  }, []);
+
+  /**
+   * Gets the current statistics from the backend server
+   */
+  async function fetchStatistics() {
+    const init = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${account.accessToken}`,
+      },
+      mode: 'cors',
+    };
+    try {
+      const weeklyDataRequest = await fetch(
+          host + 'api/admin/Plot/weekly?separateHireOptions=true', init);
+      setWeeklyData(await weeklyDataRequest.json());
+      const weeklyHiresDataRequest = await fetch(
+          host + 'api/admin/Plot/weekly?separateHireOptions=false', init);
+      setWeeklyHiresData(await weeklyHiresDataRequest.json());
+      const combinedDailyDataRequest = await fetch(
+          host + 'api/admin/Plot/combinedDaily', init);
+      setCombinedDailyData(await combinedDailyDataRequest.json());
+    } catch (error) {
+      NotificationManager.error('Could not load statistics.', 'Error');
+      console.error(error);
+    }
+  }
+
+  return (
+    &lt;>
+      &lt;p id="breadcrumb">
+        &lt;a className="breadcrumb-list" onClick={() => {
+          navigate('/dashboard');
+        }}>Home&lt;/a> &amp;gt; &lt;b>
+          &lt;a className="breadcrumb-current" onClick={() => {
+            navigate('/statistics');
+          }}>Statistics&lt;/a>&lt;/b>
+      &lt;/p>
+      &lt;h3 id="pageName">Statistics&lt;/h3>
+      &lt;hr id="underline"/>
+      &lt;br/>
+      &lt;Container>
+        {(weeklyData === '') ?
+              &lt;p>Loading weekly hire options graph...&lt;/p> :
+              &lt;>
+                &lt;CanvasJSChart options={
+                  {
+                    theme: 'light2',
+                    animationEnabled: true,
+                    title: {
+                      text: 'Weekly Income (Hire Options)',
+                      fontFamily: 'arial',
+                      fontWeight: 'bold',
+                    },
+                    axisY: {
+                      title: 'Income',
+                      prefix: '£',
+                    },
+                    axisX: {
+                      title: 'Week',
+                    },
+                    data: [
+                      {
+                        name: '1 hour',
+                        legendText: '1 hour',
+                        showInLegend: true,
+                        type: 'line',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Week 1',
+                                y: weeklyData.yAxis[0].values[0],
+                              },
+                              {
+                                label: 'Week 2',
+                                y: weeklyData.yAxis[0].values[1],
+                              },
+                              {
+                                label: 'Week 3',
+                                y: weeklyData.yAxis[0].values[2],
+                              },
+                              {
+                                label: 'Week 4',
+                                y: weeklyData.yAxis[0].values[3],
+                              },
+                              {
+                                label: 'Week 5',
+                                y: weeklyData.yAxis[0].values[4],
+                              },
+                              {
+                                label: 'Week 6',
+                                y: weeklyData.yAxis[0].values[5],
+                              },
+                              {
+                                label: 'Week 7',
+                                y: weeklyData.yAxis[0].values[6],
+                              },
+                            ],
+                      },
+                      {
+                        name: '4 hours',
+                        legendText: '4 hours',
+                        showInLegend: true,
+                        type: 'line',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Week 1',
+                                y: weeklyData.yAxis[1].values[0],
+                              },
+                              {
+                                label: 'Week 2',
+                                y: weeklyData.yAxis[1].values[1],
+                              },
+                              {
+                                label: 'Week 3',
+                                y: weeklyData.yAxis[1].values[2],
+                              },
+                              {
+                                label: 'Week 4',
+                                y: weeklyData.yAxis[1].values[3],
+                              },
+                              {
+                                label: 'Week 5',
+                                y: weeklyData.yAxis[1].values[4],
+                              },
+                              {
+                                label: 'Week 6',
+                                y: weeklyData.yAxis[1].values[5],
+                              },
+                              {
+                                label: 'Week 7',
+                                y: weeklyData.yAxis[1].values[6],
+                              },
+                            ],
+                      },
+                      {
+                        name: '1 day',
+                        legendText: '1 day',
+                        showInLegend: true,
+                        type: 'line',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Week 1',
+                                y: weeklyData.yAxis[2].values[0],
+                              },
+                              {
+                                label: 'Week 2',
+                                y: weeklyData.yAxis[2].values[1],
+                              },
+                              {
+                                label: 'Week 3',
+                                y: weeklyData.yAxis[2].values[2],
+                              },
+                              {
+                                label: 'Week 4',
+                                y: weeklyData.yAxis[2].values[3],
+                              },
+                              {
+                                label: 'Week 5',
+                                y: weeklyData.yAxis[2].values[4],
+                              },
+                              {
+                                label: 'Week 6',
+                                y: weeklyData.yAxis[2].values[5],
+                              },
+                              {
+                                label: 'Week 7',
+                                y: weeklyData.yAxis[2].values[6],
+                              },
+                            ],
+                      },
+                      {
+                        name: '1 week',
+                        legendText: '1 week',
+                        showInLegend: true,
+                        type: 'line',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Week 1',
+                                y: weeklyData.yAxis[3].values[0],
+                              },
+                              {
+                                label: 'Week 2',
+                                y: weeklyData.yAxis[3].values[1],
+                              },
+                              {
+                                label: 'Week 3',
+                                y: weeklyData.yAxis[3].values[2],
+                              },
+                              {
+                                label: 'Week 4',
+                                y: weeklyData.yAxis[3].values[3],
+                              },
+                              {
+                                label: 'Week 5',
+                                y: weeklyData.yAxis[3].values[4],
+                              },
+                              {
+                                label: 'Week 6',
+                                y: weeklyData.yAxis[3].values[5],
+                              },
+                              {
+                                label: 'Week 7',
+                                y: weeklyData.yAxis[3].values[6],
+                              },
+                            ],
+                      },
+                    ],
+                  }
+                }
+                />
+                &lt;br/>
+                &lt;br/>
+              &lt;/>
+        }
+        {(weeklyHiresData === '') ?
+              &lt;p>Loading combined weekly graph...&lt;/p> :
+              &lt;>
+                &lt;CanvasJSChart options={
+                  {
+                    theme: 'light2',
+                    animationEnabled: true,
+                    title: {
+                      text: 'Weekly Income',
+                      fontFamily: 'arial',
+                      fontWeight: 'bold',
+                    },
+                    axisY: {
+                      title: 'Income',
+                      prefix: '£',
+                    },
+                    axisX: {
+                      title: 'Week',
+                    },
+                    data: [
+                      {
+                        type: 'line',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Week 1',
+                                y: weeklyHiresData.yAxis[0].values[0],
+                              },
+                              {
+                                label: 'Week 2',
+                                y: weeklyHiresData.yAxis[0].values[1],
+                              },
+                              {
+                                label: 'Week 3',
+                                y: weeklyHiresData.yAxis[0].values[2],
+                              },
+                              {
+                                label: 'Week 4',
+                                y: weeklyHiresData.yAxis[0].values[3],
+                              },
+                              {
+                                label: 'Week 5',
+                                y: weeklyHiresData.yAxis[0].values[4],
+                              },
+                              {
+                                label: 'Week 6',
+                                y: weeklyHiresData.yAxis[0].values[5],
+                              },
+                              {
+                                label: 'Week 7',
+                                y: weeklyHiresData.yAxis[0].values[6],
+                              },
+                            ],
+                      },
+                    ],
+                  }
+                }
+                />
+                &lt;br/>
+                &lt;br/>
+              &lt;/>
+        }
+        {(combinedDailyData === '') ?
+              &lt;p>Loading combined daily graph...&lt;/p> :
+              &lt;>
+                &lt;CanvasJSChart options={
+                  {
+                    theme: 'light2',
+                    animationEnabled: true,
+                    title: {
+                      text: 'Daily Combined Income',
+                      fontFamily: 'arial',
+                      fontWeight: 'bold',
+                    },
+                    axisY: {
+                      title: 'Income',
+                      prefix: '£',
+                    },
+                    axisX: {
+                      title: 'Day',
+                    },
+                    toolTip: {
+                      shared: true,
+                    },
+                    data: [
+                      {
+                        name: '1 hour',
+                        legendText: '1 hour',
+                        showInLegend: true,
+                        type: 'column',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Monday',
+                                y: combinedDailyData.barData[1][0],
+                              },
+                              {
+                                label: 'Tuesday',
+                                y: combinedDailyData.barData[1][1],
+                              },
+                              {
+                                label: 'Wednesday',
+                                y: combinedDailyData.barData[1][2],
+                              },
+                              {
+                                label: 'Thursday',
+                                y: combinedDailyData.barData[1][3],
+                              },
+                              {
+                                label: 'Friday',
+                                y: combinedDailyData.barData[1][4],
+                              },
+                              {
+                                label: 'Saturday',
+                                y: combinedDailyData.barData[1][5],
+                              },
+                              {
+                                label: 'Sunday',
+                                y: combinedDailyData.barData[1][6],
+                              },
+                            ],
+                      },
+                      {
+                        name: '4 hours',
+                        legendText: '4 hours',
+                        showInLegend: true,
+                        type: 'column',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Monday',
+                                y: combinedDailyData.barData[2][0],
+                              },
+                              {
+                                label: 'Tuesday',
+                                y: combinedDailyData.barData[2][1],
+                              },
+                              {
+                                label: 'Wednesday',
+                                y: combinedDailyData.barData[2][2],
+                              },
+                              {
+                                label: 'Thursday',
+                                y: combinedDailyData.barData[2][3],
+                              },
+                              {
+                                label: 'Friday',
+                                y: combinedDailyData.barData[2][4],
+                              },
+                              {
+                                label: 'Saturday',
+                                y: combinedDailyData.barData[2][5],
+                              },
+                              {
+                                label: 'Sunday',
+                                y: combinedDailyData.barData[2][6],
+                              },
+                            ],
+                      },
+                      {
+                        name: '1 day',
+                        legendText: '1 day',
+                        showInLegend: true,
+                        type: 'column',
+                        dataPoints:
+                            [
+                              {
+                                label: 'Monday',
+                                y: combinedDailyData.barData[3][0],
+                              },
+                              {
+                                label: 'Tuesday',
+                                y: combinedDailyData.barData[3][1],
+                              },
+                              {
+                                label: 'Wednesday',
+                                y: combinedDailyData.barData[3][2],
+                              },
+                              {
+                                label: 'Thursday',
+                                y: combinedDailyData.barData[3][3],
+                              },
+                              {
+                                label: 'Friday',
+                                y: combinedDailyData.barData[3][4],
+                              },
+                              {
+                                label: 'Saturday',
+                                y: combinedDailyData.barData[3][5],
+                              },
+                              {
+                                label: 'Sunday',
+                                y: combinedDailyData.barData[3][6],
+                              },
+                            ],
+                      },
+                    ],
+                  }
+                }
+                />
+              &lt;/>
+        }
+      &lt;/Container>
+    &lt;/>
+  );
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li></ul><h3>Global</h3><ul><li><a href="global.html#accountFromCookies">accountFromCookies</a></li><li><a href="global.html#AccountProvider">AccountProvider</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#useAccount">useAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 01 2022 22:09:55 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

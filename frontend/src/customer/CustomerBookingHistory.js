@@ -43,6 +43,10 @@ export default function CustomerBookingHistory() {
           // eslint-disable-next-line max-len
           allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length -
           1].endTime;
+          // eslint-disable-next-line guard-for-in
+          for (let j = 0; j < allBookings[i]['extensions'].length; j++) {
+            allBookings[i].cost += allBookings[i]['extensions'][j].cost;
+          }
         }
         ongoingBookings.push(allBookings[i]);
       }

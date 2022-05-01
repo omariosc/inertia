@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Button, Table} from 'react-bootstrap';
+import {Button, Container, Table} from 'react-bootstrap';
 import {NotificationManager} from 'react-notifications';
 import {useAccount} from '../../authorize';
 import showDate from '../../showDate';
@@ -46,6 +46,9 @@ export default function staffViewBooking() {
           // eslint-disable-next-line max-len
           response.endTime = response['extensions'][response['extensions'].length -
           1].endTime;
+          for (let i = 0; i < response['extensions'].length; i++) {
+            response.cost += response['extensions'][i].cost;
+          }
         }
         setBooking(response);
       }
@@ -69,78 +72,80 @@ export default function staffViewBooking() {
             navigate(`/bookings/${orderId}`);
           }}>#{orderId}</a></b>
       </p>
-      <br className="box-show"/>
+      <br className="booking-responsive-mobile"/>
       {(booking === '') ? <p>Loading booking details...</p> :
-            <Table>
-              <tbody>
-                <tr>
-                  <td><b>Booking ID:</b></td>
-                  <td>{booking.orderId}</td>
-                </tr>
-                {(booking.scooter) ?
-                  <>
-                    <tr>
-                      <td><b>Scooter ID:</b></td>
-                      <td>{booking.scooter.softScooterId}</td>
-                    </tr>
-                    {(booking.scooter.depo) ?
-                        <tr>
-                          <td><b>Depot:</b></td>
-                          <td>{booking.scooter.depo.name}</td>
-                        </tr> : null
-                    }
-                  </> :
+            <Container>
+              <Table>
+                <tbody>
                   <tr>
-                    <td><b>Scooter:</b></td>
-                    <td>{booking.scooterId}</td>
+                    <td><b>Booking ID:</b></td>
+                    <td>{booking.orderId}</td>
                   </tr>
-                }
-                {(booking.accountId) ?
+                  {(booking.scooter) ?
+                    <>
+                      <tr>
+                        <td><b>Scooter ID:</b></td>
+                        <td>{booking.scooter.softScooterId}</td>
+                      </tr>
+                      {(booking.scooter.depo) ?
+                          <tr>
+                            <td><b>Depot:</b></td>
+                            <td>{booking.scooter.depo.name}</td>
+                          </tr> : null
+                      }
+                    </> :
+                    <tr>
+                      <td><b>Scooter:</b></td>
+                      <td>{booking.scooterId}</td>
+                    </tr>
+                  }
+                  {(booking.accountId) ?
+                    <tr>
+                      <td><b>Customer ID:</b></td>
+                      <td>{booking.accountId}</td>
+                    </tr> : null
+                  }
+                  {(booking.account) ?
+                    <>
+                      {(booking.account.name) ?
+                          <tr>
+                            <td><b>Customer Name:</b></td>
+                            <td>{booking.account.name}</td>
+                          </tr> :
+                          null
+                      }
+                    </> :
+                    null
+                  }
                   <tr>
-                    <td><b>Customer ID:</b></td>
-                    <td>{booking.accountId}</td>
-                  </tr> : null
-                }
-                {(booking.account) ?
-                  <>
-                    {(booking.account.name) ?
-                        <tr>
-                          <td><b>Customer Name:</b></td>
-                          <td>{booking.account.name}</td>
-                        </tr> :
-                        null
-                    }
-                  </> :
-                  null
-                }
-                <tr>
-                  <td><b>Cost:</b></td>
-                  <td>£{booking.cost.toFixed(2)}</td>
-                </tr>
-                {(booking.discount > 0) ?
+                    <td><b>Cost:</b></td>
+                    <td>£{booking.cost.toFixed(2)}</td>
+                  </tr>
+                  {(booking.discount > 0) ?
+                    <tr>
+                      <td><b>Discount:</b></td>
+                      <td>{booking.discount * 100}%</td>
+                    </tr> : null
+                  }
                   <tr>
-                    <td><b>Discount:</b></td>
-                    <td>{booking.discount * 100}%</td>
-                  </tr> : null
-                }
-                <tr>
-                  <td><b>Created At:</b></td>
-                  <td>{showDate(booking.createdAt)}</td>
-                </tr>
-                <tr>
-                  <td><b>Start Time:</b></td>
-                  <td>{showDate(booking.startTime)}</td>
-                </tr>
-                <tr>
-                  <td><b>End Time:</b></td>
-                  <td>{showDate(booking.endTime)}</td>
-                </tr>
-                <tr>
-                  <td><b>Order Status:</b></td>
-                  <td>{orderState[booking.orderState]}</td>
-                </tr>
-              </tbody>
-            </Table>
+                    <td><b>Created At:</b></td>
+                    <td>{showDate(booking.createdAt)}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Start Time:</b></td>
+                    <td>{showDate(booking.startTime)}</td>
+                  </tr>
+                  <tr>
+                    <td><b>End Time:</b></td>
+                    <td>{showDate(booking.endTime)}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Order Status:</b></td>
+                    <td>{orderState[booking.orderState]}</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Container>
       }
       <Button className="float-right" variant="danger" onClick={() => {
         navigate('/bookings');

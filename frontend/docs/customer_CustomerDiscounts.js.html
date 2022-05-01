@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: customer/CustomerDiscounts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: customer/CustomerDiscounts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* Purpose of file: Display a customer's current discount status
+and allow them to apply for a specific type of discount */
+
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {Button} from 'react-bootstrap';
+import {NotificationManager} from 'react-notifications';
+import host from '../host';
+import moment from 'moment';
+import {useAccount} from '../authorize';
+
+/**
+ * Renders the customer discount page, shows their current discount status
+ * and allows them to apply for new discounts
+ * @return {JSX.Element} Customer discount page
+ */
+export default function CustomerDiscounts() {
+  const [account] = useAccount();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState('');
+  const [frequentUser, setFrequent] = useState(false);
+  const [studentUser, setStudentStatus] = useState(false);
+  const [seniorUser, setSeniorStatus] = useState(false);
+  const [studentImage, setStudentImage] = useState(null);
+  const [seniorImage, setSeniorImage] = useState(null);
+  const [recentHours, setHours] = useState(null);
+
+  useEffect(() => {
+    fetchDiscountStatus();
+  }, []);
+
+  /**
+   * Checks if a customer is eligible for frequent user discount, applies it
+   * automatically and updates the backend server
+   */
+  async function getDiscountStatus() {
+    try {
+      const request = await fetch(host + `api/Users/${account.id}/orders`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        mode: 'cors',
+      });
+      const response = await request.json();
+      const thresholdDate = moment().subtract(1, 'week').toISOString();
+      const recentBookings = response.filter(
+          (e) => e.createdAt >= thresholdDate);
+      let recentHours = 0;
+      for (let i = 0; i &lt; recentBookings.length; i++) {
+        if (recentBookings[i].orderState !== 0 &amp;&amp;
+            recentBookings[i].orderState !== 6) {
+          recentHours += recentBookings[i].hireOption.durationInHours;
+          if (recentBookings[i]['extensions'] != null) {
+            for (let j = 0; j &lt; recentBookings[i]['extensions'].length; j++) {
+              // eslint-disable-next-line max-len
+              recentHours += recentBookings[i]['extensions'][j].hireOption.durationInHours;
+            }
+          }
+        }
+      }
+      if (recentHours >= 8) {
+        setFrequent(true);
+      } else {
+        setHours(recentHours);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * Gets current discount status of the customer
+   */
+  async function fetchDiscountStatus() {
+    try {
+      const request = await fetch(host + `api/Users/${account.id}/profile`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        mode: 'cors',
+      });
+      const response = await request.json();
+      if (response.userType === 0) {
+        setStudentStatus(true);
+      } else if (response.userType === 1) {
+        setSeniorStatus(true);
+      } else if (response.userType === 3) {
+        setFrequent(true);
+      } else {
+        await getDiscountStatus();
+      }
+      setLoading('complete');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * If the customer submits a new application, check that image is present if
+   * one is required and update the backend server
+   * @param {string} type Type of application made (e.g. student, senior)
+   */
+  async function onSubmit(type) {
+    if ((type === 'student' &amp;&amp; !studentImage) ||
+        (type === 'senior' &amp;&amp; !seniorImage)) {
+      NotificationManager.error('You must upload an image.', 'Error');
+      return;
+    }
+    try {
+      const discountRequest = await fetch(
+          host + `api/Users/${account.id}/ApplyDiscount`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${account.accessToken}`,
+            },
+            body: JSON.stringify({
+              discountType: (type === 'student') ? 0 : 1,
+            }),
+            mode: 'cors',
+          });
+      const discountResponse = await discountRequest;
+      if (discountResponse.status === 422) {
+        NotificationManager.error('Already applied for discount.', 'Error');
+        return;
+      }
+      const imageRequest = await fetch(
+          host + `api/Users/${account.id}/ApplyDiscountUploadImage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/octet-stream',
+              'Authorization': `Bearer ${account.accessToken}`,
+            },
+            body: (type === 'student') ? studentImage : seniorImage,
+            mode: 'cors',
+          });
+      const imageResponse = await imageRequest;
+      if (imageResponse.status === 422) {
+        NotificationManager.error('Already applied for discount.', 'Error');
+      } else {
+        NotificationManager.success('Submitted application.', 'Success');
+        navigate('/create-booking');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return (
+    &lt;>
+      {(loading === '') ?
+            &lt;p>Loading discount status...&lt;/p> :
+            &lt;>
+              {(!frequentUser &amp;&amp; !studentUser &amp;&amp; !seniorUser) ?
+                  &lt;>
+                    &lt;h5>Frequent User Discount&lt;/h5>
+                    &lt;>Book {(8 - parseFloat(recentHours)).toFixed(0)} hours this
+                      week to enjoy our 10% frequent
+                      user discount!
+                    &lt;/>
+                    &lt;br/>
+                    &lt;br/>
+                    &lt;h5>Student Discount&lt;/h5>
+                    &lt;p>To apply for our 10% student discount, upload student ID
+                      below.&lt;/p>
+                    {window.FileReader ?
+                        &lt;>
+                          {studentImage ?
+                              &lt;>
+                                &lt;p>&lt;b>Image Preview&lt;/b>&lt;/p>
+                                &lt;img alt="Uploaded Student Image"
+                                  src={URL.createObjectURL(studentImage)}
+                                  height="300px"/>
+                                &lt;br/>
+                                &lt;br/>
+                              &lt;/> :
+                              null}
+                          &lt;input type="file" accept="image/*"
+                            onChange={(event) => {
+                              setStudentImage(event.target.files[0]);
+                            }}
+                          />
+                          &lt;Button className="float-right"
+                            onClick={() => onSubmit(
+                                'student')}>Submit&lt;/Button>
+                        &lt;/> :
+                        &lt;p>Your browser does not support file reader. Use
+                          another browser to upload
+                          image.&lt;/p>
+                    }
+                    &lt;br/>
+                    &lt;br/>
+                    &lt;h5>Senior Discount&lt;/h5>
+                    &lt;p>To apply for our 10% senior discount, upload ID showing
+                      senior status below.&lt;/p>
+                    {window.FileReader ?
+                        &lt;>
+                          {seniorImage ?
+                              &lt;>
+                                &lt;p>&lt;b>Image Preview&lt;/b>&lt;/p>
+                                &lt;img alt="Uploaded Senior Image"
+                                  src={URL.createObjectURL(seniorImage)}
+                                  height="300px"/>
+                                &lt;br/>
+                                &lt;br/>
+                              &lt;/> :
+                              null}
+                          &lt;input type="file" accept="image/*"
+                            onChange={(event) => {
+                              setSeniorImage(event.target.files[0]);
+                            }}
+                          />
+                          &lt;Button className="float-right"
+                            onClick={() => onSubmit(
+                                'senior')}>Submit&lt;/Button>
+                        &lt;/> :
+                        &lt;p>Your browser does not support file reader. Use
+                          another browser to upload
+                          image.&lt;/p>
+                    }
+                  &lt;/> :
+                  &lt;>
+                    {frequentUser ?
+                        &lt;>
+                          &lt;h5>Frequent User Discount&lt;/h5>
+                          &lt;p>Well Done! You are a frequent user. Enjoy our 10%
+                            frequent user discount!&lt;/p>
+                        &lt;/> : studentUser ?
+                            &lt;>
+                              &lt;h5>Student Discount&lt;/h5>
+                              &lt;p>10% student discount applied.&lt;/p>
+                            &lt;/> : seniorUser ?
+                                &lt;>
+                                  &lt;h5>Senior Discount&lt;/h5>
+                                  &lt;p>10% student discount applied.&lt;/p>
+                                &lt;/> : null
+                    }
+                  &lt;/>
+              }
+            &lt;/>
+      }
+    &lt;/>
+  );
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li></ul><h3>Global</h3><ul><li><a href="global.html#accountFromCookies">accountFromCookies</a></li><li><a href="global.html#AccountProvider">AccountProvider</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#useAccount">useAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 01 2022 22:09:55 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

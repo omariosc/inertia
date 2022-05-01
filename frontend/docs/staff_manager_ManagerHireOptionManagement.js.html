@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: staff/manager/ManagerHireOptionManagement.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: staff/manager/ManagerHireOptionManagement.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* Purpose of file: Show the current hire options and their prices
+and allow the manager to change them */
+
+import React, {useEffect, useState} from 'react';
+import {Button, Container, Form, Table} from 'react-bootstrap';
+import {NotificationManager} from 'react-notifications';
+import {useAccount} from '../../authorize';
+import host from '../../host';
+import {useNavigate} from 'react-router-dom';
+
+/**
+ * Renders the manager hire option management, displays current hire
+ * options and their prices
+ * @return {JSX.Element} Manager hire option management page
+ */
+export default function ManagerHireOptionManagement() {
+  const navigate = useNavigate();
+  const [account] = useAccount();
+  const [hireOptions, setHireOptions] = useState('');
+  const [newDuration, setNewDuration] = useState('');
+  const [newName, setNewName] = useState('');
+  const [newCost, setNewCost] = useState('');
+  const [createDuration, setCreateDuration] = useState('');
+  const [createName, setCreateName] = useState('');
+  const [createCost, setCreateCost] = useState('');
+
+  useEffect(() => {
+    fetchHirePeriods();
+  }, []);
+
+  /**
+   * Gets current hire periods from backend server
+   */
+  async function fetchHirePeriods() {
+    try {
+      const request = await fetch(host + 'api/HireOptions', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        mode: 'cors',
+      });
+      setHireOptions((await request.json()).sort(
+          (a, b) => a.durationInHours - b.durationInHours));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * Edits a specific hire option with the provided ID and updates
+   * backend server
+   * @param {number} id ID of the hire option to edit
+   * @param {number} mode 1 to change name, 2 to change price.
+   *                      Anything else to change duration
+   */
+  async function editHireOption(id, mode) {
+    const json = {};
+    switch (mode) {
+      case 1:
+        if (newName === '') {
+          NotificationManager.error('Hire option name cannot be empty.',
+              'Error');
+          return;
+        } else {
+          json['name'] = newName;
+        }
+        break;
+      case 2:
+        if (!(newCost.match(/^\d+(\.\d{0,2})?$/))) {
+          NotificationManager.error('Cost must be a valid price.', 'Error');
+          return;
+        } else if (parseFloat(newCost) &lt;= 0) {
+          NotificationManager.error('Cost must be greater than 0.', 'Error');
+          return;
+        } else {
+          json['cost'] = parseFloat(newCost);
+        }
+        break;
+      default:
+        if (!(newDuration.match(/^\d+$/))) {
+          NotificationManager.error('Duration must be an integer.', 'Error');
+          return;
+        } else if (parseFloat(createDuration) &lt;= 0) {
+          NotificationManager.error('Duration must be at least 1.', 'Error');
+          return;
+        } else {
+          json['durationInHours'] = parseInt(newDuration);
+        }
+        break;
+    }
+    try {
+      const request = await fetch(host + `api/admin/HireOptions/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        body: JSON.stringify(json),
+        mode: 'cors',
+      });
+      const response = await request;
+      if (response.status !== 200) {
+        NotificationManager.error('Could not modify hire option.', 'Error');
+      } else {
+        NotificationManager.success('Modified hire option.', 'Success');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    await fetchHirePeriods();
+  }
+
+  /**
+   * Creates a new hire option with the provided form and updates
+   * the backend server
+   */
+  async function createHireOption() {
+    if (!(createDuration.match(/^\d+$/))) {
+      NotificationManager.error('Duration must be an integer.', 'Error');
+      return;
+    } else if (parseFloat(createDuration) &lt;= 0) {
+      NotificationManager.error('Duration must be at least 1.', 'Error');
+      return;
+    }
+    if (createName === '') {
+      NotificationManager.error('Hire option name cannot be empty.', 'Error');
+      return;
+    }
+    if (!(createCost.match(/^\d+(\.\d{0,2})?$/))) {
+      NotificationManager.error('Cost must be a valid price.', 'Error');
+      return;
+    } else if (parseFloat(newCost) &lt;= 0) {
+      NotificationManager.error('Cost must be greater than 0.', 'Error');
+      return;
+    }
+    try {
+      const request = await fetch(host + `api/admin/HireOptions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        body: JSON.stringify({
+          'durationInHours': createDuration,
+          'name': createName,
+          'cost': createCost,
+        }),
+        mode: 'cors',
+      });
+      const response = await request;
+      if (response.status !== 200) {
+        NotificationManager.error('Could not create hire option.', 'Error');
+      } else {
+        NotificationManager.success('Created hire option.', 'Success');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    await fetchHirePeriods();
+  }
+
+  /**
+   * Deletes a hire option with the provided ID
+   * @param {number} id ID of the hire option to be deleted
+   */
+  async function deleteHireOption(id) {
+    try {
+      const request = await fetch(host + `api/admin/HireOptions/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${account.accessToken}`,
+        },
+        mode: 'cors',
+      });
+      const response = await request;
+      if (response.status !== 200) {
+        NotificationManager.error('Could not delete hire option.', 'Error');
+      } else {
+        NotificationManager.success('Deleted hire option.', 'Success');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    await fetchHirePeriods();
+  }
+
+  return (
+    &lt;>
+      &lt;p id="breadcrumb">
+        &lt;a className="breadcrumb-list" onClick={() => {
+          navigate('/dashboard');
+        }}>Home&lt;/a> &amp;gt; &lt;b>
+          &lt;a className="breadcrumb-current" onClick={() => {
+            navigate('/hire-option-management');
+          }}>Hire Option Management&lt;/a>&lt;/b>
+      &lt;/p>
+      &lt;h3 id="pageName">Hire Option Management&lt;/h3>
+      &lt;hr id="underline"/>
+      &lt;Container className="responsive-table">
+        {(hireOptions === '') ?
+              &lt;p>Loading hire options...&lt;/p> :
+              &lt;Table className="table-formatting">
+                &lt;thead>
+                  &lt;tr>
+                    &lt;th>Duration (hours)&lt;/th>
+                    &lt;th>Name&lt;/th>
+                    &lt;th>Cost (£)&lt;/th>
+                    &lt;th>Action&lt;/th>
+                  &lt;/tr>
+                &lt;/thead>
+                &lt;tbody>
+                  {hireOptions.map((hireOption, idx) => (
+                    &lt;tr key={idx}>
+                      &lt;td>
+                        &lt;div className="sameLine">
+                          &lt;div className="maxWidth">
+                            {hireOption.durationInHours}
+                          &lt;/div>
+                          &lt;Form.Control type="number"
+                            onInput={(e) => setNewDuration(
+                                e.target.value)}
+                            size={12}/>
+                          &lt;div className="buttonPadding">
+                            &lt;Button onClick={() => {
+                              if (hireOption.durationInHours !==
+                                  parseInt(newDuration)) {
+                                editHireOption(hireOption.hireOptionId, 0);
+                              } else {
+                                NotificationManager.error(
+                                    'Duration cannot be the same.', 'Error');
+                              }
+                            }}>
+                              Edit
+                            &lt;/Button>
+                          &lt;/div>
+                        &lt;/div>
+                      &lt;/td>
+                      &lt;td>
+                        &lt;div className="sameLine">
+                          &lt;div
+                            className="maxWidthLong"> {hireOption.name} &lt;/div>
+                          &lt;Form.Control type="text" onInput={(e) => setNewName(
+                              e.target.value)} size={12}/>
+                          &lt;div className="buttonPadding">
+                            &lt;Button onClick={() => {
+                              if (hireOption.name !== newName) {
+                                editHireOption(hireOption.hireOptionId, 1);
+                              } else {
+                                NotificationManager.error(
+                                    'Name cannot be the same.', 'Error');
+                              }
+                            }}>
+                              Edit
+                            &lt;/Button>
+                          &lt;/div>
+                        &lt;/div>
+                      &lt;/td>
+                      &lt;td>
+                        &lt;div className="sameLine">
+                          &lt;div className="maxWidthLong">{hireOption.cost}&lt;/div>
+                          &lt;Form.Control type="price" onInput={(e) => setNewCost(
+                              e.target.value)} size={12}/>
+                          &lt;div className="buttonPadding">
+                            &lt;Button onClick={() => {
+                              if (parseFloat(hireOption.cost) !==
+                                  parseFloat(newCost)) {
+                                editHireOption(hireOption.hireOptionId, 2);
+                              } else {
+                                NotificationManager.error(
+                                    'Cost cannot be the same.', 'Error');
+                              }
+                            }}>
+                              Edit
+                            &lt;/Button>
+                          &lt;/div>
+                        &lt;/div>
+                      &lt;/td>
+                      &lt;td>
+                        &lt;Button
+                          onClick={() => deleteHireOption(
+                              hireOption.hireOptionId)}
+                          variant="danger">
+                          Delete
+                        &lt;/Button>
+                      &lt;/td>
+                    &lt;/tr>
+                  ))}
+                &lt;/tbody>
+              &lt;/Table>
+        }
+        &lt;Table className="table-formatting">
+          &lt;tbody>
+            &lt;tr>
+              &lt;td className="minWidthFieldSmall">
+                &lt;Form.Control type="number"
+                  placeholder="Enter duration value"
+                  onInput={(e) => setCreateDuration(
+                      e.target.value)}/>
+              &lt;/td>
+              &lt;td className="minWidthFieldSmall">
+                &lt;Form.Control type="text" placeholder="Enter name"
+                  onInput={(e) => setCreateName(e.target.value)}/>
+              &lt;/td>
+              &lt;td className="minWidthFieldSmall">
+                &lt;Form.Control type="price" placeholder="Enter cost"
+                  onInput={(e) => setCreateCost(e.target.value)}/>
+              &lt;/td>
+              &lt;td>
+                &lt;Button onClick={createHireOption}
+                  variant="success">Create&lt;/Button>
+              &lt;/td>
+            &lt;/tr>
+          &lt;/tbody>
+        &lt;/Table>
+      &lt;/Container>
+    &lt;/>
+  );
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li></ul><h3>Global</h3><ul><li><a href="global.html#accountFromCookies">accountFromCookies</a></li><li><a href="global.html#AccountProvider">AccountProvider</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#useAccount">useAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 01 2022 22:09:55 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

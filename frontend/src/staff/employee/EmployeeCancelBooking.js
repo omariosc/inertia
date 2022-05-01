@@ -50,6 +50,9 @@ export default function EmployeeCancelBooking() {
           // eslint-disable-next-line max-len
           response.endTime = response['extensions'][response['extensions'].length -
           1].endTime;
+          for (let i = 0; i < response['extensions'].length; i++) {
+            response.cost += response['extensions'][i].cost;
+          }
         }
         setBooking(response);
       }

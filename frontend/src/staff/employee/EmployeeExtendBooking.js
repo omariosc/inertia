@@ -397,7 +397,7 @@ export default function EmployeeExtendGuestBooking() {
                 Invalid CVV
             </Form.Control.Feedback>
           </Row>
-          <div className="text-center large-padding-top">
+          <div className="text-center large-padding-top small-padding-bottom">
             <Button onClick={extendBooking}>Extend Booking</Button>
           </div>
         </div>

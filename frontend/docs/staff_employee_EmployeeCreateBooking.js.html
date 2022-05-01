@@ -1,4 +1,32 @@
-/* Purpose of file: Allow a staff member to create a booking
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: staff/employee/EmployeeCreateBooking.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: staff/employee/EmployeeCreateBooking.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* Purpose of file: Allow a staff member to create a booking
 for an unregistered user */
 
 import React, {useEffect, useState} from 'react';
@@ -118,7 +146,7 @@ export default function EmployeeCreateGuestBooking() {
     if (valid) {
       try {
         const requestString = host + 'api/Scooters/available/' + '?depoId=' +
-            depotChoiceId + '&startTime=' + calcStartIso() + '&endTime=' +
+            depotChoiceId + '&amp;startTime=' + calcStartIso() + '&amp;endTime=' +
             calcEndIso();
         const request = await fetch(requestString, {
           method: 'GET',
@@ -181,7 +209,7 @@ export default function EmployeeCreateGuestBooking() {
   function validateEmail(stateChange) {
     const valid = email.match(
         // eslint-disable-next-line max-len
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+        /^(([^&lt;>()[\]\\.,;:\s@"]+(\.[^&lt;>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     if (stateChange) {
       setValidEmail(valid);
     }
@@ -211,7 +239,7 @@ export default function EmployeeCreateGuestBooking() {
     const dStartDate = new Date(startDate);
     currentDate.setHours(0, 0, 0, 0);
     dStartDate.setHours(0, 0, 0, 0);
-    const valid = currentDate.toString() !== 'Invalid Date' && currentDate <=
+    const valid = currentDate.toString() !== 'Invalid Date' &amp;&amp; currentDate &lt;=
         dStartDate;
     if (stateChange) {
       setValidStartDate(valid);
@@ -231,14 +259,14 @@ export default function EmployeeCreateGuestBooking() {
     } else {
       const hours = parseInt(startTime.slice(0, 2));
       const mins = parseInt(startTime.slice(3, 5));
-      if (hours < 0 || hours > 23 || mins % 15 !== 0) {
+      if (hours &lt; 0 || hours > 23 || mins % 15 !== 0) {
         valid = false;
       } else {
         const currentDate = new Date();
         const dStartDate = new Date(startDate);
         currentDate.setSeconds(0, 0);
         dStartDate.setHours(hours, mins, 0, 0);
-        valid = currentDate.toString() !== 'Invalid Date' && currentDate <=
+        valid = currentDate.toString() !== 'Invalid Date' &amp;&amp; currentDate &lt;=
             dStartDate;
       }
     }
@@ -254,7 +282,7 @@ export default function EmployeeCreateGuestBooking() {
    * @return {boolean} True if valid, false otherwise
    */
   function validateDepot(stateChange) {
-    const valid = depotChoiceId !== '' && depotChoiceId !== 'none';
+    const valid = depotChoiceId !== '' &amp;&amp; depotChoiceId !== 'none';
     if (stateChange) {
       setValidDepot(valid);
     }
@@ -267,7 +295,7 @@ export default function EmployeeCreateGuestBooking() {
    * @return {boolean} True if valid, false otherwise
    */
   function validateScooter(stateChange) {
-    const valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
+    const valid = scooterChoiceId !== '' &amp;&amp; scooterChoiceId !== 'none';
     if (stateChange) {
       setValidScooter(valid);
     }
@@ -280,7 +308,7 @@ export default function EmployeeCreateGuestBooking() {
    * @return {boolean} True if valid, false otherwise
    */
   function validateHireSlot(stateChange) {
-    const valid = hireChoiceId !== '' && hireChoiceId !== 'none';
+    const valid = hireChoiceId !== '' &amp;&amp; hireChoiceId !== 'none';
     if (stateChange) {
       setValidHireSlot(valid);
     }
@@ -293,7 +321,7 @@ export default function EmployeeCreateGuestBooking() {
    * @return {boolean} True if valid, false otherwise
    */
   function validateCardNo(stateChange) {
-    const valid = cardNo.length > 9 && cardNo.length < 20;
+    const valid = cardNo.length > 9 &amp;&amp; cardNo.length &lt; 20;
     if (stateChange) {
       setValidCardNo(valid);
     }
@@ -397,106 +425,106 @@ export default function EmployeeCreateGuestBooking() {
   }
 
   return (
-    <>
-      <p id="breadcrumb">
-        <a className="breadcrumb-list" onClick={() => {
+    &lt;>
+      &lt;p id="breadcrumb">
+        &lt;a className="breadcrumb-list" onClick={() => {
           navigate('/home');
         }}>Home
-        </a> &gt; <a className="breadcrumb-list" onClick={() => {
+        &lt;/a> &amp;gt; &lt;a className="breadcrumb-list" onClick={() => {
           navigate('/bookings');
-        }}>Bookings</a> &gt; <b>
-          <a className="breadcrumb-current" onClick={() => {
+        }}>Bookings&lt;/a> &amp;gt; &lt;b>
+          &lt;a className="breadcrumb-current" onClick={() => {
             navigate('/create-guest-booking');
-          }}>Create Booking</a></b>
-      </p>
-      <h3 id="pageName">Create Booking</h3>
-      <hr id="underline"/>
-      <Container className="pb-4">
-        <div className="booking-responsive">
-          <Row>
-            <Col className="col-6">
-              <Container className="autoScrollSub">
-                <h5>Customer Details</h5>
-                <Row className="pb-2 small-padding-top">
-                  <Col className="col-5 text-end align-self-center">
+          }}>Create Booking&lt;/a>&lt;/b>
+      &lt;/p>
+      &lt;h3 id="pageName">Create Booking&lt;/h3>
+      &lt;hr id="underline"/>
+      &lt;Container className="pb-4">
+        &lt;div className="booking-responsive">
+          &lt;Row>
+            &lt;Col className="col-6">
+              &lt;Container className="autoScrollSub">
+                &lt;h5>Customer Details&lt;/h5>
+                &lt;Row className="pb-2 small-padding-top">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Name:
-                  </Col>
-                  <Col className="text-end">
-                    <Form.Control type="text" placeholder="John Smith"
+                  &lt;/Col>
+                  &lt;Col className="text-end">
+                    &lt;Form.Control type="text" placeholder="John Smith"
                       isInvalid={!validName}
                       onInput={(e) => setName(e.target.value)}/>
-                    <Form.Control.Feedback type="invalid">
+                    &lt;Form.Control.Feedback type="invalid">
                         Enter Customer Name
-                    </Form.Control.Feedback>
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                    &lt;/Form.Control.Feedback>
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Email Address:
-                  </Col>
-                  <Col className="text-end">
-                    <Form.Control type="email" placeholder="name@example.com"
+                  &lt;/Col>
+                  &lt;Col className="text-end">
+                    &lt;Form.Control type="email" placeholder="name@example.com"
                       isInvalid={!validEmail}
                       onInput={(e) => setEmail(e.target.value)}/>
-                    <Form.Control.Feedback type="invalid">
+                    &lt;Form.Control.Feedback type="invalid">
                         Invalid Email Address
-                    </Form.Control.Feedback>
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">Confirm
-                      Email Address</Col>
-                  <Col className="text-end">
-                    <Form.Control type="email" placeholder="name@example.com"
+                    &lt;/Form.Control.Feedback>
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">Confirm
+                      Email Address&lt;/Col>
+                  &lt;Col className="text-end">
+                    &lt;Form.Control type="email" placeholder="name@example.com"
                       isInvalid={!validConfirm}
                       onInput={(e) => setConfirmEmail(
                           e.target.value)}/>
-                    <Form.Control.Feedback type="invalid">
+                    &lt;Form.Control.Feedback type="invalid">
                         Email Address Does Not Match
-                    </Form.Control.Feedback>
-                  </Col>
-                </Row>
-                <h5>Booking Details</h5>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                    &lt;/Form.Control.Feedback>
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;h5>Booking Details&lt;/h5>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Depot:
-                  </Col>
-                  <Col>
-                    {(mapLocations === '') ? <> Loading depots... </> :
-                          <Form.Select value={depotChoiceId}
+                  &lt;/Col>
+                  &lt;Col>
+                    {(mapLocations === '') ? &lt;> Loading depots... &lt;/> :
+                          &lt;Form.Select value={depotChoiceId}
                             isInvalid={!validDepot}
                             onChange={(e) => {
                               setDepotChoiceId(e.target.value);
                               setScooterChoiceId('');
                             }}>
-                            <option value="" key="none" disabled hidden>Select
+                            &lt;option value="" key="none" disabled hidden>Select
                               Depot
-                            </option>
+                            &lt;/option>
                             {mapLocations.map((depot, idx) => (
-                              <option value={depot.depoId}
-                                key={idx}>{depot.name}</option>
+                              &lt;option value={depot.depoId}
+                                key={idx}>{depot.name}&lt;/option>
                             ))}
-                          </Form.Select>
+                          &lt;/Form.Select>
                     }
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Start Date:
-                  </Col>
-                  <Col>
-                    <Form.Control type="date" isInvalid={!validStartDate}
+                  &lt;/Col>
+                  &lt;Col>
+                    &lt;Form.Control type="date" isInvalid={!validStartDate}
                       onChange={(e) => {
                         setStartDate(e.target.value);
                       }}/>
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Start Time:
-                  </Col>
-                  <Col>
-                    <Form.Control type="time"
+                  &lt;/Col>
+                  &lt;Col>
+                    &lt;Form.Control type="time"
                       isInvalid={!validStartTime}
                       value={startTime}
                       onChange={(e) => {
@@ -520,15 +548,15 @@ export default function EmployeeCreateGuestBooking() {
                         setStartTime(output);
                       }
                       }/>
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Hire Period:
-                  </Col>
-                  <Col>
-                    {(hireOptions === '') ? <>Loading hire periods...</> : <>
-                      <Form.Select isInvalid={!validHireSlot}
+                  &lt;/Col>
+                  &lt;Col>
+                    {(hireOptions === '') ? &lt;>Loading hire periods...&lt;/> : &lt;>
+                      &lt;Form.Select isInvalid={!validHireSlot}
                         defaultValue="none"
                         onChange={(e) => {
                           const value = e.target.value.split(',');
@@ -536,28 +564,28 @@ export default function EmployeeCreateGuestBooking() {
                           setPrice(value[1]);
                         }}>
 
-                        <option value="none" key="none" disabled hidden>
+                        &lt;option value="none" key="none" disabled hidden>
                             Select Hire Period
-                        </option>
+                        &lt;/option>
                         {hireOptions.map((option, idx) => (
-                          <option key={idx}
+                          &lt;option key={idx}
                             value={[
                               option.hireOptionId,
                               option.cost]}>{option.name} -
-                                £{option.cost}</option>
+                                £{option.cost}&lt;/option>
                         ))}
-                      </Form.Select>
-                    </>
+                      &lt;/Form.Select>
+                    &lt;/>
                     }
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Scooter:
-                  </Col>
-                  <Col>
+                  &lt;/Col>
+                  &lt;Col>
 
-                    <Form.Select
+                    &lt;Form.Select
                       value={scooterChoiceId}
                       isInvalid={!validScooter}
                       disabled={scooters === ''}
@@ -565,79 +593,79 @@ export default function EmployeeCreateGuestBooking() {
                         setScooterChoiceId(e.target.value);
                       }}>
                       {scooters === '' ?
-                            <option value="" key="none" disabled hidden>Please
+                            &lt;option value="" key="none" disabled hidden>Please
                               fill in other
-                              details</option> : <>
-                              <option value="" key="none" disabled hidden>Select
+                              details&lt;/option> : &lt;>
+                              &lt;option value="" key="none" disabled hidden>Select
                                 Scooter
-                              </option>
+                              &lt;/option>
                               {scooters.map((scooter, idx) => (
-                                <option value={scooter.scooterId}
-                                  key={idx}>{scooter.softScooterId}</option>
+                                &lt;option value={scooter.scooterId}
+                                  key={idx}>{scooter.softScooterId}&lt;/option>
                               ))}
-                            </>
+                            &lt;/>
                       }
-                    </Form.Select>
+                    &lt;/Form.Select>
 
-                  </Col>
-                </Row>
+                  &lt;/Col>
+                &lt;/Row>
                 {price === '' ?
                       null :
-                      <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>}
-                <h5>Payment details</h5>
-                <Row className="pb-2 small-padding-top">
-                  <Col className="col-5 text-end align-self-center">
+                      &lt;h5>Cost: £{parseFloat(price).toFixed(2)}&lt;/h5>}
+                &lt;h5>Payment details&lt;/h5>
+                &lt;Row className="pb-2 small-padding-top">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Card Number:
-                  </Col>
-                  <Col className="text-end">
-                    <Form.Control type="text"
+                  &lt;/Col>
+                  &lt;Col className="text-end">
+                    &lt;Form.Control type="text"
                       placeholder="4000-1234-5678-9010"
                       isInvalid={!validCardNo}
                       onInput={(e) => setCardNo(e.target.value)}/>
-                    <Form.Control.Feedback type="invalid">
+                    &lt;Form.Control.Feedback type="invalid">
                         Invalid Card Number
-                    </Form.Control.Feedback>
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                    &lt;/Form.Control.Feedback>
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       Expiry Date:
-                  </Col>
-                  <Col className="text-end">
-                    <Form.Control type="text" placeholder="MM/YY"
+                  &lt;/Col>
+                  &lt;Col className="text-end">
+                    &lt;Form.Control type="text" placeholder="MM/YY"
                       isInvalid={!validExpDate}
                       onInput={(e) => setExpiry(e.target.value)}/>
-                    <Form.Control.Feedback type="invalid">
+                    &lt;Form.Control.Feedback type="invalid">
                         Invalid Expiry Date
-                    </Form.Control.Feedback>
-                  </Col>
-                </Row>
-                <Row className="pb-2">
-                  <Col className="col-5 text-end align-self-center">
+                    &lt;/Form.Control.Feedback>
+                  &lt;/Col>
+                &lt;/Row>
+                &lt;Row className="pb-2">
+                  &lt;Col className="col-5 text-end align-self-center">
                       CVV:
-                  </Col>
-                  <Col className="text-end">
-                    <Form.Control type="text" placeholder="123"
+                  &lt;/Col>
+                  &lt;Col className="text-end">
+                    &lt;Form.Control type="text" placeholder="123"
                       isInvalid={!validCVV}
                       onInput={(e) => setCVV(e.target.value)}/>
-                    <Form.Control.Feedback type="invalid">
+                    &lt;Form.Control.Feedback type="invalid">
                         Invalid CVV
-                    </Form.Control.Feedback>
-                  </Col>
-                </Row>
-              </Container>
-            </Col>
-            <Col className="box-staff">
-              {(mapLocations === '') ? <p>Loading map locations...</p> :
-                    <MapContainer center={[
+                    &lt;/Form.Control.Feedback>
+                  &lt;/Col>
+                &lt;/Row>
+              &lt;/Container>
+            &lt;/Col>
+            &lt;Col className="box-staff">
+              {(mapLocations === '') ? &lt;p>Loading map locations...&lt;/p> :
+                    &lt;MapContainer center={[
                       mapLocations[0].latitude,
                       mapLocations[0].longitude]} zoom={15}
                     zoomControl={false} className="minimap-guest">
-                      <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      &lt;TileLayer
+                        attribution='&amp;copy; &lt;a href="http://osm.org/copyright">OpenStreetMap&lt;/a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                       {mapLocations.map((location, index) => (
-                        <Marker key={index}
+                        &lt;Marker key={index}
                           position={[
                             location.latitude,
                             location.longitude]}
@@ -647,76 +675,76 @@ export default function EmployeeCreateGuestBooking() {
                               setScooterChoiceId('');
                             },
                           }}>
-                          <Popup>
-                            <Button className="disabled">
+                          &lt;Popup>
+                            &lt;Button className="disabled">
                               {location.name}
-                            </Button>
-                          </Popup>
-                        </Marker>
+                            &lt;/Button>
+                          &lt;/Popup>
+                        &lt;/Marker>
                       ))}
-                    </MapContainer>
+                    &lt;/MapContainer>
               }
-            </Col>
-          </Row>
-        </div>
-        <div className="booking-responsive-mobile">
-          <h5>Customer Details</h5>
-          <div className="padding-down">
+            &lt;/Col>
+          &lt;/Row>
+        &lt;/div>
+        &lt;div className="booking-responsive-mobile">
+          &lt;h5>Customer Details&lt;/h5>
+          &lt;div className="padding-down">
               Name:
-            <Form.Control type="text" placeholder="John Smith"
+            &lt;Form.Control type="text" placeholder="John Smith"
               isInvalid={!validName}
               onInput={(e) => setName(e.target.value)}/>
-            <Form.Control.Feedback type="invalid">
+            &lt;Form.Control.Feedback type="invalid">
                 Enter Customer Name
-            </Form.Control.Feedback>
-          </div>
-          <div className="padding-down">
+            &lt;/Form.Control.Feedback>
+          &lt;/div>
+          &lt;div className="padding-down">
               Email Address:
-            <Form.Control type="email" placeholder="name@example.com"
+            &lt;Form.Control type="email" placeholder="name@example.com"
               isInvalid={!validEmail}
               onInput={(e) => setEmail(e.target.value)}/>
-            <Form.Control.Feedback type="invalid">
+            &lt;Form.Control.Feedback type="invalid">
                 Invalid Email Address
-            </Form.Control.Feedback>
-          </div>
-          <div className="padding-down">
+            &lt;/Form.Control.Feedback>
+          &lt;/div>
+          &lt;div className="padding-down">
               Confirm Email Address
-            <Form.Control type="email" placeholder="name@example.com"
+            &lt;Form.Control type="email" placeholder="name@example.com"
               isInvalid={!validConfirm}
               onInput={(e) => setConfirmEmail(e.target.value)}/>
-            <Form.Control.Feedback type="invalid">
+            &lt;Form.Control.Feedback type="invalid">
                 Email Address Does Not Match
-            </Form.Control.Feedback>
-          </div>
-          <br/>
-          <h5>Booking Details</h5>
-          <div className="padding-down">
+            &lt;/Form.Control.Feedback>
+          &lt;/div>
+          &lt;br/>
+          &lt;h5>Booking Details&lt;/h5>
+          &lt;div className="padding-down">
               Depot:
-            {(mapLocations === '') ? <> Loading depots... </> :
-                  <Form.Select value={depotChoiceId} isInvalid={!validDepot}
+            {(mapLocations === '') ? &lt;> Loading depots... &lt;/> :
+                  &lt;Form.Select value={depotChoiceId} isInvalid={!validDepot}
                     onChange={(e) => {
                       setDepotChoiceId(e.target.value);
                       setScooterChoiceId('');
                     }}>
-                    <option value="" key="none" disabled hidden>Select Depot
-                    </option>
+                    &lt;option value="" key="none" disabled hidden>Select Depot
+                    &lt;/option>
                     {mapLocations.map((depot, idx) => (
-                      <option value={depot.depoId}
-                        key={idx}>{depot.name}</option>
+                      &lt;option value={depot.depoId}
+                        key={idx}>{depot.name}&lt;/option>
                     ))}
-                  </Form.Select>
+                  &lt;/Form.Select>
             }
-          </div>
-          <div className="padding-down">
+          &lt;/div>
+          &lt;div className="padding-down">
               Start Date:
-            <Form.Control type="date" isInvalid={!validStartDate}
+            &lt;Form.Control type="date" isInvalid={!validStartDate}
               onChange={(e) => {
                 setStartDate(e.target.value);
               }}/>
-          </div>
-          <div className="padding-down">
+          &lt;/div>
+          &lt;div className="padding-down">
               Start Time:
-            <Form.Control type="time"
+            &lt;Form.Control type="time"
               isInvalid={!validStartTime}
               value={startTime}
               onChange={(e) => {
@@ -739,32 +767,32 @@ export default function EmployeeCreateGuestBooking() {
                 setStartTime(output);
               }
               }/>
-          </div>
-          <div className="padding-down">
+          &lt;/div>
+          &lt;div className="padding-down">
               Hire Period:
-            {(hireOptions === '') ? <>Loading hire periods...</> : <>
-              <Form.Select isInvalid={!validHireSlot} defaultValue="none"
+            {(hireOptions === '') ? &lt;>Loading hire periods...&lt;/> : &lt;>
+              &lt;Form.Select isInvalid={!validHireSlot} defaultValue="none"
                 onChange={(e) => {
                   const value = e.target.value.split(',');
                   setHireChoiceId(value[0]);
                   setPrice(value[1]);
                 }}>
-                <option value="none" key="none" disabled hidden>Select Hire
+                &lt;option value="none" key="none" disabled hidden>Select Hire
                     Period
-                </option>
+                &lt;/option>
                 {hireOptions.map((option, idx) => (
-                  <option key={idx} value={[
+                  &lt;option key={idx} value={[
                     option.hireOptionId,
                     option.cost]}>{option.name} -
-                        £{option.cost}</option>
+                        £{option.cost}&lt;/option>
                 ))}
-              </Form.Select>
-            </>
+              &lt;/Form.Select>
+            &lt;/>
             }
-          </div>
-          <div className="padding-down">
+          &lt;/div>
+          &lt;div className="padding-down">
               Scooter:
-            <Form.Select
+            &lt;Form.Select
               value={scooterChoiceId}
               isInvalid={!validScooter}
               disabled={scooters === ''}
@@ -772,59 +800,82 @@ export default function EmployeeCreateGuestBooking() {
                 setScooterChoiceId(e.target.value);
               }}>
               {scooters === '' ?
-                    <option value="" key="none" disabled hidden>Please fill in
-                      other details</option> : <>
-                      <option value="" key="none" disabled hidden>Select
+                    &lt;option value="" key="none" disabled hidden>Please fill in
+                      other details&lt;/option> : &lt;>
+                      &lt;option value="" key="none" disabled hidden>Select
                         Scooter
-                      </option>
+                      &lt;/option>
                       {scooters.map((scooter, idx) => (
-                        <option value={scooter.scooterId}
-                          key={idx}>{scooter.softScooterId}</option>
+                        &lt;option value={scooter.scooterId}
+                          key={idx}>{scooter.softScooterId}&lt;/option>
                       ))}
-                    </>
+                    &lt;/>
               }
-            </Form.Select>
-          </div>
-          <div className="padding-down">
+            &lt;/Form.Select>
+          &lt;/div>
+          &lt;div className="padding-down">
             {price === '' ?
                   null :
-                  <h5>Cost: £{parseFloat(price).toFixed(2)}</h5>}
-          </div>
-          <br/>
-          <h5>Payment details</h5>
-          <div className="padding-down">
+                  &lt;h5>Cost: £{parseFloat(price).toFixed(2)}&lt;/h5>}
+          &lt;/div>
+          &lt;br/>
+          &lt;h5>Payment details&lt;/h5>
+          &lt;div className="padding-down">
               Card Number:
-            <Form.Control type="text" placeholder="4000-1234-5678-9010"
+            &lt;Form.Control type="text" placeholder="4000-1234-5678-9010"
               isInvalid={!validCardNo}
               onInput={(e) => setCardNo(e.target.value)}/>
-            <Form.Control.Feedback type="invalid">
+            &lt;Form.Control.Feedback type="invalid">
                 Invalid Card Number
-            </Form.Control.Feedback>
-          </div>
-          <div className="padding-down">
+            &lt;/Form.Control.Feedback>
+          &lt;/div>
+          &lt;div className="padding-down">
               Expiry Date:
-            <Form.Control type="text" placeholder="MM/YY"
+            &lt;Form.Control type="text" placeholder="MM/YY"
               isInvalid={!validExpDate}
               onInput={(e) => setExpiry(e.target.value)}/>
-            <Form.Control.Feedback type="invalid">
+            &lt;Form.Control.Feedback type="invalid">
                 Invalid Expiry Date
-            </Form.Control.Feedback>
-          </div>
-          <div className="padding-down">
+            &lt;/Form.Control.Feedback>
+          &lt;/div>
+          &lt;div className="padding-down">
               CVV:
-            <Form.Control type="text" placeholder="123"
+            &lt;Form.Control type="text" placeholder="123"
               isInvalid={!validCVV}
               onInput={(e) => setCVV(e.target.value)}/>
-            <Form.Control.Feedback type="invalid">
+            &lt;Form.Control.Feedback type="invalid">
                 Invalid CVV
-            </Form.Control.Feedback>
-          </div>
-        </div>
-        <div className="text-center large-padding-top">
-          <Button onClick={createGuestBooking}>Confirm Booking</Button>
-        </div>
-      </Container>
-    </>
+            &lt;/Form.Control.Feedback>
+          &lt;/div>
+        &lt;/div>
+        &lt;div className="text-center large-padding-top">
+          &lt;Button onClick={createGuestBooking}>Confirm Booking&lt;/Button>
+        &lt;/div>
+      &lt;/Container>
+    &lt;/>
   )
   ;
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Account.html">Account</a></li></ul><h3>Global</h3><ul><li><a href="global.html#accountFromCookies">accountFromCookies</a></li><li><a href="global.html#AccountProvider">AccountProvider</a></li><li><a href="global.html#signIn">signIn</a></li><li><a href="global.html#signOut">signOut</a></li><li><a href="global.html#useAccount">useAccount</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Sun May 01 2022 22:09:55 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -44,6 +44,10 @@ export default function CustomerCurrentBookings() {
           if (booking.extensions.length > 0) {
             booking.endTime = booking.extensions[booking.extensions.length -
             1].endTime;
+            // eslint-disable-next-line guard-for-in
+            for (let i = 0; i < booking.extensions.length; i++) {
+              booking.cost += booking.extensions[i].cost;
+            }
           }
           return booking;
         }

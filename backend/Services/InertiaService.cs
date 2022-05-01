@@ -291,7 +291,8 @@ public class InertiaService
         var pastOrders = await _db.Orders
             .Where(o =>
                 o.EndTime <= DateTime.Now &&
-                o.OrderState == OrderState.Ongoing)
+                o.OrderState == OrderState.Ongoing || o.OrderState == OrderState.Upcoming
+                )
             .ToListAsync();
 
         foreach (var o in pastOrders)
@@ -408,7 +409,10 @@ public class InertiaService
             Discount = discount,
             Cost = cost,
             Extends = order,
-            OrderState = OrderState.PendingApproval
+            OrderState = 
+                order.OrderState == OrderState.PendingApproval ? 
+                    OrderState.PendingApproval :
+                    OrderState.Upcoming
         };
         
         await _db.Orders.AddAsync(extension);

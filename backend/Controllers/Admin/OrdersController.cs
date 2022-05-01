@@ -294,7 +294,17 @@ public class OrdersController : MyControllerBase
         if (order is null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "order id invalid", "order");
 
-        order.OrderState = OrderState.Upcoming;
+        var baseOrderId = order.ExtendsId ?? orderId;
+
+        var relatedOrders = await _db.Orders
+            .Where(o => o.OrderId == baseOrderId || o.ExtendsId == baseOrderId)
+            .ToListAsync();
+
+        foreach (var o in relatedOrders)
+        {
+            o.OrderState = OrderState.Upcoming;
+        }
+        
         await _db.SaveChangesAsync();
 
         await _email.SendOrderApproval(order.Account.Email, order);
@@ -320,7 +330,18 @@ public class OrdersController : MyControllerBase
         if (order is null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "order id invalid", "order");
         
-        order.OrderState = OrderState.Denied;
+        
+        var baseOrderId = order.ExtendsId ?? orderId;
+
+        var relatedOrders = await _db.Orders
+            .Where(o => o.OrderId == baseOrderId || o.ExtendsId == baseOrderId)
+            .ToListAsync();
+
+        foreach (var o in relatedOrders)
+        {
+            o.OrderState = OrderState.Denied;
+        }
+        
         await _db.SaveChangesAsync();
 
         await _email.SendOrderDenied(order.Account.Email, order);

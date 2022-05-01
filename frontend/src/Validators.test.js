@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Tests validation component
+*/
+
 import validate from "./Validators";
 
 it('returns 0 for invalid name', () => {

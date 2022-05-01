@@ -11,7 +11,8 @@ import EmployeeNavigation from "./EmployeeNavigation";
 import {useAccount} from "../../authorize";
 
 /**
- * Returns the boilerplate required for the employee interface
+ * Renders the boilerplate required for the employee interface
+ * @returns Boilerplate for all employee interfaces
  */
 export default function EmployeeInterface() {
     const [account] = useAccount();

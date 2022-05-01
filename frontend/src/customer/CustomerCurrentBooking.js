@@ -11,8 +11,9 @@ import {useNavigate} from "react-router-dom";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the current booking page, shows detailed information about the
+ * Renders the current booking page, shows detailed information about the
  * customer's current bookings
+ * @returns Customer current booking page
  */
 export default function CustomerCurrentBookings() {
     const [account] = useAccount();

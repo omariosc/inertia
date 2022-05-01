@@ -12,7 +12,8 @@ import host from "../../host";
 import orderState from "../orderState";
 
 /**
- * Returns more detailed information on a specific booking
+ * Renders more detailed information on a specific booking
+ * @returns Detailed booking view
  */
 export default function staffViewBooking() {
     const navigate = useNavigate();

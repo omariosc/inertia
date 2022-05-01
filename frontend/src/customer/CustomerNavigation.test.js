@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Tests the default customer navbar component
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CustomerNavigation from "./CustomerNavigation";

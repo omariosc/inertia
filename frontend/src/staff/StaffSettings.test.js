@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Tests the staff settings component
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import StaffSettings from "./StaffSettings";

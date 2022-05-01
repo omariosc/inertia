@@ -12,8 +12,9 @@ import moment from "moment";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the customer discount page, shows their current discount status
+ * Renders the customer discount page, shows their current discount status
  * and allows them to apply for new discounts
+ * @returns Customer discount page
  */
 export default function CustomerDiscounts() {
     const [account] = useAccount();
@@ -100,6 +101,8 @@ export default function CustomerDiscounts() {
 		/**
 		 * If the customer submits a new application, check that image is present if one
 		 * is required and update the backend server
+		 * @param {string} type Type of application made (e.g. student, senior)
+		 * @returns Null if there is an error when sending the application
 		 */
     async function onSubmit(type) {
         if ((type === 'student' && !studentImage) || (type === 'senior' && !seniorImage)) {

@@ -9,7 +9,8 @@ import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 
 /**
- * Returns the employee navigation bar with links for browsing the application
+ * Renders the employee navigation bar with links for browsing the application
+ * @returns Default employee navbar
  */
 export default function EmployeeNavigation() {
     return (

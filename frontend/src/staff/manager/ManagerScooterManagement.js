@@ -12,8 +12,9 @@ import scooterStatus from "../../scooterStatus";
 import {useNavigate} from "react-router-dom";
 
 /**
- * Returns the manager scooter management page, displays
- * list of scooters
+ * Renders the manager scooter management page, displays
+ * a list of scooters
+ * @returns Manager scooter management page
  */
 export default function ManagerScooterManagement() {
     const navigate = useNavigate();
@@ -70,6 +71,11 @@ export default function ManagerScooterManagement() {
 
 		/**
 		 * Changes a given scooter's information and updates the backend server
+		 * @param {number} id ID of the scooter to edit
+		 * @param {number} mode 1 to change location, 2 to change ID, anything else to change availability
+		 * @param {boolean} availability Current state of the scooter's availability
+		 * @param {string} location Current location of the scooter
+		 * @returns Null if there is an error during editing
 		 */
     async function editScooter(id, mode, availability = '', location = '') {
         const json = {}
@@ -121,6 +127,7 @@ export default function ManagerScooterManagement() {
 
 		/**
 		 * Creates a new scooter and updates the backend server
+		 * @returns Null if there is an error during scooter creation
 		 */
     async function createScooter() {
         if (!(createID.match(/^\d+$/))) {
@@ -169,6 +176,7 @@ export default function ManagerScooterManagement() {
 
 		/**
 		 * Deletes the scooter with the ID provided
+		 * @param {number} id ID of the scooter to be deleted
 		 */
     async function deleteScooter(id) {
         try {

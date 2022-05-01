@@ -12,8 +12,9 @@ import scooterStatus from "../../scooterStatus";
 import {useNavigate} from "react-router-dom";
 
 /**
- * Returns the employee scooter management page, displays
+ * Renders the employee scooter management page, displays
  * list of scooters
+ * @returns Employee scooter management page
  */
 export default function EmployeeScooterManagement() {
     const navigate = useNavigate();
@@ -68,6 +69,8 @@ export default function EmployeeScooterManagement() {
 		/**
 		 * Changes details of the scooter ID provided by updating
 		 * the backend server with the new information
+		 * @param {number} id ID of the scooter to change
+		 * @param {boolean} availability Current availability of the scooter
 		 */
     async function editScooter(id, availability) {
         try {

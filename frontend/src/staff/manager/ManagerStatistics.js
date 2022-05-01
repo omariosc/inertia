@@ -1,3 +1,8 @@
+/*
+	Purpose of file: Display information on daily and weekly sales
+	to the manager
+*/
+
 import React, {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
@@ -8,6 +13,11 @@ import {useNavigate} from "react-router-dom";
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+/**
+ * Renders the manager statistics page and the graphs relating
+ * to the sales statistics
+ * @returns Manager statistics page
+ */
 export default function ManagerStatistics() {
     const navigate = useNavigate();
     const [account] = useAccount();
@@ -19,6 +29,9 @@ export default function ManagerStatistics() {
         fetchStatistics();
     }, []);
 
+		/**
+		 * Gets the current statistics from the backend server
+		 */
     async function fetchStatistics() {
         const init = {
             method: "GET",

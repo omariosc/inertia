@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Test employee navbar component
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import EmployeeNavigation from "./EmployeeNavigation";

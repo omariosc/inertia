@@ -11,8 +11,9 @@ import { useAccount } from '../../authorize';
 import host from "../../host";
 
 /**
- * Returns the employee extend booking page, allows a staff member
+ * Renders the employee extend booking page, allows a staff member
  * to prolong a booking for an unregistered user
+ * @returns Employee extend booking page
  */
 export default function EmployeeExtendGuestBooking() {
     const [account] = useAccount();
@@ -84,6 +85,8 @@ export default function EmployeeExtendGuestBooking() {
 
 		/**
 		 * Checks that a chosen hire slot is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
@@ -95,6 +98,8 @@ export default function EmployeeExtendGuestBooking() {
 
 		/**
 		 * Checks that the provided card number is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateCardNo(stateChange) {
         let valid = cardNo.length > 9 && cardNo.length < 20;
@@ -106,6 +111,8 @@ export default function EmployeeExtendGuestBooking() {
 
 		/**
 		 * Checks that the provided expiry date of the card is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateExpDate(stateChange) {
         let valid = expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/);
@@ -117,6 +124,8 @@ export default function EmployeeExtendGuestBooking() {
 
 		/**
 		 * Checks that the provided CVV of the card is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateCVV(stateChange) {
         let valid = cvv.match(/^[0-9]{3,4}$/);

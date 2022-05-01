@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Test date formatting component
+*/
+
 import showDate from "./showDate";
 
 it('converts dates properly', () => {

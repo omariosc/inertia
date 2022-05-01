@@ -12,7 +12,8 @@ import {useAccount} from "../authorize";
 import {NotificationManager} from "react-notifications";
 
 /**
- * Returns the menu in the top right corner of the application
+ * Renders the menu in the top right corner of the application
+ * @returns Dropdown menu for application
  */
 export default function userMenu() {
     const location = useLocation();

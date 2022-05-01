@@ -11,8 +11,9 @@ import host from "../../host";
 import {useNavigate} from "react-router-dom";
 
 /**
- * Returns the manager depot management, a list of all current
+ * Renders the manager depot management, a list of all current
  * depots available
+ * @returns The manager depot management page
  */
 export default function ManagerDepotManagement() {
     const navigate = useNavigate();
@@ -52,6 +53,9 @@ export default function ManagerDepotManagement() {
 		/**
 		 * Edits the details of a specific depot with the provided ID
 		 * and updates the backend server
+		 * @param {number} id The ID of the depot to be edited
+		 * @param {number} mode 1 to change latitude, 2 to change longitude
+		 * @returns Null if there is some error during the editing
 		 */
     async function editDepot(id, mode) {
         const json = {};
@@ -163,7 +167,8 @@ export default function ManagerDepotManagement() {
     }
 
 		/**
-		 * Deletes a depot from the backend database with the specified ID
+		 * Removes a depot from the backend database
+		 * @param {*} id The ID of the depot to delete
 		 */
     async function deleteDepot(id) {
         try {

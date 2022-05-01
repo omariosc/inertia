@@ -10,8 +10,9 @@ import host from "../host";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the customer settings page, allows them to change
+ * Renders the customer settings page, allows them to change
  * their password
+ * @returns Customer settings page
  */
 export default function CustomerSettings() {
     const [account] = useAccount();
@@ -25,7 +26,7 @@ export default function CustomerSettings() {
     }, []);
 
 		/**
-		 * Get the customer's account information from the backend server
+		 * Gets the customer's account information from the backend server
 		 */
     async function fetchAccountInformation() {
         try {

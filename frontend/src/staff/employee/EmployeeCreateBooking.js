@@ -12,8 +12,9 @@ import {useAccount} from '../../authorize';
 import host from "../../host";
 
 /**
- * Returns the employee create guest booking page which allows a staff
+ * Renders the employee create guest booking page which allows a staff
  * member to create a booking for an unregistered user
+ * @returns Employee create guest booking page
  */
 export default function EmployeeCreateGuestBooking() {
     const [account] = useAccount();
@@ -154,6 +155,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the provided name for the order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateName(stateChange) {
         let valid = name.length > 0;
@@ -165,6 +168,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the provided email for the order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateEmail(stateChange) {
         let valid = email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -176,6 +181,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the provided "confirm email" field for the order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateConfirm(stateChange) {
         let valid = email === confirmEmail;
@@ -187,6 +194,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the date of the new order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateDate(stateChange) {
         let currentDate = new Date();
@@ -202,6 +211,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the time of the new order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateTime(stateChange) {
         let valid;
@@ -228,6 +239,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the depot of the new order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateDepot(stateChange) {
         let valid = depotChoiceId !== '' && depotChoiceId !== 'none';
@@ -239,6 +252,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the chosen scooter for the new order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateScooter(stateChange) {
         let valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
@@ -250,6 +265,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the hiring length of the order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
@@ -261,6 +278,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the card number of the new order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateCardNo(stateChange) {
         let valid = cardNo.length > 9 && cardNo.length < 20;
@@ -272,6 +291,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the expiry date of the card of the new order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateExpDate(stateChange) {
         let valid = expiry.match(/^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/);
@@ -283,6 +304,8 @@ export default function EmployeeCreateGuestBooking() {
 
 		/**
 		 * Checks that the CVV of the card of the new order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
 		 */
     function validateCVV(stateChange) {
         let valid = cvv.match(/^[0-9]{3,4}$/);

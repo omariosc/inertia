@@ -17,11 +17,8 @@ import {useAccount} from "./authorize";
  * @returns The registration form
  */
 export default function RegisterForm(props) {
-    const params = useParams();
-    const startTime = params.startTime;
-    const hireChoiceId = params.hireChoiceId;
-    const scooterChoiceId = params.scooterId;
     const navigate = useNavigate();
+    const {scooterChoiceId, hireChoiceId, startTime} = useParams();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -57,9 +54,9 @@ export default function RegisterForm(props) {
                 signIn(email, password, (m) => {
                     if (m === 'login success') {
                         NotificationManager.success('Logged In.', 'Success');
-                        if(startTime && hireChoiceId && scooterChoiceId) {
-                            navigate(`../payment/${startTime}/${hireChoiceId}/${scooterChoiceId}`);
-                        } else {
+                        if(startTime && hireChoiceId && scooterChoiceId){
+                            navigate(`../payment/${scooterChoiceId}/${hireChoiceId}/${startTime}`);
+                        } else{
                             navigate('/');
                         }
                     } else {

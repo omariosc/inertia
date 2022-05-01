@@ -6,13 +6,9 @@ import host from "../../host";
 import {useNavigate, useParams} from "react-router-dom";
 import moment from "moment";
 import {useAccount} from "../../authorize";
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 
 export default function MainPayment() {
-    const params = useParams();
-    const startTime = params.startTime;
-    const hireChoiceId = params.hireChoiceId;
-    const scooterChoiceId = params.scooterId;
+    const {scooterChoiceId, hireChoiceId, startTime} = useParams();
     const [account] = useAccount();
     const navigate = useNavigate();
     const [price, setPrice] = useState('');
@@ -183,6 +179,20 @@ export default function MainPayment() {
                 mode: "cors"
             });
             let response = await request;
+            console.log({
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${account.accessToken}`
+                },
+                body: JSON.stringify({
+                    'hireOptionId': parseInt(hireChoiceId),
+                    'scooterId': parseInt(scooterChoiceId),
+                    'startTime': startTime
+                }),
+                mode: "cors"
+            });
             if (response.status === 422) {
                 NotificationManager.error("Scooter is currently unavailable.", "Error");
             } else if (response.status === 400) {
@@ -215,52 +225,18 @@ export default function MainPayment() {
         return (!!localStorage.getItem(account.id));
     }
 
-    /**
-     * Shows total cost of the new booking
-     */
-    function DisplayCost() {
-        return (
-            (isNaN(parseFloat(price))) ? null :
-                (loading === '') ? null :
-                    (discount) ?
-                        <Row className="pb-2">
-                            <Col>
-                                {(hireChoiceId === '') ? null :
-                                    <>
-                                        <h5>Cost: £{(0.9 * parseFloat(price)).toFixed(2)}</h5>
-                                        <Row className="pb-2">
-                                            <Col className="text-end col-3 align-self-center">
-                                                Discount:
-                                            </Col>
-                                            <Col>
-                                                {discountType} (10%) applied
-                                            </Col>
-                                        </Row>
-                                    </>
-                                }
-                            </Col>
-                        </Row> :
-                        <Row className="pb-2">
-                            <Col>Cost £{(hireChoiceId === '') ? null :
-                                `${parseFloat(price).toFixed(2)}`
-                            }
-                            </Col>
-                        </Row>
-        );
-    }
 
     return (
         <div className={"content"}>
             <Container>
                 <br/>
                 <br/>
-                <DisplayCost/>
-                <div className="issue-filters">
+                <div>
                     {savedCardDetails === null ?
                         <>
                             <h5>Payment details</h5>
                             <Row className="pb-2 small-padding-top">
-                                <Col className="text-end col-3 align-self-center">
+                                <Col className="text-end col-9 align-self-center">
                                     Save Card Details:
                                 </Col>
                                 <Col>

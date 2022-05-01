@@ -295,9 +295,11 @@ export default function Booking() {
                     <Col className={"col-4 offset-1"}>
                         <Button className="text-center" disabled={!(scooterChoiceId !== "")} onClick={() => {
                             if (account) {
-                                navigate(`../payment/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
+                                console.log(account);
+                                navigate(`../payment/${scooterChoiceId}/${hireChoiceId}/${startDate + "T" + startTime}`);
                             } else {
-                                navigate(`../authentication/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
+                                console.log(account);
+                                navigate(`../authentication/${scooterChoiceId}/${hireChoiceId}/${startDate + "T" + startTime}`);
                             }
                         }
                         }>Book Scooter</Button>

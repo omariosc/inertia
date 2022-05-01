@@ -15,10 +15,7 @@ import {signIn, useAccount} from "./authorize";
  * @returns The login form
  */
 export default function LoginForm(props) {
-    const params = useParams();
-    const startTime = params.startTime;
-    const hireChoiceId = params.hireChoiceId;
-    const scooterChoiceId = params.scooterId;
+    const {scooterChoiceId, hireChoiceId, startTime} = useParams();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -43,11 +40,12 @@ export default function LoginForm(props) {
                         if (m === 'login success') {
                             NotificationManager.success('Logged In.', 'Success');
                             if (account.role === '0') {
-                                if(startTime && hireChoiceId && scooterChoiceId) {
-                                    navigate(`../payment/${startTime}/${hireChoiceId}/${scooterChoiceId}`);
-                                } else {
+                                if(startTime && hireChoiceId && scooterChoiceId){
+                                    navigate(`../payment/${scooterChoiceId}/${hireChoiceId}/${startTime}`);
+                                } else{
                                     navigate('/');
                                 }
+
                             } else if (account.role === '1') {
                                 navigate('/home');
                             } else if (account.role === '2') {

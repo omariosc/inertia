@@ -124,30 +124,31 @@ const App = () => {
                     }/>
 
                     { /* login and signup modals with params */}
-                    <Route path={"/login/:startTime/:hireChoiceId/:scooterId"} element={
+                    <Route path={"/login/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
                         <>
                             <MainPage/>
                             <LoginForm show={true} onHide={() => navigate('/')}/>
                         </>
                     }/>
-                    <Route path={"/signup/:startTime/:hireChoiceId/:scooterId"} element={
+                    <Route path={"/signup/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
                         <>
                             <MainPage/>
                             <RegisterForm show={true} onHide={() => navigate('/')}/>
                         </>
                     }/>
 
-                    <Route path="authentication/:startTime/:hireChoiceId/:scooterId"
-                           element={
-                               <>
-                                   <MainPage/>
-                                   <LoginAndSignupFromBooking show={true} onHide={() => navigate('/')}/>
-                               </>}/>
+                    <Route path={"authentication/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
+                        <>
+                            <MainPage/>
+                            <LoginAndSignupFromBooking show={true} onHide={() => navigate('/')}/>
+                        </>
+                    }/>
+
 
                     {/* Main page routing */}
                     <Route element={<MainPage/>}>
                         <Route path="booking/:depoId" element={<Booking/>}/>
-                        <Route path="payment/:startTime/:hireChoiceId/:scooterId" element={<MainPayment/>}/>
+                        <Route path="payment/:scooterChoiceId/:hireChoiceId/:startTime/" element={<MainPayment/>}/>
                         <Route path="depots" element={<DepotList/>}/>
                         <Route index element={<DepotList/>}/>
                         <Route path="*" element={<DepotList/>}/>

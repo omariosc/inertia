@@ -1,20 +1,35 @@
+/*
+	Purpose of file: Display a list of all scooters and allow
+	each one to have its details modified by a member of staff
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
+import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the employee scooter management page, displays
+ * list of scooters
+ * @returns Employee scooter management page
+ */
 export default function EmployeeScooterManagement() {
-    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const [account] = useAccount();
     const [map_locations, setMapLocations] = useState('');
     const [scooters, setScooters] = useState('');
 
     useEffect(() => {
-        fetchScooters();
         fetchLocations();
+        fetchScooters();
     }, []);
 
+		/**
+		 * Get list of locations of depots from the backend server
+		 */
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -31,6 +46,9 @@ export default function EmployeeScooterManagement() {
         }
     }
 
+		/**
+		 * Get list of scooter details from the backend server
+		 */
     async function fetchScooters() {
         try {
             let request = await fetch(host + "api/admin/Scooters", {
@@ -38,16 +56,23 @@ export default function EmployeeScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
             setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
+            console.log(scooters)
         } catch (error) {
             console.error(error);
         }
     }
 
+		/**
+		 * Changes details of the scooter ID provided by updating
+		 * the backend server with the new information
+		 * @param {number} id ID of the scooter to change
+		 * @param {boolean} availability Current availability of the scooter
+		 */
     async function editScooter(id, availability) {
         try {
             await fetch(host + `api/admin/Scooters/${id}`, {
@@ -55,7 +80,7 @@ export default function EmployeeScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "available": !availability
@@ -73,8 +98,8 @@ export default function EmployeeScooterManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home</a> > <b>
-                <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/scooter-management")}}>Scooter Management</a></b>
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>
@@ -100,7 +125,12 @@ export default function EmployeeScooterManagement() {
                                     <td>
                                         {(map_locations === "") ?
                                             <p>Loading map locations...</p> :
-                                            String.fromCharCode(scooters[idx].depoId + 64) + ' - ' + map_locations[scooters[idx].depoId - 1].name
+                                            <>
+                                            {() => { try {
+                                                if (map_locations[scooters[idx].depoId - 1].name) {
+                                                    return `${String.fromCharCode(scooters[idx].depoId + 64)} - ${map_locations[scooters[idx].depoId - 1].name}`;
+                                                }} catch (e) {}}}
+                                            </>
                                         }
                                     </td>
                                     <td>

@@ -1,3 +1,7 @@
+/*
+	Purpose of file: General framework for manager interface
+*/
+
 import React from "react";
 import {Link, Outlet} from "react-router-dom";
 import {Nav, Row, Col, Navbar} from "react-bootstrap";
@@ -6,6 +10,10 @@ import ManagerMobileNavigation from "./ManagerMobileNavigation";
 import ManagerNavigation from "./ManagerNavigation";
 import {useAccount} from "../../authorize";
 
+/**
+ * Returns the boilerplate for each interface on the manager side
+ * @returns Boilerplate for manager interfaces
+ */
 export default function ManagerInterface() {
     const [account] = useAccount();
 
@@ -18,7 +26,7 @@ export default function ManagerInterface() {
                         <Navbar.Text className="navbar-pad-right text-white">
                             Logged in as: {account.name}
                         </Navbar.Text>
-                        <Nav.Item className="navbar-pad-right">
+                        <Nav.Item className="navbar-pad-right dropDownMenu">
                             <UserMenu/>
                         </Nav.Item>
                     </Navbar.Collapse>
@@ -28,7 +36,7 @@ export default function ManagerInterface() {
                         <ManagerNavigation/>
                         <ManagerMobileNavigation/>
                     </Col>
-                    <Col xs={11} lg={7} xl={9}>
+                    <Col xs={11} lg={8} xl={9}>
                         <Outlet/>
                         <br/>
                         <br/>

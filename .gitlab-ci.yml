@@ -5,14 +5,16 @@
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
 stages:
-- test-sast
 - test-integration
 - compile-documentation
 
-sast:
-  stage: test-sast
-include:
-- template: Security/SAST.gitlab-ci.yml
+test-frontend:
+  stage: test-integration
+  image: node
+  script:
+    - cd frontend/
+    - npm install
+    - npm test -- --watchAll=false
 
 test-backend:
   stage: test-integration
@@ -34,24 +36,11 @@ test-backend:
       - backend/backend.log
       - backend-testing/backend-testing.log
 
-test-frontend:
-  stage: test-integration
-  image: node
-  script:
-    - cd frontend/
-    - npm install
-    - npm run build
-    - npm test -- --watchAll=false
-
-  artifacts:
-    paths:
-      - frontend/build/
-
 doxygen-backend:
   stage: compile-documentation
   image: fedora
   before_script:
-    - dnf install doxygen doxygen-latex make
+    - dnf install -y doxygen doxygen-latex make
   script:
     - cd backend/
     - doxygen .doxygen

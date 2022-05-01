@@ -1,6 +1,18 @@
+/*
+	Purpose of file: Validators for registration, checks that
+	supplied name, email, password are in correct format.
+*/
+
 import {NotificationManager} from "react-notifications";
 
-// Validators for registration.
+/**
+ * Checks format of name, email and both passwords
+ * @param {string} name 
+ * @param {string} email 
+ * @param {string} password 
+ * @param {string} confirmPassword 
+ * @returns 0 if any of the validations fail, 1 otherwise
+ */
 export default function validate(name, email, password, confirmPassword) {
     const validateName = (str) => {
         return (str.length > 0)

@@ -1,12 +1,22 @@
+/*
+	Purpose of file: Display a list of currently ongoing bookings
+	and allow a staff account to extend or cancel them
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
 import host from "../../host";
 
+/**
+ * Renders the employee ongoing bookings page which shows the employee
+ * a list of current bookings
+ * @returns Employee ongoing bookings page
+ */
 export default function EmployeeOngoingBookings() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const [bookingHistory, setBookingHistory] = useState('');
 
@@ -16,6 +26,9 @@ export default function EmployeeOngoingBookings() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of ongoing bookings from the backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/admin/Orders/`, {
@@ -23,21 +36,20 @@ export default function EmployeeOngoingBookings() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
             let allBookings = await request.json();
-            let ongoingBookings = [];
-            for (let i = 0; i < allBookings.length; i++) {
-                if (allBookings[i].orderState === 1 || allBookings[i].orderState === 2 || allBookings[i].orderState === 3) {
-                    if (allBookings[i]['extensions'].length > 0) {
-                        allBookings[i].endTime = allBookings[i]['extensions'][allBookings[i]['extensions'].length - 1].endTime;
+            setBookingHistory(allBookings.filter((booking) => {
+                if(booking.orderState >= 1 &&  booking.orderState <= 3) {
+                    if(booking.extensions.length > 0) {
+                        booking.endTime = booking.extensions[booking.extensions.length-1].endTime;
                     }
-                    ongoingBookings.push(allBookings[i]);
+                    return booking;
                 }
-            }
-            setBookingHistory(ongoingBookings);
+                return null;
+            }));
         } catch (e) {
             console.log(e);
         }
@@ -46,8 +58,8 @@ export default function EmployeeOngoingBookings() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home</a> > <b>
-                <a className="breadcrumb-current" href="/bookings">Bookings</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/bookings")}}>Bookings</a></b>
             </p>
             <h3 id="pageName">Ongoing Bookings</h3>
             <hr id="underline"/>
@@ -64,7 +76,7 @@ export default function EmployeeOngoingBookings() {
                                         <th className="minWidthFieldSmall">Customer ID</th>
                                         <th className="minWidthFieldSmall">Scooter ID</th>
                                         <th className="minWidthFieldSmall">Time Expiring</th>
-                                        <th className="minWidthFieldLarge">Extend</th>
+                                        <th>Extend</th>
                                         <th>Cancel</th>
                                         <th>Booking Confirmation</th>
                                     </tr>

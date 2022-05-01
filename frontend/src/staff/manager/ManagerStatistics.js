@@ -1,14 +1,26 @@
+/*
+	Purpose of file: Display information on daily and weekly sales
+	to the manager
+*/
+
 import React, {useEffect, useState} from "react";
 import {Container} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import {default as CanvasJSReact} from "../../canvasjs.react.js";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
 let CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
+/**
+ * Renders the manager statistics page and the graphs relating
+ * to the sales statistics
+ * @returns Manager statistics page
+ */
 export default function ManagerStatistics() {
-    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const [account] = useAccount();
     const [weeklyData, setWeeklyData] = useState('');
     const [weeklyHiresData, setWeeklyHiresData] = useState('');
     const [combinedDailyData, setCombinedDailyData] = useState('');
@@ -17,13 +29,16 @@ export default function ManagerStatistics() {
         fetchStatistics();
     }, []);
 
+		/**
+		 * Gets the current statistics from the backend server
+		 */
     async function fetchStatistics() {
         const init = {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
+                'Authorization': `Bearer ${account.accessToken}`
             },
             mode: "cors"
         }
@@ -43,11 +58,12 @@ export default function ManagerStatistics() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/statistics">Statistics</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/statistics")}}>Statistics</a></b>
             </p>
             <h3 id="pageName">Statistics</h3>
             <hr id="underline"/>
+            <br/>
             <Container>
                 {(weeklyData === '') ?
                     <p>Loading weekly hire options graph...</p> :

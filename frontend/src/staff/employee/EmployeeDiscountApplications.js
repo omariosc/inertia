@@ -1,11 +1,23 @@
+/*
+	Purpose of file: Display all pending discount applications and allow
+	a staff account to approve or deny them
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the employee discount application page, shows a list of
+ * current applications
+ * @returns Employee discount application page
+ */
 export default function EmployeeDiscountApplications() {
-    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const [account] = useAccount();
     const [applications, setApplications] = useState('');
     const [image, setImage] = useState(null);
     const applicationType = ["Student", "Senior"];
@@ -14,6 +26,9 @@ export default function EmployeeDiscountApplications() {
         fetchApplications();
     }, []);
 
+		/**
+		 * Gets list of current applications from backend server
+		 */
     async function fetchApplications() {
         try {
             let request = await fetch(host + `api/admin/DiscountApplications`, {
@@ -21,7 +36,7 @@ export default function EmployeeDiscountApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -31,6 +46,12 @@ export default function EmployeeDiscountApplications() {
         }
     }
 
+		/**
+		 * Updates an application with specified ID based on the choice (approved/denied)
+		 * made by the staff account
+		 * @param {number} id ID of the application to update
+		 * @param {string} choice Decision made on the application
+		 */
     async function applicationAction(id, choice) {
         try {
             await fetch(host + `api/admin/DiscountApplications/${id}/${choice}`, {
@@ -38,7 +59,7 @@ export default function EmployeeDiscountApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -49,6 +70,11 @@ export default function EmployeeDiscountApplications() {
         }
     }
 
+		/**
+		 * Gets the provided image (e.g. Student ID) for the provided application ID from
+		 * the backend server
+		 * @param {number} id ID of the application to retrieve an image from
+		 */
     async function getImage(id) {
         try {
             let request = await fetch(host + `api/admin/DiscountApplications/${id}/Image`, {
@@ -56,7 +82,7 @@ export default function EmployeeDiscountApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -69,8 +95,8 @@ export default function EmployeeDiscountApplications() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home</a> > <b>
-                <a className="breadcrumb-current" href="/discount-applications">Discount Applications</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/discount-applications")}}>Discount Applications</a></b>
             </p>
             <h3 id="pageName">Manage Discount Applications</h3>
             <hr id="underline"/>

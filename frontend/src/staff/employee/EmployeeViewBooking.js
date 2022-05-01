@@ -1,23 +1,33 @@
+/*
+	Purpose of file: Display a detailed view of a booking
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {Button, Container, Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
 import host from "../../host";
 import orderState from "../orderState";
 
+/**
+ * Renders more detailed information on a specific booking
+ * @returns Detailed booking view
+ */
 export default function staffViewBooking() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     let {orderId} = useParams();
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [booking, setBooking] = useState("");
 
     useEffect(() => {
         fetchBookingDetails();
     }, []);
 
-    // Gets the order details.
+    /**
+		 * Gets the information about the booking from the backend server
+		 */
     async function fetchBookingDetails() {
         try {
 
@@ -26,7 +36,7 @@ export default function staffViewBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -50,11 +60,11 @@ export default function staffViewBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
-                <a className="breadcrumb-current" href={`/bookings/${orderId}`}>#{orderId}</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate(`/bookings/${orderId}`)}}>#{orderId}</a></b>
             </p>
-            <Container>
+            <br className="box-show"/>
                 {(booking === "") ? <p>Loading booking details...</p> :
                     <Table>
                         <tbody>
@@ -129,7 +139,6 @@ export default function staffViewBooking() {
                     </Table>
                 }
                 <Button className="float-right" variant="danger" onClick={()=>{navigate("/bookings")}}>Close</Button>
-            </Container>
         </>
     );
 }

@@ -1,11 +1,21 @@
+/*
+	Purpose of file: Display all bookings in a table and show
+	extra information when a specific booking is selected
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from '../../host';
 
+/**
+ * Renders the employee booking history page, shows a list of
+ * all previous bookings
+ * @returns Employee booking history page
+ */
 export default function EmployeeBookingHistory() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const [bookings, setBookings] = useState('');
 
@@ -13,6 +23,9 @@ export default function EmployeeBookingHistory() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of bookings from backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + "api/admin/Orders/", {
@@ -20,7 +33,7 @@ export default function EmployeeBookingHistory() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -41,9 +54,9 @@ export default function EmployeeBookingHistory() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
-                <a className="breadcrumb-current" href="/booking-history">Booking History</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/booking-history")}}>Booking History</a></b>
             </p>
             <h3 id="pageName">Booking History</h3>
             <hr id="underline"/>

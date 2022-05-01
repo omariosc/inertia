@@ -1,14 +1,24 @@
+/*
+	Purpose of file: Display a customer's current discount status
+	and allow them to apply for a specific type of discount
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
 import host from "../host";
 import moment from "moment";
+import {useAccount} from "../authorize";
 
+/**
+ * Renders the customer discount page, shows their current discount status
+ * and allows them to apply for new discounts
+ * @returns Customer discount page
+ */
 export default function CustomerDiscounts() {
-    const cookies = new Cookies();
-    let navigate = useNavigate();
+    const [account] = useAccount();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState('');
     const [frequentUser, setFrequent] = useState(false);
     const [studentUser, setStudentStatus] = useState(false);
@@ -21,14 +31,18 @@ export default function CustomerDiscounts() {
         fetchDiscountStatus();
     }, []);
 
+		/**
+		 * Checks if a customer is eligible for frequent user discount, applies it automatically
+		 * and updates the backend server
+		 */
     async function getDiscountStatus() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+            let request = await fetch(host + `api/Users/${account.id}/orders`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -56,14 +70,17 @@ export default function CustomerDiscounts() {
         }
     }
 
+		/**
+		 * Gets current discount status of the customer
+		 */
     async function fetchDiscountStatus() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
+            let request = await fetch(host + `api/Users/${account.id}/profile`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -81,18 +98,24 @@ export default function CustomerDiscounts() {
         }
     }
 
+		/**
+		 * If the customer submits a new application, check that image is present if one
+		 * is required and update the backend server
+		 * @param {string} type Type of application made (e.g. student, senior)
+		 * @returns Null if there is an error when sending the application
+		 */
     async function onSubmit(type) {
         if ((type === 'student' && !studentImage) || (type === 'senior' && !seniorImage)) {
             NotificationManager.error("You must upload an image.", "Error");
             return;
         }
         try {
-            let discountRequest = await fetch(host + `api/Users/${cookies.get('accountID')}/ApplyDiscount`, {
+            let discountRequest = await fetch(host + `api/Users/${account.id}/ApplyDiscount`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     discountType: (type === 'student') ? 0 : 1
@@ -104,11 +127,11 @@ export default function CustomerDiscounts() {
                 NotificationManager.error("Already applied for discount.", "Error");
                 return;
             }
-            let imageRequest = await fetch(host + `api/Users/${cookies.get('accountID')}/ApplyDiscountUploadImage`, {
+            let imageRequest = await fetch(host + `api/Users/${account.id}/ApplyDiscountUploadImage`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/octet-stream',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: (type === 'student') ? studentImage : seniorImage,
                 mode: "cors"

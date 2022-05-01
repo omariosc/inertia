@@ -1,16 +1,28 @@
+/*
+	Purpose of file: Allow a customer to submit a new issue
+*/
+
 import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
 import host from "../host";
+import {useAccount} from "../authorize";
 
+/**
+ * Renders the customer submit issue page, allows them to
+ * raise a new issue
+ * @returns Customer submit issue page
+ */
 export default function CustomerSubmitIssue() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [validTitle, setValidTitle] = useState(true);
     const [validDescription, setValidDescription] = useState(true);
 
+		/**
+		 * Send the customer's new issue to the backend server
+		 */
     async function submitIssue() {
         setValidTitle(title.length > 0);
         setValidDescription(content.length > 0);
@@ -18,12 +30,12 @@ export default function CustomerSubmitIssue() {
             return;
         }
         try {
-            await fetch(host + `api/Users/${cookies.get("accountID")}/issues`, {
+            await fetch(host + `api/Users/${account.id}/issues`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "title": title.toString(),

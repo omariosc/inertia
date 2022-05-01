@@ -1,10 +1,21 @@
-import React, {useEffect, useState} from "react";
-import {Card, Col, Container, Row} from "react-bootstrap";
-import Cookies from 'universal-cookie';
-import host from '../host';
+/*
+	Purpose of file: Display a dashboard with gerneral information
+	about the current state of the application
+*/
 
+import React, {useEffect, useState} from "react";
+import {useNavigate} from 'react-router-dom';
+import {Card, Col, Container, Row} from "react-bootstrap";
+import host from '../host';
+import {useAccount} from "../authorize";
+
+/**
+ * Renders the staff dashboard
+ * @returns The staff dashboard, gives overview of the state of inertia
+ */
 export default function Dashboard() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
+    const navigate = useNavigate();
     const [data, setData] = useState('');
 
     useEffect(() => {
@@ -18,12 +29,12 @@ export default function Dashboard() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
             let responseJson = await request.json();
-            if (cookies.get("accountRole") === '2') {
+            if (account.role === '2') {
                 setData({
                     "Employees logged in": responseJson.employeesLoggedIn,
                     "Users logged in": responseJson.usersLoggedIn,
@@ -31,7 +42,7 @@ export default function Dashboard() {
                     "Revenue today": "£" + responseJson.revenueToday.toString(),
                     "Scooters in use": responseJson.scootersInUse
                 });
-            } else if (cookies.get("accountRole") === '1') {
+            } else if (account.role === '1') {
                 setData({
                     "Scooters in use": responseJson.scootersInUse,
                     "Scooters unavailable by Staff": responseJson.scootersUnavailableByStaff,
@@ -50,10 +61,8 @@ export default function Dashboard() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list"
-                   href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
-                <a className="breadcrumb-current"
-                   href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Dashboard</a></b>
+                <a className="breadcrumb-list" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Dashboard</a></b>
             </p>
             <h3 id="pageName">Dashboard</h3>
             <hr id="underline"/>

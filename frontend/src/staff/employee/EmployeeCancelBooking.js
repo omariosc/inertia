@@ -1,23 +1,35 @@
+/*
+	Purpose of file: Allow a staff member to cancel a booking
+	for an unregistered user
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
 import host from "../../host";
 import orderState from "../orderState";
 
+/**
+ * Renders the employee cancel booking page, allows an unregistered user's
+ * order to be cancelled
+ * @returns Employee cancel booking page
+ */
 export default function EmployeeCancelBooking() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     let {orderId} = useParams();
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [booking, setBooking] = useState("");
 
     useEffect(() => {
         fetchBookingDetails();
     }, []);
 
-    // Gets the order details.
+    /**
+		 * Gets the specific details of the chosen booking from the backend server
+		 */
     async function fetchBookingDetails() {
         try {
             let request = await fetch(host + `api/admin/Orders/` + orderId, {
@@ -25,7 +37,7 @@ export default function EmployeeCancelBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -45,6 +57,10 @@ export default function EmployeeCancelBooking() {
         }
     }
 
+		/**
+		 * If the booking is chosen to be cancelled, cancels it and updates
+		 * backend server
+		 */
     async function cancelBooking() {
         try {
             let request = await fetch(host + `api/admin/Orders/${orderId}/cancel`, {
@@ -52,7 +68,7 @@ export default function EmployeeCancelBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -73,10 +89,11 @@ export default function EmployeeCancelBooking() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
-                <a className="breadcrumb-current" href={`/bookings/${orderId}`}>#{orderId}</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate(`/bookings/${orderId}`)}}>#{orderId}</a></b>
             </p>
+            <br className="box-show"/>
             <Container>
                 {(booking === "") ? <p>Loading booking details...</p> :
                     <Table>
@@ -151,7 +168,7 @@ export default function EmployeeCancelBooking() {
                         </tbody>
                     </Table>
                 }
-                <Button className="float-right" variant="danger" onClick={cancelBooking}>Cancel</Button>
+                <Button className="float-right" variant="danger" onClick={cancelBooking}>Cancel Booking</Button>
             </Container>
         </>
     );

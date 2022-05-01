@@ -1,15 +1,27 @@
+/*
+	Purpose of file: Display list of outstanding issues to staff
+	and allow them to filter to find specific issues and close/escalate them
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../authorize';
 import getAge from "./getAge";
 import accountRole from "./accountRole";
 import host from "../host";
 import priorities from "./priorities";
 import userType from "./userType";
+import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the manage issue page
+ * @param {boolean} manager
+ * @returns The manage issue page
+ */
 export default function StaffManageIssues({manager}) {
-  const cookies = new Cookies();
+  const navigate = useNavigate();
+  const [account] = useAccount();
   const [issues, setIssues] = useState('');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(true);
   const [searchTitle, setSearchTitle] = useState("");
@@ -28,6 +40,10 @@ export default function StaffManageIssues({manager}) {
     fetchIssues();
   }, []);
 
+	/**
+	 * Gets the issues from the backend server
+	 * @param {number} sortOption How the issues are sorted
+	 */
   async function fetchIssues(sortOption = null) {
     try {
       let request = await fetch(host + `api/admin/Issues/?closed=false${(manager) ? "&priority=3" : ""}`, {
@@ -35,7 +51,7 @@ export default function StaffManageIssues({manager}) {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': `Bearer ${cookies.get('accessToken')}`
+          'Authorization': `Bearer ${account.accessToken}`
         },
         mode: "cors"
       });
@@ -54,6 +70,9 @@ export default function StaffManageIssues({manager}) {
     }
   }
 
+	/**
+	 * Shows or hides advanced filtering for issues
+	 */
   function toggleAdvancedFilters() {
     if (showAdvancedFilters) {
       setSearchIssueID("");
@@ -76,14 +95,14 @@ export default function StaffManageIssues({manager}) {
     <>
       {(manager) ?
         <p id="breadcrumb">
-          <a className="breadcrumb-list" href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home
-          </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
-          <a className="breadcrumb-current" href="/issues">High Priority Issues</a></b>
+          <a className="breadcrumb-list" onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Home
+          </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/issues")}}>Issues</a> &gt; <b>
+          <a className="breadcrumb-current" onClick={() => {navigate("/issues")}}>High Priority Issues</a></b>
         </p> :
         <p id="breadcrumb">
           <a className="breadcrumb-list"
-             href={cookies.get("accountRole") === "2" ? "/dashboard" : "/home"}>Home</a> > <b>
-          <a className="breadcrumb-current" href="/issues">Issues</a></b>
+             onClick={() => {account.role === "2" ? navigate("/dashboard") : navigate("/home")}}>Home</a> &gt; <b>
+          <a className="breadcrumb-current" onClick={() => {navigate("/issues")}}>Issues</a></b>
         </p>
       }
       <h3 id="pageName">Issues</h3>
@@ -391,7 +410,7 @@ export default function StaffManageIssues({manager}) {
               }
               return issue;
             }).map((issue) => (
-              <a key={issue.issueId} className="breadcrumb-current" href={`issues/${issue.issueId}`}>
+              <a key={issue.issueId} className="breadcrumb-current" onClick={() => {navigate(`../issues/${issue.issueId}`)}}>
                 <Row>
                   <Col xs={6} lg={8} className="issue-filters">
                     <b>{issue.title}</b>

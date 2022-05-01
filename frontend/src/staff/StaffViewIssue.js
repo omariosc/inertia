@@ -1,16 +1,25 @@
+/*
+	Purpose of file: Open the specific overview of an issue to
+	access detailed information about it
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../authorize';
 import getAge from "./getAge";
 import host from '../host';
 import priorities from "./priorities";
 
+/**
+ * Renders the detailed view of a specific issue
+ * @returns View of a specific issue
+ */
 export default function StaffViewIssue() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     let {id} = useParams();
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [accountName, setAccountName] = useState('');
     const [accountRole, setAccountRole] = useState('');
     const [issue, setIssue] = useState('');
@@ -20,7 +29,9 @@ export default function StaffViewIssue() {
         fetchIssueDetails();
     }, []);
 
-    // Gets the issue details.
+    /**
+		 * Gets the issue information from the backend server
+		 */
     async function fetchIssueDetails() {
         try {
             let request = await fetch(host + `api/admin/Issues/${id}`, {
@@ -28,7 +39,7 @@ export default function StaffViewIssue() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -47,14 +58,18 @@ export default function StaffViewIssue() {
         }
     }
 
-    // Gets the account name and role for account which made issue.
+    /**
+		 * Gets information about the account which raised the issue
+		 * from the backend server
+		 * @param {number} accountId The account that created the issue
+		 */
     async function fetchAccount(accountId) {
         let accountRequest = await fetch(host + `api/admin/Users/${accountId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
+                'Authorization': `Bearer ${account.accessToken}`
             },
             mode: "cors"
         });
@@ -63,7 +78,9 @@ export default function StaffViewIssue() {
         setAccountRole(accountResponse.role);
     }
 
-    // Marks issue as resolved.
+    /**
+		 * Marks an issue as resolved
+		 */
     async function resolve() {
         try {
             await fetch(host + `api/admin/Issues/${id}`, {
@@ -71,7 +88,7 @@ export default function StaffViewIssue() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "resolution": "Resolved"
@@ -85,7 +102,10 @@ export default function StaffViewIssue() {
         }
     }
 
-    // Changes issue priority.
+    /**
+		 * Changes the priority of a specific issue
+		 * @returns Null if no priority is selected
+		 */
     async function editPriority() {
         if (priority === '' || priority === 'none') {
             NotificationManager.error("You must select a priority.", "Error");
@@ -97,7 +117,7 @@ export default function StaffViewIssue() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "priority": parseInt(priority)
@@ -114,9 +134,9 @@ export default function StaffViewIssue() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href={(cookies.get("accountRole") === "2") ? "/dashboard" : "/home"}>Home
-                </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
-                <a className="breadcrumb-current" href={`/issues/${id}`}>#{id}</a></b>
+                <a className="breadcrumb-list" onClick={() => {(account.role === "2") ? navigate("/dashboard" ): navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/issues")}}>Issues</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate(`/issues/${id}`)}}>#{id}</a></b>
             </p>
             {(issue === "") ? <p>Loading issue details...</p> :
                 <>

@@ -1,10 +1,10 @@
 /*
-	Purpose of file: Tests the customer mobile navbar component
+	Purpose of file: Tests the default manager navbar
 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CustomerMobileNavigation from "./CustomerMobileNavigation";
+import ManagerNavigation from "../staff/manager/ManagerNavigation";
 import {BrowserRouter} from "react-router-dom";
 import {AccountProvider} from "../authorize";
 
@@ -13,7 +13,7 @@ it('renders without crashing', () => {
     ReactDOM.render(
         <BrowserRouter>
             <AccountProvider>
-                <CustomerMobileNavigation/>
+                <ManagerNavigation/>
             </AccountProvider>
         </BrowserRouter>
         , div);

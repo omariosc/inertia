@@ -2,7 +2,7 @@
 	Purpose of file: Test date formatting component
 */
 
-import showDate from "./showDate";
+import showDate from "../showDate";
 
 it('converts dates properly', () => {
    expect(showDate('2005-12-21T15:45:23')).toEqual("December 21, 2005, 3:45:23 PM");

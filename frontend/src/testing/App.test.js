@@ -1,10 +1,6 @@
-/*
-	Purpose of file: Tests the default customer navbar component
-*/
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CustomerNavigation from "./CustomerNavigation";
+import App from '../App';
 import {BrowserRouter} from "react-router-dom";
 import {AccountProvider} from "../authorize";
 
@@ -13,7 +9,7 @@ it('renders without crashing', () => {
     ReactDOM.render(
         <BrowserRouter>
             <AccountProvider>
-                <CustomerNavigation/>
+                <App />
             </AccountProvider>
         </BrowserRouter>
         , div);

@@ -2,7 +2,7 @@
 	Purpose of file: Tests validation component
 */
 
-import validate from "./Validators";
+import validate from "../Validators";
 
 it('returns 0 for invalid name', () => {
     expect(validate("","bat@gmail.com", "Stringy3353?", "Stringy3353?")).toEqual(0);

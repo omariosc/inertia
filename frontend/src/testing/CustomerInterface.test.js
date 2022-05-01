@@ -1,19 +1,19 @@
 /*
-	Purpose of file: Tests login form component
+	Purpose of file: Tests the customer interface component
 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LoginForm from "./Login";
+import CustomerInterface from "../customer/CustomerInterface";
 import {BrowserRouter} from "react-router-dom";
-import {AccountProvider} from "./authorize";
+import {AccountProvider} from "../authorize";
 
 it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
         <BrowserRouter>
             <AccountProvider>
-                <LoginForm/>
+                <CustomerInterface/>
             </AccountProvider>
         </BrowserRouter>
         , div);

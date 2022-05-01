@@ -1,19 +1,19 @@
 /*
-	Purpose of file: Test employee mobile navbar component
+	Purpose of file: Tests the staff settings component
 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
+import StaffSettings from "../staff/StaffSettings";
 import {BrowserRouter} from "react-router-dom";
-import {AccountProvider} from "../../authorize";
+import {AccountProvider} from "../authorize";
 
 it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
         <BrowserRouter>
             <AccountProvider>
-                <EmployeeMobileNavigation/>
+                <StaffSettings/>
             </AccountProvider>
         </BrowserRouter>
         , div);

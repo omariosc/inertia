@@ -1,10 +1,10 @@
 /*
-	Purpose of file: Tests the customer interface component
+	Purpose of file: Test employee mobile navbar component
 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CustomerInterface from "./CustomerInterface";
+import EmployeeMobileNavigation from "../staff/employee/EmployeeMobileNavigation";
 import {BrowserRouter} from "react-router-dom";
 import {AccountProvider} from "../authorize";
 
@@ -13,7 +13,7 @@ it('renders without crashing', () => {
     ReactDOM.render(
         <BrowserRouter>
             <AccountProvider>
-                <CustomerInterface/>
+                <EmployeeMobileNavigation/>
             </AccountProvider>
         </BrowserRouter>
         , div);

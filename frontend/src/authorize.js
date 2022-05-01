@@ -15,6 +15,13 @@ export class Account {
     }
 }
 
+/**
+ * Signs a user out of their account and deletes their access
+ * token from the backend server
+ * 
+ * @param {function} setAccount 
+ * @param {boolean} callback 
+ */
 export function signOut(setAccount, callback) {
     const cookies = new Cookies();
 
@@ -45,6 +52,16 @@ export function signOut(setAccount, callback) {
     }
 }
 
+/**
+ * Signs a user into their account and gets the new access
+ * token from the backend server. Stores user information in
+ * local cookies
+ * 
+ * @param {function} setAccount 
+ * @param {string} email 
+ * @param {string} password 
+ * @param {boolean} callback
+ */
 export function signIn(setAccount, email, password, callback) {
     const cookies = new Cookies();
 
@@ -94,6 +111,12 @@ export function signIn(setAccount, email, password, callback) {
     }
 }
 
+/**
+ * Returns account information from local cookies, if the
+ * information exists
+ * 
+ * @returns New account from cookie storage
+ */
 export function accountFromCookies() {
     const cookies = new Cookies();
 
@@ -121,6 +144,10 @@ export function accountFromCookies() {
 
 const AccountContext = createContext(null);
 
+/**
+ * Hook to access the global account context
+ * @returns The global account context
+ */
 export function useAccount() {
     const context = useContext(AccountContext);
 
@@ -131,6 +158,11 @@ export function useAccount() {
     return context;
 }
 
+/**
+ * Provider for global account context
+ * @param {ReactPropTypes} props 
+ * @returns Provider component for global account context
+ */
 export function AccountProvider(props) {
     const [account, setAccount] = useState(accountFromCookies());
     const value = useMemo(() => [

@@ -10,8 +10,9 @@ import { useAccount } from '../../authorize';
 import host from '../../host';
 
 /**
- * Returns the employee booking history page, shows a list of
+ * Renders the employee booking history page, shows a list of
  * all previous bookings
+ * @returns Employee booking history page
  */
 export default function EmployeeBookingHistory() {
     const [account] = useAccount();

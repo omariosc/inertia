@@ -10,7 +10,8 @@ import CustomerNavigation from "./CustomerNavigation";
 import CustomerMobileNavigation from "./CustomerMobileNavigation";
 
 /**
- * Returns the boilerplate required for the customer interface
+ * Renders the boilerplate required for the customer interface
+ * @returns Boilerplate for all customer interfaces
  */
 export default function CustomerInterface() {
     const headers = {
@@ -21,6 +22,10 @@ export default function CustomerInterface() {
         "/discounts": "Discounts",
         "/settings": "Settings",
     };
+		/**
+		 * Gets the path name of the current page
+		 * @returns Path name of the page
+		 */
     function getPathName() {
         if (!headers[location.pathname]) {
             if (location.pathname.includes('extend')) {

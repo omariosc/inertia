@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Tests the default manager navbar
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ManagerNavigation from "./ManagerNavigation";

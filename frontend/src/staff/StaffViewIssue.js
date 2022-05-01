@@ -12,6 +12,10 @@ import getAge from "./getAge";
 import host from '../host';
 import priorities from "./priorities";
 
+/**
+ * Renders the detailed view of a specific issue
+ * @returns View of a specific issue
+ */
 export default function StaffViewIssue() {
     const navigate = useNavigate();
     let {id} = useParams();
@@ -25,7 +29,9 @@ export default function StaffViewIssue() {
         fetchIssueDetails();
     }, []);
 
-    // Gets the issue details.
+    /**
+		 * Gets the issue information from the backend server
+		 */
     async function fetchIssueDetails() {
         try {
             let request = await fetch(host + `api/admin/Issues/${id}`, {
@@ -52,7 +58,11 @@ export default function StaffViewIssue() {
         }
     }
 
-    // Gets the account name and role for account which made issue.
+    /**
+		 * Gets information about the account which raised the issue
+		 * from the backend server
+		 * @param {number} accountId The account that created the issue
+		 */
     async function fetchAccount(accountId) {
         let accountRequest = await fetch(host + `api/admin/Users/${accountId}`, {
             method: 'GET',
@@ -68,7 +78,9 @@ export default function StaffViewIssue() {
         setAccountRole(accountResponse.role);
     }
 
-    // Marks issue as resolved.
+    /**
+		 * Marks an issue as resolved
+		 */
     async function resolve() {
         try {
             await fetch(host + `api/admin/Issues/${id}`, {
@@ -90,7 +102,10 @@ export default function StaffViewIssue() {
         }
     }
 
-    // Changes issue priority.
+    /**
+		 * Changes the priority of a specific issue
+		 * @returns Null if no priority is selected
+		 */
     async function editPriority() {
         if (priority === '' || priority === 'none') {
             NotificationManager.error("You must select a priority.", "Error");

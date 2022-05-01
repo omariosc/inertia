@@ -1,5 +1,5 @@
 /*
-	Purpose of file: Enumerator for user type values
+	Purpose of file: Enumerator for priority values
 */
 
 const priorities = ["None", "Low", "Medium", "High"];

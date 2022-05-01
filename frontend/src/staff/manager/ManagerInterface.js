@@ -12,6 +12,7 @@ import {useAccount} from "../../authorize";
 
 /**
  * Returns the boilerplate for each interface on the manager side
+ * @returns Boilerplate for manager interfaces
  */
 export default function ManagerInterface() {
     const [account] = useAccount();

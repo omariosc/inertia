@@ -1,4 +1,8 @@
-// Formats date and returns in readable format.
+/**
+ * Formats a date into a readable format
+ * @param {Date} date 
+ * @returns New, more readable date object
+ */
 export default function showDate(date) {
     return new Intl.DateTimeFormat('en', {
         year: 'numeric',

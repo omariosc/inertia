@@ -12,8 +12,9 @@ import showDate from "../../showDate";
 import host from "../../host";
 
 /**
- * Returns employee booking application page, shows a list of
+ * Renders employee booking application page, shows a list of
  * bookings made by unregistered users
+ * @returns Employee booking application page
  */
 export default function EmployeeBookingApplications() {
     const [account] = useAccount();
@@ -58,6 +59,7 @@ export default function EmployeeBookingApplications() {
 		/**
 		 * Approves the booking associated with the provided ID and updates the
 		 * backend server
+		 * @param {number} id ID of the booking to approve
 		 */
     async function approveBooking(id) {
         try {
@@ -85,6 +87,7 @@ export default function EmployeeBookingApplications() {
 		/**
 		 * Denies the booking associated with the provided ID and updates
 		 * the backend server
+		 * @param {number} id ID of the booking to deny
 		 */
     async function denyBooking(id) {
         try {

@@ -12,8 +12,9 @@ import {CgClose} from "react-icons/cg";
 import {useAccount} from "../../authorize";
 
 /**
- * Returns the employee navigation bar with links for browsing the application
+ * Renders the employee navigation bar with links for browsing the application
  * on mobile devices
+ * @returns Employee mobile navbar
  */
 export default function EmployeeMobileNavigation() {
     const [open, setOpen] = useState(false);
@@ -25,6 +26,7 @@ export default function EmployeeMobileNavigation() {
 
 		/**
 		 * Groups the different links required for the navigation bar
+		 * @returns The group of links for mobile navbar
 		 */
     function Links() {
         return (

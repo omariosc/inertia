@@ -8,6 +8,10 @@ import { useAccount } from '../authorize';
 import changePassword from "../ChangePassword";
 import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the staff settings page
+ * @returns The settings page
+ */
 export default function StaffSettings() {
     const [account] = useAccount();
     const [oldPassword, setOldPassword] = useState('');
@@ -15,6 +19,9 @@ export default function StaffSettings() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
+		/**
+		 * Attempts to change a user's password
+		 */
     async function onSubmit() {
         if(await changePassword(oldPassword, password, confirmPassword)){
             setOldPassword("");

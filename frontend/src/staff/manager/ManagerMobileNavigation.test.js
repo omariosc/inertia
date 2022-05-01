@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Test the manager mobile navbar component
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ManagerMobileNavigation from "./ManagerMobileNavigation";

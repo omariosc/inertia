@@ -14,6 +14,11 @@ import priorities from "./priorities";
 import userType from "./userType";
 import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the manage issue page
+ * @param {boolean} manager
+ * @returns The manage issue page
+ */
 export default function StaffManageIssues({manager}) {
   const navigate = useNavigate();
   const [account] = useAccount();
@@ -35,6 +40,10 @@ export default function StaffManageIssues({manager}) {
     fetchIssues();
   }, []);
 
+	/**
+	 * Gets the issues from the backend server
+	 * @param {number} sortOption How the issues are sorted
+	 */
   async function fetchIssues(sortOption = null) {
     try {
       let request = await fetch(host + `api/admin/Issues/?closed=false${(manager) ? "&priority=3" : ""}`, {
@@ -61,6 +70,9 @@ export default function StaffManageIssues({manager}) {
     }
   }
 
+	/**
+	 * Shows or hides advanced filtering for issues
+	 */
   function toggleAdvancedFilters() {
     if (showAdvancedFilters) {
       setSearchIssueID("");

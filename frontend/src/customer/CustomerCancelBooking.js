@@ -12,7 +12,8 @@ import orderState from "../staff/orderState";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the customer cancel booking page
+ * Renders the customer cancel booking page
+ * @returns Customer cancel booking page
  */
 export default function CustomerCancelBooking() {
     const [account] = useAccount();

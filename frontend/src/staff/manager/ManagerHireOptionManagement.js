@@ -11,8 +11,9 @@ import host from "../../host";
 import {useNavigate} from "react-router-dom";
 
 /**
- * Returns the manager hire option management, displays current hire
+ * Renders the manager hire option management, displays current hire
  * options and their prices
+ * @returns Manager hire option management page
  */
 export default function ManagerHireOptionManagement() {
     const navigate = useNavigate();
@@ -52,6 +53,9 @@ export default function ManagerHireOptionManagement() {
 		/**
 		 * Edits a specific hire option with the provided ID and updates
 		 * backend server
+		 * @param {number} id ID of the hire option to edit
+		 * @param {number} mode 1 to change name, 2 to change price. Anything else to change duration
+		 * @returns Null if there is an error during the editing
 		 */
     async function editHireOption(id, mode) {
         const json = {};
@@ -113,6 +117,7 @@ export default function ManagerHireOptionManagement() {
 		/**
 		 * Creates a new hire option with the provided form and updates
 		 * the backend server
+		 * @returns Null if there is an error
 		 */
     async function createHireOption() {
         if (!(createDuration.match(/^\d+$/))) {
@@ -162,6 +167,7 @@ export default function ManagerHireOptionManagement() {
 
 		/**
 		 * Deletes a hire option with the provided ID
+		 * @param {number} id ID of the hire option to be deleted
 		 */
     async function deleteHireOption(id) {
         try {

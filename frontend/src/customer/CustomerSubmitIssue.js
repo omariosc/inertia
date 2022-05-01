@@ -9,8 +9,9 @@ import host from "../host";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the customer submit issue page, allows them to
+ * Renders the customer submit issue page, allows them to
  * raise a new issue
+ * @returns Customer submit issue page
  */
 export default function CustomerSubmitIssue() {
     const [account] = useAccount();

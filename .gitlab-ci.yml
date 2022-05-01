@@ -36,6 +36,16 @@ test-backend:
       - backend/backend.log
       - backend-testing/backend-testing.log
 
+jsdocs-frontend:
+  stage: compile-documentation
+  image: node
+  script:
+    - cd frontend/src/
+    - npm run docs
+  artifacts:
+    paths:
+      - frontend/docs
+
 doxygen-backend:
   stage: compile-documentation
   image: fedora

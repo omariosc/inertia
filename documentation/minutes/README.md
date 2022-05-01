@@ -1,6 +1,6 @@
 # inertia / documentation / minutes
 
-This directory contains all minutes in markdown format for the application.
+This directory contains all minutes in markdown format for team meetings during the development of the `inertia` software.
 
 ## Sprint 1 Minutes
 

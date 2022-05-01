@@ -1,5 +1,7 @@
 # inertia / documentation / data
 
+Contains the entity relationship modelling and database desings for the `inertia` software.
+
 ## Entity Relationship Modelling
 
 Below is a entity relationship modelling design visualizing our database.

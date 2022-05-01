@@ -409,6 +409,10 @@
     height: 600px !important;
 }
 
+.minRow {
+    min-height: 5vh;
+}
+
 .navbar-pad-right {
     padding-right: 10px;
 }

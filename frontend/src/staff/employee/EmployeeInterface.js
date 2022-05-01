@@ -1,3 +1,7 @@
+/*
+	Purpose of file: General framework for the employee interface
+*/
+
 import React from "react";
 import {Outlet, Link} from 'react-router-dom';
 import {Col, Nav, Navbar, Row} from "react-bootstrap";
@@ -6,6 +10,10 @@ import EmployeeMobileNavigation from "./EmployeeMobileNavigation";
 import EmployeeNavigation from "./EmployeeNavigation";
 import {useAccount} from "../../authorize";
 
+/**
+ * Renders the boilerplate required for the employee interface
+ * @returns Boilerplate for all employee interfaces
+ */
 export default function EmployeeInterface() {
     const [account] = useAccount();
 

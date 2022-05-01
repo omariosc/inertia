@@ -1,15 +1,24 @@
+/*
+	Purpose of file: Expandable menu to navigate the application
+*/
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser, faBars} from "@fortawesome/free-solid-svg-icons";
 import {Dropdown, DropdownButton} from "react-bootstrap";
 import React from "react";
 import "./UserMenu.css";
 import {useLocation, useNavigate} from "react-router-dom";
-import {signOut, useAccount} from "../authorize";
+import {useAccount} from "../authorize";
+import {NotificationManager} from "react-notifications";
 
-export default function userMenu(props) {
+/**
+ * Renders the menu in the top right corner of the application
+ * @returns Dropdown menu for application
+ */
+export default function userMenu() {
     const location = useLocation();
     const navigate = useNavigate();
-    const [account, signOut, signIn] = useAccount();
+    const [account, signOut] = useAccount();
 
     return (
         <DropdownButton
@@ -26,15 +35,6 @@ export default function userMenu(props) {
             </div>}
             className="user-menu float-right clickable"
         >
-            {
-                account != null &&
-                <Dropdown.Item
-                    disabled={true}
-                >
-                    {account.name}
-                </Dropdown.Item>
-            }
-
             {
                 account == null &&
                 <Dropdown.Item
@@ -59,6 +59,12 @@ export default function userMenu(props) {
 
             {
                 account != null &&
+                account.role === '0' &&
+              <Dropdown.Item
+                disabled={true}
+              >
+                  {account.name}
+              </Dropdown.Item> &&
                 <Dropdown.Item onClick={() => {
                     navigate('/create-booking');
                 }
@@ -67,37 +73,14 @@ export default function userMenu(props) {
                 </Dropdown.Item>
             }
 
-
-            {
-                account != null &&
-                account.role === '1' &&
-                <Dropdown.Item
-                    onClick={() => {
-                        navigate('dashboard', {state: location})
-                    }}
-                >
-                    Employee Dashboard
-                </Dropdown.Item>
-            }
-
-            {
-                account != null &&
-                account.role === '2' &&
-                <Dropdown.Item
-                    onClick={() => {
-                        navigate('dashboard', {state: location})
-                    }}
-                >
-                    Manager Dashboard
-                </Dropdown.Item>
-            }
-
             {
                 account != null &&
                 <Dropdown.Item
                     onClick={() => {
-                        signOut();
-                        navigate('/');
+                        signOut(() => {
+                            NotificationManager.success('Logged out.', 'Success');
+                            navigate('/');
+                        });
                     }}
                 >
                     Sign Out

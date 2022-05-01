@@ -1,11 +1,23 @@
+/*
+	Purpose of file: Show the current hire options and their prices
+	and allow the manager to change them
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the manager hire option management, displays current hire
+ * options and their prices
+ * @returns Manager hire option management page
+ */
 export default function ManagerHireOptionManagement() {
-    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const [account] = useAccount();
     const [hireOptions, setHireOptions] = useState('');
     const [newDuration, setNewDuration] = useState('');
     const [newName, setNewName] = useState('');
@@ -18,6 +30,9 @@ export default function ManagerHireOptionManagement() {
         fetchHirePeriods();
     }, []);
 
+		/**
+		 * Gets current hire periods from backend server
+		 */
     async function fetchHirePeriods() {
         try {
             let request = await fetch(host + "api/HireOptions", {
@@ -25,7 +40,7 @@ export default function ManagerHireOptionManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -35,6 +50,13 @@ export default function ManagerHireOptionManagement() {
         }
     }
 
+		/**
+		 * Edits a specific hire option with the provided ID and updates
+		 * backend server
+		 * @param {number} id ID of the hire option to edit
+		 * @param {number} mode 1 to change name, 2 to change price. Anything else to change duration
+		 * @returns Null if there is an error during the editing
+		 */
     async function editHireOption(id, mode) {
         const json = {};
         switch (mode) {
@@ -75,7 +97,7 @@ export default function ManagerHireOptionManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify(json),
                 mode: "cors"
@@ -92,6 +114,11 @@ export default function ManagerHireOptionManagement() {
         await fetchHirePeriods();
     }
 
+		/**
+		 * Creates a new hire option with the provided form and updates
+		 * the backend server
+		 * @returns Null if there is an error
+		 */
     async function createHireOption() {
         if (!(createDuration.match(/^\d+$/))) {
             NotificationManager.error("Duration must be an integer.", "Error");
@@ -117,7 +144,7 @@ export default function ManagerHireOptionManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "durationInHours": createDuration,
@@ -138,6 +165,10 @@ export default function ManagerHireOptionManagement() {
         await fetchHirePeriods();
     }
 
+		/**
+		 * Deletes a hire option with the provided ID
+		 * @param {number} id ID of the hire option to be deleted
+		 */
     async function deleteHireOption(id) {
         try {
             let request = await fetch(host + `api/admin/HireOptions/${id}`, {
@@ -145,7 +176,7 @@ export default function ManagerHireOptionManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -164,8 +195,8 @@ export default function ManagerHireOptionManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/hire-option-management">Hire Option Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/hire-option-management")}}>Hire Option Management</a></b>
             </p>
             <h3 id="pageName">Hire Option Management</h3>
             <hr id="underline"/>

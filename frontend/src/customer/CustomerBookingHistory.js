@@ -1,12 +1,22 @@
+/*
+	Purpose of file: Display a customer's booking history
+	and information for each booking in a table
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Table} from "react-bootstrap";
-import Cookies from 'universal-cookie';
 import showDate from "../showDate";
 import host from '../host';
 import orderState from "../staff/orderState";
+import {useAccount} from "../authorize";
 
+/**
+ * Renders the customer's booking history, a list of all previous
+ * orders they have made
+ * @returns Customer booking history page
+ */
 export default function CustomerBookingHistory() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [bookingHistory, setBookingHistory] = useState('');
     const [booking, setBooking] = useState('');
 
@@ -14,14 +24,17 @@ export default function CustomerBookingHistory() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of bookings from backend server
+		 */
     async function fetchBookings() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/orders`, {
+            let request = await fetch(host + `api/Users/${account.id}/orders`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });

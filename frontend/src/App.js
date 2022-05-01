@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Entry point of application
+*/
+
 import React, {useState} from "react";
 import {Outlet, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -35,22 +39,22 @@ import LoginForm from "./Login";
 import RegisterForm from "./Register";
 import DepotList from "./components/main-page-content/DepotList";
 import Booking from "./components/main-page-content/Booking";
-import DepotEntry from "./components/main-page-content/DepotEntry";
-import {Account, AccountProvider, signIn, signOut} from './authorize';
+import MainPayment from "./components/main-page-content/mainPayment";
+import {useAccount} from './authorize';
 import CustomerCreateExtension from "./customer/CustomerCreateExtension";
 import CustomerCancelBooking from "./customer/CustomerCancelBooking";
 import EmployeeExtendGuestBooking from "./staff/employee/EmployeeExtendBooking";
 import EmployeeCancelBooking from "./staff/employee/EmployeeCancelBooking";
+import LoginAndSignupFromBooking from "./components/main-page-content/loginAndSignupFromBooking";
 
 const App = () => {
-    const cookies = new Cookies();
     const navigate = useNavigate();
     const location = useLocation();
     const statefulBackgroundLocation = location.state;
+    const [account] = useAccount();
 
-    // Outlet with context (to pass signOut function) enclosed in wrapper.
     return (
-        <AccountProvider>
+        <div>
             <Routes location={statefulBackgroundLocation !== null ? statefulBackgroundLocation : location}>
                 <Route path="/" element={
                     <div id="wrapper">
@@ -58,7 +62,7 @@ const App = () => {
                         <NotificationContainer className="custom-notification"/>
                     </div>}>
                     {/* Employee Routes */}
-                    {(cookies.get('accountRole') === "1") &&
+                    {(account != null && account.role === "1") &&
                         <Route element={<EmployeeInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
                             <Route path="create-guest-booking" element={<EmployeeCreateGuestBooking/>}/>
@@ -78,7 +82,7 @@ const App = () => {
                         </Route>
                     }
                     {/* Manager Routes */}
-                    {(cookies.get('accountRole') === "2") &&
+                    {(account != null && account.role === "2") &&
                         <Route element={<ManagerInterface/>}>
                             <Route path="dashboard" element={<Dashboard/>}/>
                             <Route path="scooter-management" element={<ManagerScooterManagement/>}/>
@@ -93,7 +97,7 @@ const App = () => {
                         </Route>
                     }
                     {/* Customer Routes */}
-                    {(cookies.get('accountRole') === "0") &&
+                    {(account != null && account.role === "0") &&
                         <Route path="" element={<CustomerInterface/>}>
                             <Route path="create-booking" element={<CustomerCreateBooking/>}/>
                             <Route path="current-bookings" element={<CustomerCurrentBookings/>}/>
@@ -103,28 +107,49 @@ const App = () => {
                             <Route path="submit-issue" element={<CustomerSubmitIssue/>}/>
                             <Route path="discounts" element={<CustomerDiscounts/>}/>
                             <Route path="settings" element={<CustomerSettings/>}/>
-                            <Route path="*" element={<CustomerCreateBooking/>}/>
                         </Route>
                     }
-                    { /* base case for login and signup modals */ }
+                    { /* base case for login and signup modals */}
                     <Route path={"/login"} element={
                         <>
                             <MainPage/>
                             <LoginForm show={true} onHide={() => navigate('/')}/>
                         </>
-                    } />
+                    }/>
                     <Route path={"/signup"} element={
                         <>
                             <MainPage/>
                             <RegisterForm show={true} onHide={() => navigate('/')}/>
                         </>
-                    } />
+                    }/>
+
+                    { /* login and signup modals with params */}
+                    <Route path={"/login/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
+                        <>
+                            <MainPage/>
+                            <LoginForm show={true} onHide={() => navigate('/')}/>
+                        </>
+                    }/>
+                    <Route path={"/signup/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
+                        <>
+                            <MainPage/>
+                            <RegisterForm show={true} onHide={() => navigate('/')}/>
+                        </>
+                    }/>
+
+                    <Route path={"authentication/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
+                        <>
+                            <MainPage/>
+                            <LoginAndSignupFromBooking show={true} onHide={() => navigate('/')}/>
+                        </>
+                    }/>
+
 
                     {/* Main page routing */}
                     <Route element={<MainPage/>}>
-                        <Route path="booking/:depoId/" element={<Booking />}/>
-                        <Route path="depots/:depoId" element={<DepotEntry />}/>
-                        <Route path="depots" element={<DepotList />}/>
+                        <Route path="booking/:depoId" element={<Booking/>}/>
+                        <Route path="payment/:scooterChoiceId/:hireChoiceId/:startTime/" element={<MainPayment/>}/>
+                        <Route path="depots" element={<DepotList/>}/>
                         <Route index element={<DepotList/>}/>
                         <Route path="*" element={<DepotList/>}/>
                     </Route>
@@ -133,11 +158,11 @@ const App = () => {
 
             {statefulBackgroundLocation !== null && (
                 <Routes>
-                    <Route path={"/login"} element={<LoginForm show={true} onHide={() => navigate(-1)}/>} />
-                    <Route path={"/signup"} element={<RegisterForm show={true} onHide={() => navigate(-1)}/>} />
+                    <Route path={"/login"} element={<LoginForm show={true} onHide={() => navigate(-1)}/>}/>
+                    <Route path={"/signup"} element={<RegisterForm show={true} onHide={() => navigate(-1)}/>}/>
                 </Routes>
             )}
-        </AccountProvider>
+        </div>
     );
 };
 

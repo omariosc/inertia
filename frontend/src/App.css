@@ -212,6 +212,10 @@
     display: none;
 }
 
+.hamburger-menu-staff {
+    display: none;
+}
+
 .hamburger-menu-customer {
     display: none;
 }
@@ -568,32 +572,6 @@
     background: #f1f1f1;
 }
 
-@media (max-width: 1070px) {
-    .customer-navigation {
-        flex-direction: row;
-    }
-
-    .minWidthFieldLarge {
-        min-width: 300px;
-    }
-
-    .minWidthFieldSmall {
-        min-width: 200px;
-    }
-
-    .responsive-issue {
-        overflow-x: auto;
-    }
-
-    .responsive-table {
-        overflow-x: auto;
-    }
-
-    .responsive-table .form-control {
-        min-width: 100px;
-    }
-}
-
 @media (max-width: 791px) {
     .issue-divider {
         margin-left: 20px !important;
@@ -627,8 +605,35 @@
     display: none;
 }
 @media (max-width: 1070px) {
+
+    .customer-navigation {
+        flex-direction: row;
+    }
+
+    .minWidthFieldLarge {
+        min-width: 300px;
+    }
+
+    .minWidthFieldSmall {
+        min-width: 200px;
+    }
+
+    .responsive-issue {
+        overflow-x: auto;
+    }
+
+    .responsive-table {
+        overflow-x: auto;
+    }
+
+    .responsive-table .form-control {
+        min-width: 100px;
+    }
     .booking-responsive-mobile {
         display: initial !important;
+    }
+    .dropDownMenu {
+        display: none !important;
     }
     .booking-responsive {
         display: none;
@@ -695,7 +700,7 @@
         right: 15px;
         top: 55px;
         width: auto;
-        z-index: 10000000;
+        z-index: 10000000 !important;
     }
 
     .hamburger-menu {
@@ -717,7 +722,7 @@
     }
 
     .input-form {
-        padding-left: 0 !important;
+        padding-left: 20px !important;
     }
 
     .manager-vert-navbar {
@@ -758,16 +763,20 @@
     padding-bottom: 10px;
 }
 
+.customer-create-booking-card *{
+    z-index: -1;
+}
+
 @media (max-width: 991px) {
     #manager-row {
         display: none;
     }
 
-    .hamburger-menu {
+    .hamburger-menu-staff {
         cursor: pointer;
         display: flex;
         position: fixed;
-        right: 15px !important;
+        right: 17px;
         top: 18px;
         z-index: 9999;
     }

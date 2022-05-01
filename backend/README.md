@@ -1,4 +1,3 @@
-# inertia / Backend
-This is the directory for the backend project component of the `inertia` software.
+# inertia / backend
 
-This directory contains the the project structure of this component.
+This is the directory for the backend project component of the `inertia` software. This directory contains the the project structure of this component.

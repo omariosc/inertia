@@ -1,14 +1,22 @@
+/*
+	Purpose of file: Allow a customer to cancel an existing booking of theirs
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
 import host from "../host";
 import showDate from "../showDate";
 import orderState from "../staff/orderState";
+import {useAccount} from "../authorize";
 
+/**
+ * Renders the customer cancel booking page
+ * @returns Customer cancel booking page
+ */
 export default function CustomerCancelBooking() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const navigate = useNavigate();
     const {orderId} = useParams();
     const [booking, setBooking] = useState("");
@@ -18,6 +26,9 @@ export default function CustomerCancelBooking() {
         fetchOrderInfo();
     }, []);
 
+		/**
+		 * Gets the details of the chosen order
+		 */
     async function fetchOrderInfo() {
         try {
             let request = await fetch(host + `api/Orders/${orderId}`, {
@@ -25,7 +36,7 @@ export default function CustomerCancelBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -42,6 +53,9 @@ export default function CustomerCancelBooking() {
     }
 
 
+		/**
+		 * Cancels the chosen order and updates the backend server
+		 */
     async function cancelBooking() {
         try {
             let request = await fetch(host + `api/Orders/${orderId}/cancel`, {
@@ -49,7 +63,7 @@ export default function CustomerCancelBooking() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -133,7 +147,7 @@ export default function CustomerCancelBooking() {
 
 
 
-            <Button className="float-right"
+            <Button className="float-right" variant="danger"
                     onClick={cancelBooking}>Cancel Booking</Button>
 
 

@@ -1,13 +1,23 @@
+/*
+	Purpose of file: Display pending bookings to a staff member
+	and allow them to approve or deny them
+*/
+
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Button, Container, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
+import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
 import host from "../../host";
 
+/**
+ * Renders employee booking application page, shows a list of
+ * bookings made by unregistered users
+ * @returns Employee booking application page
+ */
 export default function EmployeeBookingApplications() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [bookingHistory, setBookingHistory] = useState('');
     const navigate = useNavigate();
 
@@ -16,6 +26,9 @@ export default function EmployeeBookingApplications() {
         fetchBookings();
     }, []);
 
+		/**
+		 * Gets list of unregistered users' bookings from backend server
+		 */
     async function fetchBookings() {
         try {
             let request = await fetch(host + `api/admin/Orders/`, {
@@ -23,7 +36,7 @@ export default function EmployeeBookingApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -43,6 +56,11 @@ export default function EmployeeBookingApplications() {
         }
     }
 
+		/**
+		 * Approves the booking associated with the provided ID and updates the
+		 * backend server
+		 * @param {number} id ID of the booking to approve
+		 */
     async function approveBooking(id) {
         try {
             let request = await fetch(host + `api/admin/Orders/${id}/approve`, {
@@ -50,7 +68,7 @@ export default function EmployeeBookingApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -66,6 +84,11 @@ export default function EmployeeBookingApplications() {
         await fetchBookings();
     }
 
+		/**
+		 * Denies the booking associated with the provided ID and updates
+		 * the backend server
+		 * @param {number} id ID of the booking to deny
+		 */
     async function denyBooking(id) {
         try {
             let request = await fetch(host + `api/admin/Orders/${id}/deny`, {
@@ -73,7 +96,7 @@ export default function EmployeeBookingApplications() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -92,9 +115,9 @@ export default function EmployeeBookingApplications() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/home">Home
-                </a> > <a className="breadcrumb-list" href="/bookings">Bookings</a> > <b>
-                <a className="breadcrumb-current" href="/booking-applications">Booking Applications</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/booking-applications")}}>Booking Applications</a></b>
             </p>
             <h3 id="pageName">Booking Applications</h3>
             <hr id="underline"/>

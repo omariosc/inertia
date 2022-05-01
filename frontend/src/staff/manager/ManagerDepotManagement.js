@@ -1,11 +1,23 @@
+/*
+	Purpose of file: Display the current depots to the manager
+	and allow them to add, remove or change a depot
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the manager depot management, a list of all current
+ * depots available
+ * @returns The manager depot management page
+ */
 export default function ManagerDepotManagement() {
-    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const [account] = useAccount();
     const [depots, setDepots] = useState('');
     const [newName, setNewName] = useState('');
     const [newLatitude, setNewLatitude] = useState('');
@@ -18,6 +30,9 @@ export default function ManagerDepotManagement() {
         fetchDepots();
     }, []);
 
+		/**
+		 * Gets list of current depots from backend server
+		 */
     async function fetchDepots() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -35,6 +50,13 @@ export default function ManagerDepotManagement() {
         }
     }
 
+		/**
+		 * Edits the details of a specific depot with the provided ID
+		 * and updates the backend server
+		 * @param {number} id The ID of the depot to be edited
+		 * @param {number} mode 1 to change latitude, 2 to change longitude
+		 * @returns Null if there is some error during the editing
+		 */
     async function editDepot(id, mode) {
         const json = {};
         switch (mode) {
@@ -74,7 +96,7 @@ export default function ManagerDepotManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify(json),
                 mode: "cors"
@@ -91,6 +113,10 @@ export default function ManagerDepotManagement() {
         await fetchDepots();
     }
 
+		/**
+		 * Creates a new depot with the information provided in the form
+		 * and updates the backend server
+		 */
     async function createDepot() {
         if (createName === '') {
             NotificationManager.error("Depot name cannot be empty.", "Error");
@@ -118,7 +144,7 @@ export default function ManagerDepotManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "name": createName,
@@ -140,6 +166,10 @@ export default function ManagerDepotManagement() {
         await fetchDepots();
     }
 
+		/**
+		 * Removes a depot from the backend database
+		 * @param {*} id The ID of the depot to delete
+		 */
     async function deleteDepot(id) {
         try {
             let request = await fetch(host + `api/admin/Depos/${id}`, {
@@ -147,7 +177,7 @@ export default function ManagerDepotManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -166,8 +196,8 @@ export default function ManagerDepotManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/depot-management">Depot Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/depot-management")}}>Depot Management</a></b>
             </p>
             <h3 id="pageName">Depot Management</h3>
             <hr id="underline"/>

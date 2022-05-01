@@ -1,6 +1,9 @@
+/*
+	Purpose of file: Allows a user to either sign in or out of their account
+*/
+
 import Cookies from "universal-cookie";
 import host from "./host";
-import {NotificationManager} from "react-notifications";
 import {createContext, useContext, useMemo, useState} from "react";
 
 export class Account {
@@ -12,6 +15,13 @@ export class Account {
     }
 }
 
+/**
+ * Signs a user out of their account and deletes their access
+ * token from the backend server
+ * 
+ * @param {function} setAccount 
+ * @param {boolean} callback 
+ */
 export function signOut(setAccount, callback) {
     const cookies = new Cookies();
 
@@ -27,7 +37,7 @@ export function signOut(setAccount, callback) {
                 'accessToken': cookies.get('accessToken')
             }),
             mode: "cors"
-        }).then(r => {
+        }).then(() => {
             cookies.remove('accountRole');
             cookies.remove('accessToken');
             cookies.remove('accountID');
@@ -42,6 +52,16 @@ export function signOut(setAccount, callback) {
     }
 }
 
+/**
+ * Signs a user into their account and gets the new access
+ * token from the backend server. Stores user information in
+ * local cookies
+ * 
+ * @param {function} setAccount 
+ * @param {string} email 
+ * @param {string} password 
+ * @param {boolean} callback
+ */
 export function signIn(setAccount, email, password, callback) {
     const cookies = new Cookies();
 
@@ -66,19 +86,22 @@ export function signIn(setAccount, email, password, callback) {
                     cookies.set("accountName", response.account.name, {path: '/'});
                     cookies.set("accountRole", response.account.role, {path: '/'});
                     cookies.set("accessToken", response.accessToken, {path: '/'});
-                    setAccount(new Account(
+
+                    let account = new Account(
                         response.account.name,
                         String(response.account.role),
                         response.account.accountId,
-                        response.accessToken)
+                        response.accessToken
                     );
 
+                    setAccount(account);
+
                     if (callback) {
-                        callback('login success');
+                        callback('login success', account);
                     }
                 } else {
                     if (callback) {
-                        callback('login error');
+                        callback('login error', null);
                     }
                 }
             })
@@ -88,6 +111,12 @@ export function signIn(setAccount, email, password, callback) {
     }
 }
 
+/**
+ * Returns account information from local cookies, if the
+ * information exists
+ * 
+ * @returns New account from cookie storage
+ */
 export function accountFromCookies() {
     const cookies = new Cookies();
 
@@ -115,6 +144,10 @@ export function accountFromCookies() {
 
 const AccountContext = createContext(null);
 
+/**
+ * Hook to access the global account context
+ * @returns The global account context
+ */
 export function useAccount() {
     const context = useContext(AccountContext);
 
@@ -125,12 +158,17 @@ export function useAccount() {
     return context;
 }
 
+/**
+ * Provider for global account context
+ * @param {ReactPropTypes} props 
+ * @returns Provider component for global account context
+ */
 export function AccountProvider(props) {
     const [account, setAccount] = useState(accountFromCookies());
     const value = useMemo(() => [
         account,
-        () => signOut(setAccount),
-        (email, password) => signIn(setAccount, email, password)
+        (callback) => signOut(setAccount, callback),
+        (email, password, callback) => signIn(setAccount, email, password, callback)
     ], [account]);
     return <AccountContext.Provider value={value} {...props} />;
 }

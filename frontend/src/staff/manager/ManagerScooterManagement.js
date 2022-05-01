@@ -1,12 +1,24 @@
+/*
+	Purpose of file: Display a list of all scooters and enable the manager
+	to create, delete and edit scooters.
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Form, Row, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
-import Cookies from 'universal-cookie';
+import { useAccount } from '../../authorize';
 import host from '../../host';
 import scooterStatus from "../../scooterStatus";
+import {useNavigate} from "react-router-dom";
 
+/**
+ * Renders the manager scooter management page, displays
+ * a list of scooters
+ * @returns Manager scooter management page
+ */
 export default function ManagerScooterManagement() {
-    const cookies = new Cookies();
+    const navigate = useNavigate();
+    const [account] = useAccount();
     const [newID, setScooterNewId] = useState('');
     const [createID, setCreateId] = useState('');
     const [createDepo, setCreateDepo] = useState('');
@@ -18,6 +30,9 @@ export default function ManagerScooterManagement() {
         fetchLocations();
     }, []);
 
+		/**
+		 * Gets list of locations from backend server
+		 */
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -29,11 +44,15 @@ export default function ManagerScooterManagement() {
                 mode: "cors"
             });
             setMapLocations(await request.json());
+            console.log(map_locations)
         } catch (e) {
             console.log(e);
         }
     }
 
+		/**
+		 * Gets list of scooters from backend server
+		 */
     async function fetchScooters() {
         try {
             let request = await fetch(host + "api/admin/Scooters", {
@@ -41,7 +60,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -51,6 +70,14 @@ export default function ManagerScooterManagement() {
         }
     }
 
+		/**
+		 * Changes a given scooter's information and updates the backend server
+		 * @param {number} id ID of the scooter to edit
+		 * @param {number} mode 1 to change location, 2 to change ID, anything else to change availability
+		 * @param {boolean} availability Current state of the scooter's availability
+		 * @param {string} location Current location of the scooter
+		 * @returns Null if there is an error during editing
+		 */
     async function editScooter(id, mode, availability = '', location = '') {
         const json = {}
         switch (mode) {
@@ -80,7 +107,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify(json),
                 mode: "cors"
@@ -99,6 +126,10 @@ export default function ManagerScooterManagement() {
         await fetchScooters();
     }
 
+		/**
+		 * Creates a new scooter and updates the backend server
+		 * @returns Null if there is an error during scooter creation
+		 */
     async function createScooter() {
         if (!(createID.match(/^\d+$/))) {
             NotificationManager.error("Scooter ID must be an integer.", "Error");
@@ -120,7 +151,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 body: JSON.stringify({
                     "softScooterId": parseInt(createID),
@@ -144,6 +175,10 @@ export default function ManagerScooterManagement() {
         await fetchScooters();
     }
 
+		/**
+		 * Deletes the scooter with the ID provided
+		 * @param {number} id ID of the scooter to be deleted
+		 */
     async function deleteScooter(id) {
         try {
             let request = await fetch(host + `api/admin/Scooters/${id}`, {
@@ -151,7 +186,7 @@ export default function ManagerScooterManagement() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -167,11 +202,27 @@ export default function ManagerScooterManagement() {
         await fetchScooters();
     }
 
+    /**
+     * Gets the scooter location for a scooter in case scooter location has been deleted.
+     *
+     * @param idx Scooter ID
+     * @returns {string|*} Map location if depot exists, otherwise error message
+     */
+    function getMapName(idx) {
+        try {
+            if (map_locations[scooters[idx].depoId - 1].name) {
+                return map_locations[scooters[idx].depoId - 1].name;
+            }
+        } catch (e) {
+            return "Depot no longer exists";
+        }
+    }
+
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/scooter-management">Scooter Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/scooter-management")}}>Scooter Management</a></b>
             </p>
             <h3 id="pageName">Scooter Management</h3>
             <hr id="underline"/>
@@ -191,8 +242,8 @@ export default function ManagerScooterManagement() {
                         <tbody>
                         {scooters.map((scooter, idx) => (
                             <tr key={idx}>
-                                <td>
-                                    <Row className="sameLine minWidthFieldLarge">
+                                <td className="minWidthFieldLarge">
+                                    <Row className="sameLine">
                                         <Col>{scooter.softScooterId}</Col>
                                         <Col>
                                             <Form.Control type="text" onInput={e => setScooterNewId(e.target.value)}
@@ -235,11 +286,11 @@ export default function ManagerScooterManagement() {
                                                              }
                                                          }}>
                                                 <option value="none" key="none" disabled hidden>
-                                                    {String.fromCharCode(scooters[idx].depoId + 64) + ' - ' + map_locations[scooters[idx].depoId - 1].name}
+                                                    {getMapName(idx)}
                                                 </option>
                                                 {map_locations.map((location, idx) => (
                                                     <option value={location.depoId} key={idx}>
-                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                        {location.name}
                                                     </option>
                                                 ))}
                                             </Form.Select>
@@ -276,7 +327,7 @@ export default function ManagerScooterManagement() {
                                         </option>
                                         {map_locations.map((location, idx) => (
                                             <option value={location.depoId} key={idx}>
-                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                {location.name}
                                             </option>
                                         ))}
                                     </Form.Select>

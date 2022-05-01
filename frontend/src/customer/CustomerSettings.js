@@ -1,11 +1,21 @@
+/*
+	Purpose of file: Display a customer's account settings and information
+	and allow them to change their password.
+*/
+
 import React, {useEffect, useState} from "react";
 import {Button, Form, Table} from "react-bootstrap";
-import Cookies from "universal-cookie";
 import changePassword from "../ChangePassword";
 import host from "../host";
+import {useAccount} from "../authorize";
 
+/**
+ * Renders the customer settings page, allows them to change
+ * their password
+ * @returns Customer settings page
+ */
 export default function CustomerSettings() {
-    const cookies = new Cookies();
+    const [account] = useAccount();
     const [accountInfo, setAccountInfo] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
@@ -15,14 +25,17 @@ export default function CustomerSettings() {
         fetchAccountInformation();
     }, []);
 
+		/**
+		 * Gets the customer's account information from the backend server
+		 */
     async function fetchAccountInformation() {
         try {
-            let request = await fetch(host + `api/Users/${cookies.get('accountID')}/profile`, {
+            let request = await fetch(host + `api/Users/${account.id}/profile`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${cookies.get('accessToken')}`
+                    'Authorization': `Bearer ${account.accessToken}`
                 },
                 mode: "cors"
             });
@@ -32,8 +45,12 @@ export default function CustomerSettings() {
         }
     }
 
+		/**
+		 * If the customer changes their password, submit a request
+		 * to the backend server to change it
+		 */
     async function onSubmit() {
-        await changePassword(oldPassword, password, confirmPassword);
+        await changePassword(oldPassword, password, confirmPassword, account);
     }
 
     return (

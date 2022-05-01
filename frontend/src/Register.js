@@ -1,13 +1,24 @@
+/*
+	Purpose of file: Allows a new user to register to the application
+*/
+
+
 import React, {useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import validate from './Validators';
 import host from './host';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAccount} from "./authorize";
 
+/**
+ * Renders the registration form
+ * @param {ReactPropTypes} props 
+ * @returns The registration form
+ */
 export default function RegisterForm(props) {
     const navigate = useNavigate();
+    const {scooterChoiceId, hireChoiceId, startTime} = useParams();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -15,7 +26,9 @@ export default function RegisterForm(props) {
     const [account, signOut, signIn] = useAccount();
 
 
-    // Attempts to create customer account.
+    /**
+		 * Attempts to create a new user account
+		 */
     async function onSubmit() {
         if (!validate(name, email, password, confirmPassword)) {
             return;
@@ -38,8 +51,19 @@ export default function RegisterForm(props) {
             if (response.status === 200) {
                 NotificationManager.success("Registered Account.", "Success");
                 props.onHide();
-                signIn(email, password);
-                navigate('/');
+                signIn(email, password, (m) => {
+                    if (m === 'login success') {
+                        NotificationManager.success('Logged In.', 'Success');
+                        if(startTime && hireChoiceId && scooterChoiceId){
+                            navigate(`../payment/${scooterChoiceId}/${hireChoiceId}/${startTime}`);
+                        } else{
+                            navigate('/');
+                        }
+                    } else {
+                        NotificationManager.error('Invalid Credentials.', 'Error');
+                    }
+                });
+
             } else {
                 NotificationManager.error("Email address already in use.", "Error");
             }

@@ -1,10 +1,21 @@
+/*
+	Purpose of file: Allow a user to change their password if they
+	provide their correct current password.
+*/
+
 import {NotificationManager} from "react-notifications";
-import Cookies from "universal-cookie";
 import host from './host';
 
-// Changes user password.
-export default async function changePassword(oldPassword, password, confirmPassword) {
-    const cookies = new Cookies();
+/**
+ * Changes user password if old password is correct and both
+ * new passwords match
+ * @param {string} oldPassword 
+ * @param {string} password 
+ * @param {string} confirmPassword
+ * @param {account} account
+ * @returns True if password changed successfully, false otherwise
+ */
+export default async function changePassword(oldPassword, password, confirmPassword, account) {
     if (oldPassword.length < 1) {
         NotificationManager.error("Please enter your old password.", "Error");
         return false;
@@ -23,12 +34,12 @@ export default async function changePassword(oldPassword, password, confirmPassw
         return false;
     }
     try {
-        let request = await fetch(host + `api/Users/${cookies.get('accountID')}/ChangePassword`, {
+        let request = await fetch(host + `api/Users/${account.id}/ChangePassword`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${cookies.get('accessToken')}`
+                'Authorization': `Bearer ${account.accessToken}`
             },
             body: JSON.stringify({
                 'oldPassword': oldPassword,

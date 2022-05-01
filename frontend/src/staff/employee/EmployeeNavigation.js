@@ -1,9 +1,17 @@
+/*
+	Purpose of file: Navigation bar for employees
+*/
+
 import React from "react";
 import {Link} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 import {MdBook, MdDashboard, MdElectricScooter, MdSettings} from "react-icons/md";
 import {FaExclamation, FaPercentage} from "react-icons/fa";
 
+/**
+ * Renders the employee navigation bar with links for browsing the application
+ * @returns Default employee navbar
+ */
 export default function EmployeeNavigation() {
     return (
         <Nav defaultActiveKey="/home" variant="pills"

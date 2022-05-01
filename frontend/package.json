@@ -19,7 +19,6 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
     "universal-cookie": "^4.0.4"
-
   },
   "scripts": {
     "start": "react-scripts start",

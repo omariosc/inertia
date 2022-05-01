@@ -410,7 +410,7 @@ export default function StaffManageIssues({manager}) {
               }
               return issue;
             }).map((issue) => (
-              <a key={issue.issueId} className="breadcrumb-current" onClick={() => {navigate(`issues/${issue.issueId}`)}}>
+              <a key={issue.issueId} className="breadcrumb-current" onClick={() => {navigate(`../issues/${issue.issueId}`)}}>
                 <Row>
                   <Col xs={6} lg={8} className="issue-filters">
                     <b>{issue.title}</b>

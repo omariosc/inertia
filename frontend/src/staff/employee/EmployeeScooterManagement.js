@@ -23,8 +23,8 @@ export default function EmployeeScooterManagement() {
     const [scooters, setScooters] = useState('');
 
     useEffect(() => {
-        fetchScooters();
         fetchLocations();
+        fetchScooters();
     }, []);
 
 		/**
@@ -61,6 +61,7 @@ export default function EmployeeScooterManagement() {
                 mode: "cors"
             });
             setScooters((await request.json()).sort((a, b) => a.softScooterId - b.softScooterId));
+            console.log(scooters)
         } catch (error) {
             console.error(error);
         }
@@ -124,7 +125,12 @@ export default function EmployeeScooterManagement() {
                                     <td>
                                         {(map_locations === "") ?
                                             <p>Loading map locations...</p> :
-                                            String.fromCharCode(scooters[idx].depoId + 64) + ' - ' + map_locations[scooters[idx].depoId - 1].name
+                                            <>
+                                            {() => { try {
+                                                if (map_locations[scooters[idx].depoId - 1].name) {
+                                                    return `${String.fromCharCode(scooters[idx].depoId + 64)} - ${map_locations[scooters[idx].depoId - 1].name}`;
+                                                }} catch (e) {}}}
+                                            </>
                                         }
                                     </td>
                                     <td>

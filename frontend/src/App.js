@@ -45,6 +45,7 @@ import CustomerCreateExtension from "./customer/CustomerCreateExtension";
 import CustomerCancelBooking from "./customer/CustomerCancelBooking";
 import EmployeeExtendGuestBooking from "./staff/employee/EmployeeExtendBooking";
 import EmployeeCancelBooking from "./staff/employee/EmployeeCancelBooking";
+import LoginAndSignupFromBooking from "./components/main-page-content/loginAndSignupFromBooking";
 
 const App = () => {
     const navigate = useNavigate();
@@ -106,28 +107,49 @@ const App = () => {
                             <Route path="submit-issue" element={<CustomerSubmitIssue/>}/>
                             <Route path="discounts" element={<CustomerDiscounts/>}/>
                             <Route path="settings" element={<CustomerSettings/>}/>
-                            <Route path="*" element={<CustomerCreateBooking/>}/>
                         </Route>
                     }
-                    { /* base case for login and signup modals */ }
+                    { /* base case for login and signup modals */}
                     <Route path={"/login"} element={
                         <>
                             <MainPage/>
                             <LoginForm show={true} onHide={() => navigate('/')}/>
                         </>
-                    } />
+                    }/>
                     <Route path={"/signup"} element={
                         <>
                             <MainPage/>
                             <RegisterForm show={true} onHide={() => navigate('/')}/>
                         </>
-                    } />
+                    }/>
+
+                    { /* login and signup modals with params */}
+                    <Route path={"/login/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
+                        <>
+                            <MainPage/>
+                            <LoginForm show={true} onHide={() => navigate('/')}/>
+                        </>
+                    }/>
+                    <Route path={"/signup/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
+                        <>
+                            <MainPage/>
+                            <RegisterForm show={true} onHide={() => navigate('/')}/>
+                        </>
+                    }/>
+
+                    <Route path={"authentication/:scooterChoiceId/:hireChoiceId/:startTime/"} element={
+                        <>
+                            <MainPage/>
+                            <LoginAndSignupFromBooking show={true} onHide={() => navigate('/')}/>
+                        </>
+                    }/>
+
 
                     {/* Main page routing */}
                     <Route element={<MainPage/>}>
-                        <Route path="booking/:depoId" element={<Booking />}/>
-                        <Route path="payment/:startTime/:hireChoiceId/:scooterId" element={<MainPayment />}/>
-                        <Route path="depots" element={<DepotList />}/>
+                        <Route path="booking/:depoId" element={<Booking/>}/>
+                        <Route path="payment/:scooterChoiceId/:hireChoiceId/:startTime/" element={<MainPayment/>}/>
+                        <Route path="depots" element={<DepotList/>}/>
                         <Route index element={<DepotList/>}/>
                         <Route path="*" element={<DepotList/>}/>
                     </Route>
@@ -136,8 +158,8 @@ const App = () => {
 
             {statefulBackgroundLocation !== null && (
                 <Routes>
-                    <Route path={"/login"} element={<LoginForm show={true} onHide={() => navigate(-1)}/>} />
-                    <Route path={"/signup"} element={<RegisterForm show={true} onHide={() => navigate(-1)}/>} />
+                    <Route path={"/login"} element={<LoginForm show={true} onHide={() => navigate(-1)}/>}/>
+                    <Route path={"/signup"} element={<RegisterForm show={true} onHide={() => navigate(-1)}/>}/>
                 </Routes>
             )}
         </div>

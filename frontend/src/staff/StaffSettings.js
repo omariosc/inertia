@@ -23,13 +23,12 @@ export default function StaffSettings() {
 		 * Attempts to change a user's password
 		 */
     async function onSubmit() {
-        if(await changePassword(oldPassword, password, confirmPassword)){
+        if(await changePassword(oldPassword, password, confirmPassword, account)){
             setOldPassword("");
             setPassword("");
             setConfirmPassword("");
             navigate("../dashboard")
         }
-
     }
 
     return (

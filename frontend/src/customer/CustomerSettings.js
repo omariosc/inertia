@@ -50,7 +50,7 @@ export default function CustomerSettings() {
 		 * to the backend server to change it
 		 */
     async function onSubmit() {
-        await changePassword(oldPassword, password, confirmPassword);
+        await changePassword(oldPassword, password, confirmPassword, account);
     }
 
     return (

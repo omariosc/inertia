@@ -93,6 +93,7 @@ export default function EmployeeCancelBooking() {
                 </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
                 <a className="breadcrumb-current" onClick={() => {navigate(`/bookings/${orderId}`)}}>#{orderId}</a></b>
             </p>
+            <br className="box-show"/>
             <Container>
                 {(booking === "") ? <p>Loading booking details...</p> :
                     <Table>
@@ -167,7 +168,7 @@ export default function EmployeeCancelBooking() {
                         </tbody>
                     </Table>
                 }
-                <Button className="float-right" variant="danger" onClick={cancelBooking}>Cancel</Button>
+                <Button className="float-right" variant="danger" onClick={cancelBooking}>Cancel Booking</Button>
             </Container>
         </>
     );

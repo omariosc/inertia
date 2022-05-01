@@ -4,7 +4,6 @@
 */
 
 import {NotificationManager} from "react-notifications";
-import { useAccount } from './authorize';
 import host from './host';
 
 /**
@@ -12,11 +11,11 @@ import host from './host';
  * new passwords match
  * @param {string} oldPassword 
  * @param {string} password 
- * @param {string} confirmPassword 
+ * @param {string} confirmPassword
+ * @param {account} account
  * @returns True if password changed successfully, false otherwise
  */
-export default async function changePassword(oldPassword, password, confirmPassword) {
-    const [account] = useAccount();
+export default async function changePassword(oldPassword, password, confirmPassword, account) {
     if (oldPassword.length < 1) {
         NotificationManager.error("Please enter your old password.", "Error");
         return false;

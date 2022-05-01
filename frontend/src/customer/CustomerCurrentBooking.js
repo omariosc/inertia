@@ -130,7 +130,7 @@ export default function CustomerCurrentBookings() {
                                 <thead>
                                 <tr>
                                     <th className="minWidthFieldSmall">Time Expiring</th>
-                                    <th className="minWidthFieldLarge">Extend</th>
+                                    <th>Extend</th>
                                     <th>Cancel</th>
                                     <th>Booking Confirmation</th>
                                 </tr>

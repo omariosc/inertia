@@ -23,8 +23,6 @@
 }
 
 .image-view {
-    border-color: green;
-    border-width: 40px;
     border-radius: 10px;
 }
 
@@ -36,6 +34,8 @@
     .menu-page > .side-bar {
         pointer-events: none;
         position: absolute;
+        left: 0;
+        top: 0;
         z-index: 2;
         width: 30vw;
         min-width: 365px;
@@ -52,16 +52,21 @@
         width: auto;
         height: 42px;
         margin-bottom: 10px;
+        margin-right: 10px;
         border-radius: 6px;
     }
 
     .menu-page > .side-bar > .content {
         pointer-events: all;
         background-color: white;
+        overflow-y: auto;
+        overflow-x: hidden;
         flex-grow: 1;
-        min-width: 355px;
+        min-width: 345px;
         width: auto;
         height: auto;
+        margin-right: 20px;
+        margin-bottom: 10px;
         border-radius: 10px;
     }
 
@@ -69,7 +74,7 @@
         z-index: 2;
         pointer-events: none;
         position: fixed;
-        bottom: 0px;
+        bottom: 0;
         right: 15px;
         font-size: 36px;
         font-weight: bold;
@@ -82,12 +87,16 @@
     .menu-page > .side-bar {
         pointer-events: none;
         position: absolute;
+        left: 0;
+        top: 0;
         z-index: 2;
+        overflow-y: auto;
         width: 100vw;
         height: 100vh;
         display: flex;
         flex-direction: column;
         padding: 10px;
+
     }
 
     .menu-page > .side-bar > .search-bar {
@@ -107,14 +116,16 @@
         pointer-events: all;
         background-color: white;
         flex-grow: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
         width: auto;
         height: auto;
-        margin-bottom: 10px;
+        padding: 10px;
         border-radius: 10px;
     }
 
     .menu-page > .logo {
-        z-index: 2;
+        z-index: 5;
         pointer-events: none;
         position: fixed;
         bottom: 10px;

@@ -489,7 +489,7 @@ export default function CustomerCreateBooking() {
                     </Col>
                 }
             </Row>
-            <br/>
+            <br className="box"/>
             <h5>Booking Details</h5>
             <Row className="pb-2">
                 <Col className="text-end col-3 align-self-center">

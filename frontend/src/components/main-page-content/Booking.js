@@ -1,9 +1,12 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import host from "../../host";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {useAccount} from "../../authorize";
+import "../../MainPage.css"
 
 export default function Booking() {
+    const [account] = useAccount();
     const params = useParams();
     const navigate = useNavigate();
     const depotChoiceId = params.depoId;
@@ -173,120 +176,137 @@ export default function Booking() {
         }
     }
 
-    return (
-        <Container className={"content p-2"}>
-            <Row className="text-center">
-                <h5>Booking Details</h5>
-            </Row>
-            <Row className="pb-2">
-                <Col className="text-end col-3 align-self-center">
-                    Depot:
-                </Col>
-                <Col>
-                    {!(depots && depotChoiceId) ? <p> Loading depots </p> :
-                        <Form.Control type="text" value={depots.find(() => {
-                            return depots.depoId = depotChoiceId
-                        }).name}
-                                      disabled/>}
-                </Col>
-            </Row>
-            <Row className="pb-2">
-                <Col className="text-end col-3 align-self-center">
-                    Start Time:
-                </Col>
-                <Col>
-                    <Container className="p-0">
-                        <Row>
-                            <Col>
-                                <Form.Control type="date" isInvalid={!validStartDate} onChange={(e) => {
-                                    setStartDate(e.target.value);
-                                }}/>
-                            </Col>
-                            <Col>
-                                <Form.Control type="time"
-                                              isInvalid={!validStartTime}
-                                              value={startTime}
-                                              onChange={(e) => {
-                                                  let output = e.target.value.slice(0, 3);
-                                                  let minutes = parseInt(e.target.value.slice(3, 5));
-                                                  if (minutes % 15 === 1) {
-                                                      minutes = (minutes + 14) % 60
-                                                  } else if (minutes % 15 === 14) {
-                                                      minutes = (minutes - 14)
-                                                  } else if (minutes % 15 !== 0) {
-                                                      minutes = (Math.round(minutes / 15) % 4) * 15
-                                                  }
-                                                  let minString = minutes.toString();
-                                                  if (minString.length === 1) {
-                                                      output += "0" + minString;
-                                                  } else {
-                                                      output += minString;
-                                                  }
-                                                  setStartTime(output);
-                                              }
-                                              }/>
-                            </Col>
-                        </Row>
-                    </Container>
-                </Col>
-            </Row>
-            <Row className="pb-2">
-                <Col className="text-end col-3 align-self-center">
-                    Hire Period:
-                </Col>
-                <Col>
-                    {(hireOptions === "") ? <>Loading hire periods...</> : <>
-                        <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
-                            let value = e.target.value.split(',')
-                            setHireChoiceId(value[0]);
-                        }}>
 
-                            <option value="none" key="none" disabled hidden>Select Hire Period</option>
-                            {hireOptions.map((option, idx) => (
-                                <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
-                                    £{option.cost}</option>
-                            ))}
-                        </Form.Select>
-                    </>
-                    }
-                </Col>
-            </Row>
-            <Row className="pb-2">
-                <Col className="text-end col-3 align-self-center">
-                    Scooter:
-                </Col>
-                <Col>
-                    <Form.Select
-                        value={scooterChoiceId}
-                        isInvalid={!validScooter}
-                        disabled={scooters === ""}
-                        onChange={(e) => {
-                            setScooterChoiceId(e.target.value);
-                        }}>
-                        {scooters === "" ?
-                            <option value="" key="none" disabled hidden>Please fill in other details</option> : <>
-                                <option value="" key="none" disabled hidden>Select Scooter</option>
-                                {scooters.map((scooter, idx) => (
-                                    <option value={scooter.scooterId}
-                                            key={idx}>{scooter.softScooterId}</option>
+
+    return (
+        <div className={"content"}>
+            <Container className={"p-2"}>
+                <Row className="text-center">
+                    <h5>Booking Details</h5>
+                    <br/>
+                    <br/>
+                </Row>
+                <Row className="pb-2">
+                    <Col className="text-end col-3 align-self-center">
+                        Depot:
+                    </Col>
+                    <Col>
+                        {!(depots && depotChoiceId) ? <p> Loading depots </p> :
+                            <Form.Control type="text" value={depots.find(() => {
+                                return depots.depoId = depotChoiceId
+                            }).name}
+                                          disabled/>}
+                    </Col>
+                </Row>
+                <Row className="pb-2">
+                    <Col className="text-end col-3 align-self-center">
+                        Start Time:
+                    </Col>
+                    <Col>
+                        <Container className="p-0">
+                            <Row>
+                                <Col>
+                                    <Form.Control type="date" isInvalid={!validStartDate} onChange={(e) => {
+                                        setStartDate(e.target.value);
+                                    }}/>
+                                </Col>
+                                <Col>
+                                    <Form.Control type="time"
+                                                  isInvalid={!validStartTime}
+                                                  value={startTime}
+                                                  onChange={(e) => {
+                                                      let output = e.target.value.slice(0, 3);
+                                                      let minutes = parseInt(e.target.value.slice(3, 5));
+                                                      if (minutes % 15 === 1) {
+                                                          minutes = (minutes + 14) % 60
+                                                      } else if (minutes % 15 === 14) {
+                                                          minutes = (minutes - 14)
+                                                      } else if (minutes % 15 !== 0) {
+                                                          minutes = (Math.round(minutes / 15) % 4) * 15
+                                                      }
+                                                      let minString = minutes.toString();
+                                                      if (minString.length === 1) {
+                                                          output += "0" + minString;
+                                                      } else {
+                                                          output += minString;
+                                                      }
+                                                      setStartTime(output);
+                                                  }
+                                                  }/>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Col>
+                </Row>
+                <Row className="pb-2">
+                    <Col className="text-end col-3 align-self-center">
+                        Hire Period:
+                    </Col>
+                    <Col>
+                        {(hireOptions === "") ? <>Loading hire periods...</> : <>
+                            <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
+                                let value = e.target.value.split(',')
+                                setHireChoiceId(value[0]);
+                            }}>
+
+                                <option value="none" key="none" disabled hidden>Select Hire Period</option>
+                                {hireOptions.map((option, idx) => (
+                                    <option key={idx} value={[option.hireOptionId, option.cost]}>{option.name} -
+                                        £{option.cost}</option>
                                 ))}
-                            </>
+                            </Form.Select>
+                        </>
                         }
-                    </Form.Select>
-                </Col>
-            </Row>
-            <br/>
-            <br/>
-            <Row className={"text-center"}>
-                <Col className={"col-8 offset-2"}>
-                    <Button className="text-center" disabled={!(scooterChoiceId !== "")} onClick={() => {
-                        console.log(`payment/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
-                        navigate(`../payment/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
-                    }
-                    }>Book Scooter</Button>
-                </Col>
-            </Row>
-            <br/>
-        </Container>
+                    </Col>
+                </Row>
+                <Row className="pb-2">
+                    <Col className="text-end col-3 align-self-center">
+                        Scooter:
+                    </Col>
+                    <Col>
+                        <Form.Select
+                            value={scooterChoiceId}
+                            isInvalid={!validScooter}
+                            disabled={scooters === ""}
+                            onChange={(e) => {
+                                setScooterChoiceId(e.target.value);
+                            }}>
+                            {scooters === "" ?
+                                <option value="" key="none" disabled hidden>Please fill in other details</option> : <>
+                                    <option value="" key="none" disabled hidden>Select Scooter</option>
+                                    {scooters.map((scooter, idx) => (
+                                        <option value={scooter.scooterId}
+                                                key={idx}>{scooter.softScooterId}</option>
+                                    ))}
+                                </>
+                            }
+                        </Form.Select>
+                    </Col>
+                </Row>
+                <br/>
+                <br/>
+                <Row className={"text-center"}>
+                    <Col className={"col-4 offset-1"}>
+                        <Button className="text-center btn-danger" onClick={() => {
+                            navigate("booking");
+                        }
+                        }>Cancel Booking</Button>
+                    </Col>
+                    <Col className={"col-4 offset-1"}>
+                        <Button className="text-center" disabled={!(scooterChoiceId !== "")} onClick={() => {
+                            if (account) {
+                                console.log(account);
+                                navigate(`../payment/${scooterChoiceId}/${hireChoiceId}/${startDate + "T" + startTime}`);
+                            } else {
+                                console.log(account);
+                                navigate(`../authentication/${scooterChoiceId}/${hireChoiceId}/${startDate + "T" + startTime}`);
+                            }
+                        }
+                        }>Book Scooter</Button>
+                    </Col>
+                </Row>
+                <br/>
+            </Container>
+        </div>
     )
 }

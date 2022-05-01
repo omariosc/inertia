@@ -10,7 +10,8 @@ import {CgClose} from "react-icons/cg";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the navigation bar for customers on mobile devices
+ * Renders the navigation bar for customers on mobile devices
+ * @returns Mobile customer navigation bar
  */
 export default function CustomerMobileNavigation() {
     const [open, setOpen] = useState(false);
@@ -24,6 +25,7 @@ export default function CustomerMobileNavigation() {
 		/**
 		 * Groups the links required for the navigation bar in order
 		 * to browse the application
+		 * @returns The group of links for the mobile navbar
 		 */
     function Links() {
         return (

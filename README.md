@@ -117,10 +117,10 @@ The full interim deliverable specification list is listed [here](https://gitlab.
 
 Documentation of the project is available [here](https://gitlab.com/sc20aim/inertia/-/tree/main/documentation).
 
-### Frontend Documentation
+#### Frontend Documentation
 
 Documentation of the frontend component is available [here](https://gitlab.com/sc20aim/inertia/-/raw/main/documentation/frontend.pdf).
 
-### Backend Documentation
+#### Backend Documentation
 
 Documentation of the backend component is available [here](https://gitlab.com/sc20aim/inertia/-/raw/main/documentation/backend.pdf).

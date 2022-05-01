@@ -11,8 +11,9 @@ import showDate from "../../showDate";
 import host from "../../host";
 
 /**
- * Returns the employee ongoing bookings page which shows the employee
+ * Renders the employee ongoing bookings page which shows the employee
  * a list of current bookings
+ * @returns Employee ongoing bookings page
  */
 export default function EmployeeOngoingBookings() {
     const [account] = useAccount();

@@ -11,7 +11,8 @@ import {RiBuilding3Fill} from "react-icons/ri";
 import {IoIosStats} from "react-icons/io";
 
 /**
- * Returns the manager navigation bar, allowing the browsing of the application
+ * Renders the manager navigation bar, allowing the browsing of the application
+ * @returns The default manager navbar
  */
 export default function ManagerNavigation() {
     return (

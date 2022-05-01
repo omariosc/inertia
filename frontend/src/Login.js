@@ -9,6 +9,11 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import {signIn, useAccount} from "./authorize";
 
+/**
+ * Login form to authenticate users when they sign in
+ * @param {ReactPropTypes} props 
+ * @returns The login form
+ */
 export default function LoginForm(props) {
     const params = useParams();
     const startTime = params.startTime;

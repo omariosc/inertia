@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Tests login form component
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import LoginForm from "./Login";

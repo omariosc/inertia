@@ -9,6 +9,10 @@ import {Card, Col, Container, Row} from "react-bootstrap";
 import host from '../host';
 import {useAccount} from "../authorize";
 
+/**
+ * Renders the staff dashboard
+ * @returns The staff dashboard, gives overview of the state of inertia
+ */
 export default function Dashboard() {
     const [account] = useAccount();
     const navigate = useNavigate();

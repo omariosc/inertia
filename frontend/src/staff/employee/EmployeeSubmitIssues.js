@@ -11,8 +11,9 @@ import { useAccount } from '../../authorize';
 import host from "../../host";
 
 /**
- * Displays the submit issue form which allows the employee to
+ * Renders the employee submit issue form which allows the employee to
  * raise a new issue
+ * @returns Employee submit issue page
  */
 export default function EmployeeSubmitIssue() {
     const [account] = useAccount();
@@ -26,6 +27,7 @@ export default function EmployeeSubmitIssue() {
 		/**
 		 * Checks that the issue has valid length and priority and sends the issue
 		 * to the backend server if the check is successful 
+		 * @returns Null if there is an error with the new issue
 		 */
     async function submitIssue() {
         if (title.length === 0) {

@@ -11,6 +11,11 @@ import host from './host';
 import {useNavigate, useParams} from "react-router-dom";
 import {useAccount} from "./authorize";
 
+/**
+ * Renders the registration form
+ * @param {ReactPropTypes} props 
+ * @returns The registration form
+ */
 export default function RegisterForm(props) {
     const params = useParams();
     const startTime = params.startTime;
@@ -24,7 +29,9 @@ export default function RegisterForm(props) {
     const [account, signOut, signIn] = useAccount();
 
 
-    // Attempts to create customer account.
+    /**
+		 * Attempts to create a new user account
+		 */
     async function onSubmit() {
         if (!validate(name, email, password, confirmPassword)) {
             return;

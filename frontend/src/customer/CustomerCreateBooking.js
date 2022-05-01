@@ -14,7 +14,8 @@ import 'elt-react-credit-cards/es/styles-compiled.css';
 import {useAccount} from "../authorize";
 
 /**
- * Returns the create booking page for the customer
+ * Renders the create booking page for the customer
+ * @returns Customer create booking page
  */
 export default function CustomerCreateBooking() {
     const [account] = useAccount();
@@ -226,6 +227,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks date of the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateDate(stateChange) {
         let currentDate = new Date();
@@ -241,6 +244,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks time of the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateTime(stateChange) {
         let valid;
@@ -267,6 +272,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks depot of the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateDepot(stateChange) {
         let valid = depotChoiceId !== '' && depotChoiceId !== 'none';
@@ -278,6 +285,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks scooter for the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateScooter(stateChange) {
         let valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
@@ -289,6 +298,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks hire length of the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
@@ -300,6 +311,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks card number of the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateCardNo(stateChange) {
         if (savedCardDetails !== null) {
@@ -314,6 +327,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks expiry date of the card for the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateExpDate(stateChange) {
         if (savedCardDetails !== null) {
@@ -328,6 +343,8 @@ export default function CustomerCreateBooking() {
 
     /**
      * Checks CVV of the card for the new booking is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
      */
     function validateCVV(stateChange) {
         if (savedCardDetails !== null) {

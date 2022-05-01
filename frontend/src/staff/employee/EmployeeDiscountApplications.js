@@ -11,8 +11,9 @@ import host from "../../host";
 import {useNavigate} from "react-router-dom";
 
 /**
- * Returns the employee discount application page, shows a list of
+ * Renders the employee discount application page, shows a list of
  * current applications
+ * @returns Employee discount application page
  */
 export default function EmployeeDiscountApplications() {
     const navigate = useNavigate();
@@ -48,6 +49,8 @@ export default function EmployeeDiscountApplications() {
 		/**
 		 * Updates an application with specified ID based on the choice (approved/denied)
 		 * made by the staff account
+		 * @param {number} id ID of the application to update
+		 * @param {string} choice Decision made on the application
 		 */
     async function applicationAction(id, choice) {
         try {
@@ -70,6 +73,7 @@ export default function EmployeeDiscountApplications() {
 		/**
 		 * Gets the provided image (e.g. Student ID) for the provided application ID from
 		 * the backend server
+		 * @param {number} id ID of the application to retrieve an image from
 		 */
     async function getImage(id) {
         try {

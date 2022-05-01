@@ -1,4 +1,4 @@
-# inertia / Backend
+# inertia / backend
 
 This is the directory for the backend project component of the `inertia` software.
 

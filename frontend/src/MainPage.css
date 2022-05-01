@@ -125,7 +125,7 @@
     }
 
     .menu-page > .logo {
-        z-index: 2;
+        z-index: 5;
         pointer-events: none;
         position: fixed;
         bottom: 10px;

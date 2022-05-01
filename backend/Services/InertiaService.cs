@@ -455,7 +455,8 @@ public class InertiaService
         {
             u.UserType = UserType.Regular;
         }
-        
+
+        await _db.SaveChangesAsync();
         
         DateTime end = DateTime.Now;
         DateTime start = DateTime.Now - TimeSpan.FromDays(7);
@@ -484,5 +485,7 @@ public class InertiaService
                 .FirstAsync();
             account.UserType = UserType.Frequent;
         }
+
+        await _db.SaveChangesAsync();
     }
 }

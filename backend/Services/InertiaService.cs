@@ -473,7 +473,7 @@ public class InertiaService
                 AccountId = g.Key,
                 BookTime = g.Sum(e => e.BookTime)
             })
-            .Where(e => e.BookTime > 8)
+            .Where(e => e.BookTime >= 8)
             .Select(e => e.AccountId)
             .ToListAsync();
 

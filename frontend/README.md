@@ -1,4 +1,3 @@
-# inertia / Frontend
-This is the directory for the frontend project component of the `inertia` software.
+# inertia / frontend
 
-This directory contains the project structure of this component.
+This is the directory for the frontend project component of the `inertia` software. This directory contains the the project structure of this component. The [package.json](https://gitlab.com/sc20aim/inertia/-/blob/main/frontend/package.json) file contains the node packages required to run the application. The [`src`](https://gitlab.com/sc20aim/inertia/-/tree/main/frontend/src) directory contains components, functions, style sheets and enumerators to run the project. The ESLint configuration file can be found [here](https://gitlab.com/sc20aim/inertia/-/blob/main/frontend/.eslintrc.json).

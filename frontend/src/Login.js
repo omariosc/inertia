@@ -10,7 +10,7 @@ import {NotificationManager} from "react-notifications";
 import {signIn, useAccount} from "./authorize";
 
 export default function LoginForm(props) {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [account, signOut, signIn] = useAccount();

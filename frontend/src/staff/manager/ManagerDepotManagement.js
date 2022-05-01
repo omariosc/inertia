@@ -8,12 +8,14 @@ import {Button, Container, Form, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import host from "../../host";
+import {useNavigate} from "react-router-dom";
 
 /**
  * Returns the manager depot management, a list of all current
  * depots available
  */
 export default function ManagerDepotManagement() {
+    const navigate = useNavigate();
     const [account] = useAccount();
     const [depots, setDepots] = useState('');
     const [newName, setNewName] = useState('');
@@ -189,8 +191,8 @@ export default function ManagerDepotManagement() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href="/dashboard">Home</a> > <b>
-                <a className="breadcrumb-current" href="/depot-management">Depot Management</a></b>
+                <a className="breadcrumb-list" onClick={() => {navigate("/dashboard")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/depot-management")}}>Depot Management</a></b>
             </p>
             <h3 id="pageName">Depot Management</h3>
             <hr id="underline"/>

@@ -13,7 +13,7 @@ import host from '../host';
 import priorities from "./priorities";
 
 export default function StaffViewIssue() {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     let {id} = useParams();
     const [account] = useAccount();
     const [accountName, setAccountName] = useState('');
@@ -119,9 +119,9 @@ export default function StaffViewIssue() {
     return (
         <>
             <p id="breadcrumb">
-                <a className="breadcrumb-list" href={(account.role === "2") ? "/dashboard" : "/home"}>Home
-                </a> > <a className="breadcrumb-list" href="/issues">Issues</a> > <b>
-                <a className="breadcrumb-current" href={`/issues/${id}`}>#{id}</a></b>
+                <a className="breadcrumb-list" onClick={() => {(account.role === "2") ? navigate("/dashboard" ): navigate("/home")}}>Home
+                </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/issues")}}>Issues</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate(`/issues/${id}`)}}>#{id}</a></b>
             </p>
             {(issue === "") ? <p>Loading issue details...</p> :
                 <>

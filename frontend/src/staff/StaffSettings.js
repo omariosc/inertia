@@ -29,8 +29,8 @@ export default function StaffSettings() {
         <>
             <p id="breadcrumb">
                 <a className="breadcrumb-list"
-                   href={(account.role === "2") ? "/dashboard" : "/home"}>Home</a> > <b>
-                <a className="breadcrumb-current" href="/settings">Settings</a></b>
+                   onClick={() => {(account.role === "2") ? navigate("/dashboard") : navigate("/home")}}>Home</a> &gt; <b>
+                <a className="breadcrumb-current" onClick={() => {navigate("/settings")}}>Settings</a></b>
             </p>
             <h3 id="pageName">Change Password</h3>
             <hr id="underline"/>

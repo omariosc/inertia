@@ -17,7 +17,7 @@ import {useAccount} from "../authorize";
  */
 export default function CustomerDiscounts() {
     const [account] = useAccount();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState('');
     const [frequentUser, setFrequent] = useState(false);
     const [studentUser, setStudentStatus] = useState(false);

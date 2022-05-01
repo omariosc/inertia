@@ -11,7 +11,7 @@ import {useAccount} from '../authorize';
 /**
  * Renders the customer's booking history, a list of all previous
  * orders they have made
- * @returns Customer booking history page
+ * @return {JSX.Element} Customer booking history page
  */
 export default function CustomerBookingHistory() {
   const [account] = useAccount();

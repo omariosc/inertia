@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Tests the date string conversion component
+*/
+
 import getAge from "./getAge";
 
 it('returns correct time elapsed since order was created', () => {

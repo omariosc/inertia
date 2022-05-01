@@ -13,8 +13,9 @@ import host from "../../host";
 import orderState from "../orderState";
 
 /**
- * Returns the employee cancel booking page, allows an unregistered user's
+ * Renders the employee cancel booking page, allows an unregistered user's
  * order to be cancelled
+ * @returns Employee cancel booking page
  */
 export default function EmployeeCancelBooking() {
     const navigate = useNavigate();

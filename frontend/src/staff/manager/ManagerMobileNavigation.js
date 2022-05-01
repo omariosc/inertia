@@ -14,8 +14,9 @@ import {IoIosStats} from "react-icons/io";
 import {useAccount} from "../../authorize";
 
 /**
- * Returns the manager mobile navigation bar, allowing for the browsing of the
+ * Renders the manager mobile navigation bar, allowing for the browsing of the
  * application on mobile devices
+ * @returns Manager mobile navbar
  */
 export default function ManagerMobileNavigation() {
     const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function ManagerMobileNavigation() {
 
 		/**
 		 * Sets up the side navigation bar of links to browse the application
+		 * @returns The group of links for the navbar
 		 */
     function Links() {
         return (

@@ -7,7 +7,14 @@ import {NotificationManager} from "react-notifications";
 import { useAccount } from './authorize';
 import host from './host';
 
-// Changes user password.
+/**
+ * Changes user password if old password is correct and both
+ * new passwords match
+ * @param {string} oldPassword 
+ * @param {string} password 
+ * @param {string} confirmPassword 
+ * @returns True if password changed successfully, false otherwise
+ */
 export default async function changePassword(oldPassword, password, confirmPassword) {
     const [account] = useAccount();
     if (oldPassword.length < 1) {

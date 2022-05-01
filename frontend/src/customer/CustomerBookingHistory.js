@@ -11,8 +11,9 @@ import orderState from "../staff/orderState";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the customer's booking history, a list of all previous
+ * Renders the customer's booking history, a list of all previous
  * orders they have made
+ * @returns Customer booking history page
  */
 export default function CustomerBookingHistory() {
     const [account] = useAccount();

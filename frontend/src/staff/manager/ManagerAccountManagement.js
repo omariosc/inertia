@@ -12,8 +12,9 @@ import host from '../../host';
 import {useNavigate} from "react-router-dom";
 
 /**
- * Returns the manager account management page, a form allowing
+ * Renders the manager account management page, a form allowing
  * the manager to create a new employee account
+ * @returns Manager account management page
  */
 export default function ManagerAccountManagement() {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function ManagerAccountManagement() {
 		/**
 		 * Upon submitting the form, sends the new account details to the
 		 * backend server and creates a new employee account if details are valid
+		 * @returns Null if there is an error during account creation
 		 */
     async function onSubmit() {
         if (!validate(name, email, password, confirmPassword)) {

@@ -12,8 +12,9 @@ import Cards from "elt-react-credit-cards";
 import {useAccount} from "../authorize";
 
 /**
- * Returns the customer extension page, where they are able to
+ * Renders the customer extension page, where they are able to
  * extend a currently ongoing booking
+ * @returns Customer create extension page
  */
 export default function CustomerCreateExtension() {
     const [account] = useAccount();
@@ -160,6 +161,11 @@ export default function CustomerCreateExtension() {
         }
     }
 
+		/**
+		 * Checks that the chosen hire slot is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
+		 */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
         if (stateChange) {
@@ -168,6 +174,11 @@ export default function CustomerCreateExtension() {
         return valid;
     }
 
+		/**
+		 * Checks that the card number for the order is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
+		 */
     function validateCardNo(stateChange) {
         if (savedCardDetails !== null) {
             return true;
@@ -179,6 +190,11 @@ export default function CustomerCreateExtension() {
         return valid;
     }
 
+		/**
+		 * Checks that the expiry date of the card is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
+		 */
     function validateExpDate(stateChange) {
         if (savedCardDetails !== null) {
             return true;
@@ -190,6 +206,11 @@ export default function CustomerCreateExtension() {
         return valid;
     }
 
+		/**
+		 * Checks that the CVV of the card is valid
+		 * @param {boolean} stateChange Dynamically updates UI if true
+		 * @returns True if valid, false otherwise
+		 */
     function validateCVV(stateChange) {
         if (savedCardDetails !== null) {
             return true;

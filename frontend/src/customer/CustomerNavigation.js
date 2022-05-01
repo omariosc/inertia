@@ -7,7 +7,8 @@ import {Link} from "react-router-dom";
 import {Nav} from "react-bootstrap";
 
 /**
- * Returns the navigation bar for customers to browse the application
+ * Renders the navigation bar for customers to browse the application
+ * @returns The default customer navbar
  */
 export default function CustomerNavigation() {
     return (

@@ -9,7 +9,11 @@ import "./MainPage.css"
 import UserMenu from './components/UserMenu';
 import {Outlet, useNavigate} from "react-router-dom";
 
-
+/**
+ * Renders the landing page: a map of all depots
+ * @param {ReactPropTypes} props 
+ * @returns Default landing page
+ */
 export default function MainPage(props) {
     const [map_locations, setMapLocations] = useState(null);
     const [search, setSearch] = useState("");

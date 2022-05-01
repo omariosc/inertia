@@ -1,3 +1,7 @@
+/*
+	Purpose of file: Tests the customer interface component
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CustomerInterface from "./CustomerInterface";

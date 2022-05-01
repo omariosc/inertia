@@ -40,7 +40,7 @@ jsdocs-frontend:
   stage: compile-documentation
   image: node
   script:
-    - cd frontend/src/
+    - cd frontend/
     - npm run docs
   artifacts:
     paths:

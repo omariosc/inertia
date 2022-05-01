@@ -16,7 +16,7 @@ these images to be run as services. The configuration creates three services: `b
 where the database is stored. This deployment is a production deployment, which means that all components
 run in release mode.
 
-####  Prerequisites
+#### Prerequisites
 
 ```sh
 # install docker (or replacement) and docker-compose
@@ -116,6 +116,10 @@ The full interim deliverable specification list is listed [here](https://gitlab.
 ### Documentation
 
 Documentation of the project is available [here](https://gitlab.com/sc20aim/inertia/-/tree/main/documentation).
+
+### Frontend Documentation
+
+Documentation of the frontend component is available [here](https://gitlab.com/sc20aim/inertia/-/raw/main/documentation/frontend.pdf).
 
 ### Backend Documentation
 

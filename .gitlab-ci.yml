@@ -8,6 +8,14 @@ stages:
 - test-integration
 - compile-documentation
 
+test-frontend:
+  stage: test-integration
+  image: node
+  script:
+    - cd frontend/
+    - npm install
+    - npm test -- --watchAll=false
+
 test-backend:
   stage: test-integration
   image: fedora
@@ -28,19 +36,11 @@ test-backend:
       - backend/backend.log
       - backend-testing/backend-testing.log
 
-test-frontend:
-  stage: test-integration
-  image: node
-  script:
-    - cd frontend/
-    - npm install
-    - npm test -- --watchAll=false
-
 doxygen-backend:
   stage: compile-documentation
   image: fedora
   before_script:
-    - dnf install doxygen doxygen-latex make
+    - dnf install -y doxygen doxygen-latex make
   script:
     - cd backend/
     - doxygen .doxygen

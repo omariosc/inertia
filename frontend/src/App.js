@@ -106,7 +106,6 @@ const App = () => {
                             <Route path="submit-issue" element={<CustomerSubmitIssue/>}/>
                             <Route path="discounts" element={<CustomerDiscounts/>}/>
                             <Route path="settings" element={<CustomerSettings/>}/>
-                            <Route path="*" element={<CustomerCreateBooking/>}/>
                         </Route>
                     }
                     { /* base case for login and signup modals */ }
@@ -127,6 +126,7 @@ const App = () => {
                     <Route element={<MainPage/>}>
                         <Route path="booking/:depoId" element={<Booking />}/>
                         <Route path="payment/:startTime/:hireChoiceId/:scooterId" element={<MainPayment />}/>
+                        <Route path="authentication/:startTime/:hireChoiceId/:scooterId" element={<MainPayment />}/>
                         <Route path="depots" element={<DepotList />}/>
                         <Route index element={<DepotList/>}/>
                         <Route path="*" element={<DepotList/>}/>

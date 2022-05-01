@@ -7,12 +7,13 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import host from "./host";
 import "./MainPage.css"
 import UserMenu from './components/UserMenu';
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 
 
 export default function MainPage(props) {
     const [map_locations, setMapLocations] = useState(null);
     const [search, setSearch] = useState("");
+    const navigate = useNavigate();
     const centerLat = 53.80053044534111;
     const centerLong = -1.5460204298418807;
 
@@ -64,6 +65,7 @@ export default function MainPage(props) {
                                     eventHandlers={{
                                         click: () => {
                                             setSearch(map_location.name);
+                                            navigate("/booking", {replace:true});
                                         }
                                     }}>
                                 <Popup>{map_location.name}</Popup>

@@ -4,7 +4,7 @@ This directory contains all the testing for the backend for the `inertia` softwa
 
 ## Instructions
 
-Assuming the current working directory is: `inertia/backend-testing`:
+Assuming the current working directory is: `inertia/backend-testing` and the backend is running:
 
 ```shell
 pip3 install -r requirements.txt

@@ -291,7 +291,8 @@ public class InertiaService
         var pastOrders = await _db.Orders
             .Where(o =>
                 o.EndTime <= DateTime.Now &&
-                o.OrderState == OrderState.Ongoing)
+                o.OrderState == OrderState.Ongoing || o.OrderState == OrderState.Upcoming
+                )
             .ToListAsync();
 
         foreach (var o in pastOrders)
@@ -408,7 +409,10 @@ public class InertiaService
             Discount = discount,
             Cost = cost,
             Extends = order,
-            OrderState = OrderState.PendingApproval
+            OrderState = 
+                order.OrderState == OrderState.PendingApproval ? 
+                    OrderState.PendingApproval :
+                    OrderState.Upcoming
         };
         
         await _db.Orders.AddAsync(extension);
@@ -455,7 +459,8 @@ public class InertiaService
         {
             u.UserType = UserType.Regular;
         }
-        
+
+        await _db.SaveChangesAsync();
         
         DateTime end = DateTime.Now;
         DateTime start = DateTime.Now - TimeSpan.FromDays(7);
@@ -473,7 +478,7 @@ public class InertiaService
                 AccountId = g.Key,
                 BookTime = g.Sum(e => e.BookTime)
             })
-            .Where(e => e.BookTime > 8)
+            .Where(e => e.BookTime >= 8)
             .Select(e => e.AccountId)
             .ToListAsync();
 
@@ -484,5 +489,7 @@ public class InertiaService
                 .FirstAsync();
             account.UserType = UserType.Frequent;
         }
+
+        await _db.SaveChangesAsync();
     }
 }

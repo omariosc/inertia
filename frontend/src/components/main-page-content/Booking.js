@@ -1,12 +1,12 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import host from "../../host";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAccount} from "../../authorize";
 import "../../MainPage.css"
 
 export default function Booking() {
-    const account = useAccount();
+    const [account] = useAccount();
     const params = useParams();
     const navigate = useNavigate();
     const depotChoiceId = params.depoId;

@@ -4,7 +4,7 @@
 
 import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import {Button, Container, Table} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import { useAccount } from '../../authorize';
 import showDate from "../../showDate";
@@ -64,7 +64,7 @@ export default function staffViewBooking() {
                 </a> &gt; <a className="breadcrumb-list" onClick={() => {navigate("/bookings")}}>Bookings</a> &gt; <b>
                 <a className="breadcrumb-current" onClick={() => {navigate(`/bookings/${orderId}`)}}>#{orderId}</a></b>
             </p>
-            <Container>
+            <br className="box-show"/>
                 {(booking === "") ? <p>Loading booking details...</p> :
                     <Table>
                         <tbody>
@@ -139,7 +139,6 @@ export default function staffViewBooking() {
                     </Table>
                 }
                 <Button className="float-right" variant="danger" onClick={()=>{navigate("/bookings")}}>Close</Button>
-            </Container>
         </>
     );
 }

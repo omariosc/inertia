@@ -44,6 +44,7 @@ export default function ManagerScooterManagement() {
                 mode: "cors"
             });
             setMapLocations(await request.json());
+            console.log(map_locations)
         } catch (e) {
             console.log(e);
         }
@@ -201,6 +202,22 @@ export default function ManagerScooterManagement() {
         await fetchScooters();
     }
 
+    /**
+     * Gets the scooter location for a scooter in case scooter location has been deleted.
+     *
+     * @param idx Scooter ID
+     * @returns {string|*} Map location if depot exists, otherwise error message
+     */
+    function getMapName(idx) {
+        try {
+            if (map_locations[scooters[idx].depoId - 1].name) {
+                return map_locations[scooters[idx].depoId - 1].name;
+            }
+        } catch (e) {
+            return "Depot no longer exists";
+        }
+    }
+
     return (
         <>
             <p id="breadcrumb">
@@ -225,7 +242,7 @@ export default function ManagerScooterManagement() {
                         <tbody>
                         {scooters.map((scooter, idx) => (
                             <tr key={idx}>
-                                <td>
+                                <td className="minWidthFieldLarge">
                                     <Row className="sameLine">
                                         <Col>{scooter.softScooterId}</Col>
                                         <Col>
@@ -269,11 +286,11 @@ export default function ManagerScooterManagement() {
                                                              }
                                                          }}>
                                                 <option value="none" key="none" disabled hidden>
-                                                    {String.fromCharCode(scooters[idx].depoId + 64) + ' - ' + map_locations[scooters[idx].depoId - 1].name}
+                                                    {getMapName(idx)}
                                                 </option>
                                                 {map_locations.map((location, idx) => (
                                                     <option value={location.depoId} key={idx}>
-                                                        {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                        {location.name}
                                                     </option>
                                                 ))}
                                             </Form.Select>
@@ -310,7 +327,7 @@ export default function ManagerScooterManagement() {
                                         </option>
                                         {map_locations.map((location, idx) => (
                                             <option value={location.depoId} key={idx}>
-                                                {String.fromCharCode(parseInt(location.depoId + 64))} - {location.name}
+                                                {location.name}
                                             </option>
                                         ))}
                                     </Form.Select>

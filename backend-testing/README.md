@@ -1,4 +1,4 @@
-# Backend Testing
+# inertia / backend-testing
 
 This directory contains all the testing for the backend. To run the tests:
 

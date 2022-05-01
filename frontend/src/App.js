@@ -39,7 +39,7 @@ import LoginForm from "./Login";
 import RegisterForm from "./Register";
 import DepotList from "./components/main-page-content/DepotList";
 import Booking from "./components/main-page-content/Booking";
-import DepotEntry from "./components/main-page-content/DepotEntry";
+import MainPayment from "./components/main-page-content/mainPayment";
 import {useAccount} from './authorize';
 import CustomerCreateExtension from "./customer/CustomerCreateExtension";
 import CustomerCancelBooking from "./customer/CustomerCancelBooking";
@@ -125,8 +125,8 @@ const App = () => {
 
                     {/* Main page routing */}
                     <Route element={<MainPage/>}>
-                        <Route path="booking/:depoId/" element={<Booking />}/>
-                        <Route path="depots/:depoId" element={<DepotEntry />}/>
+                        <Route path="booking/:depoId" element={<Booking />}/>
+                        <Route path="payment/:startTime/:hireChoiceId/:scooterId" element={<MainPayment />}/>
                         <Route path="depots" element={<DepotList />}/>
                         <Route index element={<DepotList/>}/>
                         <Route path="*" element={<DepotList/>}/>

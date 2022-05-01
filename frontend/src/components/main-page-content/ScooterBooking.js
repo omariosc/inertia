@@ -1,13 +1,8 @@
-import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Col, Container, Form, Row} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import host from "../../host";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
 
-export default function Booking() {
-    const params = useParams();
-    const navigate = useNavigate();
-    const depotChoiceId = params.depoId;
-    const [depots, setDepots] = useState();
+export default function ScooterBooking({map_locations, depotChoiceId}) {
     const [scooters, setScooters] = useState('');
     const [hireOptions, setHireOptions] = useState('');
     const [validHireSlot, setValidHireSlot] = useState(true);
@@ -20,30 +15,12 @@ export default function Booking() {
     const [scooterChoiceId, setScooterChoiceId] = useState('');
 
     useEffect(() => {
-        fetchLocations();
         fetchHirePeriods();
     }, []);
 
     useEffect(() => {
         fetchAvailableScooters();
-    }, [startTime, startDate, hireChoiceId]);
-
-    // Fetches the depots.
-    async function fetchLocations() {
-        try {
-            let request = await fetch(host + "api/Depos", {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                mode: "cors"
-            });
-            setDepots(await request.json());
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    }, [startTime, startDate, hireChoiceId, depotChoiceId]);
 
     /**
      * Gets list of available hire lengths from backend server
@@ -129,6 +106,17 @@ export default function Booking() {
     }
 
     /**
+     * Checks scooter for the new booking is valid
+     */
+    function validateScooter(stateChange) {
+        let valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
+        if (stateChange) {
+            setValidScooter(valid);
+        }
+        return valid;
+    }
+
+    /**
      * Checks hire length of the new booking is valid
      */
     function validateHireSlot(stateChange) {
@@ -174,19 +162,20 @@ export default function Booking() {
     }
 
     return (
-        <Container className={"content p-2"}>
-            <Row className="text-center">
-                <h5>Booking Details</h5>
-            </Row>
+        <>
+            <h5>Booking Details</h5>
             <Row className="pb-2">
                 <Col className="text-end col-3 align-self-center">
                     Depot:
                 </Col>
                 <Col>
-                    {!(depots && depotChoiceId) ? <p> Loading depots </p> :
-                        <Form.Control type="text" value={depots.find(() => {
-                            return depots.depoId = depotChoiceId
-                        }).name}
+                    {map_locations && depotChoiceId &&
+                        <Form.Control value={map_locations.filter((depot) => {
+                            if (depot.id === depotChoiceId) {
+                                return depot;
+                            }
+                            return null;
+                        })}
                                       disabled/>}
                 </Col>
             </Row>
@@ -239,6 +228,7 @@ export default function Booking() {
                         <Form.Select isInvalid={!validHireSlot} defaultValue="none" onChange={(e) => {
                             let value = e.target.value.split(',')
                             setHireChoiceId(value[0]);
+                            setPrice(value[1]);
                         }}>
 
                             <option value="none" key="none" disabled hidden>Select Hire Period</option>
@@ -276,17 +266,6 @@ export default function Booking() {
                 </Col>
             </Row>
             <br/>
-            <br/>
-            <Row className={"text-center"}>
-                <Col className={"col-8 offset-2"}>
-                    <Button className="text-center" disabled={!(scooterChoiceId !== "")} onClick={() => {
-                        console.log(`payment/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
-                        navigate(`../payment/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
-                    }
-                    }>Book Scooter</Button>
-                </Col>
-            </Row>
-            <br/>
-        </Container>
+        </>
     )
 }

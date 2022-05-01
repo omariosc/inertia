@@ -7,17 +7,19 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import host from "./host";
 import "./MainPage.css"
 import UserMenu from './components/UserMenu';
-import {Outlet} from 'react-router-dom';
+import {Outlet} from "react-router-dom";
+
 
 export default function MainPage(props) {
-    const [map_locations, setMapLocations] = useState([]);
-
+    const [map_locations, setMapLocations] = useState(null);
+    const [search, setSearch] = useState("");
     const centerLat = 53.80053044534111;
     const centerLong = -1.5460204298418807;
 
     useEffect(() => {
         fetchLocations();
     }, []);
+
 
     // Fetches the depots.
     async function fetchLocations() {
@@ -38,26 +40,16 @@ export default function MainPage(props) {
 
     return (
         <div className={"menu-page"}>
-
             {/* sign out button */}
             <div className={"my-account"}>
                 <UserMenu/>
             </div>
-
-            <div className = {"side-bar"}>
-                <div className={"search-bar"}>
-
-                </div>
-
-                <div className={"content"}>
-                    <Outlet />
-                </div>
-            </div>
-
             <div className={"logo"}>
                 <p>INERTIA</p>
             </div>
-
+            <div className={"side-bar"}>
+                <Outlet context={[search, setSearch, map_locations]}/>
+            </div>
             {/* displaying visual map */}
             <div className={"map-background"}>
                 <MapContainer center={[centerLat, centerLong]} zoom={15}
@@ -65,9 +57,15 @@ export default function MainPage(props) {
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-                    {
+                    {map_locations !== null &&
                         map_locations.map((map_location, index) => (
-                            <Marker key={index} position={[map_location.latitude, map_location.longitude]}>
+                            <Marker key={index}
+                                    position={[map_location.latitude, map_location.longitude]}
+                                    eventHandlers={{
+                                        click: () => {
+                                            setSearch(map_location.name);
+                                        }
+                                    }}>
                                 <Popup>{map_location.name}</Popup>
                             </Marker>
                         ))

@@ -58,9 +58,9 @@ export default function CustomerCreateBooking() {
 
     }, [startTime, startDate, hireChoiceId, depotChoiceId]);
 
-		/**
-		 * Gets a list of locations from the backend server
-		 */
+    /**
+     * Gets a list of locations from the backend server
+     */
     async function fetchLocations() {
         try {
             let request = await fetch(host + "api/Depos", {
@@ -166,9 +166,9 @@ export default function CustomerCreateBooking() {
         }
     }
 
-		/**
-		 * Calculates the start time of the new booking
-		 */
+    /**
+     * Calculates the start time of the new booking
+     */
     function calcStartIso() {
         let hours = parseInt(startTime.slice(0, 2));
         let mins = parseInt(startTime.slice(3, 5));
@@ -177,9 +177,9 @@ export default function CustomerCreateBooking() {
         return bookingStart.toISOString()
     }
 
-		/**
-		 * Calculates the end time of the new booking
-		 */
+    /**
+     * Calculates the end time of the new booking
+     */
     function calcEndIso() {
         let hours = parseInt(startTime.slice(0, 2));
         let mins = parseInt(startTime.slice(3, 5));
@@ -189,9 +189,9 @@ export default function CustomerCreateBooking() {
         return bookingEnd.toISOString()
     }
 
-		/**
-		 * Gets list of available scooters for the new booking from the backend server
-		 */
+    /**
+     * Gets list of available scooters for the new booking from the backend server
+     */
     async function fetchAvailableScooters() {
         let valid = true
         let validateFuncs = [validateTime, validateDate, validateDepot, validateHireSlot]
@@ -224,9 +224,9 @@ export default function CustomerCreateBooking() {
         }
     }
 
-		/**
-		 * Checks date of the new booking is valid
-		 */
+    /**
+     * Checks date of the new booking is valid
+     */
     function validateDate(stateChange) {
         let currentDate = new Date();
         let dStartDate = new Date(startDate);
@@ -239,9 +239,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
-		/**
-		 * Checks time of the new booking is valid
-		 */
+    /**
+     * Checks time of the new booking is valid
+     */
     function validateTime(stateChange) {
         let valid;
         if (startTime.length !== 5) {
@@ -265,9 +265,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
-		/**
-		 * Checks depot of the new booking is valid
-		 */
+    /**
+     * Checks depot of the new booking is valid
+     */
     function validateDepot(stateChange) {
         let valid = depotChoiceId !== '' && depotChoiceId !== 'none';
         if (stateChange) {
@@ -276,9 +276,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
-		/**
-		 * Checks scooter for the new booking is valid
-		 */
+    /**
+     * Checks scooter for the new booking is valid
+     */
     function validateScooter(stateChange) {
         let valid = scooterChoiceId !== '' && scooterChoiceId !== 'none';
         if (stateChange) {
@@ -287,9 +287,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
-		/**
-		 * Checks hire length of the new booking is valid
-		 */
+    /**
+     * Checks hire length of the new booking is valid
+     */
     function validateHireSlot(stateChange) {
         let valid = hireChoiceId !== '' && hireChoiceId !== 'none';
         if (stateChange) {
@@ -298,9 +298,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
-		/**
-		 * Checks card number of the new booking is valid
-		 */
+    /**
+     * Checks card number of the new booking is valid
+     */
     function validateCardNo(stateChange) {
         if (savedCardDetails !== null) {
             return true;
@@ -312,9 +312,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
-		/**
-		 * Checks expiry date of the card for the new booking is valid
-		 */
+    /**
+     * Checks expiry date of the card for the new booking is valid
+     */
     function validateExpDate(stateChange) {
         if (savedCardDetails !== null) {
             return true;
@@ -326,9 +326,9 @@ export default function CustomerCreateBooking() {
         return valid;
     }
 
-		/**
-		 * Checks CVV of the card for the new booking is valid
-		 */
+    /**
+     * Checks CVV of the card for the new booking is valid
+     */
     function validateCVV(stateChange) {
         if (savedCardDetails !== null) {
             return true;
@@ -341,10 +341,10 @@ export default function CustomerCreateBooking() {
     }
 
 
-		/**
-		 * If all validations pass, creates a new booking with the specified
-		 * information and updates backend server
-		 */
+    /**
+     * If all validations pass, creates a new booking with the specified
+     * information and updates backend server
+     */
     async function createBooking() {
         let valid = true
         let validateFuncs = [validateTime, validateDate, validateDepot, validateScooter, validateHireSlot, validateCardNo, validateCVV, validateExpDate]
@@ -397,6 +397,7 @@ export default function CustomerCreateBooking() {
             console.error(error);
         }
     }
+
     /**
      * Check if a card is stored in local cookies
      */

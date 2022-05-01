@@ -2,7 +2,7 @@
 	Purpose of file: Tests the date string conversion component
 */
 
-import getAge from "./getAge";
+import getAge from "../staff/getAge";
 
 it('returns correct time elapsed since order was created', () => {
    expect(getAge(Date.now() - 173000000)).toEqual('2 days');

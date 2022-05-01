@@ -1,19 +1,19 @@
 /*
-	Purpose of file: Test the manager mobile navbar component
+	Purpose of file: Tests login form component
 */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ManagerMobileNavigation from "./ManagerMobileNavigation";
+import LoginForm from "../Login";
 import {BrowserRouter} from "react-router-dom";
-import {AccountProvider} from "../../authorize";
+import {AccountProvider} from "../authorize";
 
 it('renders without crashing', () => {
     const div = document.createElement('div');
     ReactDOM.render(
         <BrowserRouter>
             <AccountProvider>
-                <ManagerMobileNavigation/>
+                <LoginForm/>
             </AccountProvider>
         </BrowserRouter>
         , div);

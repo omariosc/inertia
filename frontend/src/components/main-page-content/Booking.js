@@ -6,7 +6,7 @@ import {useAccount} from "../../authorize";
 import "../../MainPage.css"
 
 export default function Booking() {
-    const account = useAccount();
+    const [account] = useAccount();
     const params = useParams();
     const navigate = useNavigate();
     const depotChoiceId = params.depoId;
@@ -295,10 +295,11 @@ export default function Booking() {
                     <Col className={"col-4 offset-1"}>
                         <Button className="text-center" disabled={!(scooterChoiceId !== "")} onClick={() => {
                             if (account) {
-                                navigate(`../payment/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
+                                console.log(account);
+                                navigate(`../payment/${scooterChoiceId}/${hireChoiceId}/${startDate + "T" + startTime}`);
                             } else {
                                 console.log(account);
-                                console.log("User must exist");
+                                navigate(`../authentication/${scooterChoiceId}/${hireChoiceId}/${startDate + "T" + startTime}`);
                             }
                         }
                         }>Book Scooter</Button>

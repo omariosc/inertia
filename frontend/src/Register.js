@@ -8,7 +8,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import validate from './Validators';
 import host from './host';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAccount} from "./authorize";
 
 /**
@@ -18,6 +18,7 @@ import {useAccount} from "./authorize";
  */
 export default function RegisterForm(props) {
     const navigate = useNavigate();
+    const {scooterChoiceId, hireChoiceId, startTime} = useParams();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -50,10 +51,14 @@ export default function RegisterForm(props) {
             if (response.status === 200) {
                 NotificationManager.success("Registered Account.", "Success");
                 props.onHide();
-                signIn(email, password, () => {
+                signIn(email, password, (m) => {
                     if (m === 'login success') {
                         NotificationManager.success('Logged In.', 'Success');
-                        navigate('/');
+                        if(startTime && hireChoiceId && scooterChoiceId){
+                            navigate(`../payment/${scooterChoiceId}/${hireChoiceId}/${startTime}`);
+                        } else{
+                            navigate('/');
+                        }
                     } else {
                         NotificationManager.error('Invalid Credentials.', 'Error');
                     }

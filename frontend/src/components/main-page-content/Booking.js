@@ -297,8 +297,7 @@ export default function Booking() {
                             if (account) {
                                 navigate(`../payment/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
                             } else {
-                                console.log(account);
-                                console.log("User must exist");
+                                navigate(`../authentication/${startDate + "T" + startTime}/${hireChoiceId}/${scooterChoiceId}`);
                             }
                         }
                         }>Book Scooter</Button>

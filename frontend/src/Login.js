@@ -4,12 +4,16 @@
 */
 
 import React, {useState} from "react";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {Button, Form, Modal} from "react-bootstrap";
 import {NotificationManager} from "react-notifications";
 import {signIn, useAccount} from "./authorize";
 
 export default function LoginForm(props) {
+    const params = useParams();
+    const startTime = params.startTime;
+    const hireChoiceId = params.hireChoiceId;
+    const scooterChoiceId = params.scooterId;
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,7 +38,11 @@ export default function LoginForm(props) {
                         if (m === 'login success') {
                             NotificationManager.success('Logged In.', 'Success');
                             if (account.role === '0') {
-                                navigate('/');
+                                if(startTime && hireChoiceId && scooterChoiceId) {
+                                    navigate(`../payment/${startTime}/${hireChoiceId}/${scooterChoiceId}`);
+                                } else {
+                                    navigate('/');
+                                }
                             } else if (account.role === '1') {
                                 navigate('/home');
                             } else if (account.role === '2') {

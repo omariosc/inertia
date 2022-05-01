@@ -41,6 +41,7 @@ jsdocs-frontend:
   image: node
   script:
     - cd frontend/
+    - npm install
     - npm run docs
   artifacts:
     paths:

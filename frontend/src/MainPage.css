@@ -1,137 +1,149 @@
-.menu-page > .map-background {
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.menu-page > .my-account {
-    z-index: 3;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.menu-page > .side-bar > .content > .search-results {
-    width: auto;
-    overflow-y: auto;
-    height: 80vh;
-    margin-bottom: 10px;
-    border-radius: 10px;
-}
+/* Contains styling for landing page */
 
 .image-view {
     border-radius: 10px;
+}
+
+@media (max-width: 1325px) {
+    .image-col {
+        display: none;
+    }
+}
+
+@media (min-height: 667px) {
+    .image-col {
+        display: initial !important;
+    }
 }
 
 .menu-page > .logo > p {
     filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.55));
 }
 
-@media (min-width: 750px) {
-    .menu-page > .side-bar {
-        pointer-events: none;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 2;
-        width: 30vw;
-        min-width: 365px;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        padding-left: 10px;
-        padding-top: 10px;
-        padding-bottom: 20px;
-    }
+.menu-page > .map-background {
+    height: 100vh;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    z-index: 1;
+}
 
-    .menu-page > .side-bar > .search-bar {
-        pointer-events: all;
-        width: auto;
-        height: 42px;
-        margin-bottom: 10px;
-        margin-right: 10px;
-        border-radius: 6px;
-    }
+.menu-page > .my-account {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 3;
+}
 
-    .menu-page > .side-bar > .content {
-        pointer-events: all;
-        background-color: white;
-        overflow-y: auto;
-        overflow-x: hidden;
-        flex-grow: 1;
-        min-width: 345px;
-        width: auto;
-        height: auto;
-        margin-right: 20px;
-        margin-bottom: 10px;
-        border-radius: 10px;
-    }
-
-    .menu-page > .logo {
-        z-index: 2;
-        pointer-events: none;
-        position: fixed;
-        bottom: 0;
-        right: 15px;
-        font-size: 36px;
-        font-weight: bold;
-        color: white;
-    }
+.menu-page > .side-bar > .content > .search-results {
+    border-radius: 10px;
+    height: 80vh;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    width: auto;
 }
 
 @media (max-width: 750px) {
+    .menu-page > .logo {
+        bottom: 10px;
+        color: white;
+        font-size: 36px;
+        font-weight: bold;
+        pointer-events: none;
+        position: fixed;
+        right: 25px;
+        z-index: 5;
+    }
 
     .menu-page > .side-bar {
-        pointer-events: none;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 2;
-        overflow-y: auto;
-        width: 100vw;
-        height: 100vh;
         display: flex;
         flex-direction: column;
+        height: 100vh;
+        left: 0;
+        overflow-y: auto;
         padding: 10px;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        width: 100vw;
+        z-index: 2;
+    }
 
+    .menu-page > .side-bar > .content {
+        background-color: white;
+        border-radius: 10px;
+        flex-grow: 1;
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 10px;
+        pointer-events: all;
+        width: auto;
     }
 
     .menu-page > .side-bar > .search-bar {
+        border-radius: 6px;
+        height: 42px;
+        margin-bottom: 10px;
+        padding-right: 110px;
         pointer-events: all;
         width: 100vw;
-        height: 42px;
-        padding-right: 110px;
-        margin-bottom: 10px;
-        border-radius: 6px;
     }
 
     .menu-page > .side-bar > .search-bar > Form.Control {
         pointer-events: all;
     }
+}
 
-    .menu-page > .side-bar > .content {
-        pointer-events: all;
-        background-color: white;
-        flex-grow: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-        width: auto;
-        height: auto;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
+@media (min-width: 750px) {
     .menu-page > .logo {
-        z-index: 5;
-        pointer-events: none;
-        position: fixed;
-        bottom: 10px;
-        right: 25px;
+        bottom: 0;
+        color: white;
         font-size: 36px;
         font-weight: bold;
-        color: white;
+        pointer-events: none;
+        position: fixed;
+        right: 15px;
+        z-index: 2;
+    }
+
+    .menu-page > .side-bar {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        left: 0;
+        min-width: 365px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        padding-top: 10px;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        width: 30vw;
+        z-index: 2;
+    }
+
+    .menu-page > .side-bar > .content {
+        background-color: white;
+        border-radius: 10px;
+        flex-grow: 1;
+        height: auto;
+        margin-bottom: 10px;
+        margin-right: 20px;
+        min-width: 345px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        pointer-events: all;
+        width: auto;
+    }
+
+    .menu-page > .side-bar > .search-bar {
+        border-radius: 6px;
+        height: 42px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        pointer-events: all;
+        width: auto;
     }
 }

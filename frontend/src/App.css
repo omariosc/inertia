@@ -1,3 +1,5 @@
+/* Contains styling for all interfaces */
+
 #account-page {
     overflow-y: scroll;
     padding-left: 15%;
@@ -67,8 +69,8 @@
     overflow-y: auto;
 }
 
-.black-bg {
-    background-color: black !important;
+.booking-responsive-mobile {
+    display: none;
 }
 
 .box {
@@ -116,36 +118,12 @@
     margin-right: 20px;
 }
 
-.buttonPaddingDepot {
-    margin-left: -100px;
-}
-
-.buttonPaddingDepotLat {
-    margin-left: -32px;
-}
-
-.buttonPaddingDuration {
-    margin-left: -12px;
-}
-
 .buttonPaddingScooter {
     margin-left: 5px;
 }
 
 .canvasjs-chart-credit {
     display: none;
-}
-
-.centered-h5 {
-    padding-bottom: 10px;
-    padding-top: 10px;
-    text-align: center;
-}
-
-.centered-item {
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
 }
 
 .clickable {
@@ -161,20 +139,8 @@
     top: 0;
 }
 
-.customer-create-booking-padding {
-    padding-right: 15px;
-}
-
-.customer-issue input {
-    width: 500px !important;
-}
-
-.customer-issue label {
-    width: 100px !important;
-}
-
-.customer-issue textarea {
-    width: 500px;
+.customer-create-booking-card * {
+    z-index: -1;
 }
 
 .customer-navigation {
@@ -190,10 +156,6 @@
 
 .dashboard-title {
     text-align: center !important;
-}
-
-.fixed-table {
-    table-layout: fixed !important;
 }
 
 .float-left {
@@ -212,11 +174,11 @@
     display: none;
 }
 
-.hamburger-menu-staff {
+.hamburger-menu-customer {
     display: none;
 }
 
-.hamburger-menu-customer {
+.hamburger-menu-staff {
     display: none;
 }
 
@@ -234,12 +196,6 @@
 
 .hover-white:hover {
     color: #555555 !important;
-}
-
-.indented-class {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
 }
 
 .input {
@@ -337,8 +293,8 @@
     margin-right: 10%;
 }
 
-.large-padding-bottom {
-    padding-bottom: 20px;
+.issue-view-mobile {
+    display: none;
 }
 
 .large-padding-top {
@@ -402,12 +358,6 @@
     max-height: 350px !important;
 }
 
-.marginRight {
-    display: flex;
-    flex-direction: column;
-    margin-right: 10px;
-}
-
 .max-width {
     width: 100%;
 }
@@ -455,17 +405,8 @@
     height: 350px !important;
 }
 
-.minimap-customer {
-    height: 400px !important;
-    width: 80% !important;
-}
-
 .minimap-guest {
     height: 600px !important;
-}
-
-.navbar-pad-left {
-    padding-left: 10px;
 }
 
 .navbar-pad-right {
@@ -518,6 +459,10 @@
     padding: 10px;
 }
 
+.small-padding-bottom {
+    padding-bottom: 10px;
+}
+
 .small-padding-top {
     padding-top: 5px;
 }
@@ -532,11 +477,6 @@
 
 .text-black {
     color: black !important;
-}
-
-.text-links {
-    color: white;
-    text-decoration: none;
 }
 
 .text-white {
@@ -572,72 +512,7 @@
     background: #f1f1f1;
 }
 
-@media (max-width: 791px) {
-    .issue-divider {
-        margin-left: 20px !important;
-    }
-
-    .issue-view {
-        display: none !important;
-    }
-
-    .issue-view-mobile {
-        display: initial !important;
-    }
-}
-.issue-view-mobile {
-    display: none;
-}
-@media (max-width: 1500px) {
-    .issue-divider {
-        margin-left: 20px;
-    }
-
-    .issue-filters {
-        display: none;
-    }
-
-    .issue-filters-mobile {
-        display: initial !important;
-    }
-}
-.booking-responsive-mobile {
-    display: none;
-}
 @media (max-width: 1070px) {
-
-    .customer-navigation {
-        flex-direction: row;
-    }
-
-    .minWidthFieldLarge {
-        min-width: 300px;
-    }
-
-    .minWidthFieldSmall {
-        min-width: 200px;
-    }
-
-    .responsive-issue {
-        overflow-x: auto;
-    }
-
-    .responsive-table {
-        overflow-x: auto;
-    }
-
-    .responsive-table .form-control {
-        min-width: 100px;
-    }
-    .booking-responsive-mobile {
-        display: initial !important;
-    }
-    .dropDownMenu {
-        display: none !important;
-    }
-    .booking-responsive {
-        display: none;
-    }
     #account-page {
         padding-left: 5%;
         padding-right: 7%;
@@ -668,8 +543,24 @@
         margin-left: 20px !important;
     }
 
+    .booking-responsive {
+        display: none;
+    }
+
+    .booking-responsive-mobile {
+        display: initial !important;
+    }
+
     .border-end {
         border-right: transparent !important;
+    }
+
+    .box {
+        display: none;
+    }
+
+    .box-show {
+        display: initial;
     }
 
     .customer-column {
@@ -683,12 +574,9 @@
         display: none !important;
     }
 
-    .customer-logout {
-        display: none;
-    }
-
     .customer-navigation {
         display: none !important;
+        flex-direction: row;
     }
 
     .customer-navigation-mobile {
@@ -701,6 +589,10 @@
         top: 55px;
         width: auto;
         z-index: 10000000 !important;
+    }
+
+    .dropDownMenu {
+        display: none !important;
     }
 
     .hamburger-menu {
@@ -744,27 +636,54 @@
         color: white;
     }
 
+    .minWidthFieldLarge {
+        min-width: 300px;
+    }
+
+    .minWidthFieldSmall {
+        min-width: 200px;
+    }
+
+    .responsive-table {
+        overflow-x: auto;
+    }
+
+    .responsive-table .form-control {
+        min-width: 100px;
+    }
+
     .staff-nav-column {
         background-color: transparent;
         border-right: none !important;
     }
-    .box {
+}
+
+@media (max-width: 1500px) {
+    .issue-divider {
+        margin-left: 20px;
+    }
+
+    .issue-filters {
         display: none;
     }
-    .box-show {
-        display: initial;
-    }
-    .mobile {
-        display: none;
+
+    .issue-filters-mobile {
+        display: initial !important;
     }
 }
 
-.small-padding-bottom {
-    padding-bottom: 10px;
-}
+@media (max-width: 791px) {
+    .issue-divider {
+        margin-left: 20px !important;
+    }
 
-.customer-create-booking-card *{
-    z-index: -1;
+    .issue-view {
+        display: none !important;
+    }
+
+    .issue-view-mobile {
+        display: initial !important;
+    }
 }
 
 @media (max-width: 991px) {

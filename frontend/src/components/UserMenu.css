@@ -1,21 +1,4 @@
 .user-menu {
-
-}
-
-.user-menu > .dropdown-toggle {
-    border-radius: 32px;
-    box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    border: 1px solid white;
-}
-
-.user-menu > .dropdown-toggle::after {
-    display: none;
-}
-
-.user-menu > .dropdown-toggle.btn-primary {
-    background-color: white !important;
-    border: 1px solid white !important;
 }
 
 .user-menu > .btn-primary.dropdown-toggle:focus {
@@ -25,15 +8,36 @@
 }
 
 .user-menu > .btn-primary.dropdown-toggle:hover {
-    border: 1px solid #000000;
     background-color: white;
+    border: 1px solid #000000;
+}
+
+.user-menu > .dropdown-menu > .dropdown-item:active {
+    background-color: black;
+    color: white;
+}
+
+.user-menu > .dropdown-toggle {
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 32px;
+    box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.1);
+}
+
+.user-menu > .dropdown-toggle.btn-primary {
+    background-color: white !important;
+    border: 1px solid white !important;
+}
+
+.user-menu > .dropdown-toggle::after {
+    display: none;
 }
 
 .user-menu-title {
+    align-content: center;
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    align-content: center;
 }
 
 .user-menu-title > .burger-menu {
@@ -43,9 +47,4 @@
 .user-menu-title > .icon {
     color: black;
     padding-left: 7px;
-}
-
-.user-menu > .dropdown-menu > .dropdown-item:active {
-    color: white;
-    background-color: black;
 }

@@ -16,7 +16,7 @@ these images to be run as services. The configuration creates three services: `b
 where the database is stored. This deployment is a production deployment, which means that all components
 run in release mode.
 
-####  Prerequisites
+#### Prerequisites
 
 ```sh
 # install docker (or replacement) and docker-compose

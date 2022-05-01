@@ -8,7 +8,7 @@ Inertia is an E-scooter booking application created by 7 student from the Univer
 
 ## Installation and Execution
 
-### via docker and docker-compose
+### Project Automation via Docker
 
 The project contains a docker image for each component, and a docker-compose file that orchestrates
 these images to be run as services. The configuration creates three services: `backend`, `fronted` and `nginx` 
@@ -41,7 +41,7 @@ git clone https://gitlab.com/sc20aim/inertia
 docker-compose up
 ```
 
-### Development Mode components
+### Development Mode Components
 
 #### Development Prerequisites
 

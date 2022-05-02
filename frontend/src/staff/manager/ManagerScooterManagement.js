@@ -71,14 +71,17 @@ export default function ManagerScooterManagement() {
   /**
    * Changes a given scooter's information and updates the backend server
    * @param {number} id ID of the scooter to edit
-   * @param {number} mode 1 to change location, 2 to change ID,
-   *                      anything else to change availability
+   * @param {number} mode 0 to change availability, 1 to change location,
+   *                      2 to change ID, anything else to return scooter
    * @param {boolean} availability Current state of the scooter's availability
    * @param {string} location Current location of the scooter
    */
   async function editScooter(id, mode, availability = '', location = '') {
     const json = {};
     switch (mode) {
+      case 0:
+        json['available'] = !availability;
+        break;
       case 1:
         if (location === '' || location === 'none') {
           return;
@@ -95,8 +98,29 @@ export default function ManagerScooterManagement() {
         }
         break;
       default:
-        json['available'] = !availability;
-        break;
+        try {
+          // eslint-disable-next-line max-len
+          const request = await fetch(host + `api/admin/Scooters/${id}/return`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': `Bearer ${account.accessToken}`,
+                },
+                mode: 'cors',
+              });
+          const response = await request;
+          if (response.status !== 200) {
+            NotificationManager.error('Could not return scooter.', 'Error');
+          } else {
+            NotificationManager.success('Returned scooter.', 'Success');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+        await fetchScooters();
+        return;
     }
 
     try {

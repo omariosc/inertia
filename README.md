@@ -119,7 +119,7 @@ Documentation of the project is available [here](https://gitlab.com/sc20aim/iner
 
 #### Frontend Documentation
 
-Documentation of the frontend component is available [here](https://sc20aim.gitlab.io/-/inertia/-/jobs/2401111612/artifacts/frontend/docs).
+Documentation of the frontend component is available when browsing through the artefacts of the `jsdocs-documentation` pipeline in `CI/CD`.
 
 #### Backend Documentation
 

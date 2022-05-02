@@ -314,10 +314,19 @@ export default function ManagerScooterManagement() {
                         }
                       </td>
                       <td>
-                        <Button onClick={() => deleteScooter(scooter.scooterId)}
-                          variant="danger">
-                          Delete
-                        </Button>
+                        {(scooter.scooterStatus === 2 ?
+                                <Button variant="success"
+                                  onClick={() => editScooter(
+                                      scooter.scooterId, 3,
+                                      scooter.available)}>
+                                  Return Scooter
+                                </Button> :
+                                <Button onClick={() => deleteScooter(
+                                    scooter.scooterId)}
+                                variant="danger">
+                                  Delete
+                                </Button>
+                        )}
                       </td>
                     </tr>
                   ))}

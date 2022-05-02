@@ -15,6 +15,7 @@ import depot2Img from '../../imgs/depot_2_picture.jpeg';
 import depot3Img from '../../imgs/depot_3_picture.jpg';
 import depot4Img from '../../imgs/depot_4_picture.jpeg';
 import depot5Img from '../../imgs/depot_5_picture.jpeg';
+import defaultImg from '../../imgs/defaultscooter.png';
 
 /**
  * Creates the depot entry booking element
@@ -52,6 +53,12 @@ export default function DepotEntry() {
                     }
                     return null;
                   }).map((depot, idx) => {
+                    let imageIndex;
+                    if (depot.depoId > 5) {
+                      imageIndex = 5;
+                    } else {
+                      imageIndex = depot.depoId - 1;
+                    }
                     return (
                       <ListGroupItem
                         className={'border-end-0 border-start-0 rounded-0'}
@@ -60,7 +67,7 @@ export default function DepotEntry() {
                           <Row className="p-0 align-items-center text-center">
                             <Col className="col-4 p-0 image-col">
                               <img className="image-view"
-                                src={depotImages[depot.depoId - 1]}
+                                src={depotImages[imageIndex]}
                                 alt={depot.name}
                                 width={100} height={100}/>
                             </Col>

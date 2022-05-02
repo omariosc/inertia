@@ -83,7 +83,7 @@ export default function EmployeeCancelBooking() {
         NotificationManager.error('Unable to cancel booking', 'Error');
       } else if (response.status === 200) {
         NotificationManager.success('Booking Cancelled.', 'Success');
-        navigate('/current-bookings');
+        navigate('/bookings');
       }
     } catch (error) {
       NotificationManager.success('Could not connect to server.', 'Error');

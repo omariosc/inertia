@@ -52,7 +52,7 @@ export default function EmployeeExtendGuestBooking() {
       if (response.status === 200) {
         setBaseOrder(await response.json());
       } else {
-        navigate('/current-bookings');
+        navigate('/bookings');
         NotificationManager.error('Order does not exist', 'Error');
       }
     } catch (error) {

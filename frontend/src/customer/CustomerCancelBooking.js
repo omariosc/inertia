@@ -134,6 +134,18 @@ export default function CustomerCancelBooking() {
                     <td><b>Order Status:</b></td>
                     <td>{orderState[booking.orderState]}</td>
                   </tr>
+
+                  <tr>
+                    <td><b>Extensions:</b></td>
+                    <td>
+                      <p>{booking.hireOption.name}</p>
+                      {
+                        booking.extensions.map((extension) =>
+                          <p key={extension}>{extension.hireOption.name}</p>,
+                        )
+                      }
+                    </td>
+                  </tr>
                 </tbody>
               </Table>
             </>

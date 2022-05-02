@@ -42,14 +42,18 @@ public class OrdersController : MyControllerBase
     public async Task<ActionResult> GetOrder(string orderId)
     {
         var accountId = User.FindFirstValue(ClaimTypes.PrimarySid);
+        
+#nullable disable
         var order = await _db.Orders
             .Include(o => o.Extensions)
+            .ThenInclude(e => e.HireOption)
             .Include(o=>o.Scooter)
             .ThenInclude(s=>s.Depo)
             .Include(o => o.HireOption)
             .Include(o=>o.Account)
             .Where(o => o.OrderId == orderId)
             .FirstOrDefaultAsync();
+#nullable enable
 
         if (order == null)
             return ApplicationError(ApplicationErrorCode.InvalidEntity, "invalid order id", "order");

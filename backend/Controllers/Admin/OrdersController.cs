@@ -63,16 +63,19 @@ public class OrdersController : MyControllerBase
     public async Task<ActionResult> ListOrders(string orderId)
     {
         await _inertia.UpdateOrderStatus();
-
+        
+#nullable disable
         var order = await _db.Orders
             .Include(e => e.Scooter)
             .ThenInclude(s=>s.Depo)
             .Include(e => e.HireOption)
             .Include(e => e.Extensions)
+            .ThenInclude(o => o.HireOption)
             .Include(e=> e.Account)
             .Where(e => e.ExtendsId == null && e.OrderId == orderId)
             .FirstOrDefaultAsync();
-
+#nullable enable
+        
         if (order is null)
         {
             return ApplicationError(

@@ -37,6 +37,7 @@ export default function staffViewBooking() {
         },
         mode: 'cors',
       });
+
       const response = await request.json();
       if (response.errorCode) {
         NotificationManager.error('Invalid Booking ID.', 'Error');
@@ -142,6 +143,18 @@ export default function staffViewBooking() {
                   <tr>
                     <td><b>Order Status:</b></td>
                     <td>{orderState[booking.orderState]}</td>
+                  </tr>
+
+                  <tr>
+                    <td><b>Extensions:</b></td>
+                    <td>
+                      <p>{booking.hireOption.name}</p>
+                      {
+                        booking.extensions.map((extension) =>
+                          <p key={extension}>{extension.hireOption.name}</p>,
+                        )
+                      }
+                    </td>
                   </tr>
                 </tbody>
               </Table>

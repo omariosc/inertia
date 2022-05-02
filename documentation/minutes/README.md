@@ -21,7 +21,6 @@ This directory contains all minutes in markdown format for team meetings during 
 
 ## Final Demo Minutes
 
-- [March 30th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/3-30.md)
 - [April 5th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/4-5.md)
 - [April 18th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/4-18.md)
 

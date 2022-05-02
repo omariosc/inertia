@@ -166,5 +166,3 @@ export default function staffViewBooking() {
     </>
   );
 }
-
-

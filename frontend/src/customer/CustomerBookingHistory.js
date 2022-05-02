@@ -143,6 +143,7 @@ export default function CustomerBookingHistory() {
                           <Button className="float-end"
                             onClick={() => setBooking('')}
                             variant="danger">Close</Button>
+                          <br/>
                         </>
                     }
                     <br/>

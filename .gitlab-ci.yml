@@ -26,9 +26,9 @@ test-backend:
   script:
     - cd backend/
     - ASPNETCORE_ENVIRONMENT=Development dotnet build backend.sln
-    - ASPNETCORE_URLS=https://localhost:7220 ASPNETCORE_ENVIRONMENT=Development dotnet run > backend.log &
+    - ASPNETCORE_URLS=https://0.0.0.0:7220 ASPNETCORE_ENVIRONMENT=Development dotnet run > backend.log &
     - cd ../backend-testing
-    - python3 main.py https://localhost:7220 | tee backend-testing.log
+    - python3 main.py https://127.0.0.1:7220 | tee backend-testing.log
     - pkill -15 dotnet
 
   artifacts:

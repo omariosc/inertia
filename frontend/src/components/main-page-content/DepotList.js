@@ -23,7 +23,13 @@ import defaultImg from '../../imgs/defaultscooter.png';
  */
 export default function DepotEntry() {
   const [search, setSearch, depots] = useOutletContext();
-  const depotImages = [depot1Img, depot2Img, depot3Img, depot4Img, depot5Img];
+  const depotImages = [
+    depot1Img,
+    depot2Img,
+    depot3Img,
+    depot4Img,
+    depot5Img,
+    defaultImg];
   const [depotChoiceId, setDepotChoiceId] = useState('');
   const navigate = useNavigate();
 

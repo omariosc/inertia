@@ -1,7 +1,5 @@
 # inertia
 
-[![pipeline status](https://gitlab.com/sc20aim/inertia/badges/main/pipeline.svg)](https://gitlab.com/sc20aim/inertia/-/commits/main)
-[![Latest Release](https://gitlab.com/sc20aim/inertia/-/badges/release.svg)](https://gitlab.com/sc20aim/inertia/-/releases)
 [![Code Style: Google](https://img.shields.io/badge/code%20style-google-blueviolet.svg)](https://github.com/google/gts)
 
 Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulian Magan](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).

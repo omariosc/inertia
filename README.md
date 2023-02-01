@@ -2,14 +2,14 @@
 
 [![Code Style: Google](https://img.shields.io/badge/code%20style-google-blueviolet.svg)](https://github.com/google/gts)
 
-Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://gitlab.com/sc20osc), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulian Magan](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
+Inertia is an E-scooter booking application created by 7 student from the University of Leeds, [Hashir Ali](https://gitlab.com/ed19h6a), [Omar Choudhry](https://eps.leeds.ac.uk/staff/12765/omar-shaur-choudhry), [Mohamed Fakeih](https://gitlab.com/mohammedfakeih), [Alexandru-Iulian Magan](https://gitlab.com/sc20aim), [Joshua Reiner](https://gitlab.com/sc20jdr), [William Toon](https://gitlab.com/sc20wt) and [Diansitan Zhuang](https://gitlab.com/sc20dz).
 
 ## Installation and Execution
 
 ### Project Automation via Docker
 
 The project contains a docker image for each component, and a docker-compose file that orchestrates
-these images to be run as services. The configuration creates three services: `backend`, `fronted` and `nginx` 
+these images to be run as services. The configuration creates three services: `backend`, `fronted` and `nginx`
 (a reverse proxy that redirects to the `backend` and `frontend` components), a persistent volume for the `backend`
 where the database is stored. This deployment is a production deployment, which means that all components
 run in release mode.
@@ -35,7 +35,7 @@ sudo dnf install podman docker-compose
 #### Deployment
 
 ```shell
-git clone https://gitlab.com/sc20aim/inertia
+git clone https://github.com/omariosc/inertia
 docker-compose up
 ```
 
@@ -45,16 +45,16 @@ docker-compose up
 
 The project requires the following software packages in order to be built:
 
-* dotnet sdk
-* nodejs
-* npm
-* (optionally) doxygen for documentation generation
-* (optionally) python3 for running backend tests
+- dotnet sdk
+- nodejs
+- npm
+- (optionally) doxygen for documentation generation
+- (optionally) python3 for running backend tests
 
 The following commands show how these packages can be acquired on Fedora Linux (34, 35):
 
 ```shell
-sudo dnf install dotnet npm nodejs python3 python3-pip doxygen 
+sudo dnf install dotnet npm nodejs python3 python3-pip doxygen
 ```
 
 #### Backend
@@ -105,15 +105,15 @@ npm start
 
 ### Final Demonstration
 
-The project marking guide is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/marking-guide) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
+The project marking guide is listed [here](https://github.com/omariosc/inertia/wiki/marking-guide) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
 
 ### Interim Deliverables
 
-The full interim deliverable specification list is listed [here](https://gitlab.com/sc20aim/inertia/-/wikis/interim) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
+The full interim deliverable specification list is listed [here](https://github.com/omariosc/inertia/wiki/interim) with hyperlinks to all links in the Wiki. It is recommended for any assessors reading this to follow those hyperlinks to make sure everything listed in the specification has been included in the repository.
 
 ### Documentation
 
-Documentation of the project is available [here](https://gitlab.com/sc20aim/inertia/-/tree/main/documentation).
+Documentation of the project is available [here](https://github.com/omariosc/inertia/tree/main/documentation).
 
 #### Frontend Documentation
 
@@ -121,4 +121,4 @@ Documentation of the frontend component is available when browsing through the a
 
 #### Backend Documentation
 
-Documentation of the backend component is available [here](https://gitlab.com/sc20aim/inertia/-/raw/main/documentation/backend.pdf).
+Documentation of the backend component is available [here](https://github.com/omariosc/inertia/blob/main/documentation/backend.pdf).

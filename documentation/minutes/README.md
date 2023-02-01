@@ -4,25 +4,25 @@ This directory contains all minutes in markdown format for team meetings during 
 
 ## Sprint 1 Minutes
 
-- [January 31st](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/1-31.md)
-- [February 22nd](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/2-22.md)
-- [February 25th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/2-25.md)
-- [February 27th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/2-27.md)
+- [January 31st](https://github.com/omariosc/inertia/blob/main/documentation/minutes/1-31.md)
+- [February 22nd](https://github.com/omariosc/inertia/blob/main/documentation/minutes/2-22.md)
+- [February 25th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/2-25.md)
+- [February 27th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/2-27.md)
 
 ## Sprint 2 Minutes
 
-- [March 7th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/3-7.md)
-- [March 9th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/3-9.md)
+- [March 7th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/3-7.md)
+- [March 9th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/3-9.md)
 
 ## Sprint 3 Minutes
 
-- [March 14th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/3-14.md)
-- [March 20th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/3-20.md)
+- [March 14th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/3-14.md)
+- [March 20th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/3-20.md)
 
 ## Final Demo Minutes
 
-- [April 5th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/4-5.md)
-- [April 18th](https://gitlab.com/sc20aim/inertia/-/blob/main/documentation/minutes/4-18.md)
+- [April 5th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/4-5.md)
+- [April 18th](https://github.com/omariosc/inertia/blob/main/documentation/minutes/4-18.md)
 
 ## Informal Meetings (Notes)
 
